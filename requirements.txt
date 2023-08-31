@@ -1,4 +1,6 @@
 feedparser
 requests
+bs4
+lxml
 
 ipdb

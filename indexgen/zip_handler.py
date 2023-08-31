@@ -5,12 +5,12 @@ import tempfile
 import os
 from common import headers
 from gate import Gate
-import json
 
 from read_rss import get_all_entries, SecDocRssEntry
 
+
 def download_extract():
-    with Gate(1) as g:  # 10 per sec is SEC max.
+    with Gate(10) as g:  # 10 per sec is SEC max.
         for row in get_all_entries():
             # todo - check if we have it
 
@@ -29,22 +29,22 @@ def download_extract():
                     for file in files:
                         full_filename = os.path.join(root, file)
                         print(full_filename)
-                        
-                        #with open(full_filename, 'r') as f:
-                        #    print(f.read())
+
+            import ipdb; ipdb.set_trace()
+                        # with open(full_filename, 'r') as f:
+                        #     print(f.read())
             g.gate()
 
 
 def classify_files(entry : SecDocRssEntry):
     main_file = None
     other_files = []
-    for file_obj in json.loads(entry.xbrl_json_str):
-        import ipdb; ipdb.set_trace()
-        file_type = file_obj.get('edgar_type')
-        if file_type and (not file_type.starts_with('EX')):
-            main_file = file_obj['edgar_url']
+    for file_obj in entry.edgar_files:
+        file_type = file_obj.filetype
+        if file_type and (not file_type.startswith('EX')):
+            main_file = file_obj
         else:
-            other_files.append(file_obj['edgar_url'])
+            other_files.append(file_obj)
     return {'main': main_file, 'other': other_files}
 
 
