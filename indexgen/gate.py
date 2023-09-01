@@ -8,7 +8,6 @@ class Gate(object):
         self._last_sleep_end = None
 
     def __enter__(self):
-        print("enter")
         return self
 
     def __exit__(self, exc_type, exc_val, exc_tb):
@@ -24,3 +23,11 @@ class Gate(object):
         if sleep_time > 0:
             time.sleep(sleep_time)
         self._last_sleep_end = time.time()
+
+
+if __name__ == "__main__":
+    from datetime import datetime
+    with Gate(1) as g:
+        while(True):
+            g.gate()
+            print(datetime.now())

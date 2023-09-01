@@ -1,13 +1,10 @@
 import os
 from azure.storage.blob import BlobServiceClient
-from azure.core.exceptions import ResourceExistsError
 from datetime import datetime
-from dataclasses import asdict
-import json
 from typing import Dict
 
 from dotenv import load_dotenv
-from localtypes import SecDocRssEntry
+from localtypes import SecDocRssEntry, serialize_doc_entry
 
 load_dotenv()
 
@@ -27,17 +24,11 @@ class AzureBlobUploader:
                 blob_client.upload_blob(data, overwrite=True)
 
         # Summary
-        summary_content = json.dumps(asdict(sec_entry), default=serialize_datetime)
-        blob_client = self.container_client.get_blob_client(os.path.join(root, "summary.json"))
-        blob_client.upload_blob(summary_content, overwrite=True)
-
+        summary_path = os.path.join(root, "summary.json")
+        blob_client = self.container_client.get_blob_client(summary_path)
+        blob_client.upload_blob(serialize_doc_entry(sec_entry), overwrite=True)
+        return summary_path
 
     def _build_root_path(self, sec_entry : SecDocRssEntry):
         # todo check if exists. roll counter if so.
         return f"{sec_entry.cik}/{datetime.strftime(sec_entry.published, '%Y%m%d')}/{sec_entry.doc_type}_0"
-    
-
-def serialize_datetime(obj):
-    if isinstance(obj, datetime):
-        return obj.isoformat()
-    raise TypeError(f'Object of type {obj.__class__.__name__} is not JSON serializable')

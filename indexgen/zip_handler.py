@@ -8,12 +8,14 @@ from gate import Gate
 
 from read_rss import get_all_entries, SecDocRssEntry
 from azurewrapper.raw_doc_uploader import AzureBlobUploader
+from azurewrapper.raw_doc_queue import AzureQueueWriter
 
 
 class FileCopyDriver(object):
 
-    def __init__(self, uploader) -> None:
+    def __init__(self, uploader : AzureBlobUploader, queue : AzureQueueWriter) -> None:
         self._doc_uploader = uploader
+        self._raw_doc_queue = queue
 
     def download_extract_upload(self):
         with Gate(2) as g:  # 10 per sec is SEC max.
@@ -39,8 +41,8 @@ class FileCopyDriver(object):
                             full_filename = os.path.join(root, file)
                             filehandles[file] = full_filename
 
-                    self._doc_uploader.upload_files(row, filehandles)
-                    # TODO - you need to log in Cosmos here.
+                    summary_path = self._doc_uploader.upload_files(row, filehandles)
+                    self._raw_doc_queue.write_message(summary_path)
 
 
 def classify_files(entry : SecDocRssEntry):
@@ -57,5 +59,5 @@ def classify_files(entry : SecDocRssEntry):
 
 if __name__ == "__main__":
     uploader = AzureBlobUploader()
-    driver = FileCopyDriver(uploader)
+    driver = FileCopyDriver(uploader, AzureQueueWriter())
     driver.download_extract_upload()

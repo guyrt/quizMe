@@ -1,5 +1,6 @@
-from dataclasses import dataclass
+from dataclasses import dataclass, asdict
 from datetime import datetime
+import json
 
 from typing import List
 
@@ -21,3 +22,12 @@ class SecDocRssEntry:
     edgar_files : List[EdgarFile]    
     company_name : str
     edgar_assistantdirector : str
+
+
+def serialize_doc_entry(entry : SecDocRssEntry) -> str:
+    return json.dumps(asdict(entry), default=_serialize_datetime)
+
+def _serialize_datetime(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    raise TypeError(f'Object of type {obj.__class__.__name__} is not JSON serializable')
