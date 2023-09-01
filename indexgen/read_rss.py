@@ -1,33 +1,12 @@
-from dataclasses import dataclass
 import bs4
 import requests
 from datetime import datetime
 from typing import List
-import json
 
 from common import headers
+from localtypes import EdgarFile, SecDocRssEntry
 
 rss_url = "https://www.sec.gov/Archives/edgar/usgaap.rss.xml"
-
-
-@dataclass(slots=True)
-class EdgarFile:
-    filename : str
-    filetype : str
-    url : str
-
-
-@dataclass(slots=True)
-class SecDocRssEntry:
-    doc_type: str  # 8-k ect
-    title : str
-    zip_link : str
-    published : datetime
-    id : str   # usually the file name.
-    cik : str
-    edgar_files : List[EdgarFile]    
-    company_name : str
-    edgar_assistantdirector : str
 
 
 def get_all_entries():

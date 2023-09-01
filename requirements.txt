@@ -3,4 +3,7 @@ requests
 bs4
 lxml
 
+python-dotenv
+azure-storage-blob==12.9.0
+
 ipdb

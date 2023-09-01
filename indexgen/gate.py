@@ -21,8 +21,6 @@ class Gate(object):
         else:
             sleep_time = -1
 
-        print(f"Sleep: {sleep_time}")
-
         if sleep_time > 0:
             time.sleep(sleep_time)
         self._last_sleep_end = time.time()

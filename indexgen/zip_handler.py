@@ -7,33 +7,40 @@ from common import headers
 from gate import Gate
 
 from read_rss import get_all_entries, SecDocRssEntry
+from azurewrapper.raw_doc_uploader import AzureBlobUploader
 
 
-def download_extract():
-    with Gate(10) as g:  # 10 per sec is SEC max.
-        for row in get_all_entries():
-            # todo - check if we have it
+class FileCopyDriver(object):
 
-            url = row.zip_link
-            r = requests.get(url, headers=headers)
-            if r.status_code != 200:
-                raise AttributeError(f"Hit {r.status_code} downloading {url}")
-                # todo eat this.
+    def __init__(self, uploader) -> None:
+        self._doc_uploader = uploader
 
-            print(classify_files(row))
+    def download_extract_upload(self):
+        with Gate(2) as g:  # 10 per sec is SEC max.
+            for row in get_all_entries():
+                g.gate()
+                # TODO - check if we have it
 
-            z = zipfile.ZipFile(io.BytesIO(r.content))
-            with tempfile.TemporaryDirectory() as temp_dir:
-                z.extractall(temp_dir)
-                for root, dirs, files in os.walk(temp_dir):
-                    for file in files:
-                        full_filename = os.path.join(root, file)
-                        print(full_filename)
+                url = row.zip_link
+                r = requests.get(url, headers=headers)
+                if r.status_code != 200:
+                    raise AttributeError(f"Hit {r.status_code} downloading {url}")
+                    # todo eat this.
 
-            import ipdb; ipdb.set_trace()
-                        # with open(full_filename, 'r') as f:
-                        #     print(f.read())
-            g.gate()
+                z = zipfile.ZipFile(io.BytesIO(r.content))
+                with tempfile.TemporaryDirectory() as temp_dir:
+                    z.extractall(temp_dir)
+
+                    filehandles = {}
+
+                    # note: these are actually flat. We assume so in our filehandles.
+                    for root, dirs, files in os.walk(temp_dir):
+                        for file in files:
+                            full_filename = os.path.join(root, file)
+                            filehandles[file] = full_filename
+
+                    self._doc_uploader.upload_files(row, filehandles)
+                    # TODO - you need to log in Cosmos here.
 
 
 def classify_files(entry : SecDocRssEntry):
@@ -49,5 +56,6 @@ def classify_files(entry : SecDocRssEntry):
 
 
 if __name__ == "__main__":
-    download_extract()
-
+    uploader = AzureBlobUploader()
+    driver = FileCopyDriver(uploader)
+    driver.download_extract_upload()
