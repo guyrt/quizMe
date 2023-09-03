@@ -3,12 +3,9 @@ from azure.storage.blob import BlobServiceClient
 from datetime import datetime
 from typing import Dict
 
-from dotenv import load_dotenv
-from localtypes import SecDocRssEntry, serialize_doc_entry
+from indexgen.localtypes import SecDocRssEntry, serialize_doc_entry
 
-load_dotenv()
-
-class AzureBlobUploader:
+class AzureRawDocsBlobHandler:
     def __init__(self):
         self.connection_string = os.environ['DocumentBlobConnectionString']
         self.container_name = os.environ['DocumentBlobContainer']
@@ -28,6 +25,10 @@ class AzureBlobUploader:
         blob_client = self.container_client.get_blob_client(summary_path)
         blob_client.upload_blob(serialize_doc_entry(sec_entry), overwrite=True)
         return summary_path
+    
+    def get_path(self, remote_path) -> str:
+        blob_stream = self.container_client.download_blob(remote_path)
+        blob_stream.readall().decode('utf-8', 'ignore')
 
     def _build_root_path(self, sec_entry : SecDocRssEntry):
         # todo check if exists. roll counter if so.

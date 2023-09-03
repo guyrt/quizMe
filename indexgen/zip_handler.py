@@ -3,17 +3,15 @@ import zipfile
 import io
 import tempfile
 import os
-from common import headers
-from gate import Gate
 
-from read_rss import get_all_entries, SecDocRssEntry
-from azurewrapper.raw_doc_uploader import AzureBlobUploader
-from azurewrapper.raw_doc_queue import AzureQueueWriter
+from .common import headers
+from .gate import Gate
+from .read_rss import get_all_entries, SecDocRssEntry
 
 
 class FileCopyDriver(object):
 
-    def __init__(self, uploader : AzureBlobUploader, queue : AzureQueueWriter) -> None:
+    def __init__(self, uploader, queue) -> None:
         self._doc_uploader = uploader
         self._raw_doc_queue = queue
 
@@ -56,8 +54,3 @@ def classify_files(entry : SecDocRssEntry):
             other_files.append(file_obj)
     return {'main': main_file, 'other': other_files}
 
-
-if __name__ == "__main__":
-    uploader = AzureBlobUploader()
-    driver = FileCopyDriver(uploader, AzureQueueWriter())
-    driver.download_extract_upload()

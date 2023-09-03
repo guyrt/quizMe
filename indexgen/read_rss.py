@@ -3,8 +3,8 @@ import requests
 from datetime import datetime
 from typing import List
 
-from common import headers
-from localtypes import EdgarFile, SecDocRssEntry
+from .common import headers
+from .localtypes import EdgarFile, SecDocRssEntry
 
 rss_url = "https://www.sec.gov/Archives/edgar/usgaap.rss.xml"
 
