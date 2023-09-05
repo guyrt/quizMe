@@ -4,29 +4,32 @@ import os
 
 from bs4 import BeautifulSoup
 
-from parser_base import parse_file, parse_contents
-from extract_doc_maker import try_find_creating_software
-from docparsertypes import ParsedDoc
-
-from azurewrapper.raw_doc_queue import AzureQueueManager
+from azurewrapper.raw_doc_queue import AzureQueueManagerBase
 from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
 from indexgen.localtypes import get_sec_entry_from_dict
 
-from default_parser import DefaultParser
-from toppan_merrill_bridge import ToppanMerrillBridgeParser
+from .default_parser import DefaultParser
+from .docparsertypes import ParsedDoc
+from .extract_doc_maker import try_find_creating_software
+from .parser_base import parse_file, parse_contents
+from .toppan_merrill_bridge import ToppanMerrillBridgeParser
+
 
 class ParserDriver(object):
 
     def __init__(self, 
                  raw_doc_handler : AzureRawDocsBlobHandler, 
-                 queue_manager : AzureQueueManager,
-                 parsed_doc_handler : AzureParsedDocsBlobHandler) -> None:
+                 incoming_queue_manager : AzureQueueManagerBase,
+                 parsed_doc_handler : AzureParsedDocsBlobHandler,
+                 outgoing_queue_manager : AzureQueueManagerBase,
+                 peek_mode=False) -> None:
         self._raw_doc_handler = raw_doc_handler
-        self._queue_manager = queue_manager
+        self._incoming_queue_manager = incoming_queue_manager
         self._parsed_doc_handler = parsed_doc_handler
+        self._outgoing_queue_manager = outgoing_queue_manager
 
-        self._peek_mode = True
+        self._peek_mode = peek_mode
 
     def parse_from_queue(self):
         """
@@ -37,7 +40,7 @@ class ParserDriver(object):
         delete queue message
         upload to new queue
         """
-        msg = self._queue_manager.pop_doc_parse_message(peek=self._peek_mode)
+        msg = self._incoming_queue_manager.pop_doc_parse_message(peek=self._peek_mode)
         remote_path = msg.content
         files_to_parse = self._get_files_from_remote_summary(remote_path)
         for file_url in files_to_parse:
@@ -45,9 +48,9 @@ class ParserDriver(object):
             self._parsed_doc_handler.upload_files(parse_details, content)
         
         if not self._peek_mode:
-            self._queue_manager.delete_doc_parse_message(msg)
+            self._incoming_queue_manager.delete_doc_parse_message(msg)
 
-        
+        self._outgoing_queue_manager.write_message(remote_path)
 
     def parse_local_file(self, local_path):
         dom = parse_file(local_path)

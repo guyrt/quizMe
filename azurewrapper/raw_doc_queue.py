@@ -1,29 +1,51 @@
 import os
 from azure.storage.queue import QueueServiceClient, QueueMessage
 
+import dotenv
+dotenv.load_dotenv()
 
-class AzureQueueManager:
+
+class AzureQueueManagerBase:
+
+    queue_name = "fake"
+
     def __init__(self):
         self.connection_string = os.environ['DocumentBlobConnectionString']
-        self.queue_name = os.environ['DocumentRawProcessQueueName']
-        self.extract_table_queue_name = os.environ['DocumentRawExtractStructuredDataQueueName']
+        self.queue_name = self.queue_name
+
         queue_service_client = QueueServiceClient.from_connection_string(self.connection_string)
-        self.queue_client = queue_service_client.get_queue_client(self.queue_name)
-        self.extract_table_q_client = queue_service_client.get_queue_client(self.extract_table_queue_name)
+
+        self._queue_client = queue_service_client.get_queue_client(self.queue_name)
 
     def write_message(self, message):
-        self.queue_client.send_message(message)
-        self.extract_table_q_client.send_message(message)
+        self._queue_client.send_message(message)
 
     def pop_doc_parse_message(self, peek=True) -> QueueMessage:
         """Assume that the upstream system will requeue if this message is a problem."""
         if peek:
-            msg = self.queue_client.peek_messages(1)[0]
+            msg = self._queue_client.peek_messages(1)[0]
         else:
-            msg = self.queue_client.receive_message(1, visibility_timeout=120)
+            msg = self._queue_client.receive_message(visibility_timeout=120)
 
         if msg:
             return msg
+        else:
+            raise ValueError("no work to do")
         
     def delete_doc_parse_message(self, msg : QueueMessage):
-        self.queue_client.delete_message(msg)
+        self._queue_client.delete_message(msg)
+
+
+class ProcessRawDocQueue(AzureQueueManagerBase):
+
+    queue_name = os.environ['DocumentRawProcessQueueName']
+
+
+class ExtractStructuredDocQueue(AzureQueueManagerBase):
+
+    queue_name = os.environ['DocumentRawExtractStructuredDataQueueName']
+
+
+class UnderstandDocQueue(AzureQueueManagerBase):
+
+    queue_name = os.environ['ParsedDocumentProcessQueueName']

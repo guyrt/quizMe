@@ -26,7 +26,8 @@ class SecDocRssEntry:
 
 def get_sec_entry_from_dict(entry) -> SecDocRssEntry:
     edgar_files = [EdgarFile(**e) for e in entry['edgar_files']]
-    return SecDocRssEntry(**entry, edgar_files=edgar_files)
+    entry['edgar_files'] = edgar_files
+    return SecDocRssEntry(**entry)
 
 
 def serialize_doc_entry(entry : SecDocRssEntry) -> str:
