@@ -1,4 +1,7 @@
-from dataclasses import dataclass
+import json 
+from datetime import datetime
+
+from dataclasses import dataclass, asdict
 
 @dataclass(slots=True)
 class ParsedDoc:
@@ -9,3 +12,12 @@ class ParsedDoc:
 
     # todo - store the version (via git?) of the parser you used.
 
+
+def serialized_parsed_doc(parsed_doc : ParsedDoc) -> str:
+    return json.dumps(asdict(parsed_doc), default=_serialize_datetime)
+
+
+def _serialize_datetime(obj):
+    if isinstance(obj, datetime):
+        return obj.isoformat()
+    raise TypeError(f'Object of type {obj.__class__.__name__} is not JSON serializable')

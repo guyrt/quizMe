@@ -24,8 +24,14 @@ class SecDocRssEntry:
     edgar_assistantdirector : str
 
 
+def get_sec_entry_from_dict(entry) -> SecDocRssEntry:
+    edgar_files = [EdgarFile(**e) for e in entry['edgar_files']]
+    return SecDocRssEntry(**entry, edgar_files=edgar_files)
+
+
 def serialize_doc_entry(entry : SecDocRssEntry) -> str:
     return json.dumps(asdict(entry), default=_serialize_datetime)
+
 
 def _serialize_datetime(obj):
     if isinstance(obj, datetime):
