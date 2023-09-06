@@ -7,4 +7,6 @@ python-dotenv
 azure-storage-blob>=12.9.0
 azure-storage-queue
 
+openai
+
 ipdb

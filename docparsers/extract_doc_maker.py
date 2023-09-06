@@ -10,4 +10,4 @@ def try_find_creating_software(dom : BeautifulSoup) -> str:
         if 'Toppan Merrill' in data:
             return "Toppan Merrill Bridge"
 
-    return ""
+    return "Default"
