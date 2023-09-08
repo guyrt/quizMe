@@ -1,5 +1,7 @@
 import json
 import os
+from uuid import uuid4
+from azurewrapper.doc_summary_handler import DocSummaryBlobHandler
 
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
 from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
@@ -8,7 +10,7 @@ from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
                                  get_sec_entry_from_dict)
 
 from .openai_client import OpenAIClient
-from .prompt_types import fill_prompt, to_dict
+from .prompt_types import fill_prompt, to_dict, PromptResponse
 from .promptlib.eightkprompts import eightk_prompts
 
 
@@ -17,11 +19,13 @@ class DocUnderstandingDriver:
     def __init__(self, 
                  raw_doc_handler: AzureRawDocsBlobHandler, 
                  incoming_queue : AzureQueueManagerBase,
-                 parsed_doc_handler : AzureParsedDocsBlobHandler) -> None:
+                 parsed_doc_handler : AzureParsedDocsBlobHandler,
+                 summary_upload_handler : DocSummaryBlobHandler) -> None:
         self.oai = OpenAIClient()
         self._raw_doc_handler = raw_doc_handler
         self._incoming_queue = incoming_queue
         self._parsed_doc_handler = parsed_doc_handler
+        self._summary_upload_handler = summary_upload_handler
 
         self._peek = True
 
@@ -39,10 +43,24 @@ class DocUnderstandingDriver:
         main_file : EdgarFile = classify_files['main']
         main_file_parsed_path = self._get_parsed_path(remote_path, main_file.filename)
         main_file_contents = self._parsed_doc_handler.get_path(main_file_parsed_path)
+        
+        all_prompts = []
         for prompt, response in self._run_from_content(main_file_contents, main_file.filetype):
-            print(prompt)
-            print(response)
-            print('-------------------------------') 
+            all_prompts.append(
+                PromptResponse(
+                    id=str(uuid4()),
+                    prompt=prompt,
+                    response=response,
+                    model=self.oai._engine,
+                    doc_id=summary.id,
+                    cid=summary.cik
+                )
+            )
+
+        all_prompt_s = [json.dumps(to_dict(s)).replace("\n", "##n##") for s in all_prompts]
+        content = '\n'.join(all_prompt_s)
+        self._summary_upload_handler.upload_files(main_file_parsed_path, content)
+        # just run embeddings straight away? 
 
     def run_local(self, local_path : str, doc_type : str):
         doc_content = open(local_path, 'r', encoding='utf-8').read()

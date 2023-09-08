@@ -14,14 +14,36 @@ class PromptCell:
 @dataclass
 class Prompt:
 
+    name : str
+
     content : List[PromptCell]
 
     prompt_type : str  # eventually use to tell if answer should be parsed. If so, provide parser.
                        # parser can take action: embed+store, parse and add to queue, ect.
 
+    version : int
+
+
+@dataclass
+class PromptResponse:
+
+    id : str
+
+    prompt : Prompt
+
+    response : str
+
+    model : str
+
+    doc_id : str
+
+    cid : str
+
 
 def fill_prompt(prompt : Prompt, context):
     return Prompt(
+        name=prompt.name,
+        version=prompt.version,
         content = [fill_prompt_cell(p, context) for p in prompt.content],
         prompt_type=prompt.prompt_type
     )

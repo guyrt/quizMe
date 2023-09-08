@@ -1,5 +1,4 @@
 import os
-from datetime import datetime
 
 from .doc_handler_base import AzureBlobHandlerBase
 from docparsers.docparsertypes import ParsedDoc, serialized_parsed_doc

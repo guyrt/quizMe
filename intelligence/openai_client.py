@@ -13,14 +13,16 @@ class OpenAIClient:
         openai.api_base = os.getenv("OPENAI_BASE")
         openai.api_version = os.getenv("OPENAI_API_APIVERSION")
         openai.api_key = os.getenv("OPENAI_API_KEY")
+        self._engine = "chatGPT_GPT35-turbo-0301"
+        self._temp = 0.7
         self.gate = Gate(1)  # 1 call/sec
 
-    def call(self, messages, temperature=0.7) -> str:
+    def call(self, messages) -> str:
         self.gate.gate()
         response = openai.ChatCompletion.create(
-            engine="chatGPT_GPT35-turbo-0301",
+            engine=self._engine,
             messages=messages,
-            temperature=temperature,
+            temperature=self._temp,
             max_tokens=4000,
             top_p=0.95,
             frequency_penalty=0,

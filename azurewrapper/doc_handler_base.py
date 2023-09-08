@@ -2,6 +2,9 @@ import os
 from azure.storage.blob import BlobServiceClient
 from azure.core.exceptions import ResourceNotFoundError
 
+import dotenv
+dotenv.load_dotenv()
+
 class AzureBlobHandlerBase:
 
     container_name = "BLAH"

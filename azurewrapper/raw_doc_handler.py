@@ -1,5 +1,4 @@
 import os
-from azure.storage.blob import BlobServiceClient
 from datetime import datetime
 from typing import Dict
 
