@@ -33,12 +33,7 @@ class ParserDriver(object):
 
     def parse_from_queue(self):
         """
-        Pop message
-        Download file to local tmp
-        run parse
-        upload file
-        delete queue message
-        upload to new queue
+        You could make this a pattern around pop/maybe delete/write.
         """
         msg = self._incoming_queue_manager.pop_doc_parse_message(peek=self._peek_mode)
         remote_path = msg.content

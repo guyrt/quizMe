@@ -44,16 +44,3 @@ class FileCopyDriver(object):
                     self._raw_doc_queue.write_message(summary_path)
                     self._structure_queue.write_message(summary_path)
             print(f"Processed {row.cik}: {row.id}")
-
-
-def classify_files(entry : SecDocRssEntry):
-    main_file = None
-    other_files = []
-    for file_obj in entry.edgar_files:
-        file_type = file_obj.filetype
-        if file_type and (not file_type.startswith('EX')):
-            main_file = file_obj
-        else:
-            other_files.append(file_obj)
-    return {'main': main_file, 'other': other_files}
-

@@ -35,7 +35,9 @@ get_entities = Prompt(
     content=[
         PromptCell(role='system', content=default_system_instruction),
         PromptCell(role='user', content="""
-Find all People and Companies in this document. For each person or company, list their name, why they are in the doc (for instance their role), and a brief snippet from the doc that contains the person or company. Put each response on a new line.
+Find all People and Companies in this document. 
+For each person, list their name, their job, and why they are listed in the doc. Provide a brief snippet from the doc that contains the person and explains your answer. Put each response on a new line.
+For each company, list their name and why they are listed in the doc. Provide a brief snippet from the doc that contains the person and explains your answer. Put each response on a new line.
                    
 Do not include the Securities and Exchange Commission
                    """)
