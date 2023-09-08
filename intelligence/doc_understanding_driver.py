@@ -9,9 +9,7 @@ from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
 
 from .openai_client import OpenAIClient
 from .prompt_types import fill_prompt, to_dict
-from .promptlib.eightkprompts import (find_exhibits, generate_questions,
-                                      get_embeddable_summary, get_entities,
-                                      what_event)
+from .promptlib.eightkprompts import eightk_prompts
 
 
 class DocUnderstandingDriver:
@@ -29,9 +27,8 @@ class DocUnderstandingDriver:
 
     def run_from_queue(self):
         """
-        Download it from clean side
-        call _run_from_content.
         Store results.... somewhere. Minimally back into a q_a blob.
+        Kick off an "embed this" signal.
         """
         incoming_msg = self._incoming_queue.pop_doc_parse_message(peek=self._peek)
         remote_path = incoming_msg.content
@@ -61,13 +58,7 @@ class DocUnderstandingDriver:
 
     def _load_initial_prompts(self, doc_type : str):
         if doc_type.lower() == "8-k":
-            return [
-                what_event,
-                get_embeddable_summary,
-                get_entities,
-                generate_questions,
-                find_exhibits
-            ]
+            return eightk_prompts
 
     def _classify_files(self, entry : SecDocRssEntry):
         main_file = None

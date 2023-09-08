@@ -13,7 +13,7 @@ class OpenAIClient:
         openai.api_base = os.getenv("OPENAI_BASE")
         openai.api_version = os.getenv("OPENAI_API_APIVERSION")
         openai.api_key = os.getenv("OPENAI_API_KEY")
-        self.gate = Gate(10)  # 1 call/sec
+        self.gate = Gate(1)  # 1 call/sec
 
     def call(self, messages, temperature=0.7) -> str:
         self.gate.gate()
