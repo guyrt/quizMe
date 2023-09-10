@@ -13,4 +13,4 @@ doc_summary = DocSummaryBlobHandler()
 
 d = DocUnderstandingDriver(raw_doc, out_qm, parsed_doc, doc_summary)
 d.run_from_queue()
-#d.run_local("C:/tmp/clean.html", '8-k')
+d.run_local("C:/tmp/clean.html", '8-k')

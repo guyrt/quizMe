@@ -13,5 +13,7 @@ iqm = ProcessRawDocQueue()
 out_qm = UnderstandDocQueue()
 parsed_doc = AzureParsedDocsBlobHandler()
 driver = ParserDriver(raw_doc, iqm, parsed_doc, out_qm)
-while True:
-    driver.parse_from_queue()
+
+print(len(driver.parse_local_file("samples/jwn-20230729.htm")))
+#while True:
+#    driver.parse_from_queue()

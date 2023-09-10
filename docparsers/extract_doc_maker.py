@@ -9,5 +9,7 @@ def try_find_creating_software(dom : BeautifulSoup) -> str:
         data = comment.string
         if 'Toppan Merrill' in data:
             return "Toppan Merrill Bridge"
+        if 'Workiva' in data:
+            return "Workiva"
 
     return "Default"

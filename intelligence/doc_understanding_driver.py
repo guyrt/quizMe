@@ -60,7 +60,7 @@ class DocUnderstandingDriver:
         all_prompt_s = [json.dumps(to_dict(s)).replace("\n", "##n##") for s in all_prompts]
         content = '\n'.join(all_prompt_s)
         self._summary_upload_handler.upload_files(main_file_parsed_path, content)
-        # just run embeddings straight away? 
+        
 
     def run_local(self, local_path : str, doc_type : str):
         doc_content = open(local_path, 'r', encoding='utf-8').read()

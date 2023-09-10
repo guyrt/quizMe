@@ -14,6 +14,7 @@ from .docparsertypes import ParsedDoc
 from .extract_doc_maker import try_find_creating_software
 from .parser_base import parse_file, parse_contents
 from .toppan_merrill_bridge import ToppanMerrillBridgeParser
+from .workiva import WorkivaParser
 
 
 class ParserDriver(object):
@@ -38,18 +39,22 @@ class ParserDriver(object):
         msg = self._incoming_queue_manager.pop_doc_parse_message(peek=self._peek_mode)
         remote_path = msg.content
         files_to_parse = self._get_files_from_remote_summary(remote_path)
-        for file_url in files_to_parse:
-            parse_details, content = self.parse_remote(file_url)
-            self._parsed_doc_handler.upload_files(parse_details, content)
-        
-        if not self._peek_mode:
-            self._incoming_queue_manager.delete_doc_parse_message(msg)
-
-        self._outgoing_queue_manager.write_message(remote_path)
+        try:
+            for file_url in files_to_parse:
+                parse_details, content = self.parse_remote(file_url)
+                self._parsed_doc_handler.upload_files(parse_details, content)
+        except ValueError:
+            # bad queue
+            self._incoming_queue_manager.write_error(remote_path)
+        else:
+            if not self._peek_mode:
+                self._incoming_queue_manager.delete_doc_parse_message(msg)
+        finally:
+            self._outgoing_queue_manager.write_message(remote_path)
 
     def parse_local_file(self, local_path):
         dom = parse_file(local_path)
-        return self.parse_dom(dom, 'localfile')
+        return self.parse_dom(dom, 'localfile')[1]
 
     def parse_remote(self, remote_file):
         content = self._raw_doc_handler.get_path(remote_file)
@@ -71,6 +76,8 @@ class ParserDriver(object):
     def _run_parser(self, dom, doc_maker):
         if doc_maker == "Toppan Merrill Bridge":
             content_list = ToppanMerrillBridgeParser().parse(dom)
+        elif doc_maker == "Workiva":
+            content_list = WorkivaParser().parse(dom)
         else:
             content_list = DefaultParser().parse(dom)
 

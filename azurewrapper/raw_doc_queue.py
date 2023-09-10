@@ -13,12 +13,18 @@ class AzureQueueManagerBase:
         self.connection_string = os.environ['DocumentBlobConnectionString']
         self.queue_name = self.queue_name
 
-        queue_service_client = QueueServiceClient.from_connection_string(self.connection_string)
+        self._queue_service_client = QueueServiceClient.from_connection_string(self.connection_string)
 
-        self._queue_client = queue_service_client.get_queue_client(self.queue_name)
+        self._queue_client = self._queue_service_client.get_queue_client(self.queue_name)
+        self._error_queue_client = None
 
     def write_message(self, message):
         self._queue_client.send_message(message)
+
+    def write_error(self, message):
+        if self._error_queue_client is None:
+            self._error_queue_client = self._queue_service_client.get_queue_client(f"{self.queue_name}_error")
+        self._error_queue_client.send_message(message)
 
     def pop_doc_parse_message(self, peek=True) -> QueueMessage:
         """Assume that the upstream system will requeue if this message is a problem."""

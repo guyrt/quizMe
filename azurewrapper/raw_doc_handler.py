@@ -9,6 +9,12 @@ class AzureRawDocsBlobHandler(AzureBlobHandlerBase):
 
     container_name = "RawDocumentBlobContainer"
 
+    def exists(self, sec_entry : SecDocRssEntry):
+        root = self._build_root_path(sec_entry)
+        summary_path = os.path.join(root, "summary.json")
+        blob_client = self.container_client.get_blob_client(summary_path)
+        return blob_client.exists() 
+
     def upload_files(self, sec_entry : SecDocRssEntry, local_files : Dict[str, str]):
         root = self._build_root_path(sec_entry)
 
@@ -21,8 +27,8 @@ class AzureRawDocsBlobHandler(AzureBlobHandlerBase):
         summary_path = os.path.join(root, "summary.json")
         blob_client = self.container_client.get_blob_client(summary_path)
         blob_client.upload_blob(serialize_doc_entry(sec_entry), overwrite=True)
-        return summary_path  # TODO return etag and "did i write" info that you can use to protect queues.
+        return summary_path
     
     def _build_root_path(self, sec_entry : SecDocRssEntry):
-        # todo check if exists. roll counter if so.
+        # TODO check if exists. roll counter if so.
         return f"{sec_entry.cik}/{datetime.strftime(sec_entry.published, '%Y%m%d')}/{sec_entry.doc_type}_0"

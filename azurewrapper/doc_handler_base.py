@@ -19,7 +19,6 @@ class AzureBlobHandlerBase:
         try:
             blob_stream = self.container_client.download_blob(remote_path)
         except ResourceNotFoundError:
-            print(f"Failure to find {remote_path}")
             raise ValueError(f"Failure to find blob {remote_path}")
 
         return blob_stream.readall().decode('utf-8', 'ignore')
