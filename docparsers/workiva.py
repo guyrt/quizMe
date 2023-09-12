@@ -1,5 +1,7 @@
 from bs4 import BeautifulSoup
 from typing import List, Dict
+import json
+
 
 class WorkivaParser:
 
@@ -53,7 +55,7 @@ class WorkivaParser:
                 else:
                     string_elts.append(elt.get_text())
         
-        return [s for s in string_elts if s]
+        return [s for s in string_elts if s and 'amounts in millions' not in s.lower()]
 
     def _clean_context(self, elt : BeautifulSoup) -> Dict[str, any]:
         ret_dict = {}
@@ -125,8 +127,7 @@ class WorkivaParser:
                 raise ValueError(f"Unexpected elt in structured table parser: {elt}")
                     
         # make a table from data_elts.
-        
-        return data_elts
+        return json.dumps(data_elts)
     
     def _parse_structured_tr(self, tr : BeautifulSoup, context_table: Dict[str, any]):
         """Assume we have a tr element. Parse out possible key (first non-ix containing) and all values."""
