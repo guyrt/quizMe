@@ -1,5 +1,16 @@
 from bs4 import BeautifulSoup, Comment
 
+
+def print_result_decorator(func):
+    def wrapper(*args, **kwargs):
+        # Do something before the function is called
+        result = func(*args, **kwargs)
+        print(f"{func} return {result}")
+        return result
+    return wrapper
+
+
+@print_result_decorator
 def try_find_creating_software(dom : BeautifulSoup) -> str:
     
     # Strategy: look at comments for known maker

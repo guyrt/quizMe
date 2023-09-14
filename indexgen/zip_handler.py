@@ -13,10 +13,9 @@ from .read_rss import get_all_entries
 
 class FileCopyDriver(object):
 
-    def __init__(self, uploader : AzureRawDocsBlobHandler, doc_queue, structure_queue) -> None:
+    def __init__(self, uploader : AzureRawDocsBlobHandler, doc_queue) -> None:
         self._doc_uploader = uploader
         self._raw_doc_queue = doc_queue
-        self._structure_queue = structure_queue
 
     def download_extract_upload(self):
         with Gate(2) as g:  # 10 per sec is SEC max.
@@ -45,6 +44,5 @@ class FileCopyDriver(object):
 
                     summary_path = self._doc_uploader.upload_files(row, filehandles)
                     self._raw_doc_queue.write_message(summary_path)
-                    self._structure_queue.write_message(summary_path)
 
             print(f"Processed {row.cik}: {row.id}")

@@ -42,13 +42,15 @@ class ParserDriver(object):
         msg = self._incoming_queue_manager.pop_doc_parse_message(peek=self._peek_mode)
         remote_path = msg.content
         files_to_parse = self._get_files_from_remote_summary(remote_path)
+        print(f"Path: {remote_path}")
         try:
             for file_url in files_to_parse:
                 parse_details, content, structured_data = self.parse_remote(file_url)
                 self._parsed_doc_handler.upload_files(parse_details, content)
                 self.structured_data_handler.handle(structured_data, self._get_summary(remote_path))
-        except ValueError:
+        except ValueError as e:
             # bad queue
+            print(e)
             self._incoming_queue_manager.write_error(remote_path)
         else:
             if not self._peek_mode:
