@@ -47,11 +47,6 @@ class ProcessRawDocQueue(AzureQueueManagerBase):
     queue_name = os.environ['DocumentRawProcessQueueName']
 
 
-class ExtractStructuredDocQueue(AzureQueueManagerBase):
-
-    queue_name = os.environ['DocumentRawExtractStructuredDataQueueName']
-
-
 class UnderstandDocQueue(AzureQueueManagerBase):
 
     queue_name = os.environ['ParsedDocumentProcessQueueName']

@@ -2,6 +2,8 @@ import json
 from datetime import datetime
 
 from dataclasses import dataclass, asdict
+from typing import List, Dict
+
 
 @dataclass(slots=True)
 class ParsedDoc:
@@ -11,6 +13,14 @@ class ParsedDoc:
     parse_date : str = None  # string date when we parsed.
 
     # todo - store the version (via git?) of the parser you used.
+
+
+@dataclass
+class ParserReturn:
+
+    parsed_doc : List[str]
+    structured_data : List[Dict[str, any]]
+
 
 
 def serialized_parsed_doc(parsed_doc : ParsedDoc) -> str:

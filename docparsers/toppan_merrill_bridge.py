@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
 from typing import List
 
+from docparsers.docparsertypes import ParserReturn
+
 class ToppanMerrillBridgeParser:
 
     def parse(self, dom : BeautifulSoup) -> List[str]:
@@ -10,4 +12,7 @@ class ToppanMerrillBridgeParser:
             if elt.string:
                 string_elts.append(elt.string.strip())
         
-        return [s for s in string_elts if s]
+        return ParserReturn(
+                   parsed_doc=[s for s in string_elts if s],
+                   structured_data=[]
+        )
