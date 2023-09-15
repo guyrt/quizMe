@@ -23,7 +23,7 @@ class AzureQueueManagerBase:
 
     def write_error(self, message):
         if self._error_queue_client is None:
-            self._error_queue_client = self._queue_service_client.get_queue_client(f"{self.queue_name}_error")
+            self._error_queue_client = self._queue_service_client.get_queue_client(f"{self.queue_name}-error")
         self._error_queue_client.send_message(message)
 
     def pop_doc_parse_message(self, peek=True) -> QueueMessage:

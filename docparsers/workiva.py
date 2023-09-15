@@ -120,7 +120,7 @@ class WorkivaParser:
             elt = stack.pop()
             if elt.name is None:
                 pass
-            elif elt.name == 'table':
+            elif elt.name == 'table' or elt.name == 'tbody':
                 stack.extend(reversed(list(elt.children)))
             elif elt.name == 'tr':
                 ix_elts = elt.find_all(lambda z: z.prefix == 'ix')
