@@ -11,7 +11,7 @@ def print_result_decorator(func):
 
 
 @print_result_decorator
-def try_find_creating_software(dom : BeautifulSoup) -> str:
+def try_find_creating_software(dom : BeautifulSoup, doc_type : str) -> str:
     
     # Strategy: look at comments for known maker
     comments = dom.find_all(text=lambda text:isinstance(text, Comment))
@@ -22,5 +22,9 @@ def try_find_creating_software(dom : BeautifulSoup) -> str:
             return "Toppan Merrill Bridge"
         if 'Workiva' in data:
             return "Workiva"
+
+    if doc_type.lower() in ['10-q', '10-k']:
+        # return a default structured data parser
+        pass
 
     return "Default"

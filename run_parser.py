@@ -24,7 +24,7 @@ driver = ParserDriver(
     peek_mode=False
 )
 
-# content, data = driver.parse_local_file("samples/jwn-20230729.htm")
+# content, data = driver.parse_local_file("samples/jwn-20230729.htm", "10-k")
 # fh = open("samples/jwn-20230729_clean.htm", "w", encoding='utf-8')
 # fh.write(content)
 

@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 from azurewrapper.raw_doc_queue import AzureQueueManagerBase
 from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
-from indexgen.localtypes import get_sec_entry_from_dict
+from indexgen.localtypes import SecDocRssEntry, get_sec_entry_from_dict
 
 from .default_parser import DefaultParser
 from .docparsertypes import ParsedDoc
@@ -41,11 +41,12 @@ class ParserDriver(object):
         """
         msg = self._incoming_queue_manager.pop_doc_parse_message(peek=self._peek_mode)
         remote_path = msg.content
-        files_to_parse = self._get_files_from_remote_summary(remote_path)
+        summary = self._get_summary(remote_path)
+        files_to_parse = self._get_files_from_remote_summary(remote_path, summary)
         print(f"Path: {remote_path}")
         try:
             for file_url in files_to_parse:
-                parse_details, content, structured_data = self.parse_remote(file_url)
+                parse_details, content, structured_data = self.parse_remote(file_url, summary.doc_type)
                 self._parsed_doc_handler.upload_files(parse_details, content)
                 self.structured_data_handler.handle(structured_data, self._get_summary(remote_path))
         except ValueError as e:
@@ -58,28 +59,27 @@ class ParserDriver(object):
         finally:
             self._outgoing_queue_manager.write_message(remote_path)
 
-    def parse_local_file(self, local_path):
+    def parse_local_file(self, local_path : str, doc_type : str):
         dom = parse_file(local_path)
-        return self.parse_dom(dom, 'localfile')[1:]
+        return self.parse_dom(dom, 'localfile', doc_type)[1:]
 
-    def parse_remote(self, remote_file):
+    def parse_remote(self, remote_file : str, doc_type : str):
         content = self._raw_doc_handler.get_path(remote_file)
-        return self.parse_dom(parse_contents(content), remote_file)
+        return self.parse_dom(parse_contents(content), remote_file, doc_type)
 
-    def parse_dom(self, dom : BeautifulSoup, doc_id : str):
+    def parse_dom(self, dom : BeautifulSoup, doc_id : str, doc_type : str):
         doc_details = ParsedDoc(doc_id=doc_id, parse_date=str(datetime.utcnow()))
-        doc_details.doc_maker = try_find_creating_software(dom)
+        doc_details.doc_maker = try_find_creating_software(dom, doc_type)
         content, data = self._run_parser(dom, doc_details.doc_maker)
         return doc_details, content, data
         
-    def _get_summary(self, remote_path : str):
+    def _get_summary(self, remote_path : str) -> SecDocRssEntry:
         summary_file_contents = json.loads(self._raw_doc_handler.get_path(remote_path))
         summary = get_sec_entry_from_dict(summary_file_contents)
         return summary
         
-    def _get_files_from_remote_summary(self, remote_path : str):
+    def _get_files_from_remote_summary(self, remote_path : str, summary : SecDocRssEntry):
         path_part = os.path.dirname(remote_path)
-        summary = self._get_summary(remote_path)
         htm_files = (x for x in summary.edgar_files if x.filename.endswith('htm'))
         return [os.path.join(path_part, h.filename) for h in htm_files]
 
