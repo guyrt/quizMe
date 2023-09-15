@@ -26,7 +26,9 @@ class WorkivaParser:
                 context_dict = self._clean_context(elt)  # todo handle the full header as a data element only. Save the references somewhere.
             elif elt.name == "table":
                 table_content, local_structured_data = self._clean_table(elt, context_dict)
+                string_elts.append("###table###")
                 string_elts.append(table_content)
+                string_elts.append("###endtable###")
                 structured_data.extend(local_structured_data)
             elif elt.name == 'a':
                 string_elts.append(elt.get_text())

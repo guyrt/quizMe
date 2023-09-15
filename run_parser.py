@@ -24,9 +24,9 @@ driver = ParserDriver(
     peek_mode=False
 )
 
-# content, data = driver.parse_local_file("samples/jwn-20230729.htm", "10-k")
-# fh = open("samples/jwn-20230729_clean.htm", "w", encoding='utf-8')
-# fh.write(content)
+content, data = driver.parse_local_file("samples/jwn-20230729.htm", "10-k")
+fh = open("samples/jwn-20230729_clean.htm", "w", encoding='utf-8')
+fh.write(content)
 
-while True:
-    driver.parse_from_queue()
+#while True:
+#    driver.parse_from_queue()

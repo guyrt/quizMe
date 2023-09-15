@@ -50,7 +50,7 @@ def fill_prompt(prompt : Prompt, context):
 
 
 def fill_prompt_cell(cell : PromptCell, context):
-    return PromptCell(role=cell.role, content=cell.content.format(**context))
+    return PromptCell(role=cell.role, content=cell.content.format(**context).strip())  # strip b/c trailing spaces degrade perf.
 
 
 def to_dict(o):

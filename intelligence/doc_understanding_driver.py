@@ -8,11 +8,12 @@ from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
 from azurewrapper.raw_doc_queue import AzureQueueManagerBase
 from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
                                  get_sec_entry_from_dict)
+from intelligence.large_doc_parser import LargeDocParser
 
 from .openai_client import OpenAIClient
 from .prompt_types import fill_prompt, to_dict, PromptResponse
 from .promptlib.eightkprompts import eightk_prompts
-
+from .promptlib.quarter_annual_prompts import quarterly_annual_prompts
 
 class DocUnderstandingDriver:
 
@@ -64,19 +65,31 @@ class DocUnderstandingDriver:
 
     def run_local(self, local_path : str, doc_type : str):
         doc_content = open(local_path, 'r', encoding='utf-8').read()
-        self._run_from_content(doc_content, doc_type)
+        return self._run_from_content(doc_content, doc_type)
 
     def _run_from_content(self, content : str, doc_type : str):
-        prompts = self._load_initial_prompts(doc_type)
-        while len(prompts):
-            raw_current = prompts.pop(0)
-            current = fill_prompt(raw_current, {'doc_content': content})
-            messages = [to_dict(c) for c in current.content]
-            yield (raw_current, self.oai.call(messages))
+
+        # split your content.
+        total_size = self.oai.num_tokens_from_string(content)
+        if total_size > self.oai.max_doc_tokens:
+            chunks = LargeDocParser(self.oai).split(content, self.oai.max_doc_tokens)
+        else:
+            chunks = [content]
+
+        # TODO: for broken docs you need to change this whole scheme.
+        for chunk in chunks:
+            prompts = self._load_initial_prompts(doc_type)
+            while len(prompts):
+                raw_current = prompts.pop(0)
+                current = fill_prompt(raw_current, {'doc_content': chunk, 'doc_type': doc_type})
+                messages = [to_dict(c) for c in current.content]
+                yield (raw_current, self.oai.call(messages))
 
     def _load_initial_prompts(self, doc_type : str):
         if doc_type.lower() == "8-k":
-            return eightk_prompts
+            return list(eightk_prompts)
+        if doc_type.lower() in ('10-k', '10-q'):
+            return list(quarterly_annual_prompts)
 
     def _classify_files(self, entry : SecDocRssEntry):
         main_file = None
@@ -86,7 +99,7 @@ class DocUnderstandingDriver:
             if file_type == 'GRAPHIC':
                 continue
 
-            if file_type in ('8-K', '10-Q'):  # todo - all files you process.
+            if file_type in ('8-K', '10-Q', "10-K"):  # todo - all files you process.
                 main_file = file_obj
             else:
                 other_files.append(file_obj)

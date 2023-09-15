@@ -1,5 +1,7 @@
 import openai
 import os
+import tiktoken
+
 from indexgen.gate import Gate
 
 from dotenv import load_dotenv
@@ -15,6 +17,8 @@ class OpenAIClient:
         openai.api_key = os.getenv("OPENAI_API_KEY")
         self._engine = "chatGPT_GPT35-turbo-0301"
         self._temp = 0.7
+        self._encoding = 'cl100k_base'
+        self.max_doc_tokens = 12000  # 16824 total for gpt16k
         self.gate = Gate(1)  # 1 call/sec
 
     def call(self, messages) -> str:
@@ -29,3 +33,9 @@ class OpenAIClient:
             presence_penalty=0,
             stop=None)
         return response.choices[0].message.content
+
+    def num_tokens_from_string(self, string: str) -> int:
+        """Returns the number of tokens in a text string."""
+        encoding = tiktoken.get_encoding(self._encoding)
+        num_tokens = len(encoding.encode(string))
+        return num_tokens

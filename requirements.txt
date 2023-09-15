@@ -9,5 +9,6 @@ azure-storage-queue
 azure-cosmos
 
 openai
+tiktoken
 
 ipdb
