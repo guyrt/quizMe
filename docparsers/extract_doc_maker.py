@@ -25,6 +25,6 @@ def try_find_creating_software(dom : BeautifulSoup, doc_type : str) -> str:
 
     if doc_type.lower() in ['10-q', '10-k']:
         # return a default structured data parser
-        pass
+        return "Workiva"
 
     return "Default"

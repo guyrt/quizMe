@@ -22,7 +22,7 @@ class StructuredDataHandler:
 
             row['cik'] = summary.cik
             row['docdate'] = summary.published
-            row['unique_key'] = raw_key
+            row['id'] = raw_key
 
             # upload
             self._cbd_handler.write(row)

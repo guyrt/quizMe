@@ -21,7 +21,7 @@ class CosmosDbSecFactsHander:
 
     def write(self, obj):
         try:
-            existing_item = self._container.read_item(obj['unique_key'])
+            existing_item = self._container.read_item(obj['id'], partition_key=obj['cik'])
         except CosmosHttpResponseError:
             # it didn't exist
             self._container.create_item(obj)
