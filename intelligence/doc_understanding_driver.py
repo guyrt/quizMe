@@ -28,7 +28,7 @@ class DocUnderstandingDriver:
         self._parsed_doc_handler = parsed_doc_handler
         self._summary_upload_handler = summary_upload_handler
 
-        self._peek = True
+        self._peek = False
 
     def run_from_queue(self):
         """
@@ -45,6 +45,8 @@ class DocUnderstandingDriver:
         main_file_parsed_path = self._get_parsed_path(remote_path, main_file.filename)
         main_file_contents = self._parsed_doc_handler.get_path(main_file_parsed_path)
         
+        print(f"Running on {summary.cik}: {main_file.url}")
+
         all_prompts = []
         for prompt, response in self._run_from_content(main_file_contents, main_file.filetype):
             all_prompts.append(

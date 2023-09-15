@@ -12,7 +12,4 @@ class DocSummaryBlobHandler(AzureBlobHandlerBase):
         full_path = f'{remote_path}/summaries.jsonl'
 
         blob_client = self.container_client.get_blob_client(full_path)
-        if blob_client.exists():
-            blob_client.append_block(content, len(content))
-        else:
-            blob_client.upload_blob(content)
+        blob_client.upload_blob(content, overwrite=True)
