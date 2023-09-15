@@ -167,7 +167,7 @@ class WorkivaParser:
             'eltName': elt.name,
             'contextRef': elt.attrs.get('contextRef'),
             'ixName': elt.attrs.get('name'),
-            'scale': float(elt.attrs.get('scale', 1)),
+            'scale': float(elt.attrs.get('scale', 0)),
             'decimals': elt.attrs.get('decimals', 0),
             'factId': elt.attrs.get('id'),
             'unit': elt.attrs.get('unitRef'),
@@ -178,7 +178,12 @@ class WorkivaParser:
         try:
             raw_value = float(elt.get_text().replace(',', ''))
         except ValueError:
-            vals['value'] = vals['raw_value']
+            if vals['raw_value'] == '☐':
+                vals['value'] = False
+            elif vals['raw_value'] == '☑':
+                vals['value'] = True
+            else:
+                vals['value'] = vals['raw_value']
         else:
             vals['value'] = (10**vals['scale']) * raw_value
         return vals

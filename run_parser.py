@@ -28,5 +28,5 @@ driver = ParserDriver(
 # fh = open("samples/jwn-20230729_clean.htm", "w", encoding='utf-8')
 # fh.write(content)
 
-
-driver.parse_from_queue()
+while True:
+    driver.parse_from_queue()

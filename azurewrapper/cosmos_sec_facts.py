@@ -27,5 +27,5 @@ class CosmosDbSecFactsHander:
             self._container.create_item(obj)
         else:
             # upsert if newer
-            if existing_item['docdate'] < obj['docdate']:
+            if existing_item['docdate'] <= obj['docdate']:
                 self._container.upsert_item(obj)
