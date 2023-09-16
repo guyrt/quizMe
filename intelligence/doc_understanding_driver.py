@@ -67,7 +67,15 @@ class DocUnderstandingDriver:
 
     def run_local(self, local_path : str, doc_type : str):
         doc_content = open(local_path, 'r', encoding='utf-8').read()
-        return self._run_from_content(doc_content, doc_type)
+        for prompt, response in self._run_from_content(doc_content, doc_type):
+            yield PromptResponse(
+                        id=str(uuid4()),
+                        prompt=prompt,
+                        response=response,
+                        model=self.oai._engine,
+                        doc_id='local',
+                        cid='local'
+                    )
 
     def _run_from_content(self, content : str, doc_type : str):
 

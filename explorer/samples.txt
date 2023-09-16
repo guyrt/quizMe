@@ -1,0 +1,136 @@
+{
+   "Executive Summary": {
+      "Overview": "A concise summary of the entire prospectus, highlighting the company's current financial health, growth potential, and key investment considerations. Include recent stock performance and market sentiment."
+   },
+   "Company Overview": {
+      "History": "Provide a detailed history of the company, including its founding, major milestones, and key historical events.",
+      "Mission and Values": "Elaborate on the company's mission statement and core values, emphasizing its commitment to customer satisfaction and business ethics.",
+      "Business Model": "Explain the company's unique business model, focusing on its membership-based approach and low-cost strategy.",
+      "Market Presence": "Discuss the company's market share in various segments, geographical regions, and its position relative to competitors."
+   },
+   "Financial Analysis": {
+      "Historical Performance": "Include a multi-year financial performance analysis, showcasing revenue growth, profitability trends, and margins over the past five years.",
+      "Balance Sheet": "Provide a detailed breakdown of the company's assets, liabilities, and shareholders' equity, emphasizing its financial stability.",
+      "Cash Flow": "Analyze the cash flow statement to assess the company's ability to generate cash and fund operations, investments, and debt repayment.",
+      "Financial Ratios": "Calculate and interpret key financial ratios such as Price/Earnings (P/E), Price/Book (P/B), Debt-to-Equity, and Return on Equity (ROE).",
+      "Projections": "Include revenue and earnings projections for the next 3-5 years based on industry trends and management guidance."
+   },
+   "Competitive Landscape": {
+      "Competitors": "Identify and analyze major competitors, comparing their financial performance, market share, and growth strategies.",
+      "Market Share": "Detail the company's market share in key product categories and regions, highlighting areas of growth or vulnerability.",
+      "Competitive Advantages": "Discuss the company's competitive advantages, such as economies of scale, brand recognition, and customer loyalty programs."
+   },
+   "Industry Analysis": {
+      "Market Trends": "Examine recent industry trends, such as e-commerce adoption, changing consumer preferences, and emerging technologies.",
+      "Regulatory Factors": "Discuss regulatory factors affecting the industry, including trade policies, environmental regulations, and consumer protection laws.",
+      "Growth Opportunities": "Identify specific growth opportunities within the industry, including potential new markets, product lines, or acquisitions."
+   },
+   "SWOT Analysis": {
+      "Strengths": "Highlight the company's core strengths, including strong brand equity, efficient supply chain, and a loyal customer base.",
+      "Weaknesses": "Identify areas where the company may be vulnerable, such as dependency on suppliers or geographic concentration.",
+      "Opportunities": "Explore potential growth opportunities, such as expanding into underserved markets or introducing innovative products.",
+      "Threats": "Assess external threats, such as competition from e-commerce giants, economic downturns, or supply chain disruptions."
+   },
+   "Management and Leadership": {
+      "Key Executives": "Provide detailed profiles of key executives, including their qualifications, experience, and contributions to the company.",
+      "Corporate Governance": "Discuss the company's corporate governance structure, board composition, and policies to ensure transparency and accountability.",
+      "Succession Planning": "Detail the company's succession planning strategy to ensure leadership continuity in the future."
+   },
+   "Operational Efficiency": {
+      "Supply Chain": "Analyze the efficiency of the company's supply chain, including inventory turnover and distribution strategies.",
+      "Inventory Management": "Detail inventory management strategies, including just-in-time inventory and inventory turnover rates.",
+      "Cost Control": "Examine cost control measures, such as expense reduction initiatives and vendor negotiations."
+   },
+   "Membership Model and Customer Loyalty": {
+      "Membership Model": "Explain the benefits and revenue model associated with the company's membership program, including membership fees and perks.",
+      "Customer Loyalty": "Provide data on customer retention rates, customer satisfaction scores, and strategies for enhancing customer loyalty."
+   },
+   "Expansion Plans and International Presence": {
+      "Growth Strategies": "Discuss the company's growth strategies, including plans for new store openings, acquisitions, and market expansion.",
+      "International Operations": "Analyze the performance and growth prospects of the company's international operations, including key markets and challenges."
+   },
+   "Sustainability and CSR": {
+      "Sustainability Efforts": "Detail the company's sustainability initiatives, such as renewable energy adoption, waste reduction, and carbon footprint reduction goals.",
+      "CSR Initiatives": "Highlight the company's corporate social responsibility programs, including community involvement and philanthropic activities."
+   },
+   "Risk Factors": {
+      "Identified Risks": "List and assess potential risks and challenges facing the company, including operational, market, and regulatory risks.",
+      "Categories": "Categorize risks by type and likelihood, providing a risk assessment matrix if applicable."
+   },
+   "Legal and Regulatory Compliance": {
+      "Legal Issues": "Discuss any ongoing or potential legal issues, including lawsuits, regulatory investigations, or compliance challenges.",
+      "Compliance": "Explain the company's efforts to comply with industry regulations and standards, including quality control and data protection."
+   },
+   "Dividend Policy and Shareholder Returns": {
+      "Dividend History": "Provide a historical overview of the company's dividend payments, dividend growth, and consistency.",
+      "Share Buybacks": "Discuss the company's share buyback programs, including the rationale and impact on shareholder value."
+   },
+   "Valuation and Investment Thesis": {
+      "Investment Case": "Summarize the investment thesis, emphasizing key reasons why the company is an attractive investment opportunity.",
+      "Valuation Analysis": "Provide a detailed valuation analysis, including the methodology used, assumptions, and target price.",
+      "Recommendation": "Offer a clear recommendation on whether to invest in the company, including potential risks and rewards."
+   },
+   "Appendices": {
+      "Additional Data": "Include supplementary data, charts, graphs, and financial statements that support the analysis.",
+      "Other Information": "Add any other relevant information, such as recent news articles or management interviews."
+   }
+}
+
+
+{
+   "Executive Summary": {
+      "Overview": "A concise summary of the entire research report, providing a high-level overview of the investment case for the company."
+   },
+   "Company Overview": {
+      "Business Description": "An overview of the company's core business, industry, and market presence.",
+      "Historical Performance": "Key historical financial highlights, including revenue, profit margins, and growth trends.",
+      "Competitive Positioning": "Analysis of the company's competitive position in the industry."
+   },
+   "Investment Thesis": {
+      "Rationale": "A clear and concise statement of the investment thesis, highlighting why the company is an attractive investment opportunity.",
+      "Key Drivers": "Identification of the primary drivers and catalysts that support the investment thesis.",
+      "Risks": "Discussion of potential risks and challenges associated with the investment, including industry-specific and company-specific risks."
+   },
+   "Financial Analysis": {
+      "Revenue and Earnings": "Analysis of the company's revenue and earnings trends, including historical performance and future projections.",
+      "Balance Sheet": "Examination of the company's financial health, including assets, liabilities, and equity.",
+      "Cash Flow Analysis": "Analysis of the company's cash flow, including operating, investing, and financing activities.",
+      "Valuation Metrics": "Valuation metrics such as P/E ratio, P/B ratio, and other relevant multiples."
+   },
+   "Competitive Landscape": {
+      "Competitor Analysis": "Comparison of the company's financial performance, market share, and competitive advantages against its peers.",
+      "Market Trends": "Overview of industry trends, market dynamics, and growth opportunities.",
+      "SWOT Analysis": "Strengths, weaknesses, opportunities, and threats specific to the company within its industry."
+   },
+   "Management and Leadership": {
+      "Management Team": "Profiles of key executives and their qualifications.",
+      "Corporate Governance": "Analysis of the company's corporate governance practices and board structure.",
+      "Recent Developments": "Discussion of recent management changes or strategic decisions."
+   },
+   "Industry Analysis": {
+      "Industry Overview": "A comprehensive overview of the industry, including market size, growth prospects, and regulatory environment.",
+      "Technological Advancements": "Discussion of technological trends and innovations shaping the industry.",
+      "Global Market Presence": "Analysis of the company's global market presence and growth opportunities."
+   },
+   "Sustainability and ESG": {
+      "Sustainability Initiatives": "Details on the company's sustainability initiatives, environmental goals, and social responsibility efforts.",
+      "ESG Factors": "Assessment of the company's performance in Environmental, Social, and Governance (ESG) factors.",
+      "Impact on Investment": "Evaluation of how sustainability and ESG practices may impact the company's long-term performance."
+   },
+   "Conclusion": {
+      "Investment Recommendation": "A summarized recommendation on whether to invest in the company, supported by the analysis presented in the report.",
+      "Final Thoughts": "Closing remarks and key takeaways for the investor."
+   },
+   "Appendices": {
+      "Financial Statements": "Inclusion of detailed financial statements, charts, and graphs for reference.",
+      "Additional Data": "Any supplementary data, research sources, or supporting information used in the report."
+   }
+}
+
+
+
+
+List information you need to complete each bullet in that section. 
+You should be comprehensive. 
+List each piece of information as an elemnet in a list in json format
+
