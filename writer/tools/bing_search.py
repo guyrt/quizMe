@@ -28,7 +28,7 @@ class Bing(Tool):
         self._gate = Gate(0.5)  # limit is 3qps in free tier.
 
     def run(self, query):
-        # Construct a request
+        # Construct a request, execute, parse, and return a set of KnownFacts.
         self._gate.gate()
 
         mkt = 'en-US'

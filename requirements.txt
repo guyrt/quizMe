@@ -1,14 +1,21 @@
+# crawl and parse
 feedparser
 requests
 bs4
 lxml
 
+# storage related
 python-dotenv
 azure-storage-blob>=12.9.0
 azure-storage-queue
 azure-cosmos
 
+# openai tools
 openai
 tiktoken
 
+# specific tools
+wikipedia
+
+# debugging
 ipdb

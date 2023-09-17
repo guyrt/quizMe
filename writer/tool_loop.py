@@ -1,17 +1,9 @@
 from intelligence.openai_client import OpenAIClient
 from writer.tools.bing_search import Bing
+from writer.tools.wikipedia import Wikipedia
 
 from .tools.base import Tool
 
-
-class Wikipedia(Tool):
-
-    name = "wikipedia"
-    description = (
-        "A wrapper around Wikipedia. Usefor for when you need to answer general "
-        "questions about people, places, companies, industries, or historical events."
-        "Input should be a search query."           
-    )
 
 
 class Sec(Tool):
@@ -68,6 +60,7 @@ class ToolLoop:
         response = self._oai.call([{'role': 'system', 'content': prompt}])
 
         bing = self._tools[-1].run(question)
+        wiki = self._tools[0].run(question)
 
         print(question)
         print(response)
