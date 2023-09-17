@@ -4,32 +4,9 @@ from typing import List
 
 from intelligence.openai_client import OpenAIClient
 
+from writer.writer_types import Plan, Section, Topic
+
 import logging
-
-
-@dataclass
-class Topic:
-
-    name: str
-    description : str
-    questions : List[str] = None
-
-
-@dataclass
-class Section:
-
-    name : str
-    topics : List[Topic]
-    
-
-
-@dataclass
-class Plan:
-    """A plan is a series of sections. 
-    Each section has a list of topics
-    Each topic should have a list of factual needs and/or questions.
-    """
-    sections : List[Section]
 
 
 class Planner:
@@ -46,7 +23,7 @@ class Planner:
             for topic in section.topics:
                 self.add_facts(goal, topic)
 
-        print(outline)
+        return outline
 
     def create_outline(self, goal : str) -> Plan:
         system = f"""You are a financial analyst assistant who helps compiles research reports. Our reports are known for their factual accuracy, depth, detail, and humor.

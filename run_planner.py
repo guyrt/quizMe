@@ -1,6 +1,12 @@
 from writer.planner import Planner
+from writer.writer_types import serialize_plan
 from intelligence.openai_client import OpenAIClient
 
 oai = OpenAIClient()
 p = Planner(oai)
-p.make_plan("What is the outlook for Recursion Pharmaceuticals?")
+plan = p.make_plan("What is the outlook for Costco?")
+
+s = serialize_plan(plan)
+f = open("samples/sample_plan.json", 'w')
+f.write(s)
+f.close()
