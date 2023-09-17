@@ -1,13 +1,7 @@
 from intelligence.openai_client import OpenAIClient
+from writer.tools.bing_search import Bing
 
-
-class Tool:
-
-    name = "name"
-    description = "dummy"
-
-    # TODO: always must log a query and a source that comes back from tool.
-    # This is how we'll track provenance.
+from .tools.base import Tool
 
 
 class Wikipedia(Tool):
@@ -20,30 +14,16 @@ class Wikipedia(Tool):
     )
 
 
-class Bing(Tool):
-
-    name = "bing_search"
-    description = (
-        "A wrapper around Bing Search. "
-        "Useful to answer questions about current events including news. "
-        "Provides less detail than wikipedia, but is more likely to contain "
-        "information that is up to date. "
-        "Is very helpful for specific questions. "
-        "Input should be a search query. If you are asking for background information about a company's market "
-        "or industry, do not include the company name in the search term. "
-    )
-
-
 class Sec(Tool):
 
     name = "SecurityExchangeCommission"
     description = (
         "A wrapper around a search engine for Securities Exchange Commission documents. "
         "Contains every document uploaded to the SEC. "
-        "Useful for specific questions about a company that files with the SEC including quarterly reports and 8-K filings. "
+        "Useful for specific questions about a company that files with the SEC. "
         "Useful for information about the financial health of a company, but does not have its stock price or "
-        "data that requires a stock price to compute like PE Ratios. "
-        "Input should be a CIK and a search topic or query."
+        "data that requires a stock price to compute like PE Ratios. Anything that gets reported in a quarterly report is available. "
+        "Input should a search topic or query. Do not ask for a specific type of document. Ask a question that the SEC bot can use to search in docs."
     )
 
 
@@ -86,6 +66,9 @@ class ToolLoop:
         known_facts = []
         prompt = self._build_prompt(question, known_facts)
         response = self._oai.call([{'role': 'system', 'content': prompt}])
+
+        bing = self._tools[-1].run(question)
+
         print(question)
         print(response)
         import ipdb; ipdb.set_trace()
@@ -117,7 +100,7 @@ You may request more than one tool in a response, and you may suggest teh same t
 For example:
 ```
 ToolName: SecurityExchangeCommission
-Input: 000728391, Has Recursion Pharmaceuticals faced any regulatory issues in the past?
+Input: Has Recursion Pharmaceuticals faced any regulatory issues in the past?
 Reason: Regulatory complains must be included in quarterly reports and in 8-k filings.
 
 ToolName: bing_search
