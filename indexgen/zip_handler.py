@@ -7,7 +7,7 @@ import os
 from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
 
 from .common import headers
-from .gate import Gate
+from ..azurewrapper.gate import Gate
 from .read_rss import get_all_entries
 
 

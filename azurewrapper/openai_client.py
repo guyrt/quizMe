@@ -2,7 +2,7 @@ import openai
 import os
 import tiktoken
 
-from indexgen.gate import Gate
+from azurewrapper.gate import Gate
 
 from dotenv import load_dotenv
 load_dotenv()

@@ -10,7 +10,7 @@ from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
                                  get_sec_entry_from_dict)
 from intelligence.large_doc_parser import LargeDocParser
 
-from .openai_client import OpenAIClient
+from ..azurewrapper.openai_client import OpenAIClient
 from .prompt_types import fill_prompt, to_dict, PromptResponse
 from .promptlib.eightkprompts import eightk_prompts
 from .promptlib.quarter_annual_prompts import quarterly_annual_prompts

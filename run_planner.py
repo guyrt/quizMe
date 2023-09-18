@@ -1,6 +1,6 @@
 from writer.planner import Planner
 from writer.writer_types import serialize_plan
-from intelligence.openai_client import OpenAIClient
+from azurewrapper.openai_client import OpenAIClient
 
 oai = OpenAIClient()
 p = Planner(oai)

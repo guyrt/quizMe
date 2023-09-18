@@ -14,7 +14,7 @@ class Wikipedia(Tool):
     description = (
         "A wrapper around Wikipedia. Useful when you need to gather general background "
         "about people, places, companies, industries, or historical events. "
-        "Input should the name of the wikipedia page you want to find."           
+        "Input should the name of the wikipedia page you want to find."
     )
 
     def __init__(self) -> None:

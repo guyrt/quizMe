@@ -30,3 +30,23 @@ class Plan:
 
 def serialize_plan(plan : Plan):
     return json.dumps(asdict(plan))
+
+
+@dataclass
+class KnownFactSource:
+    source_type : str  # URL, SEC thing ect.
+    value : str
+
+
+@dataclass
+class KnownFactInternal:
+    was_useful : bool = None
+    query : str = ""
+    trigger : str = ""
+
+
+@dataclass
+class KnownFact:
+    value : str
+    source : KnownFactSource
+    internal : KnownFactInternal

@@ -1,6 +1,6 @@
 from typing import List
 
-from intelligence.openai_client import OpenAIClient
+from azurewrapper.openai_client import OpenAIClient
 
 import logging
 

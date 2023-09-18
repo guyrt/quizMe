@@ -2,7 +2,7 @@ import json
 from dataclasses import dataclass
 from typing import List
 
-from intelligence.openai_client import OpenAIClient
+from azurewrapper.openai_client import OpenAIClient
 
 from writer.writer_types import Plan, Section, Topic
 

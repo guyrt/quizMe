@@ -8,4 +8,5 @@ class Tool:
     # This is how we'll track provenance.
 
     def run(self, query):
-        raise NotImplementedError()
+        #raise NotImplementedError()
+        return None

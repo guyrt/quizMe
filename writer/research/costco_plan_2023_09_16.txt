@@ -54,7 +54,10 @@ Plan(
             Topic(
                 name"COSTCO's Position in the Industry",
                 description="Describes COSTCO's position in the industry and its competitive advantages.",
-                questions=['What is the size of the retail industry that Costco operates in?', 'What are the major competitors of Costco in the retail industry?', "What are Costco's competitive advantages over its competitors?", "How does Costco's business model differ from that of its competitors?", "What is Costco's market share in the retail industry?", 'What are the growth prospects for the retail industry?', 'What are the major trends affecting the retail industry?']), 
+                questions=[
+                    'What is the size of the retail industry that Costco operates in?', 
+                    'What are the major competitors of Costco in the retail industry?',
+                    "What are Costco's competitive advantages over its competitors?", "How does Costco's business model differ from that of its competitors?", "What is Costco's market share in the retail industry?", 'What are the growth prospects for the retail industry?', 'What are the major trends affecting the retail industry?']), 
             Topic(
                 name'Industry Trends',
                 description='Discusses current trends in the retail industry and how they may affect COSTCO.',
