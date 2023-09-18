@@ -8,13 +8,12 @@ from .tools.base import Tool
 
 class Sec(Tool):
 
-    name = "SecurityExchangeCommission"
+    name = "CompanyFinancialDetails"
     description = (
-        "A wrapper around a search engine for Securities Exchange Commission documents. "
-        "Contains every document uploaded to the SEC. "
+        "A wrapper around data that companies file with the Securities Exchange Commission. "
         "Useful for specific questions about a company that files with the SEC. "
-        "Useful for information about the financial health of a company, but does not have its stock price or "
-        "data that requires a stock price to compute like PE Ratios. Anything that gets reported in a quarterly report is available. "
+        "Useful for information about the financial health of a company, but does not have its stock price."
+        "Financial data that gets reported in a quarterly report is available. "
         "Input should a search topic or query. Do not ask for a specific type of document. Ask a question that the SEC bot can use to search in docs."
     )
 
@@ -31,11 +30,9 @@ class YahooFinance(Tool):
 
 class YahooFinanceFact(Tool):
 
-    name = "FinanceFactsAPI"
+    name = "StockPrice"
     description = (
-        "Useful for when you need to get financial data about a company that cannot be retrieved from the SEC."
-        "this API will return current and historical stock prices, financial measures of interest to investors like PE Ratio "
-        "and details about the sector of a company. "
+        "This tool contains only the following information: daily stock prices, sector name for a stock."
         "Input should be a company ticker. "
         "For example, AAPL for Apple, MSFT for Microsoft."
     )
@@ -48,8 +45,8 @@ class ToolLoop:
         self._tools = [
             Wikipedia(),
             YahooFinance(),
-            YahooFinanceFact(),
             Sec(),
+            YahooFinanceFact(),
             Bing()
         ]
 
@@ -57,13 +54,8 @@ class ToolLoop:
         """TODO: return a fact set. Need to define type, but these must have attributes!"""
         known_facts = []
         prompt = self._build_prompt(question, known_facts)
-        response = self._oai.call([{'role': 'system', 'content': prompt}])
+        response = self._oai.call(prompt)
 
-        bing = self._tools[-1].run(question)
-        wiki = self._tools[0].run(question)
-
-        print(question)
-        print(response)
         import ipdb; ipdb.set_trace()
         return known_facts
 
@@ -107,11 +99,13 @@ Your tools are listed here:
 
 
 That is all of the tools you have available. If no tool seems suitable, then default to the bing_search tool.
-
-The question is:
-{question}
-
-Known Facts:
-{s_known_facts}
 """.strip()
-        return main_prompt
+        
+        p = [
+            {'role': 'system', 'content': main_prompt},
+            {'role': 'user', 'content': question},
+        ]
+        if s_known_facts:
+            p.append({'role': 'agent', 'content': s_known_facts})
+
+        return p
