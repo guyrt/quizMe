@@ -1,8 +1,9 @@
 import wikipedia
 
 from .base import Tool
+from ..writer_types import KnownFact, KnownFactInternal, KnownFactSource
 
-from typing import Optional
+from typing import Optional, List
 
 wikipedia.set_lang('en')
 WIKIPEDIA_MAX_QUERY_LENGTH = 300
@@ -22,15 +23,18 @@ class Wikipedia(Tool):
         self.top_k_results : int = 3
         self.load_all_available_meta: bool = False
 
-    def run(self, query):
-        # TODO: must return KnownFacts (or KnownSources or something?).
+    def run(self, query : str) -> List[KnownFact]:
         page_titles = wikipedia.search(query[:WIKIPEDIA_MAX_QUERY_LENGTH])
 
         summaries = []
         for page_title in page_titles[: self.top_k_results]:
             if wiki_page := self._fetch_page(page_title):
-                if summary := self._page_to_document(page_title, wiki_page):
-                    summaries.append(summary)
+                summary = self._page_to_document(query, wiki_page)
+                summaries.append(summary)
+
+                if page_title.lower() == query.lower():
+                    break
+
         if not summaries:
             print(f"No good Wikipedia Search Result was found for {query}")
 
@@ -45,31 +49,15 @@ class Wikipedia(Tool):
         ):
             return None
         
-    def _page_to_document(self, page_title: str, wiki_page):
-        main_meta = {
-            "title": page_title,
-            "summary": wiki_page.summary,
-            "source": wiki_page.url,
-        }
-        add_meta = (
-            {
-                "categories": wiki_page.categories,
-                "page_url": wiki_page.url,
-                "image_urls": wiki_page.images,
-                "related_titles": wiki_page.links,
-                "parent_id": wiki_page.parent_id,
-                "references": wiki_page.references,
-                "revision_id": wiki_page.revision_id,
-                "sections": wiki_page.sections,
-            }
-            if self.load_all_available_meta
-            else {}
+    def _page_to_document(self, query: str, wiki_page : wikipedia.wikipedia.WikipediaPage) -> KnownFact:
+        return KnownFact(
+            value=wiki_page.summary,
+            long_value=wiki_page.content[:self.doc_content_chars_max],
+            source=KnownFactSource(
+                source_type=self.name,
+                value=wiki_page.url
+            ),
+            internal=KnownFactInternal(
+                query=query
+            )
         )
-        doc = {
-            'page_content': wiki_page.content[: self.doc_content_chars_max],
-            'metadata': {
-                **main_meta,
-                **add_meta,
-            },
-        }
-        return doc

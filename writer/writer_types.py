@@ -48,5 +48,6 @@ class KnownFactInternal:
 @dataclass
 class KnownFact:
     value : str
+    long_value : str
     source : KnownFactSource
     internal : KnownFactInternal

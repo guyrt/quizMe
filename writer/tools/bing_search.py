@@ -1,5 +1,7 @@
 import os
 import requests
+from typing import List
+
 
 from azurewrapper.gate import Gate
 from writer.tools.base import Tool
@@ -40,18 +42,19 @@ class Bing(Tool):
         try:
             response = requests.get(self._endpoint, headers=headers, params=params)
             response.raise_for_status()
-            self.create_known_facts(query, response.json())
+            return self.create_known_facts(query, response.json())
         except Exception as ex:
             raise ex
 
-    def create_known_facts(self, query, raw_response) -> KnownFact:
+    def create_known_facts(self, query, raw_response) -> List[KnownFact]:
 
         known_facts = []
         for result in raw_response.get('webPages', dict()).get('value', list()):  # list of responses.
             kf = KnownFact(
-                value=result['value']['snippet'],
+                value=result['snippet'],
+                long_value="",
                 source=KnownFactSource(
-                    source_type='bing',
+                    source_type=self.name,
                     value=result['url']
                 ),
                 internal=KnownFactInternal(
@@ -59,3 +62,4 @@ class Bing(Tool):
                 )
             )
             known_facts.append(kf)
+        return known_facts

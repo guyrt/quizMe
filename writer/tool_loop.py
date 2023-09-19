@@ -1,8 +1,10 @@
 import json
+from typing import List
 
 from azurewrapper.openai_client import OpenAIClient
 from writer.tools.bing_search import Bing
 from writer.tools.wikipedia import Wikipedia
+from writer.writer_types import KnownFact
 
 from .tools.base import Tool
 
@@ -55,16 +57,24 @@ class ToolLoop:
 
     def loop(self, question : str) -> str:
         """TODO: return a fact set. Need to define type, but these must have attributes!"""
+        print(f"--------- {question} ----------")
         known_facts = []
+        all_responses = []
         
         total_turns = 0
         max_turns = 3
 
         while total_turns < max_turns:
             total_turns += 1
-            prompt = self._build_prompt(question, known_facts)
+
+            prompt = self._build_prompt(question, all_responses)
+            print(f"Prompt length: {len(prompt)}")
             raw_response = self._oai.call(prompt)
+            print(raw_response)
+
             responses = self._parse_response(raw_response)
+            all_responses.append(raw_response)
+            # TODO: store responses and pass to the prompt. not known facts...
 
             for response in responses:
                 response_tool = response['tool']
@@ -76,12 +86,12 @@ class ToolLoop:
                 for tool in self._tools:
                     if tool.name == response_tool:
                         found_tool = True
-                        new_fact = tool.run(response['input'])
+                        new_facts = tool.run(response['input'])
 
-                        # TODO: run a checker.
+                        # TODO: run a checker. is the tool/input any good? is the response useful/
 
-                        if new_fact is not None:
-                            known_facts.append(new_fact)
+                        if new_facts:
+                            known_facts.extend(new_facts)
 
                 if not found_tool:
                     logging.warn(f"No tool found for response {response_tool}")
@@ -101,7 +111,6 @@ class ToolLoop:
 
     def _build_prompt(self, question, known_facts):
 
-        s_known_facts = "\n".join(known_facts)
         s_tools = '\n\n'.join([f"Tool Name: {t.name}\nDescription: {t.description}" for t in self._tools])
 
         if known_facts:
@@ -142,14 +151,16 @@ Your tools are listed here:
 {s_tools}
 
 
-That is all of the tools you have available. If no tool seems suitable, then default to the bing_search tool.
+That is all of the tools you have available. Do not repeat the same tool and input combination in multiple answers.
 """.strip()
         
         p = [
             {'role': 'system', 'content': main_prompt},
             {'role': 'user', 'content': question},
         ]
-        if s_known_facts:
-            p.append({'role': 'agent', 'content': s_known_facts})
+        if known_facts:
+            for kf in known_facts:
+                p.append({'role': 'assistant', 'content': kf})
+                p.append({'role': 'user', 'content': "can you think of any more? do not repeat previous answers. Always include a reason."})
 
         return p
