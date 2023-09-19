@@ -2,6 +2,7 @@ import json
 from typing import List
 
 from azurewrapper.openai_client import OpenAIClient
+from writer.quality_response import RelevantDataChecker
 from writer.tools.bing_search import Bing
 from writer.tools.wikipedia import Wikipedia
 from writer.writer_types import KnownFact
@@ -54,6 +55,7 @@ class ToolLoop:
             YahooFinanceFact(),
             Bing()
         ]
+        self._checker = RelevantDataChecker(self._oai)
 
     def loop(self, question : str) -> str:
         """TODO: return a fact set. Need to define type, but these must have attributes!"""
@@ -87,6 +89,9 @@ class ToolLoop:
                     if tool.name == response_tool:
                         found_tool = True
                         new_facts = tool.run(response['input'])
+
+                        for new_fact in new_facts:
+                            self._checker.is_relevant(question, new_fact.value)
 
                         # TODO: run a checker. is the tool/input any good? is the response useful/
 
