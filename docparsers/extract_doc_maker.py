@@ -22,6 +22,8 @@ def try_find_creating_software(dom : BeautifulSoup, doc_type : str) -> str:
             return "Toppan Merrill Bridge"
         if 'Workiva' in data:
             return "Workiva"
+        if 'CompSci Transform' in data:
+            return "CompSci Transform"
 
     if doc_type.lower() in ['10-q', '10-k']:
         # return a default structured data parser

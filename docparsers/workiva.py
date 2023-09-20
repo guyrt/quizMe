@@ -11,7 +11,10 @@ class WorkivaParser:
         structured_data = []
         
         stack = [dom]
-        context_dict = {}
+
+        # precompute this b/c sometimes it appears at the end. 
+        # known true for CompSci Transform docs.
+        context_dict = self._create_context_dict(dom)
 
         while len(stack):
             elt = stack.pop()
@@ -23,7 +26,7 @@ class WorkivaParser:
                 continue
 
             if elt.name == 'header' and elt.prefix == 'ix':
-                context_dict = self._clean_context(elt)  # todo handle the full header as a data element only. Save the references somewhere.
+                pass
             elif elt.name == "table":
                 table_content, local_structured_data = self._clean_table(elt, context_dict)
                 string_elts.append("###table###")
@@ -64,6 +67,15 @@ class WorkivaParser:
                    parsed_doc=[s for s in string_elts if s and 'amounts in millions' not in s.lower()],
                    structured_data=structured_data
         )
+
+    def _create_context_dict(self, dom : BeautifulSoup):
+        elts = dom.find_all(lambda x: x.name == 'header' and x.prefix =='ix')
+        context_dict = {}
+        for elt in elts:
+            # generally should be one of these.
+            c = self._clean_context(elt)
+            context_dict.update(c)
+        return context_dict
 
     def _clean_context(self, elt : BeautifulSoup) -> Dict[str, any]:
         ret_dict = {}
@@ -151,7 +163,8 @@ class WorkivaParser:
             if len(ix_elts) >= 1:
                 for ix_elt in ix_elts:
                     structured_data = self._get_single_ix_elt(ix_elt)
-                    structured_data.update(context_table[structured_data['contextRef']])
+                    if structured_data['contextRef']:
+                        structured_data.update(context_table[structured_data['contextRef']])
                     structured_data_elements.append(structured_data)
             else:
                 candidate_label = td.get_text()

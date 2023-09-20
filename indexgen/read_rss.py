@@ -12,8 +12,19 @@ rss_url = "https://www.sec.gov/Archives/edgar/usgaap.rss.xml"
 def get_all_entries():
 
     response = requests.get(rss_url, headers=headers)
+    for row in _extract_dom(response.content):
+        yield row
 
-    dom = bs4.BeautifulSoup(response.content, features="xml")
+
+def get_local_entries(filename):
+    content = open(filename, 'r').read()
+    for row in _extract_dom(content):
+        yield row
+
+
+def _extract_dom(content):
+
+    dom = bs4.BeautifulSoup(content, features="xml")
     entries = dom.find_all('item')
 
     for entry in entries:

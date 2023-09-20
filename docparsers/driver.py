@@ -86,7 +86,7 @@ class ParserDriver(object):
     def _run_parser(self, dom, doc_maker):
         if doc_maker == "Toppan Merrill Bridge":
             parsed = ToppanMerrillBridgeParser().parse(dom)
-        elif doc_maker == "Workiva":
+        elif doc_maker == "Workiva" or doc_maker == "CompSci Transform":
             parsed = WorkivaParser().parse(dom)
         else:
             parsed = DefaultParser().parse(dom)
