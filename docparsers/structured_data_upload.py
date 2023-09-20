@@ -17,7 +17,7 @@ class StructuredDataHandler:
         primary_key = ['startDate', 'endDate', 'instant', 'ixName']
         print(f"Found {len(structured_data)} facts to upload")
         for row in structured_data:
-            key_suffix = '_'.join(row.get(k, '') for k in primary_key)
+            key_suffix = '_'.join(row.get(k, '') or '' for k in primary_key)
             raw_key = f"{summary.cik}_{key_suffix}"
 
             row['cik'] = summary.cik
