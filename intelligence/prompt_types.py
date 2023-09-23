@@ -55,3 +55,29 @@ def fill_prompt_cell(cell : PromptCell, context):
 
 def to_dict(o):
     return asdict(o)
+
+
+def promp_response_from_dict(d) -> PromptResponse:
+    p = Prompt(
+        name=d['prompt']['name'],
+        prompt_type=d['prompt']['prompt_type'],
+        version=d['prompt']['version'],
+        content=[prompt_cell_from_d(c) for c in d['prompt']['content']]
+    )
+    pr = PromptResponse(
+        id=d['id'],
+        prompt=p,
+        response=d['response'],
+        model=d['model'],
+        doc_id=d['doc_id'],
+        cid=d['cid']
+    )
+    return pr
+
+
+def prompt_cell_from_d(d) -> PromptCell:
+    pc = PromptCell(
+        role=d['role'],
+        content=d['content']
+    )
+    return pc

@@ -14,6 +14,9 @@ azure-cosmos
 openai
 tiktoken
 
+# embeddings
+sentence-transformers
+
 # specific tools
 wikipedia
 

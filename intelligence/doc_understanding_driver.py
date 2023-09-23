@@ -1,8 +1,9 @@
 import json
 import os
 from uuid import uuid4
-from azurewrapper.doc_summary_handler import DocSummaryBlobHandler
 
+from azurewrapper.doc_summary_handler import DocSummaryBlobHandler
+from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
 from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
 from azurewrapper.raw_doc_queue import AzureQueueManagerBase
@@ -10,10 +11,10 @@ from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
                                  get_sec_entry_from_dict)
 from intelligence.large_doc_parser import LargeDocParser
 
-from ..azurewrapper.openai_client import OpenAIClient
-from .prompt_types import fill_prompt, to_dict, PromptResponse
+from .prompt_types import PromptResponse, fill_prompt, to_dict
 from .promptlib.eightkprompts import eightk_prompts
 from .promptlib.quarter_annual_prompts import quarterly_annual_prompts
+
 
 class DocUnderstandingDriver:
 
@@ -96,10 +97,11 @@ class DocUnderstandingDriver:
                 yield (raw_current, self.oai.call(messages))
 
     def _load_initial_prompts(self, doc_type : str):
-        if doc_type.lower() == "8-k":
+        if doc_type.lower() in ("8-k", '8-k/a'):
             return list(eightk_prompts)
         if doc_type.lower() in ('10-k', '10-q'):
             return list(quarterly_annual_prompts)
+        return []
 
     def _classify_files(self, entry : SecDocRssEntry):
         main_file = None
@@ -109,7 +111,7 @@ class DocUnderstandingDriver:
             if file_type == 'GRAPHIC':
                 continue
 
-            if file_type in ('8-K', '10-Q', "10-K"):  # todo - all files you process.
+            if file_type in ('8-K', '8-K/A', '10-Q', "10-K", '6-K'):  # todo - all files you process.
                 main_file = file_obj
             else:
                 other_files.append(file_obj)

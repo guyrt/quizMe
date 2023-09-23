@@ -29,7 +29,6 @@ class FileCopyDriver(object):
             for row in get_local_entries(path):
                 if skip and row.zip_link == after:
                     skip = False
-                    import pdb; pdb.set_trace()
                 if not skip:
                     self._handle_row(row, g)
 

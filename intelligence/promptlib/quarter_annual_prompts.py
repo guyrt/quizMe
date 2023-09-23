@@ -18,8 +18,7 @@ _risks = Prompt(
     name='QuarterlyRisks',
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""
-This document may contain risks to the business. If so, please list them. List each distinct risk on its own line.
+        PromptCell(role='user', content="""This document may contain risks to the business. If so, please list them. List each distinct risk on its own line.
                    
 For each risk, provide a single sentence in quotes from the doc that best summarizes the event.
                    """)
@@ -32,8 +31,7 @@ _get_embeddable_summary = Prompt(
     name='QuarterlyEmbeddableSummary',
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""
-I am looking for 10 sentences extracted from this document that I can use in a search engine index. 
+        PromptCell(role='user', content="""I am looking for 10 sentences extracted from this document that I can use in a search engine index. 
 Please find and return up to 10 sentences that capture the most important content in this document.
 Put each sentence on a line with no other content.
                    """)
@@ -46,8 +44,7 @@ _get_entities = Prompt(
     name="QuarterlyGetEntities",
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""
-Find all People and Companies in this document.
+        PromptCell(role='user', content="""Find all People and Companies in this document.
 
 For each person, list their name, their job, and why they are listed in the doc. Provide a brief snippet from the doc that contains the person and explains your answer. Put each response on a new line.
 For each company, list their name and why they are listed in the doc. Provide a brief snippet from the doc that contains the person and explains your answer. Put each response on a new line.
@@ -63,8 +60,7 @@ _generate_doc_questions = Prompt(
     name="QuarterlyDocQuestions",
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""
-I am trying to decide whether to invest in the company in this {doc_type}.
+        PromptCell(role='user', content="""I am trying to decide whether to invest in the company in this {doc_type}.
 List questions that I might ask that can be answered by the document that would help me make an informed decision.
 
 Avoid questions about the date this document was filed.
@@ -80,8 +76,7 @@ _generate_nondoc_questions = Prompt(
     name="QuarterlyNonDocQuestions",
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""
-I am trying to decide whether to invest in the company in this {doc_type}. 
+        PromptCell(role='user', content="""I am trying to decide whether to invest in the company in this {doc_type}. 
 List questions that I might ask that CANNOT be answered by the document that would help me make an informed decision.
 
 For each question, suggest other data sources I might want to look at to answer the question
@@ -97,8 +92,7 @@ _write_article = Prompt(
     name="QuarterlyReporter",
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""
-Pretend you are a financial journalist. 
+        PromptCell(role='user', content="""Pretend you are a financial journalist. 
 Your job is to write an analysis piece about this company from the data you have in the document.
                    
 Write a 1 or 2 paragraph article in the style of The Economist. 

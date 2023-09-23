@@ -73,10 +73,9 @@ def _get_published_time(entry : bs4.element.Tag) -> datetime:
 def _safe_get_key(entry : bs4.element.Tag, key : str) -> str:
     elt = entry.find_next(key)
     if not elt:
-        print(f"Element {key} not found in {entry}")
+#        print(f"Element {key} not found in {entry}")
         return ""
     return elt.string
-
 
 
 if __name__ == "__main__":

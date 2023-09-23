@@ -12,6 +12,8 @@ parsed_doc = AzureParsedDocsBlobHandler()
 doc_summary = DocSummaryBlobHandler()
 
 d = DocUnderstandingDriver(raw_doc, out_qm, parsed_doc, doc_summary)
-#d.run_from_queue()
-for line in d.run_local("samples\jwn-20230729_clean.htm", '10-q'):
-    print(line)
+while True:
+    d.run_from_queue()
+
+#for line in d.run_local("samples\jwn-20230729_clean.htm", '10-q'):
+#    print(line)
