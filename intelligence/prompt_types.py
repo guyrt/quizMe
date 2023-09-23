@@ -35,7 +35,9 @@ class PromptResponse:
 
     model : str
 
-    doc_id : str
+    doc_path : str
+
+    summary_path : str
 
     cid : str
 
@@ -69,7 +71,8 @@ def promp_response_from_dict(d) -> PromptResponse:
         prompt=p,
         response=d['response'],
         model=d['model'],
-        doc_id=d['doc_id'],
+        doc_path=d.get('doc_id', ''),
+        summary_path=d.get('summary_path', ''),
         cid=d['cid']
     )
     return pr

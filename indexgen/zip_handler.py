@@ -53,7 +53,7 @@ class FileCopyDriver(object):
             # note: these are actually flat. We assume so in our filehandles.
             for root, dirs, files in os.walk(temp_dir):
                 for file in files:
-                    full_filename = os.path.join(root, file)
+                    full_filename = os.path.join(root, file).replace("\\", "/")
                     filehandles[file] = full_filename
 
             summary_path = self._doc_uploader.upload_files(row, filehandles)

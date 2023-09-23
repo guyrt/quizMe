@@ -37,13 +37,14 @@ class DocUnderstandingDriver:
         Kick off an "embed this" signal.
         """
         incoming_msg = self._incoming_queue.pop_doc_parse_message(peek=self._peek)
-        remote_path = incoming_msg.content
-        summary_file_contents = json.loads(self._raw_doc_handler.get_path(remote_path))
+        remote_summary_path = incoming_msg.content
+        summary_file_contents = json.loads(self._raw_doc_handler.get_path(remote_summary_path))
         summary = get_sec_entry_from_dict(summary_file_contents)
         
         classify_files = self._classify_files(summary)
         main_file : EdgarFile = classify_files['main']
-        main_file_parsed_path = self._get_parsed_path(remote_path, main_file.filename)
+        main_file_parsed_path = self._get_parsed_path(remote_summary_path, main_file.filename)
+        print(main_file_parsed_path)
         main_file_contents = self._parsed_doc_handler.get_path(main_file_parsed_path)
         
         print(f"Running on {summary.cik}: {main_file.url}")
@@ -56,7 +57,8 @@ class DocUnderstandingDriver:
                     prompt=prompt,
                     response=response,
                     model=self.oai._engine,
-                    doc_id=summary.id,
+                    doc_path=main_file_parsed_path,
+                    summary_path=remote_summary_path,
                     cid=summary.cik
                 )
             )
@@ -74,7 +76,8 @@ class DocUnderstandingDriver:
                         prompt=prompt,
                         response=response,
                         model=self.oai._engine,
-                        doc_id='local',
+                        doc_path='local',
+                        summary_path='local',
                         cid='local'
                     )
 

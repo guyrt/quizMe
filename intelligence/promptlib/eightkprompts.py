@@ -15,9 +15,12 @@ _what_event = Prompt(
     content=[
         PromptCell(role='system', content=_default_system_instruction),
         PromptCell(role='user', content="""What is the event this doc announces? Provide a brief answer. Avoid jargon.
-                   
-Provide a single sentence in quotes from the doc that best summarizes the event.
-                   """)
+
+On the first line, quote a single sentence in quotes from the doc that best summarizes what the doc is about.
+
+On the next line, provide a brief summary of the material event in the document.
+This is an 8-K form filed with the Securities Exchange Commission, so it has a material event.
+""")
     ],
     prompt_type="direct",
     version=1
@@ -27,10 +30,23 @@ _get_embeddable_summary = Prompt(
     name='8KEmbeddableSummary',
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""I am looking for 5 sentences extracted from this document that i can use in a search engine index. Please find and return up to 5 sentences that capture the most important content in this document. Put each sentence on a line with no other content.
+        PromptCell(role='user', content="""I am looking up to 5 sentences extracted from this document that I can use in a search engine index. Please find and return up to 5 sections that describe the outcome of this document.
+                   
+Focus on the new facts this document discusses, not on procedural notes like the date that the meeting took place.
+
+Each section should be around 1 sentence long.
+
+Reply with a list in JSON format. Each element in the list should be a sentence extracted from the doc.
+
+This is an example output format:
+[
+    "summary sentance 1",
+    "summary phrase 2",
+    "another summary"
+]
                    """)
     ],
-    prompt_type='direct',
+    prompt_type='json+direct',
     version=1
 )
 
@@ -42,7 +58,21 @@ _get_entities = Prompt(
 For each person, list their name, their job, and why they are listed in the doc. Provide a brief snippet from the doc that contains the person and explains your answer. Put each response on a new line.
 For each company, list their name and why they are listed in the doc. Provide a brief snippet from the doc that contains the person and explains your answer. Put each response on a new line.
                    
-Do not include the Securities and Exchange Commission
+Do not include the Securities and Exchange Commission as a company.
+                   
+Your output should be in JSON format. This is an example of the format:
+                   
+{{
+  "people":
+   [
+        {{"name": "John Smith", "reason": "The document describes a stock payout to him"}}
+   ],
+    "companies":
+    [
+        {{"name": "Samsung", "reason": "They were the purchaser in this merger" }},
+        {{"name": "Bob's bolts", "reason": "They were purchased in this transaction" }},
+    ]
+}}
                    """)
     ],
     prompt_type='direct+entityupdate',
@@ -92,10 +122,10 @@ _find_exhibits = Prompt(
 )
 
 eightk_prompts = [
-    _what_event,
     _get_entities,
     _get_embeddable_summary,
-    _generate_doc_questions,
-    _generate_nondoc_questions,
-    _find_exhibits
+    _what_event,
+#    _generate_doc_questions,
+#    _generate_nondoc_questions,
+#    _find_exhibits
 ]

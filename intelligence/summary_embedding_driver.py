@@ -20,10 +20,11 @@ class EmbeddingDriver:
                 self._embed_response(jl)
                 
     def _embed_response(self, line : PromptResponse):
+        # TODO: decide whether to embed whole response or to split it.
         user_prompt = [c for c in line.prompt.content if c.role == 'user'][0]
         user_embed = self._embedder.embed(user_prompt.content)
         response_embed = self._embedder.embed(line.response)
-        import ipdb; ipdb.set_trace()
+        return user_embed, response_embed
 
 
     def _get_files(self, cik):

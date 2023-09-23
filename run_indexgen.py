@@ -9,5 +9,5 @@ load_dotenv()
 
 uploader = AzureRawDocsBlobHandler()
 driver = FileCopyDriver(uploader, ProcessRawDocQueue())
-driver.run_local("C:/Users/riguy/Downloads/xbrlrss-2023-07.xml")
+driver.run_local("C:/Users/riguy/Downloads/xbrlrss-2023-06.xml")
 #driver.download_extract_upload()
