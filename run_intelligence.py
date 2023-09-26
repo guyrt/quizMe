@@ -16,6 +16,6 @@ d = DocUnderstandingDriver(raw_doc, out_qm, parsed_doc, doc_summary)
 #    d.run_from_queue()
 
 #for line in d.run_local("samples\jwn-20230729_clean.htm", '10-q'):
-for line in d.run_local("samples/tm2325071d1_8k_clean.htm", '8-k'):
+for line in d.run_local("samples/karx_10k_clean.htm", '10-q'):
     print(line.prompt.name)
     print(line.response)

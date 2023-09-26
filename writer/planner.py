@@ -51,7 +51,8 @@ You should answer in a list JSON format. Each element in the list is a report se
 Each section should have between 4 and 10 topics. You should have between 10 and 15 sections. It's ok to be long because we will edit the content in a later step.
 """.strip()
 
-        response = self._oai.call([{'role': 'system', 'content': system}])
+        response_d = self._oai.call([{'role': 'system', 'content': system}])
+        response = response_d['response']
         try:
             structured_response = json.loads(response)
         except json.decoder.JSONDecodeError as e:

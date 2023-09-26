@@ -2,8 +2,6 @@ from typing import List
 
 from azurewrapper.openai_client import OpenAIClient
 
-import logging
-
 
 class LargeDocParser:
 

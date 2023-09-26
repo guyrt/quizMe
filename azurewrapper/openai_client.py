@@ -27,11 +27,15 @@ class OpenAIClient:
             engine=self._engine,
             messages=messages,
             temperature=self._temp,
+            
             top_p=0.95,
             frequency_penalty=0,
             presence_penalty=0,
             stop=None)
-        return response.choices[0].message.content
+        return {
+            'response': response.choices[0].message.content,
+            'tokens': response.usage
+        }
 
     def num_tokens_from_string(self, string: str) -> int:
         """Returns the number of tokens in a text string."""

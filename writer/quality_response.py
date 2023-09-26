@@ -33,7 +33,7 @@ The passage is on topic but does not include the answer to the question."""
 Passage: {data}
 """.strip()
 
-        response = self._oai.call([
+        response_d = self._oai.call([
             {'role': 'system', 'content': prompt},
             {'role': 'user', 'content': example1_q},
             {'role': 'assistant', 'content': example1_a},
@@ -43,6 +43,7 @@ Passage: {data}
             {'role': 'assistant', 'content': example3_a},
             {'role': 'user', 'content': input}
         ])
+        response = response_d['response']
         print(response)
         return response
 

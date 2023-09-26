@@ -13,23 +13,27 @@ class JsonFixer():
         # Assume that input is a JSON string with some parsing errors. Use an LLM to try to fix it.
         corrections = []
         for i in range(self._num_tries):
+
             try:
                 json.loads(input)
                 return input
             except json.JSONDecodeError:
                 pass
 
+            import pdb; pdb.set_trace()
+
             # If we make it here then try to correct.
             prompts = [{'content': main_prompt, 'role': 'system'}]
             for c in corrections:
                 prompts.append({'content': input, 'role': 'user'})
-                prompts.append({'content': c, 'role': 'agent'})
+                prompts.append({'content': c, 'role': 'assistant'})
                 prompts.append({'content': "That is not JSON format", 'role': 'user'})
 
             prompts.append({'content': input, 'role': 'user'})
             
-            response = self.oai.call(prompts)
-            corrections = response
+            response_d = self.oai.call(prompts)
+            response = response_d['response']
+            corrections.append(response)
 
         json.loads(input)
             

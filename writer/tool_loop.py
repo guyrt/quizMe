@@ -71,7 +71,8 @@ class ToolLoop:
 
             prompt = self._build_prompt(question, all_responses)
             print(f"Prompt length: {len(prompt)}")
-            raw_response = self._oai.call(prompt)
+            raw_response_d = self._oai.call(prompt)
+            raw_response = raw_response_d['response']
             print(raw_response)
 
             responses = self._parse_response(raw_response)

@@ -98,10 +98,11 @@ class DocUnderstandingDriver:
                 current = fill_prompt(raw_current, {'doc_content': chunk, 'doc_type': doc_type})
                 messages = [to_dict(c) for c in current.content]
                 
-                raw_response = self.oai.call(messages)
+                raw_response_d = self.oai.call(messages)
+                raw_response = raw_response_d['response']
                 all_responses = retrieve_parsed_answer(raw_current.name, raw_response)
                 # Call response parser logic and return each Response object.
-
+                # TODO: tokens including JSON fix.
                 yield (raw_current, all_responses)
 
     def _load_initial_prompts(self, doc_type : str):

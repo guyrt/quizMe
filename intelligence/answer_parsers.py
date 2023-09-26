@@ -8,14 +8,16 @@ from intelligence.prompt_utils import JsonFixer
 def retrieve_parsed_answer(prompt_name : str, response : str) -> List[Response]:
     if prompt_name == "8KWhatEvent":
         return WhatEventParser().parse_response(response)
-    if prompt_name in ("8KEmbeddableSummary", ):
+    if prompt_name in ("EmbeddableSummary"):
         return JsonListOfStringsParser().parse_response(response)
-    if prompt_name == "8KDocQuestions":
+    if prompt_name == "DocQuestions":
         return DocQuestionsParse().parse_response(response)
-    if prompt_name == "8KGetEntities":
+    if prompt_name == "GetEntities":
         return GetEntities().parse_response(response)
-    if prompt_name in ('8KNonDocQuestions', 'QuarterlyReporter', 'QuarterlyNonDocQuestions'):
+    if prompt_name in ('NonDocQuestions', 'QuarterlyReporter'):
         return Parser().parse_response(response)
+    if prompt_name in ('QuarterlyRisks'):
+        return RisksParser().parse_response(response)
     
     raise ValueError(f"No prompt parser found for {prompt_name}")
 
@@ -30,7 +32,6 @@ class Parser:
         return [
             Response(content=response, source='generated')
         ]
-
 
 
 class WhatEventParser(Parser):
@@ -89,6 +90,18 @@ class JsonListOfStringsParser(JsonListParse):
                     source='generated'
                 ) for l in data
             ]
+
+
+class RisksParser(JsonListParse):
+
+    def _parse_internal(self, data):
+        responses = []
+        for elt in data:
+            responses.extend([
+                Response(content=elt['risk'], source='generated'),
+                Response(content=elt['source'], source='generated')
+            ])
+        return responses
 
 
 class DocQuestionsParse(JsonListParse):
