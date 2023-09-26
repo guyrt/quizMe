@@ -1,6 +1,14 @@
 from dataclasses import dataclass, asdict
 
-from typing import List
+from typing import List, Literal
+
+
+@dataclass
+class Response:
+
+    content : str
+
+    source : Literal['quote', 'generated']  # Quotes are also run through models.
 
 
 @dataclass
@@ -31,7 +39,7 @@ class PromptResponse:
 
     prompt : Prompt
 
-    response : str
+    response : List[Response]
 
     model : str
 
@@ -69,7 +77,7 @@ def promp_response_from_dict(d) -> PromptResponse:
     pr = PromptResponse(
         id=d['id'],
         prompt=p,
-        response=d['response'],
+        response=responses_from_list(d['response']),
         model=d['model'],
         doc_path=d.get('doc_id', ''),
         summary_path=d.get('summary_path', ''),
@@ -84,3 +92,12 @@ def prompt_cell_from_d(d) -> PromptCell:
         content=d['content']
     )
     return pc
+
+
+def responses_from_list(l) -> List[Response]:
+    return [
+        Response(
+            content=d['content'],
+            source=d['source']
+        ) for d in l
+    ]

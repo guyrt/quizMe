@@ -70,11 +70,11 @@ class DocUnderstandingDriver:
 
     def run_local(self, local_path : str, doc_type : str):
         doc_content = open(local_path, 'r', encoding='utf-8').read()
-        for prompt, response in self._run_from_content(doc_content, doc_type):
+        for prompt, raw_response in self._run_from_content(doc_content, doc_type):
             yield PromptResponse(
                         id=str(uuid4()),
                         prompt=prompt,
-                        response=response,
+                        response=raw_response,
                         model=self.oai._engine,
                         doc_path='local',
                         summary_path='local',
@@ -90,14 +90,17 @@ class DocUnderstandingDriver:
         else:
             chunks = [content]
 
-        # TODO: for broken docs you need to change this whole scheme.
         for chunk in chunks:
             prompts = self._load_initial_prompts(doc_type)
             while len(prompts):
                 raw_current = prompts.pop(0)
                 current = fill_prompt(raw_current, {'doc_content': chunk, 'doc_type': doc_type})
                 messages = [to_dict(c) for c in current.content]
-                yield (raw_current, self.oai.call(messages))
+                
+                raw_response = self.oai.call(messages)
+                # Call response parser logic and return each Response object.
+
+                yield (raw_current, raw_response)
 
     def _load_initial_prompts(self, doc_type : str):
         if doc_type.lower() in ("8-k", '8-k/a'):

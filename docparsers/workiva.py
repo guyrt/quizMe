@@ -81,6 +81,11 @@ class WorkivaParser:
         ret_dict = {}
 
         resources = elt.find_next(lambda x: x.name == 'resources' and x.prefix == 'ix')
+
+        if resources is None:
+            # if there is no context.
+            return ret_dict
+
         for child in resources.children:
             if child.name == 'context':
                 child_id = child.attrs['id']

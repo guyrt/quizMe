@@ -83,11 +83,33 @@ _generate_doc_questions = Prompt(
     name="8KDocQuestions",
     content=[
         PromptCell(role='system', content=_default_system_instruction),
-        PromptCell(role='user', content="""I am trying to decide whether to invest in the company in this 8-k. List questions that I might ask that can be answered by the document that would help me make an informed decision.
+        PromptCell(role='user', content="""I am trying to decide whether to invest in the company in this 8-k. 
+List questions that I might ask that can be answered by the document that would help me make an informed decision.
+
+Focus on questions that will help me make an investing decision.
 
 Avoid questions about the date this document was filed.
 
-Put one question on each line.
+For each question, provide an answer and a sentence from the doc that will help answer.
+                   
+This is an example output format:
+[
+    {{
+        "question": "question 1",
+        "answer": "answer 1",
+        "source": "this is a sentence from the doc"
+    }},
+    {{
+        "question": "question 2",
+        "answer": "answer 2",
+        "source": "this is a different sentence from the doc"
+    }},
+    {{
+        "question": "question 3",
+        "answer": "answer 3",
+        "source": "this is a third sentence from the doc"
+    }}
+]
                    """)
     ],
     prompt_type='direct+questions',
@@ -103,7 +125,12 @@ List questions that I might ask that CANNOT be answered by the document that wou
 
 For each question, suggest other data sources I might want to look at to answer the question
 
-Put one question on each line.
+This is an example output format:
+[
+    "what are the major competitors?",
+    "are earnings trending well?",
+    "where did the CEO work in the past?"
+]
                    """)
     ],
     prompt_type='direct+nondocquestions',
@@ -122,10 +149,10 @@ _find_exhibits = Prompt(
 )
 
 eightk_prompts = [
+    _generate_doc_questions,
     _get_entities,
     _get_embeddable_summary,
     _what_event,
-#    _generate_doc_questions,
-#    _generate_nondoc_questions,
-#    _find_exhibits
+    _generate_nondoc_questions,
+    _find_exhibits
 ]
