@@ -60,19 +60,16 @@ For each company, list their name and why they are listed in the doc. Provide a 
                    
 Do not include the Securities and Exchange Commission as a company.
                    
-Your output should be in JSON format. This is an example of the format:
+Your output should be in JSON format with three keys: type which is either 'person' or 'company', name, and 'reason' which should say why the entity is in the document.
+
+This is an example of the format:
                    
-{{
-  "people":
-   [
-        {{"name": "John Smith", "reason": "The document describes a stock payout to him"}}
-   ],
-    "companies":
-    [
-        {{"name": "Samsung", "reason": "They were the purchaser in this merger" }},
-        {{"name": "Bob's bolts", "reason": "They were purchased in this transaction" }},
-    ]
-}}
+[
+    {{"type": "person", "name": "John Smith", "reason": "The document describes a stock payout to him"}}
+    {{"type": "company", "name": "Samsung", "reason": "They were the purchaser in this merger" }},
+    {{"type": "company", "name": "Bob's bolts", "reason": "They were purchased in this transaction" }},
+]
+
                    """)
     ],
     prompt_type='direct+entityupdate',
@@ -154,5 +151,5 @@ eightk_prompts = [
     _get_embeddable_summary,
     _what_event,
     _generate_nondoc_questions,
-    _find_exhibits
+    #_find_exhibits
 ]

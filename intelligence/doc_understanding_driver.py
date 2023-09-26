@@ -9,6 +9,7 @@ from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
 from azurewrapper.raw_doc_queue import AzureQueueManagerBase
 from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
                                  get_sec_entry_from_dict)
+from intelligence.answer_parsers import retrieve_parsed_answer
 from intelligence.large_doc_parser import LargeDocParser
 
 from .prompt_types import PromptResponse, fill_prompt, to_dict
@@ -50,12 +51,12 @@ class DocUnderstandingDriver:
         print(f"Running on {summary.cik}: {main_file.url}")
 
         all_prompts = []
-        for prompt, response in self._run_from_content(main_file_contents, main_file.filetype):
+        for prompt, responses in self._run_from_content(main_file_contents, main_file.filetype):
             all_prompts.append(
                 PromptResponse(
                     id=str(uuid4()),
                     prompt=prompt,
-                    response=response,
+                    response=responses,
                     model=self.oai._engine,
                     doc_path=main_file_parsed_path,
                     summary_path=remote_summary_path,
@@ -98,9 +99,10 @@ class DocUnderstandingDriver:
                 messages = [to_dict(c) for c in current.content]
                 
                 raw_response = self.oai.call(messages)
+                all_responses = retrieve_parsed_answer(raw_current.name, raw_response)
                 # Call response parser logic and return each Response object.
 
-                yield (raw_current, raw_response)
+                yield (raw_current, all_responses)
 
     def _load_initial_prompts(self, doc_type : str):
         if doc_type.lower() in ("8-k", '8-k/a'):
