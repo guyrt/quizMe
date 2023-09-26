@@ -14,7 +14,7 @@ def retrieve_parsed_answer(prompt_name : str, response : str) -> List[Response]:
         return DocQuestionsParse().parse_response(response)
     if prompt_name == "8KGetEntities":
         return GetEntities().parse_response(response)
-    if prompt_name == '8KNonDocQuestions':
+    if prompt_name in ('8KNonDocQuestions', 'QuarterlyReporter', 'QuarterlyNonDocQuestions'):
         return Parser().parse_response(response)
     
     raise ValueError(f"No prompt parser found for {prompt_name}")
