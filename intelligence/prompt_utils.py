@@ -1,4 +1,5 @@
 import json
+from json_repair import repair_json
 
 from azurewrapper.openai_client import OpenAIClient
 
@@ -24,6 +25,10 @@ class JsonFixer():
                 # try deterministic
                 if input.replace("\n", "").replace(" ", "").endswith("},]"):
                     input = input.replace("\n", "").replace(" ", "").replace("},]", "}]")
+                try:
+                    input = repair_json(input)
+                except ValueError:
+                    pass
             else:
                 # If we make it here then try to correct.
                 prompts = [{'content': main_prompt, 'role': 'system'}]

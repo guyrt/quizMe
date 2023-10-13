@@ -3,6 +3,7 @@ feedparser
 requests
 bs4
 lxml
+json_repair
 
 # storage related
 python-dotenv
