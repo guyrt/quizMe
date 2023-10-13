@@ -1,5 +1,7 @@
+from dataclasses import asdict
 import json
 import os
+from typing import List
 from uuid import uuid4
 
 from azurewrapper.doc_summary_handler import DocSummaryBlobHandler
@@ -12,7 +14,7 @@ from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
 from intelligence.answer_parsers import retrieve_parsed_answer
 from intelligence.large_doc_parser import LargeDocParser
 
-from .prompt_types import PromptResponse, fill_prompt, to_dict
+from .prompt_types import PromptResponse, Response, fill_prompt, to_dict
 from .promptlib.eightkprompts import eightk_prompts
 from .promptlib.quarter_annual_prompts import quarterly_annual_prompts
 
@@ -52,6 +54,10 @@ class DocUnderstandingDriver:
 
         all_prompts = []
         for prompt, responses in self._run_from_content(main_file_contents, main_file.filetype):
+            if not responses:
+                continue
+            responses = self._clean_responses(responses)
+
             all_prompts.append(
                 PromptResponse(
                     id=str(uuid4()),
@@ -64,10 +70,9 @@ class DocUnderstandingDriver:
                 )
             )
 
-        all_prompt_s = [json.dumps(to_dict(s)).replace("\n", "##n##") for s in all_prompts]
+        all_prompt_s = [json.dumps(asdict(s)) for s in all_prompts]
         content = '\n'.join(all_prompt_s)
         self._summary_upload_handler.upload_files(main_file_parsed_path, content)
-        
 
     def run_local(self, local_path : str, doc_type : str):
         doc_content = open(local_path, 'r', encoding='utf-8').read()
@@ -81,6 +86,11 @@ class DocUnderstandingDriver:
                         summary_path='local',
                         cid='local'
                     )
+
+    def _clean_responses(self, responses : List[Response]) -> List[Response]:
+        for r in responses:
+            r.content = r.content.replace("\n", "##n##")
+        return responses
 
     def _run_from_content(self, content : str, doc_type : str):
 

@@ -22,6 +22,10 @@ class FileCopyDriver(object):
             for row in get_all_entries():
                 self._handle_row(row, g)
 
+    def run_from_cik(self):
+        "download all files in cik"
+        pass
+
     def run_local(self, path, after=None):
         skip = (after is not None)
 

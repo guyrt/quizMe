@@ -20,22 +20,24 @@ class JsonFixer():
             except json.JSONDecodeError:
                 pass
 
-            import pdb; pdb.set_trace()
+            if i == 0:
+                # try deterministic
+                if input.replace("\n", "").replace(" ", "").endswith("},]"):
+                    input = input.replace("\n", "").replace(" ", "").replace("},]", "}]")
+            else:
+                # If we make it here then try to correct.
+                prompts = [{'content': main_prompt, 'role': 'system'}]
+                for c in corrections:
+                    prompts.append({'content': input, 'role': 'user'})
+                    prompts.append({'content': c, 'role': 'assistant'})
+                    prompts.append({'content': "That is not JSON format", 'role': 'user'})
 
-            # If we make it here then try to correct.
-            prompts = [{'content': main_prompt, 'role': 'system'}]
-            for c in corrections:
                 prompts.append({'content': input, 'role': 'user'})
-                prompts.append({'content': c, 'role': 'assistant'})
-                prompts.append({'content': "That is not JSON format", 'role': 'user'})
-
-            prompts.append({'content': input, 'role': 'user'})
-            
-            response_d = self.oai.call(prompts)
-            response = response_d['response']
-            corrections.append(response)
-
-        json.loads(input)
+                
+                response_d = self.oai.call(prompts)
+                response = response_d['response']
+                corrections.append(response)
+        return input
             
 
 main_prompt = """You are a bot who formats output in JSON format. You are given input that is almost in JSON format but has

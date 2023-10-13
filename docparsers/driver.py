@@ -35,6 +35,14 @@ class ParserDriver(object):
 
         self._peek_mode = peek_mode
 
+    def parse_from_cik(self, cik):
+        """
+        Parse every document in a CIK
+        """
+        for filename in self._raw_doc_handler.walk_blobs(cik, "summary.json"):
+            summary = self._get_summary(filename)
+            self._process_summary_to_queue(summary, filename)
+
     def parse_from_queue(self):
         """
         You could make this a pattern around pop/maybe delete/write.
@@ -42,22 +50,9 @@ class ParserDriver(object):
         msg = self._incoming_queue_manager.pop_doc_parse_message(peek=self._peek_mode)
         remote_path = msg.content
         summary = self._get_summary(remote_path)
-        files_to_parse = self._get_files_from_remote_summary(remote_path, summary)
-        print(f"Path: {remote_path}")
-        try:
-            for file_url in files_to_parse:
-                parse_details, content, structured_data = self.parse_remote(file_url, summary.doc_type)
-                self._parsed_doc_handler.upload_files(parse_details, content)
-                self.structured_data_handler.handle(structured_data, self._get_summary(remote_path))
-        except ValueError as e:
-            # bad queue
-            print(e)
-            self._incoming_queue_manager.write_error(remote_path)
-        else:
+        if self._process_summary_to_queue(summary, remote_path):
             if not self._peek_mode:
                 self._incoming_queue_manager.delete_doc_parse_message(msg)
-        finally:
-            self._outgoing_queue_manager.write_message(remote_path)
 
     def parse_local_file(self, local_path : str, doc_type : str):
         dom = parse_file(local_path)
@@ -72,7 +67,25 @@ class ParserDriver(object):
         doc_details.doc_maker = try_find_creating_software(dom, doc_type)
         content, data = self._run_parser(dom, doc_details.doc_maker)
         return doc_details, content, data
-        
+
+    def _process_summary_to_queue(self, summary : SecDocRssEntry, remote_path : str):
+        files_to_parse = self._get_files_from_remote_summary(remote_path, summary)
+        print(f"Path: {remote_path}")
+        try:
+            for file_url in files_to_parse:
+                parse_details, content, structured_data = self.parse_remote(file_url, summary.doc_type)
+                self._parsed_doc_handler.upload_files(parse_details, content)
+                self.structured_data_handler.handle(structured_data, self._get_summary(remote_path))
+        except ValueError as e:
+            # bad queue
+            print(e)
+            self._incoming_queue_manager.write_error(remote_path)
+        else:
+            return False
+        finally:
+            self._outgoing_queue_manager.write_message(remote_path)
+            return True
+
     def _get_summary(self, remote_path : str) -> SecDocRssEntry:
         summary_file_contents = json.loads(self._raw_doc_handler.get_path(remote_path))
         summary = get_sec_entry_from_dict(summary_file_contents)

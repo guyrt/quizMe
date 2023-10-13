@@ -28,7 +28,11 @@ class AzureRawDocsBlobHandler(AzureBlobHandlerBase):
         blob_client = self.container_client.get_blob_client(summary_path)
         blob_client.upload_blob(serialize_doc_entry(sec_entry), overwrite=True)
         return summary_path
-    
+
     def _build_root_path(self, sec_entry : SecDocRssEntry):
         # TODO check if exists. roll counter if so.
-        return f"{sec_entry.cik}/{datetime.strftime(sec_entry.published, '%Y%m%d')}/{sec_entry.doc_type}_0"
+        i = 0
+        while True:
+            path = f"{sec_entry.cik}/{datetime.strftime(sec_entry.published, '%Y%m%d')}/{sec_entry.doc_type}_0"
+
+            return path
