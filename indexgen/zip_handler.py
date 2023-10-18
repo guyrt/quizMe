@@ -22,6 +22,10 @@ class FileCopyDriver(object):
             for row in get_all_entries():
                 self._handle_row(row, g)
 
+    def run_from_cik(self):
+        "download all files in cik"
+        pass
+
     def run_local(self, path, after=None):
         skip = (after is not None)
 
@@ -44,7 +48,12 @@ class FileCopyDriver(object):
         if r.status_code != 200:
             raise AttributeError(f"Hit {r.status_code} downloading {url}")
 
-        z = zipfile.ZipFile(io.BytesIO(r.content))
+        try:
+            z = zipfile.ZipFile(io.BytesIO(r.content))
+        except zipfile.BadZipFile:
+            print(f"Skipped {row.cik}: {row.id}")
+            return
+
         with tempfile.TemporaryDirectory() as temp_dir:
             z.extractall(temp_dir)
 

@@ -22,3 +22,8 @@ class AzureBlobHandlerBase:
             raise ValueError(f"Failure to find blob {remote_path}")
 
         return blob_stream.readall().decode('utf-8', 'ignore')
+
+    def walk_blobs(self, prefix : str, blob_name : str):
+        for blob in self.container_client.list_blobs(name_starts_with=prefix):
+            if blob.name.endswith(blob_name):
+                yield blob.name

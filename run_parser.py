@@ -29,5 +29,7 @@ driver = ParserDriver(
 # fh = open(f"{fn}_clean.htm", "w", encoding='utf-8')
 # fh.write(content)
 
-while True:
-    driver.parse_from_queue()
+#while True:
+#    driver.parse_from_queue()
+
+driver.parse_from_cik("0000789019")
