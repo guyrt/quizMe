@@ -1,0 +1,63 @@
+RFPSummarizeAsk
+The project in this Request for Proposal (RFP) is issued by the University of Washington (UW) on behalf of the University of Washington Investment Management Company (UWINCO). The project seeks proposals from qualified vendors to provide a Contact Relationship Management (CRM) solution and/or a Document Management System (DMS). The selected vendors are expected to support the University's requirements for efficient processing, analysis, and reporting of investment information.
+
+The services are meant for UWINCO, which is responsible for the investment programs of the University, including its endowment and operating funds. The current market value of these funds is approximately $8.0 billion.
+
+The vendors can propose an integrated CRM and DMS solution, or a standalone solution for either of the systems. The initial contract duration will be five years with the possibility of five one-year extensions. The anticipated go-live date for the solution is August 1, 2024.
+
+The RFP also outlines the requirements for the solution, the criteria for evaluation, and the procedure for submitting proposals. Vendor's proposals should address specific questions outlined in the RFP, including company background and history, financial stability, project team and management structure, proposed fees, and references.
+
+
+RFPExtractDetails
+| Requirement | Document Section |
+| --- | --- |
+| Cover letter: Summary of proposal with signatures | Section II 2.3.a |
+| Description of company, organization, officers or partners, number of employees, and operating policies | Section II 2.3.b |
+| Evidence of vendor's experience in projects or providing products and services similar to those outlined in the Scope of Work | Section II 2.3.c |
+| Description of the financial status of the company, including most recent annual financial statement or other verifiable document | Section II 2.3.d |
+| Identification of proposed project team and management structure for completing the Scope of Work, including roles, responsibilities, and resumes of key professional staff | Section II 2.3.e |
+| Detailed cost proposal to accomplish the Scope of Work or provide the requested product, including cost breakdown for user support or trouble requests, change order requests, variations, discounts, or incentives in pricing | Section II 2.3.f |
+| List of three endowment or foundation references for engagements comparable to the Scope of Work | Section II 2.3.g |
+| Primary Contract Manager Contact information | Section II 2.3.h |
+| Completion and submission of Attachments B, C, E, F, J | Section II 2.3.i |
+| Detailed proposal addressing the requirements and potential features of CRM and DMS system | Section II 2.4 |
+| Implementation and draft work plan | Section III 1.3 |
+| Minimal edits to standard UW legal forms | Section III 1.3 |
+| Signature of the vendor | Section I 1.10 |
+| All exceptions to the contract terms and conditions must be submitted as an attachment to the bidder’s proposal | Section I 1.22 |
+| Proposal must provide 120 business days for acceptance by University from the due date for receipt of Proposals | Section I 1.14 |
+| Vendor's compliance with the requirements of this solicitation | Section I 1.16 |
+| Vendor's ability, capacity, and skills to perform the contract or provide the service required | Section I 1.16 |
+| The character, integrity, reputation, judgment, experience, and efficiency of the vendor | Section I 1.16 |
+| Vendors' experience in providing a solution in a manner that aligns well with the mission, values, policies, and practices of the UW | Section I 1.16 |
+
+
+RFPSpecificDates
+| Date       | Meaning                                              |
+|------------|------------------------------------------------------|
+| 2023-10-16 | RFP Released                                         |
+| 2023-10-31 | RFP Due date for Questions                           |
+| 2023-11-30 | Proposals Due                                        |
+| 2024-08-01 | Scheduled Implementation Completion and Contract Start|
+
+
+
+RFPLegal
+The Request for Proposal (RFP) doesn't specifically mention the legal jurisdictions that apply. However, as the RFP is issued by the University of Washington, it is safe to assume that the legal jurisdictions of the State of Washington and the United States apply. Any contract arising from this RFP will likely be governed by these jurisdictions. But for a definitive answer, you may want to submit this question directly to the RFP coordinator before submitting your proposal.
+
+
+RFPCertifications
+The RFP does not explicitly list any required certifications or prerequisites for responders. However, the RFP does have minimum qualifications including past experience, proven financial stability, and the capability to work in Washington State. Also, vendors should have the skills, ability, and capacity to perform the required services and provide the CRM and/or DMS solutions the University of Washington is seeking.
+
+
+RFPExpertise
+Vendors will need to demonstrate the following expertise to bid for this project:
+
+1. Experience and credentials in projects providing Contact Relationship Management (CRM) and Document Management System (DMS) solutions.
+2. Knowledge of current generation technology/tools that have been adopted by institutional endowments and foundation clients.
+3. Understanding of automated document collection and storage solutions.
+4. Expertise in CRM and DMS systems, including understanding of functionalities like repository of qualitative data, MS 365 integration, audit trail, dashboards/workflows, search capabilities, status reporting, post-receipt document modification etc.
+5. Experience in managing large scale implementations and providing ongoing support.
+6. Capabilities in providing solutions that align well with the mission, values, policies, and practices of the University of Washington.
+7. Ability to respond to the University's current and future needs.
+8. Experience in managing and maintaining data security standards.

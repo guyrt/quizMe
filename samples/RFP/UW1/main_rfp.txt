@@ -1,0 +1,369 @@
+
+REQUEST FOR PROPOSAL
+
+PROJECT TITLE:   UWINCO CRM AND/OR DMS
+Ref #557129
+
+The University of Washington is soliciting proposals from potential vendors to provide a Contact Relationship Management (CRM) solution and/or a Document Management System (DMS).   Vendors interested in providing the required services must submit proposals per the requirements detailed in this RFP. 
+
+This solicitation is open to those vendors that satisfy the minimum qualifications stated herein and that are available for work in Washington State.
+
+
+Contents of this Solicitation
+
+
+I.	General Instructions
+
+II.	Requirements
+
+III.	Evaluation and Contract Award 
+
+IV.	Attachments – Documents provided by UW 
+
+A.	UW Data Processing Agreement
+B.	Confidentiality Statement 
+C.	MWBE Participation Form
+D.	University of Washington General Terms and Conditions
+E.	CRM DMS Use Case Questions 
+F.	CRM DMS Information Security and Data Privacy Questions
+G.	IT Accessibility Rider 
+H.	IT Security Terms 
+I.	Vendor Questions Template 
+J.	Systems Cost Matrix
+																									
+					
+										
+
+						 
+
+ 
+Section I
+General Instructions
+1.1	PURPOSE
+This Request for Proposal (“RFP”) is issued by the University of Washington (“UW”) on behalf of the University of Washington Investment Management Company (“UWINCO”), the UW’s internal investment office.  This RFP is issued to secure proposals from qualified Vendors to support the UW’s requirements for a CRM system and a DMS. Respondents may propose an integrated solution containing both CRM and DMS, or may present a standalone solution for CRM or DMS.
+
+The selected firm(s) providing the System(s) will be awarded the contract(s) based on the merits to support the UW’s immediate and longer-term objectives of efficient processing, analysis, and reporting of investment information.  
+
+1.2	RFP COORDINATOR
+The RFP Coordinator is the sole point of contact in the University for this Procurement.  All communication between the Contractor and the University upon release of this RFP shall be with the RFP Coordinator, in writing, as follows:
+
+Lynn Magill, Assistant Director
+Procurement Services
+lmagill@uw.edu
+
+1.3	DEFINITION OF TERMS
+
+“Purchaser”, “University”, “UW”	The University of Washington
+
+“RFP Coordinator”	Sole point of contact at the University of Washington Procurement Services
+
+“Vendor “Contractor”	A person, firm, or corporation submitting a proposal
+“Supplier”, “Proposer”	
+
+“Apparent Successful Contractor”
+
+
+“Request for Proposal”	
+A person, firm, or corporation who submitted a proposal to this RFP which was accepted by UW.
+
+A written solicitation document which identifies the UW’s need, and consultants are invited to submit proposals which outline their solution to the need, their qualifications and experience to provide the services, and their costs or fees.
+
+
+
+
+
+
+
+
+1.4	TIMETABLE
+
+Activity	Due Date	Due Time
+RFP Released	October 16, 2023	N/A
+RFP Due date for Questions	October 31, 2023	11:59 PM PST
+Proposals Due 	November 30, 2023	11:59 PM PST
+
+The University will announce finalists in early January and provide more details at that time on interviews and software review/demonstrations.  Implementation is scheduled to be completed by August 1, 2024.
+
+1.5	WORKDAY SUBMISSION
+Vendors shall submit a proposal in PDF OR Word format, via the University’s Workday Strategic Sourcing website.  Proposals must be submitted on or before the time specified in 1.4 Timetable.  Any proposal received after that date and time may not be considered.  All proposals shall remain valid for a minimum of 180 days following the RFP closing date.
+
+1.6	INQUIRIES
+All questions must be submitted in writing via the Workday Strategic Sourcing website citing the particular RFP section and paragraph number, and utilizing the attached template/Attachment I.  Depending upon the nature of the inquiry and the response, copies of the question and response may be distributed to all other potential Vendors.  The closing date for asking of questions is given in Paragraph 1.4.  The University may exercise its option not to reply to Vendor inquiries; therefore, Vendors should be prepared to submit a proposal based only upon the information provided in the RFP.
+ 
+1.7	COMPLAINTS
+A.	 Vendors may submit a complaint to the RFP Coordinator based on any of the following:
+•	The solicitation unnecessarily restricts competition;
+•	The solicitation evaluation or scoring process is unfair or flawed; or
+•	The solicitation requirements are inadequate or insufficient to prepare a response.
+
+B.	Vendors may submit complaints up to 5 business days prior to the proposal due date.  Complaints must meet the following requirements:
+o	Must be in writing.
+o	Must be sent to the procurement coordinator, or designee.
+o	Should clearly articulate the basis for the complaint.
+o	Should include a proposed remedy.
+The RFP coordinator or designee will respond to complaints in writing; the response to complaints including any changes to the solicitation will be posted as an amendment on WEBS, https://fortress.wa.gov/ga/webs/ and in Workday Strategic Sourcing. The complaint may not be raised again during the protest period. The complaint process does not include an appeal process.
+
+1.8	INTERPRETATION OF THE RFP
+Should any discrepancies or problematic omissions from the specifications be identified or should there be doubt as to the specifications’ meaning, the Vendor shall at once notify the Coordinator, in writing.  The Coordinator will send written instructions or addenda as required to all interested parties.  All addenda issued shall be incorporated into the contract.  The Purchaser shall not be responsible for or bound by oral interpretations.  Only questions answered by written addenda are binding.  Questions received less than five (5) working days before the proposed due date for submission of proposals cannot be answered.
+
+1.9	REVISIONS TO THE RFP
+The University reserves the right to change the acquisition schedule or cancel the RFP at any time. The University reserves the right to make corrections or amendments due to errors identified in the RFP by the University or a Contractor.  Any changes will be dated and attached to, and made a part of, the RFP.  All changes must be coordinated in writing with, authorized by, and made by the RFP Coordinator.
+
+All RFP corrections and amendments will be posted to https://fortress.wa.gov/ga/webs/ and also to Workday Strategic Sourcing.   Vendors are responsible for checking the website for this information.  
+
+1.10	SIGNATURE
+Each proposal must be signed by the Vendor  and dated.  The name and title shall be typed or printed below each signature.
+A.	Proposals submitted by a proprietorship must be signed by the Owner.
+B.	Proposals submitted by a partnership must be signed with the partnership name by one of the partners, followed by the signature and designation of the partner signing.
+C.	Proposals by a corporation must be signed with the legal name of the corporation, followed by the name of an authorized officer.
+
+1.11	COST OF PROPOSALS
+Costs incurred in preparing and presenting the proposals or incurred in any other manner by the Vendor in responding to this solicitation are not reimbursable and may not be charged to the University.
+
+1.12	WITHDRAWAL OR MODIFICATIONS OF PROPOSALS
+Any  Vendor may withdraw their proposal upon written request at any time prior to the scheduled due date for submission of proposals.
+
+1.13	PUBLIC DISCLOSURE
+The University is subject to RCW 42.56 (Public Records Act).  All Contractor Responses and any subsequent Contract will be “public records” as defined in RCW 42.56.010
+
+The Contractor must clearly specify any specific information that it claims is confidential or proprietary.  Marking of the entire Response or entire sections as proprietary will not be honored.  The University may not accept Responses where pricing is marked as proprietary.
+
+All Responses received will remain confidential until the Contract(s), if any, resulting from this RFP is signed by the University and the Apparent Successful Contractor(s); thereafter, the Responses will be deemed public records.
+
+To the extent consistent with RCW 42.56, the University will maintain the confidentiality of all information marked confidential or proprietary.  If a request is made to view the Contractor’s information, the University will notify the Contractor of the request and the date that such records will be released unless the Contractor obtains a court order enjoining that disclosure.  The Contractor will have five (5) business days from receipt of notice to obtain the court order. If the Contractor fails to obtain the court order enjoining disclosure, the University will release the requested information on the date specified.
+
+1.14	ACCEPTANCE PERIOD
+Contractor’s proposal must provide 120 business days for acceptance by University from the due date for receipt of Proposals.
+
+1.15	RESPONSIVENESS
+All Proposals will be reviewed by the RFP Coordinator to determine compliance with administrative requirements and instructions specified in this RFP.  The Contractor is specifically notified that failure to comply with any part of the RFP may result in rejection of the Proposal as non-responsive.
+
+1.16	SELECTION OF PROPOSALS
+In determining the “Apparent Successful Contractor(s)”, in addition to cost, the Contractor’s compliance with the requirements of this solicitation, and the items listed below, shall be given consideration.  Please refer to section 3.3 for full evaluation criteria and scoring.
+•	The ability, capacity, and skills of the Contractor to perform the contract or provide the service required.
+•	The character, integrity, reputation, judgment, experience, and efficiency of the Contractor.
+•	The size, breadth, and depth of the Contractor’s client service team.
+•	The quality, technical specifications and product direction, and system adoption by the large institutional investors, especially endowments and foundations.  
+•	The quality of performance of previous contracts or service.
+•	The previous and existing compliance by the Contractor with the laws relating to contract and services.
+•	Such other information as may be secured having a bearing on the decision to award the contract.
+
+1.17	NO OBLIGATION TO CONTRACT
+This solicitation does not obligate the University of Washington to contract for the solicited services specified herein.
+1.18	CONTRACT IN BEST INTEREST
+The University reserves the right to accept or reject proposals on each item separately or as a whole, to reject any or all proposals without penalty, to waive informalities or irregularities, and to contract in the best interests of the University.
+
+1.19	PUBLICITY
+Advertising, including use of the University marks and logos, press releases, or any other general public announcement by a Contractor, stating the availability of its products or services to University employees is strictly prohibited unless the Contractor has obtained prior written authorization from the UW Procurement Services Department.
+1.20	NON-ENDORSEMENT
+The successful Contractor agrees to make no reference to the University in any literature, promotional material, brochures, sales presentation or the like without express written consent of the University.
+1.21	FUNDING
+Any contract(s) awarded as a result of this procurement is contingent upon the continued availability of state or federal agency funding.
+
+1.22	CONTRACT AND TERMS & CONDITIONS
+The Apparent Successful Contractor(s) will be expected to enter into a contract which is substantially the same as the University of Washington’s General Terms and Conditions which can be located here: https://finance.uw.edu/ps/suppliers/terms-conditions, and are also attached as Exhibit D. In no event is a Vendor to submit its own standard contract terms and conditions in response to this solicitation. All exceptions to the contract terms and conditions must be submitted as an attachment to the bidder’s proposal.  The  University will review requested exceptions and accept or reject the same at its sole discretion.
+
+1.23	DATA-SECURITY 
+If, during the course of the performance, administration, or maintenance of this contract, or any extension or renewal thereof, CONTRACTOR acquires, uses, or otherwise obtains access to ‘University Data’ as those terms are defined in the UW Data Processing Agreement, incorporated herein, then the UW and CONTRACTOR agree that all of the terms and conditions of the UW’s Data Processing Agreement and/or IT Data Security Addendum(s) shall apply.   Please refer to Attachment A
+
+1.24	GRATUITIES
+In accordance with RCW 42-52-150 and 160, Ethics in Public Service, no gifts, gratuities or any item of economic value may be accepted by University Employees.  Contractors agree to offer no such items to any University employee.
+
+1.25	MINORITY AND WOMEN BUSINESS ENTERPRISE PARTICIPATION
+In accordance with chapter 39.19 RCW, the University of Washington encourages participation in all of its contracts by firms certified by the Office of Minority and Women’s Business Enterprises (OMWBE).  Participation may be either on a direct basis in response to this solicitation or on a subcontractor basis.  However, no preference will be included in the evaluation of proposals, no minimum level of MWBE participation shall be required as a condition for receiving an award and proposals will not be rejected or considered non-responsive on that basis.  Any affirmative action requirements set forth in federal regulation or statutes included or referenced in the contract documents will apply.
+
+The established annual procurement participation goals for this solicitation are MBE 6% and WBE 4%. For information on certified firms, Contractors may contact OMWBE at 360/753-9693 or visit http://www.omwbe.wa.gov.”  Please refer to Attachment C.
+
+1.26	U.S. SMALL BUSINESS PARTICIPATION
+Participation in contracts for goods and services is encouraged by firms which qualify under definitions by the U.S. Small Business Administration as small business (SB), or small disadvantaged business (SDB), or small women owned business (WOB). 
+
+The percentage listed below is voluntary. No preference will be included in the evaluation of bids/proposals.  Participation in University contracts may be either direct as the Contractor in response to this solicitation, or as a subcontractor to a Contractor.
+Voluntary U.S. Small Business goals for this solicitation are 15% SB/SDB/WOB 
+SECTION II  
+REQUIREMENTS
+
+2.1	Background and Purpose
+
+UWINCO is responsible for the investment programs of the University including its endowment and operating funds.  The current market value of these funds is approximately $8.0 billion.  A multi-asset class structure is employed in the management of the funds which includes domestic and international equity, fixed-income, absolute return funds, venture capital, buyout funds, real asset funds, and derivatives.  Most funds are managed by investment firms external to the University of Washington.  Additional detail on the University’s investment program can be viewed at  https://www.uwinco.uw.edu/ .
+
+UWINCO manages relationships with a varied mix of both existing and prospective fund managers.  UWINCO is searching for systems that can better institutionalize the investment process and relationship management, to enable better internal information collection, sharing, monitoring and reporting, both pre- and post-investment. 
+
+Currently, UWINCO uses a third-party vendor for its CRM. Functions used include contact management and recording of qualitative items (Meeting notes, etc.). Document management is performed in house through a manual process using MS Outlook and MS Windows file/folder structure. 
+
+UWINCO uses Caissa for performance analytics & reporting and Northern Trust as Custodian.
+
+2.2	Period of Service
+
+The anticipated go-live for the solution is August 1, 2024 with the 5-year term commencing at that time.
+
+The University shall contract for an initial five (5) year agreement with five (5) one-year options, for a total not to exceed ten (10) years, the firm and fixed pricing, commencing on the effective date of the Contract. Pricing information should include any additional charges or fees related to maintenance or service plans. In addition, include a cost breakdown for user support or trouble requests and change order requests on customized or ad hoc projects and tasks. Finally, pricing information should highlight variations, discounts, or incentives in pricing.  All pricing information should be summarized in Attachment J.
+
+2.3	Proposal Content, Requirements, and Instructions
+
+All proposals will be submitted to the RFP Coordinator, per Section 1.2 above.  Vendor shall address each question below and describe any exceptions or limitations.  Vendor will limit its written responses to these questions to ten (10) pages excluding Attachments (and corresponding answers to Attachments E and F). 
+
+a)	Cover letter: Summary of proposal with signatures as outlined in Section 1.10.
+
+b)	Background and History:  Describe the company, organization, officers or partners, number of employees and any operating policies which would affect this Contract.  Describe the current firm ownership and state the number of years the organization has been continuously engaged in business.  Please detail any change in ownership or key leadership departures over the past 5 years.  Describe any future planned merger and/or acquisition activity.   
+
+c)	Firm Experience and Credentials:  Provide evidence of Bidder’s experience in projects or providing products and services consistent with those outlined in the Scope of Work below.
+
+d)	Financial Stability:  Describe the financial status of the company.  Attach a copy of the most recent annual financial statement or other verifiable document that affirms the financial viability of the company.
+
+e)	Project Team and Management Structure:  Identify proposed project team and management structure for completing the Scope of Work described below.  This should identify roles and responsibilities, including Bidder expectations of participating UW staff resources.  Provide resumes of key professional staff to be assigned to the project, both for implementation phase and training, and their level of commitment to this engagement.  Any portion of the work that is outsourced or performed by third-party contractors should be clearly identified.
+
+f)	Proposed Fees:  Provide a cost proposal to accomplish the Scope of Work or provide the requested product and include as Attachment J in the template provided.  Vendors may propose an integrated CRM/DMS solution, however the systems cost matrix must be completed individually, one cost matrix for DMS and one for CRM.  Please submit an Excel version of Attachment J as part of the full RFP submission.  UW currently has 14 UWINCO account users and ~100 managers covering ~200 funds.  Number of account users will be adjusted during length of contact to reflect current staffing. For automated document collection services, please clearly note any pricing differential for active funds versus inactive/legacy holdings that may only have 1-2 notices a year. 
+
+g)	References: List three (3) endowment or foundation references for engagements comparable to the Scope of Work below, including a brief description of the engagement, duration, and date of completion, contact person, title, mailing address, telephone number and e-mail address.
+
+h)	Contract Management Information:  Provide primary Contract Manager Contact name, title, mailing address, telephone number and email address. 
+
+i)	Attachments:  the Attachments below are required to be completed and submitted with your proposal.  Review the legal templates (Attachments A, B, C, D, G, H) and respond as appropriate.  Score will favorably reflect minimal requested edits per section 3.3:
+
+B.  Confidentiality Statement
+C.  MWBE Participation Form
+		E.  CRM DMS Use Case Questions.
+		F. CRM DMS Information Security and Data Privacy Questions
+		J. Systems Cost Matrix
+
+
+2.4	Scope of Work
+
+Background:  UWINCO currently uses a third-party software system (SAAS) to provide CRM functions including storage of contacts, notes, and other qualitative information.  Document management has largely been a manual function completed by the UWINCO team whereby all manager generated correspondence (Audited Financials, Statements, Newsletters, Notices, etc.) is directed to a dedicated email address or investor portal and saved to internal drives by a UWINCO team member.  
+
+Future State and Scope:  UWINCO seeks to continue to use a CRM system for qualitative items, and potentially outsource and automate its document collection and storage through either a combined CRM/DMS solution or separate systems. Vendor offerings must reflect current generation technology/tools that have been adopted by institutional endowments and foundation clients.  A prospective CRM vendor may offer a standalone solution without an automated document collection module so long as their offering has been successfully integrated for other clients with another firm’s automated document collection offering (and vice versa).  Vendors must provide independent bids (i.e. no jointly submitted bids with other firms).  UWINCO may select all or a portion of a vendor offering to create an optimal CRM/DMS solution for its program.
+
+The following requirements and potential features of a CRM and DMS system are highlighted below:
+
+CRM Requirements:
+
+•	Repository of qualitative data
+•	Ability to import history of qualitative manager information
+•	Future investment notes (meeting notes, statement/financials/periodic reporting notes)
+•	Firmwide consolidated contacts
+•	Free form search capabilities
+•	MS 365 (Outlook) integration
+•	Audit trail
+
+CRM Potential Features:
+
+•	Dashboards/workflows (pipeline/investment process, ops tracking, post investment monitoring)
+•	Future travel calendar
+•	Manager informational review/travel package
+•	Manager book extraction
+•	Upload capability from various sources (.pdf, .xls, .doc, such as annual manager surveys)
+•	Systemic retention/purge schedule
+•	Mobile app
+
+DMS Requirements:
+•	Accurate processing, preferably using automation tools including machine learning and optical character recognition
+•	Search capabilities – ability to search managers, key words, phrases, regardless of type/file format of document including pdf, .xls, .doc
+•	Search returns that are concise and accurate
+•	Daily reporting of items processed
+•	Status reporting, exception reports – ability for scheduled and ad hoc reporting of what has been received, and what has not been received (example: Quarterly Statements, what are we missing and what do we need to chase)
+•	Multiple platform integration (Caissa, MS 365, Outlook)
+•	Drag and drop file capabilities
+•	Workflow integration
+•	Post receipt document modification (adding “sticky notes” on PDF’s etc.)
+
+Schedule Constraints
+
+Implementation to be completed by August 1, 2024. The current vendor contract runs through 9/10/2024 with August 2024 providing a buffer in the event of any unforeseen delays.
+
+Project Management Requirements
+
+It is expected that the awarded Supplier will provide a dedicated implementation team to coordinate and implement the onboarding and initial training of UWINCO to the platform. It is also expected that the awarded Supplier will provide ongoing relationship management, servicing, and training.
+
+Personnel Requirements and Expectations
+
+It is expected that the awarded Supplier will support UWINCO during customary business hours for routine customer service inquiries.
+
+
+
+SECTION III  
+EVALUATION AND CONTRACT AWARD
+
+1.1	Evaluation of Proposals
+The University reserves the right to make Vendor selections based solely on the proposal submitted.  Responsive proposals will be evaluated strictly in accordance with the requirements stated in this solicitation and any addenda issued.  The evaluation of proposals shall be accomplished by an evaluation team to be designated by the UW, which will determine the ranking of the proposals.  The RFP Coordinator may contact the Vendor for clarification of any portion of a Vendor’s proposal.
+
+1.2	Interview / Presentation
+At its sole discretion, the University may require Vendors to participate in an interview or provide a presentation to the evaluation committee.  If so, the score from the interview and/or the presentation may be combined with the score of the proposal to identify the apparent successful Vendor.  The University will contact the Vendor directly to schedule the interview/presentation.  In addition, the University may request a separate meeting with a Vendor’s IT team to review/follow up on any answers provided in Attachment F.
+
+1.3	Evaluation Criteria & Scoring
+Solution proposals will be evaluated and assigned points in the following categories: 
+
+
+Functional completeness, suitability, technical capabilities, information security, and flexibility of the application System.   25%
+
+Total five-year cost of the proposed System, including the hardware, software, implementation, and other costs.  Please also state how the proposed option year pricing will be determined. 15%
+
+Vendor support capabilities, experience, record of successful installations and product enhancements, commitment to the research and development of the product.  15%
+
+Vendor’s demonstrated ability to provide a solution in a manner that aligns well with the mission, values, policies, and practices of the UW, considering factors such as references, testing, past experiences, and other information as may have a bearing on evaluating the Vendor’s ethical character, reputation, and judgment.  10%
+
+Technical direction of the product, as indicated by Vendor’s responses. This technical evaluation will include an evaluation of the System’s flexibility to respond to the University’s needs, now and in the future.  10%
+
+Maturity and viability of the Vendor’s business model. 10%
+
+Implementation and draft work plan. 10%
+
+Minimal edits to standard UW legal forms. 5%
+
+1.4	      Notification to Proposers
+Once the final evaluation phase has been completed, the  RFP Coordinator will issue a written announcement to all participants, citing the name(s) of the apparent successful vendors.
+
+1.5	Protest Procedure
+Contractors protesting the award shall follow the procedures described below. Protests that do not follow these procedures shall not be considered. This protest procedure constitutes the sole administrative remedy available to Contractors under this procurement.
+
+After the announcement of the apparent successful Contractor, unsuccessful Contractors will be offered a debriefing upon written request.
+
+•	Contractors have 3 business days after the apparent successful Contractor is announced to request a debriefing.
+•	Contractors are required to participate in a debriefing as a prerequisite for submitting a protest.
+•	Contractors have 5 business days after their debriefing to file a written protest.
+•	Contractors may submit a protest based only on the following:
+	A matter of bias, discrimination, or conflict of interest on the part of an evaluator;
+	Errors in computing the scores; or
+	Non-compliance with procedures described in the procurement document or UW protest process.
+
+Protests are to be submitted to the UW’s Director of Procurement Services (Director) and the RFP Coordinator.
+
+The Director will issue a written response within 10 business days from receipt of the protest, unless additional time is needed. The protesting Contractor shall be notified if additional time is needed. The Director’s protest decision is final.
+
+ 
+Section IV
+Attachments
+
+1.	Attachment A.	Data Processing Agreement
+			
+ 
+
+2.	Attachment B.	Confidentiality Statement
+			Contractor to sign and return with proposal.
+ 
+
+3.	Attachment C.	MWBE Response Form
+			Contractor to sign and return with proposal.
+ 
+		4.	Attachment D.	University of Washington General Terms and Conditions
+					 
+
+5. 	Attachment E. 	 CRM / DMS Use Case Questions
+			 
+
+6. 	Attachment F.	CRM / DMS Information Security and Data Privacy Questions
+ 
+			
+7. 	Attachment G. 	IT Accessibility Rider
+
+			 
+8. 	Attachment H.	IT Security Terms
+
+			
+9. Attachment I.Bidder Questions Template 
+ 
+
+
+
+10.	Attachment J. Systems Cost Matrix
+
+ 
