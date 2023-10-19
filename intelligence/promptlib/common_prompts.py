@@ -1,6 +1,6 @@
 
 
-from intelligence.prompt_types import Prompt, PromptCell
+from azurewrapper.prompt_types import Prompt, PromptCell
 
 
 def build_entity_prompt(default_system_instruction):
@@ -25,7 +25,6 @@ This is an example of the format:
     {{"type": "company", "name": "Bob's bolts", "reason": "They were purchased in this transaction" }},
 ]""")
         ],
-        prompt_type='direct+entityupdate',
         version=1
     )
 
@@ -65,7 +64,6 @@ This is an example output format:
 ]
                    """)
     ],
-    prompt_type='direct+questions',
     version=1
 )
 
@@ -92,7 +90,6 @@ This is an example output format:
 ]
                    """)
     ],
-    prompt_type='json+direct',
     version=1
 )
 
@@ -115,6 +112,5 @@ This is an example output format:
 ]
                    """)
     ],
-    prompt_type='direct+nondocquestions',
     version=1
 )

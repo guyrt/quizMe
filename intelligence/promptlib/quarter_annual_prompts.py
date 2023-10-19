@@ -1,5 +1,5 @@
 from intelligence.promptlib.common_prompts import build_doc_questions, build_entity_prompt, build_nondoc_questions, build_summary
-from ..prompt_types import Prompt, PromptCell
+from ...azurewrapper.prompt_types import Prompt, PromptCell
 
 
 _default_system_instruction = """You are a financial assistant who reads SEC {doc_type} filings and answers questions from an analyst.
@@ -36,7 +36,6 @@ This is an example output format:
 ]
                    """)
     ],
-    prompt_type="direct",
     version=1
 )
 
@@ -53,7 +52,6 @@ Write a 1 or 2 paragraph article in the style of The Economist.
 Do not regurgitate facts. Your job is to synthesize the content and its meaning in a broader market, taking into account your
 knowledge of the industry this company is in.""")
     ],
-    prompt_type='direct',
     version=1
 )
 

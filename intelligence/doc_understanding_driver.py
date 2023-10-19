@@ -14,7 +14,7 @@ from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
 from intelligence.answer_parsers import retrieve_parsed_answer
 from intelligence.large_doc_parser import LargeDocParser
 
-from .prompt_types import PromptResponse, Response, fill_prompt, to_dict
+from ..azurewrapper.prompt_types import PromptResponse, Response, fill_prompt, to_dict
 from .promptlib.eightkprompts import eightk_prompts
 from .promptlib.quarter_annual_prompts import quarterly_annual_prompts
 

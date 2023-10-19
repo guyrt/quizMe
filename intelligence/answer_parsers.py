@@ -1,7 +1,7 @@
 import json
 
 from typing import Any, List
-from intelligence.prompt_types import Response
+from azurewrapper.prompt_types import Response
 from intelligence.prompt_utils import JsonFixer
 
 

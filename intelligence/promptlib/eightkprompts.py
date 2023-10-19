@@ -1,5 +1,5 @@
 from intelligence.promptlib.common_prompts import build_doc_questions, build_entity_prompt, build_nondoc_questions, build_summary
-from ..prompt_types import Prompt, PromptCell
+from ...azurewrapper.prompt_types import Prompt, PromptCell
 
 
 _default_system_instruction = """You are a financial assistant who reads SEC 8K filings and answers questions. 
@@ -22,7 +22,6 @@ On the next line, provide a brief summary of the material event in the document.
 This is an 8-K form filed with the Securities Exchange Commission, so it has a material event.
 """)
     ],
-    prompt_type="direct",
     version=1
 )
 
@@ -34,7 +33,6 @@ _find_exhibits = Prompt(
         PromptCell(role='user', content="""List all exhibits in the doc including the name and a description of what the exhibit is.
                    """)
     ],
-    prompt_type='direct+entityupdate',
     version=1
 )
 

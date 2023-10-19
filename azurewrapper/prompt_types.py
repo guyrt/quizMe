@@ -26,9 +26,6 @@ class Prompt:
 
     content : List[PromptCell]
 
-    prompt_type : str  # eventually use to tell if answer should be parsed. If so, provide parser.
-                       # parser can take action: embed+store, parse and add to queue, ect.
-
     version : int
 
 
@@ -54,8 +51,7 @@ def fill_prompt(prompt : Prompt, context):
     return Prompt(
         name=prompt.name,
         version=prompt.version,
-        content = [fill_prompt_cell(p, context) for p in prompt.content],
-        prompt_type=prompt.prompt_type
+        content = [fill_prompt_cell(p, context) for p in prompt.content]
     )
 
 
@@ -70,7 +66,6 @@ def to_dict(o):
 def promp_response_from_dict(d) -> PromptResponse:
     p = Prompt(
         name=d['prompt']['name'],
-        prompt_type=d['prompt']['prompt_type'],
         version=d['prompt']['version'],
         content=[prompt_cell_from_d(c) for c in d['prompt']['content']]
     )

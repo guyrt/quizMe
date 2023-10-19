@@ -2,7 +2,7 @@ import json
 
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
 from intelligence.embedder import Embedder
-from intelligence.prompt_types import PromptResponse, promp_response_from_dict
+from azurewrapper.prompt_types import PromptResponse, promp_response_from_dict
 
 
 class EmbeddingDriver:
