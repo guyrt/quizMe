@@ -3,7 +3,7 @@ from azurewrapper.prompt_types import Prompt, PromptCell
 from typing import List
 
 
-def build_prompts(doc : str) -> List[Prompt]:
+def build_prompts() -> List[Prompt]:
 
     _default_system_instruction = """You are a bot that helps my company respond to the Request for Proposal (RFP) below. 
 The contents of an RFP are listed below after the [startdocument] tag.
@@ -74,12 +74,32 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
         ],
         version=1
     )
+    
+    _vendors = Prompt(
+        name='RFPVendors',
+        content=[
+            PromptCell(role='system', content=_default_system_instruction),
+            PromptCell(role='user', content="""For any technology requirements, list popular vendors that provide that kind of software.""")
+        ],
+        version=1
+    )
+
+    _qa = Prompt(
+        name='RFPQA',
+        content=[
+            PromptCell(role='system', content=_default_system_instruction),
+            PromptCell(role='user', content="""I am sending a list of questions to the RFP author to help me write a winning proposal. What questions should I ask to clarify requirements or understand their needs in more detail? Do not ask questions that can be answered by the document itself.""")
+        ],
+        version=1
+    )
 
     return [
-#        _summarize_ask,
+        _summarize_ask,
         _extract_details,
-        # _specific_dates,
-        # _legal,
-        # _certs,
-        # _expertise
+        _specific_dates,
+        _legal,
+        _certs,
+        _expertise,
+        _vendors,
+        _qa
     ]

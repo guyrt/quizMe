@@ -19,7 +19,7 @@ class RfpDriver:
     def run(self, file_loc : str):
         contents = open(file_loc, 'r', encoding='utf8').read()
 
-        prompts = build_prompts(contents)
+        prompts = build_prompts()
 
         for p in prompts:
             responses = self._run_prompt(p, contents)

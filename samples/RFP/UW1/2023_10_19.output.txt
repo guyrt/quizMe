@@ -61,3 +61,63 @@ Vendors will need to demonstrate the following expertise to bid for this project
 6. Capabilities in providing solutions that align well with the mission, values, policies, and practices of the University of Washington.
 7. Ability to respond to the University's current and future needs.
 8. Experience in managing and maintaining data security standards.
+
+
+
+1. Contact Relationship Management (CRM) Software Vendors:
+   - Salesforce
+   - Microsoft Dynamics 365
+   - HubSpot CRM
+   - Zoho CRM
+   - SAP CRM
+
+2. Document Management System (DMS) Vendors:
+   - Microsoft SharePoint
+   - Google Drive
+   - Dropbox Business
+   - DocuWare
+   - Laserfiche
+   - M-Files
+
+3. Integrated CRM and DMS Solution Vendors:
+   - Bitrix24
+   - Zoho One
+   - Insightly
+   - Creatio
+
+4. Performance Analytics & Reporting Software Vendors:
+   - Tableau
+   - SAP BusinessObjects
+   - Oracle Business Intelligence
+   - IBM Cognos Analytics
+   - Microsoft Power BI
+
+5. Project Management Software Vendors:
+   - Asana
+   - Trello
+   - Jira
+   - Microsoft Project
+   - Smartsheet
+
+6. Automation Tools Vendors:
+   - UiPath
+   - Automation Anywhere
+   - Blue Prism
+   - Kofax
+   - Pega Robotic Process Automation
+
+7. Security and Data Privacy Solution Vendors:
+   - Symantec
+   - McAfee
+   - Kaspersky
+   - IBM Security
+   - Cisco Security
+
+8. IT Service Management (ITSM) Solution Vendors:
+   - ServiceNow
+   - BMC Software
+   - Cherwell Software
+   - ManageEngine
+   - Ivanti
+
+Please note that the selection of a vendor should be done after considering the specific needs and requirements of the organization. It's also important to take into account factors such as cost, ease of use, integration capabilities, and the level of customer support provided.

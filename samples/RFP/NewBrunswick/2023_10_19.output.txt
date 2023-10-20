@@ -121,3 +121,18 @@ Vendors will need to demonstrate the following expertise:
 6. Experience in managing communications, identifying and mitigating risks, and managing changes in projects.
 7. Expertise in ensuring solutions are fully responsive and accessible across all modern devices and platforms. The solutions must also be scalable, allowing for the ability to scale horizontally or vertically as needed.
 8. If sub-contracting is involved, the vendor should also demonstrate how the sub-contractor(s) will interconnect with the prime bidders.
+
+
+RFPQA
+1. Can you provide more details on the specific services and functionalities that you expect to be delivered in the digital transformation project?
+2. Can you provide any data or insights into customer needs or pain points that have been identified in relation to SNB's current online services?
+3. Do you have any specific technology or platforms in mind that we should use for this project, or are you open to any technology that meets your requirements?
+4. What will be the main indicators of success for this project? How will you evaluate the performance and impact of the digital transformation?
+5. Can you clarify the budget allocation for the project, specifically for the second optional phase? Are there any specific budget constraints we should be aware of?
+6. What involvement and availability can we expect from your team throughout the project?
+7. Can you provide more context about the expected timeline for the project, beyond the initial 3-month engagement? How flexible is this timeline?
+8. Can you provide further details on what the "high-quality, easy to use, digital services" should encompass?
+9. Could you share more about your current customer engagement or feedback processes, and how you envision this being integrated into the new framework?
+10. Are there any specific security or privacy laws or regulations that we need to adhere to in the development and implementation of the digital transformation project?
+11. Can you clarify your expectations around the use of subcontractors for the project? Are there any limitations or specific requirements?
+12. Can you provide more details about the existing SNB platforms listed in section 6.1? Are there any limitations or issues with these platforms that we should be aware of?
