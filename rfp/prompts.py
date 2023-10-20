@@ -29,7 +29,12 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
         name='RFPExtractDetails',
         content=[
             PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""The RFP describes many requirements in my submission to show that I am able to take this business. I am planning to bid on this RFP. List all requirements I need to fill in the document with attribution in its own column. Attributions should list document sections. Be thorough and list all requirements.""")
+            PromptCell(role='user', content="""The RFP describes many requirements in my submission to show that I am able to take this business. I am planning to bid on this RFP. List all requirements I need to fill in the document. Use a table with two columns. First column is a requirement. Second column is an attribution. Attributions should list document sections. Be thorough and list all requirements.""")
+        ],
+        continuations=[
+            PromptCell(role='user', content="Are there any more? Don't repeat previous answers. Use the same format."),
+            PromptCell(role='user', content="Are there any more? Don't repeat previous answers. Use the same format."),
+            PromptCell(role='user', content="Create a single table from all of your answers so far. Combine any duplicted requirements. Sometimes, previous answers may not be accurate requirements. In that case, you should remove them.")
         ],
         version=1
     )
@@ -71,10 +76,10 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
     )
 
     return [
-        _summarize_ask,
+#        _summarize_ask,
         _extract_details,
-        _specific_dates,
-        _legal,
-        _certs,
-        _expertise
+        # _specific_dates,
+        # _legal,
+        # _certs,
+        # _expertise
     ]

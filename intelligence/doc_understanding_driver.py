@@ -111,6 +111,9 @@ class DocUnderstandingDriver:
                 raw_response_d = self.oai.call(messages)
                 raw_response = raw_response_d['response']
                 all_responses = retrieve_parsed_answer(raw_current.name, raw_response)
+                # todo: you need to iterate through continuations.
+                # for each, you'll want to add to the responses, then execute, then retrieve_parsed_answer.
+
                 # Call response parser logic and return each Response object.
                 # TODO: tokens including JSON fix.
                 yield (raw_current, all_responses)
