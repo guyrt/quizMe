@@ -13,7 +13,7 @@ from typing import List
 class RfpDriver:
 
     def __init__(self) -> None:
-        self._oai = OpenAIClient(engine='GPT-4-0314', temp=0.9)
+        self._oai = OpenAIClient(engine='GPT-4-32K-0314', temp=0.9)
         self._gate = Gate(1)
 
     def run(self, file_loc : str):

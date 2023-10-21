@@ -1,0 +1,2116 @@
+STATE OF WASHINGTON
+DEPARTMENT OF COMMERCE
+REQUEST FOR APPLICATIONS
+RFA NO. RDD2023
+NOTE: If you download this RFA from the Department of Commerce website, you are
+responsible for following section 2.7 REVISIONS TO THE RFA
+PROJECT TITLE: 2023 Clean Energy Fund Research, Development and Demonstration
+PHASE ONE APPLICATION DUE: November 21, 2023 5:00 pm Pacific Time, Olympia, WA
+PHASE TWO FULL APPLICATION DUE: March 25, 2024 5:00 pm Pacific Time, Olympia, WA
+ESTIMATED TIME PERIOD FOR CONTRACT: September 2024 – September 2026
+FUNDING SOURCE AND METHOD: This is State funding. Payments will be made on a
+reimbursement basis for deliverables accepted and/or allowable time and expenses.
+APPLICANT ELIGIBILITY: This RFA is open to those Applicants which satisfy the minimum
+qualifications stated herein (section 1.3) and are available for work in Washington State.
+CONTENTS OF THE REQUEST FOR APPLICATIONS:
+1. Introduction
+2. General Information for Applicants
+3. Application Contents
+4. Evaluation and Award
+5. Exhibits
+Table of Contents
+1. INTRODUCTION ............................................................................................................................................ 1
+PURPOSE AND BACKGROUND .........................................................................................................................1
+OBJECTIVES AND SCOPE OF WORK ..................................................................................................................1
+MINIMUM QUALIFICATIONS ...........................................................................................................................3
+FUNDING .........................................................................................................................................................4
+PERIOD OF PERFORMANCE .............................................................................................................................6
+CONTRACTING WITH CURRENT OR FORMER STATE EMPLOYEES ...................................................................6
+DEFINITIONS ....................................................................................................................................................6
+ADA ..................................................................................................................................................................7
+2. GENERAL INFORMATION FOR APPLICANTS ................................................................................................... 9
+RFA COORDINATOR .........................................................................................................................................9
+ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES ...................................................................................9
+QUESTION AND ANSWER PERIOD .................................................................................................................10
+PRE-APPLICATION CONFERENCE ...................................................................................................................10
+SUBMISSION OF APPLICATIONS ....................................................................................................................10
+PROPRIETARY INFORMATION AND PUBLIC DISCLOSURE ..............................................................................10
+REVISIONS TO THE RFA ..................................................................................................................................11
+DIVERSE BUSINESS INCLUSION PLAN ............................................................................................................11
+ACCEPTANCE PERIOD ....................................................................................................................................11
+COMPLAINT PROCESS ....................................................................................................................................12
+RESPONSIVENESS...........................................................................................................................................12
+MOST FAVORABLE TERMS .............................................................................................................................12
+CONTRACT GENERAL TERMS & CONDITIONS ................................................................................................12
+COSTS TO PROPOSE .......................................................................................................................................12
+NO OBLIGATION TO CONTRACT ....................................................................................................................13
+REJECTION OF APPLICATIONS ........................................................................................................................13
+COMMITMENT OF FUNDS .............................................................................................................................13
+ELECTRONIC PAYMENT ..................................................................................................................................13
+INSURANCE COVERAGE .................................................................................................................................13
+DISCLAIMER ...................................................................................................................................................13
+3. APPLICATION PROCESS AND CONTENTS ..................................................................................................... 14
+3.1 TWO-PHASE APPLICATION PROCESS .................................................................................................................14
+3.2 PHASE ONE APPLICATION CONTENTS ...............................................................................................................15
+3.3 PHASE TWO APPLICATION CONTENTS ..............................................................................................................16
+4. EVALUATION AND CONTRACT AWARD ............................................................................................................ 18
+EVALUATION PROCEDURE .............................................................................................................................18
+EVALUATION BREAKDOWN ...........................................................................................................................18
+VIRTUAL PRESENTATIONS MAY BE REQUIRED ..............................................................................................20
+NOTIFICATION TO APPLICANTS .....................................................................................................................20
+DEBRIEFING OF UNSUCCESSFUL APPLICANTS ...............................................................................................20
+PROTEST PROCEDURE ...................................................................................................................................20
+5. RFA EXHIBITS .............................................................................................................................................. 22
+EXHIBIT A: CERTIFICATIONS AND ASSURANCES ......................................................................................................23
+EXHIBIT B: DIVERSE BUSINESS INCLUSION PLAN ....................................................................................................24
+EXHIBIT C: Workers’ Rights Certification .................................................................................................................25
+Exhibit D: ASSURANCES OR DOCUMENTATION OF REQUIRED MATCH SAMPLE ....................................................26
+Exhibit E: Technology Readiness Level ....................................................................................................................27
+Exhibit F: 2021 State Energy Strategy .....................................................................................................................28
+Exhibit G: Capital Contract Template ......................................................................................................................1
+Table of Contents .................................................................................................................................................2
+Face Sheet ............................................................................................................................................................5
+Federal Agency: ..................................................................................................................................5
+DECLARATIONS ....................................................................................................................................................5
+Program Specific Terms and Conditions ................................................................................................................. 6
+1. BILLING AND COMPENSATION FOR PERFORMANCE BASED CONTRACT (REPLACES
+SPECIAL TERMS AND CONDITIONS #3 BILLING PROCEDURES AND PAYMENT ) ............................6
+2. INSURANCE (REPLACES SPECIAL TERMS AND CONDITIONS #6 INSURANCE) ......................7
+3. SUBCONTRACTING (REPLACES GENERAL TERMS AND CONDITIONS #37
+SUBCONTRACTING) ............................................................................................................................................7
+Special Terms and Conditions ................................................................................................................................ 9
+1. CONTRACT MANAGEMENT .............................................................................................................................9
+2. COMPENSATION ..............................................................................................................................................9
+3. BILLING PROCEDURES AND PAYMENT (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #1) ....9
+4. SUBCONTRACTOR DATA COLLECTION ...........................................................................................................10
+5. HISTORICAL OR CULTURAL ARTIFACTS ..........................................................................................................10
+6. INSURANCE (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #2) ............................................10
+7. FRAUD AND OTHER LOSS REPORTING ...........................................................................................................11
+8. ORDER OF PRECEDENCE ................................................................................................................................12
+General Terms and Conditions ............................................................................................................................. 13
+1. DEFINITIONS ..................................................................................................................................................13
+2. ALLOWABLE COSTS ........................................................................................................................................13
+3. ALL WRITINGS CONTAINED HEREIN ..............................................................................................................13
+4. AMENDMENTS ..............................................................................................................................................13
+5. AMERICANS WITH DISABILITIES ACT (ADA) OF 1990, PUBLIC LAW 101-336, also referred to as the “ADA” 28
+CFR Part 35..............................................................................................................................................................13
+6. APPROVAL .....................................................................................................................................................13
+7. ASSIGNMENT .................................................................................................................................................14
+8. ATTORNEYS’ FEES ..........................................................................................................................................14
+9. CODE REQUIREMENTS ...................................................................................................................................14
+10. CONFIDENTIALITY/SAFEGUARDING OF INFORMATION ................................................................................14
+11. CONFORMANCE .............................................................................................................................................14
+12. CONFLICT OF INTEREST .................................................................................................................................14
+13. COPYRIGHT ....................................................................................................................................................15
+14. DISALLOWED COSTS ......................................................................................................................................15
+15. DISPUTES .......................................................................................................................................................15
+16. DUPLICATE PAYMENT ....................................................................................................................................16
+17. GOVERNING LAW AND VENUE ......................................................................................................................16
+18. INDEMNIFICATION ........................................................................................................................................16
+19. INDEPENDENT CAPACITY OF THE CONTRACTOR ...........................................................................................16
+20. INDUSTRIAL INSURANCE COVERAGE .............................................................................................................17
+21. LAWS .............................................................................................................................................................17
+22. LICENSING, ACCREDITATION AND REGISTRATION ........................................................................................17
+23. LIMITATION OF AUTHORITY ..........................................................................................................................17
+24. LOCAL PUBLIC TRANSPORTATION COORDINATION.......................................................................................17
+25. NONCOMPLIANCE WITH NONDISCRIMINATION LAWS .................................................................................17
+26. PAY EQUITY....................................................................................................................................................17
+27. POLITICAL ACTIVITIES ....................................................................................................................................18
+28. PREVAILING WAGE LAW ................................................................................................................................18
+29. PROHIBITION AGAINST PAYMENT OF BONUS OR COMMISSION ..................................................................18
+30. PUBLICITY ......................................................................................................................................................18
+31. RECAPTURE ....................................................................................................................................................18
+32. RECORDS MAINTENANCE ..............................................................................................................................18
+33. REGISTRATION WITH DEPARTMENT OF REVENUE ........................................................................................19
+34. RIGHT OF INSPECTION ...................................................................................................................................19
+35. SAVINGS ........................................................................................................................................................19
+36. SEVERABILITY .................................................................................................................................................19
+37. SUBCONTRACTING (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #4) ................................19
+38. SURVIVAL .......................................................................................................................................................19
+39. TAXES .............................................................................................................................................................20
+40. TERMINATION FOR CAUSE ............................................................................................................................20
+41. TERMINATION FOR CONVENIENCE ...............................................................................................................20
+42. TERMINATION PROCEDURES .........................................................................................................................20
+43. TREATMENT OF ASSETS .................................................................................................................................21
+44. WAIVER .........................................................................................................................................................21
+Attachment A: Scope of Work.............................................................................................................................. 22
+Attachment B: Budget ......................................................................................................................................... 23
+Attachment C: Reporting ..................................................................................................................................... 24
+Attachment D: Proviso ......................................................................................................................................... 25
+P a g e | 1
+1. INTRODUCTION
+PURPOSE AND BACKGROUND
+The Washington State Department of COMMERCE, hereafter called “COMMERCE,’ will be accepting
+grant applications for the Clean Energy Fund (CEF) Research, Development, and Demonstration
+(RD&D) Program from entities seeking funds for clean energy projects focused on new and emerging
+technologies.
+The Washington State Legislature created the Clean Energy Fund to fund projects that provide a
+public benefit through the deployment of clean energy technologies that save energy and reduce
+energy costs, reduce harmful air emissions, or increase energy independence for the state. The
+RD&D program within the Clean Energy Fund 5 (CEF 5) is authorized in subsection (a) 9 of 1064 of
+the Substitute House Bill 1080 to distribute $3.9 million through competitive grants. Where the
+department deems applicable, Commerce also reserves the right to award funding under sub-section
+11 of 1017 of Substitute Senate Bill 5200, and previous funding from the legislature.
+Proviso language mandates that projects must be consistent with the 2021 State Energy Strategy
+adopted under chapter 43.21F RCW and policies under chapter 19.405 RCW (Clean Energy
+Transformation Act). The 2021 State Energy Strategy (2021 SES) provides guidelines and a roadmap
+for meeting the state’s greenhouse gas emission limits required under the Energy Independence Act
+(RCW 19.285). Other policies such as the Clean Energy Transformation Act (CETA), signed into law
+in 2019, requires Washington to develop an electricity supply that is 100% renewable or non-emitting
+by 2045.
+The State Energy Strategy acknowledges the need for continued investment in research and
+development of new technologies to contribute to the state’s climate policy goals. This program funds
+projects that support these goals through strategic research and development for new and emerging
+clean energy generation and storage technologies and climate change mitigation technologies, which
+may include greenhouse gas removal. Both the State Energy Strategy and CETA also support the
+equitable distribution of benefits, and an inclusive transition, which this program has attempted to
+incorporate through the program design (see 1.2 Objectives and Scope of Work).
+COMMERCE intends to award multiple contract(s) to provide the services described in this RFA.
+This solicitation will utilize a two-phase application process (see RFA Section 3.1 TWO PHASE
+APPLICATION PROCESS for more detail).
+OBJECTIVES AND SCOPE OF WORK
+Grants should be used to leverage federal or non-state funds to research, develop, and demonstrate
+clean energy technologies, that are new or emerging, have demonstrated viability, but not
+commercialization, and have expanded existing technologies through innovation, such as novel
+configurations or increased efficiencies. The funds are intended to catalyze diverse new technologies
+that change the production, use, storage, and transportation of energy.
+Desired program outcomes include increasing investment in innovation and strategic research of
+eligible new and emerging clean energy technologies that help meet state and broader climate goals,
+reduce reliance on fossil fuels, reduce risk of irregularities in power supply, offer opportunities for
+economic and job growth, and strengthen technology supply chains. These technologies should also
+reduce harmful air emissions, reduce energy costs, or increase energy independence for the state.
+Goals for this solicitation include:
+ Increasing opportunity for Washington-based organizations to participate in federal opportunities
+by providing cost share or match funding assistance,
+ Leveraging non-state funding to help grow Washington’s clean technology sector, and
+ Developing and strengthening partnerships and new technologies in the clean energy sector.
+P a g e | 2
+The 2021 State Energy Strategy, a Request for Information, and recommendations from the Energy
+and Climate Policy Advisory Committee (ECPAC) have informed and guided the design of the 2023
+RD&D program. This program also aligns with state and federal energy priorities by funding
+advancements in research, innovation, demonstration, and industrial efficiencies to meet clean
+energy goals around decarbonization. Washington state entities could leverage funding to match
+upcoming federal opportunities available through the Infrastructure Investment & Jobs Act (IIJA)
+and/or the Inflation Reduction Act (IRA.)
+In accordance with the proviso and state policy goals, Commerce will prioritize projects that benefit
+vulnerable populations and overburdened communities, including Tribes and communities with high
+environmental or energy burdens. Equity outcomes will be prioritized through application scoring. To
+encourage equitable and beneficial impacts for Tribes and communities with high environmental or
+energy burdens, this solicitation will prioritize projects that:
+ Establish a partnership, include co-creation, or ensure a formal advisory role for Tribes or
+organizations serving overburdened communities.
+ Create new economic development opportunities.
+ Develop a community benefits plan that reflects community desires and needs through
+demonstrated outreach, engagement, and consultation.
+ Reduce emissions; increase access to clean energy, and/or resilience for communities or Tribes.
+ Include risk mitigation plans that also address adverse consequences to communities and the
+environment.
+Commerce may also prioritize projects that build on Washington’s strengths in communities,
+aerospace, maritime, information and communications technology, grid modernization, advanced
+materials, and decarbonizing the built environment. Commerce also reserves the right to prioritize
+projects and make award recommendations that increase geographic diversity of clean energy
+projects.
+The above bullets will be reflected in the scoring criteria. Projects are still eligible to apply for funding
+if they do not provide benefits to the priority groups mentioned.
+Eligible Technologies
+This program funds research, development and demonstration of new and emerging clean energy
+generation and storage technologies and climate change technologies including greenhouse gas
+removal. Eligible projects must be consistent with the recommendations put forth the in the 2021
+State Energy Strategy and Washington state clean energy policies including Chapter 19.405 RCW. If
+you apply to fund a technology or research that is not explicitly supported by the 2021 SES or other
+policy goals, please be prepared to explain how it supports state clean energy policy.
+Where the department deems applicable and aligned with the 23-25 RDD proviso, the department
+may make awards that meet the intent of the following,
+“grants for strategic research, development, and demonstration of new and emerging clean
+energy generation and storage technologies and climate change mitigation technologies,
+including greenhouse gas removal. Grants awarded under this subsection must reduce reliance
+on fossil fuels, reduce risk of irregularities in power supply, offer opportunities for economic and
+job growth, and strengthen technology supply chains. Grant funds are intended to catalyze
+diverse new technologies that change the production, use, storage, and transportation of energy.
+The department may provide funding to projects at various stages of readiness, including early-
+stage research, pilot and demonstration projects, and dual-use projects that produce clean
+energy and additional benefits.”
+The following technologies will be prioritized through the scoring criteria (listed in alphabetical order):
+ Advanced Bioenergy, Biofuels, and Biorefining
+ Advanced Energy Storage, Battery Recycling, and Battery Technologies
+ Development of New Earth Abundant, and Lightweight Materials
+P a g e | 3
+ Energy Efficiency
+ Greenhouse Gas Removal and Sequestration Technologies
+ Renewable Energy
+ Recycling Energy System Components
+ Renewable Hydrogen Storage, Distribution, and Dispensing
+Other technologies beyond what is listed above that meet state policy goals including Chapter
+19.405 RCW and align with the 2021 State Energy Strategy are eligible. These other technologies
+will receive fewer points than the prioritized technologies.
+Technology Readiness Level (TRL) (Please refer to Exhibit E of the RFA).
+Grants under this program aim to support technologies between the pilot or prototype stage and
+commercialization and are not meant to support commercialized technologies. Projects between TRL
+range of 4-7 will receive additional points.
+Examples of Ineligible Projects that are inconsistent with state policy goals include:
+ Coal, oil, natural gas, or projects in which the primary focus involves these fossil fuels are
+ineligible.
+ Nuclear is ineligible.
+ Projects that do not illustrate research, development or demonstration of a new technology or
+improve on proven technologies are ineligible.
+ Projects that install available systems infrastructure or implement systems of proven,
+commercial technologies, without improving on those technologies are ineligible.
+ Conventional and commercially available technology is ineligible unless there is an inherent
+innovative application and such technology is integral to this approach).
+Examples of Ineligible Expenses
+ Property purchases and leases, or activities related to site selection or acquisition;
+ Equipment purchases for capital assets that would not be completed during the grant
+performance period (see Section 1.5 PERIOD OF PERFORMANCE);
+ Buildings and structures;
+ Rolling stock and other non-capital assets;
+ Software upgrades and maintenance agreements;
+ Standalone software not developed as part of the integration of aforementioned technologies.
+ Maintenance and or replacement of existing assets that are not integral to the integration of
+aforementioned technologies.
+ Grant Application development for future State or other funding applications.
+Applicant pools will be divided into two tracks (Track 1 and Track 2) (see Section 1.4 for more detail
+on each track including eligibility). Both tracks will utilize a two-phase process to alleviate the
+administrative burden on less-resourced applicants and to encourage new applicants. Each primary
+Applicant may only submit one application for each Track and in turn may only receive one grant
+award as the primary grantee per Track. There is no limit to the number of applications that an
+Applicant can apply to as a secondary partner.
+COMMERCE intends to award multiple contracts to provide the services described in this RFA.
+MINIMUM QUALIFICATIONS
+Before applying to this solicitation, please read the list of minimum qualifications below.
+Applicant Eligibility
+1. Research institutions, non-profit organizations, local governments, federally recognized Tribal
+governments and Tribes’ contracted service providers, higher education institutions, state
+P a g e | 4
+agencies, public and private utilities that serve retail customers in the state and for-profit entities
+pursuing clean energy technology.
+2. Must demonstrate significant in-state presence and investment by conducting primary research,
+development, demonstration, and deployment in Washington state.
+3. Must be licensed to do business in the state of Washington or if selected as an Apparently
+Successful Contractor, become licensed within thirty (30) calendar days of being selected.
+Eligible Activities/Projects
+4. Research, develop, and demonstrate eligible clean energy technologies (please see SECTION
+1.2 OBJECTIVES AND SCOPE OF WORK) which:
+a. Have demonstrated viability, but not commercialization,
+b. Are new and emerging or have expanded existing technologies through innovation,
+such as novel configurations or increased efficiencies.
+5. Develop or acquire capital assets with a minimum of thirteen-year lifespan AND be located in
+the State of Washington.
+6. Be consistent with the 2021 State Energy Strategy adopted under chapter 43.21F RCW and
+policies under chapter 19.405 RCW.
+Applications that do not clearly meet or exceed these minimum qualifications will be rejected as
+non-responsive and will not receive further consideration. Any Application that is rejected as non-
+responsive will not be evaluated or scored.
+FUNDING
+This program has an estimated $3.9 million in state funds from CEF 5. This amount reflects the
+deduction of the 3% administrative costs as approved by the Office of Financial Management and
+funds that have been distributed or committed in previous solicitations.
+Funding Source Amount
+2021-2023 Capital Budget $5,000,000 for competitive solicitation
+Less 3% Commerce administration ($150,000)
+Less Funds previously awarded ($884,245) previously awarded in CEF 4
+Total awardable funds $3.9 million
+Additional funds To be determined
+Additional funds may become available through other sources including but not limited to:
+ State funds available from previous grant rounds (to be determined)
+ Additional funding as authorized by the legislature including the potential to make awards with
+2023-2025 CEF RDD appropriation (approximately $11,640,000 after the 3% administrative
+deduction)
+There will be one competitive solicitation, opening on the date noted in RFA Section 2.2 ESTIMATED
+SCHEDULE OF PROCUREMENT ACTIVITIES in which the amount above will be awarded.
+Additional funds may be available at the time of the award announcement or after awards have been
+issued.
+The intent is to award all funds under this competitive solicitation. However, any additional or leftover
+funds may be awarded to applicants who applied to this application cycle and received high scores,
+but were not selected for initial funding. We encourage all applicants to apply to this solicitation, in
+order to be eligible for future funding.
+Minimum and Maximum Award Amounts
+The minimum and maximum allowable requests are outlined in the table below. Applications less than
+$150,000 or greater than $2,000,000 will be considered non-responsive and will not be evaluated.
+This round of funding will be divided as follows:
+P a g e | 5
+Track Funding
+Available
+Eligible Applicants Match Requirement
+1 Funding
+goal of $1.0
+million
+Non-profits; local governments;
+*Non-R1 research institutions;
+*(Note: National labs are
+considered Track 2 and are not
+eligible for carve-out or reduced
+match.)
+1:4 ($1 match for every $4 from
+Commerce)
+Tribes (tribal governments;
+designated subdivisions,
+colleges, and agencies.)
+1:9 ($1 of match for every $9 from
+Commerce)
+2 Remainder
+of available
+funds
+Private sector applicants, national
+labs, higher education institutions,
+and established research
+institutions
+1:1 ($1 of match for every $1 from
+Commerce)
+State agencies (higher education
+institutions are treated
+independently of a state agency)
+May be eligible for no match (Match
+from state agencies is allowed to
+come from state funded sources).
+ All applicants may request a minimum of $150,000 and a maximum of $2,000,000. Applications
+less than the minimum and greater than the maximum will be considered non-responsive and will
+not be evaluated.
+ There is a funding goal of $1,000,000 for Track 1. Commerce reserves the right to evaluate all
+Track 1 applications with available funding sources from Track 2.
+ Commerce expects to award no more than 5 awards between $150,000 and $500,000 and the
+remaining awards between $500,000 and $2,000,000.
+Commerce reserves the right to adjust and move funding across tracks.
+MATCHING REQUIREMENTS
+A minimum match for the applicant’s respective track is required. Matching funds may be sought from
+lending institutions, investors, federal awards, private loans, non-state awards, or applicant funds.
+ Applicants are expected to notify COMMERCE of all applicable non-state award decisions.
+ Applicants who do not receive their non-state match funding within six (6) months of receipt of
+their RD&D conditional award letter may have their award withdrawn but may apply for future
+funding pending new opportunity announcements.
+o An additional six months to secure the required match, for a total of 12 months following
+the date on the award letter, may be provided on a case-by-case basis.
+Grant funding provided under this solicitation must not be used to supplant or displace previous, current,
+or future funding.
+Applicants must disclose all sources of public funds in the budget.
+Along with other priorities, Commerce will prioritize projects that leverage the greatest amount of
+matching funds, such local levy funding.
+In-kind or cash claimed as match for this program cannot be claimed as match for any other funding
+sources. Match cannot be originally paid from any state sources, unless the applicant is a state agency.
+Match funds may be cash or in-kind costs, incentives, or rebates for the project and should be available
+at the time of contract execution and may not be incurred prior to the award date.
+COMMERCE reserves the right to reduce award amounts to ensure minimum match requirements are
+met. Funds from other state grants cannot be commingled in the project Scope of Work. Funds from
+P a g e | 6
+Federal grants and incentives may be considered as matching funds. All costs must be necessary and
+reasonable to accomplish the proposed project as described in SECTION 1.2, OBJECTIVES AND
+SCOPE OF WORK.
+Any contract awarded as a result of this RFA is contingent upon the availability of funding.
+Contracts will be performance based, with final payment made upon successful completion of the scope
+of work. Progress payments for completed milestones can be negotiated during contract development.
+Any contract awarded as a result of this competitive process is contingent upon no successful process
+protests. In the event additional funding becomes available, any contract awarded may be amended to
+provide for additional related services. Additional funding is not guaranteed.
+PERIOD OF PERFORMANCE
+The period of performance of any contract resulting from this RFA is tentatively scheduled to begin on
+or about September 2024 and to end on September 2026. Amendments extending the period of
+performance, if any, shall be at the sole discretion of COMMERCE.
+COMMERCE reserves the right to extend the contract for two one-year periods.
+CONTRACTING WITH CURRENT OR FORMER STATE EMPLOYEES
+Specific restrictions apply to contracting with current or former state employees pursuant to chapter
+42.52 of the Revised Code of Washington (RCW). Applicants are encouraged to familiarize themselves
+with the requirements prior to submitting a Application that includes current or former state employees.
+DEFINITIONS
+Definitions for the purposes of this RFA include:
+Apparent Successful Applicant/Bidder/Contractor/Vendor/Grantee/Awardee: The
+Applicant(s) selected to enter into negotiations leading to a fully executed contract for the work
+described in this procurement document.
+Applicant: Eligible Individual, company, organization, or firm submitting an Application in order to
+attain a contract with COMMERCE.
+Application: A complete, formal offer submitted in response to this Request for Applications.
+Capital Asset: The definition of “Capital Asset” has been modified from that of the Office of
+Financial Management to provide generic guidance to Research, Development and
+Demonstration applicants. Please note that eligible capital assets will depend on the type of
+RD&D project and will be considered on a case by case basis: Tangible or intangible assets held
+and used in state operations which have a service life of more than thirteen years and meet the
+state’s capitalization policy. Capital assets of the state include infrastructure, leasehold
+improvements, furnishings, equipment, and all other tangible and intangible assets that are used
+in state operations.
+COMMERCE OR AGENCY: The Department of Commerce is the agency of the state of
+Washington that is issuing this RFA.
+Contract: A written, legally binding agreement to perform the services proposed, also called a
+Grant or Interagency Agreement.
+Contractor: Individual or organization whose Application has been accepted by COMMERCE
+and is awarded a fully executed, written contract. Also called Grantee, Awardee, Recipient, or
+Vendor.
+Exhibit: Document attached to this RFA, also referred to as Attachment.
+Energy Burden: The share of annual household income used to pay annual home energy bills.
+RCW 19.405.020. https://app.leg.wa.gov/RCW/default.aspx?cite=19.405.020
+P a g e | 7
+Exhibit: Document attached to this RFA, also referred to as Attachment.
+Federally Recognized Tribal Government: The government of any federally recognized Indian
+Tribe whose traditional lands and territories included parts of Washington, designated
+subdivisions and agencies (such as a Tribal Housing Authority), or any other entities or
+authorities of a federally recognized Tribal government in corporate form or otherwise.
+Local Government: For the purpose of this Program, “Local Governments” includes cities,
+towns, counties, special and school districts, transportation authorities, municipal corporations,
+port districts or authorities, political subdivisions of any type, or any other entities or authorities of
+local government in corporate form or otherwise.
+Non-Profit Organization: A corporation no part of the income of which is distributable to its
+members, directors or officers and that holds a current tax exempt status as provided under 26
+U.S.C. Sec. 501(c)(3) or is specifically exempted from the requirement to apply for its tax exempt
+status under 26 U.S.C. Sec. 501(c)(3).
+Overburdened Community: "Overburdened community" means a geographic area where
+vulnerable populations face combined, multiple environmental harms and health impacts or risks
+due to exposure to environmental pollutants or contaminants through multiple pathways, which
+may result in significant disparate adverse health outcomes or effects, and includes, but is not
+limited to, highly impacted communities as defined in RCW
+19.405.020;
+Renewable Energy: a) Water; (b) wind; (c) solar energy; (d) geothermal energy; (e) renewable
+natural gas; (f) renewable hydrogen; (g) wave, ocean, or tidal power; (h) biodiesel fuel that is not
+derived from crops raised on land cleared from old growth or first growth forests; or (i) biomass
+energy. RCW 19.405.020: Definitions. (wa.gov);
+Request for Applications (RFA): Formal procurement document in which needed services are
+identified and entities are invited to submit their Application to provide those services; this
+procurement document.
+Small business: An in-state business, including a sole proprietorship, corporation, partnership,
+or other legal entity, that: (a) Certifies, under penalty of perjury, that it is owned and operated
+independently from all other businesses and has either: (i) Fifty or fewer employees; or (ii) A
+gross revenue of less than seven million dollars annually as reported on its federal income tax
+return or its return filed with the Department of Revenue over the previous three consecutive
+years; or (b) Is certified with the Office of Women and Minority Business Enterprises under
+chapter 39.19 RCW.
+Track 1 Applicant: Non-profits; local governments; Non-R1 research institutions; Tribes (tribal
+governments; designated subdivisions, colleges, and agencies).
+Track 2 Applicant: All other applicants not listed in Track 1 including but not limited to national
+labs, established research institutions, state agencies and private sector applicants.
+Veteran-owned business: A business certified by the Washington Department of Veteran
+Affairs.
+Vulnerable Populations: "Vulnerable populations" means communities that experience a
+disproportionate cumulative risk from environmental burdens due to (a) Adverse socioeconomic
+factors, including unemployment, high housing and transportation costs relative to income,
+access to food and health care, and linguistic isolation; , and other factors that negatively affect
+health outcomes and increase vulnerability to the effects of environmental harms; and
+(b) Sensitivity factors, such as low birth weight and higher rates of hospitalization. RCW
+19.405.020: Definitions. (wa.gov)
+ADA
+COMMERCE complies with the Americans with Disabilities Act (ADA). Applicants may contact the RFA
+Coordinator to receive this Request for Applications in Braille or on tape.
+P a g e | 8
+P a g e | 9
+2. GENERAL INFORMATION FOR APPLICANTS
+RFA COORDINATOR
+The RFA Coordinator is the sole point of contact in COMMERCE for this RFA. All communication
+between Applicants and COMMERCE upon release of this RFA shall be with the RFA Coordinator, as
+follows:
+Name Brianna Gomez-Catalan
+E-Mail Address CEF@commerce.wa.gov
+Website https://www.commerce.wa.gov/growing-the-economy/energy/clean-
+energy-fund/energy-rdd-clean-energy-fund/
+Any other communication will be considered unofficial and non-binding on COMMERCE. Applicants
+are to rely on written statements issued by the RFA Coordinator. Communication directed to parties
+other than the RFA Coordinator may result in disqualification.
+ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES
+Issue Request for Applications October 05, 2023
+Applicants’ Conference October 12, 2023 at 10:30am Pacific Time
+Question & answer period 1 October 12, 2023- November 09, 2023
+Answers issued no later than Posted periodically through November 13,
+2023
+PHASE ONE Applications due November 21, 2023 5:00 pm Pacific
+Time
+PHASE ONE Evaluation November 22, 2023 – January 09, 2024
+Encourage and Discourage Emails Sent January 19, 2024
+PHASE TWO Opens January 19, 2024
+Question & answer period 2 January 26, 2024 – March 13, 2024
+PHASE TWO Applications due March 25, 2024 5:00 pm Pacific Time
+PHASE TWO Evaluation March 25 – May 06, 2024
+Conduct virtual presentations with finalists, if
+required
+Scheduled as needed
+Announce “Apparent Successful Applicant” and
+send notification via e-mail to unsuccessful
+Applicants
+May 14, 2024
+Hold debriefing conferences (if requested) May 15, 2024 – May 23, 2024
+Negotiate contract May 14, 2024 – October 15, 2024
+Earliest date contract may be signed May 30, 2024
+COMMERCE reserves the right to revise the above schedule.
+P a g e | 10
+QUESTION AND ANSWER PERIOD
+COMMERCE will accept questions about this RFA sent to the RFA Coordinator at the email address
+listed in Section 2.1 during this period. Questions should not identify the submitting person or
+organization. COMMERCE will answer all questions in a Q&A document posted no later than the date
+identified in Section 2.2.
+PRE-APPLICATION CONFERENCE
+A pre-application conference is scheduled to be held at the date and time listed in RFA SECTION 2.2
+ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES. The pre-application conference will be
+virtual only. The meeting link is available on the Program Website listed in SECTION 2.1 RFA
+COORDINATOR. All prospective Applicants are encouraged attend; however, attendance is not
+mandatory.
+COMMERCE will be bound only to COMMERCE written answers to questions. Questions arising at
+the pre-Application conference will be documented and answered in written form. A copy of the
+questions and answers will be posted to the website.
+SUBMISSION OF APPLICATIONS
+ELECTRONIC APPLICATIONS:
+The Application must be received by the RFA Coordinator no later than the deadline stated in
+SECTION 2.2 ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES.
+Applications must be submitted electronically as an attachment to an e-mail to the RFA Coordinator,
+at the e-mail address listed in Section 2.1. Attachments to e-mail shall be in Microsoft Word format or
+PDF. Zipped files cannot be received by COMMERCE and cannot be used for submission of
+Applications. The Submittal Letter and the Certifications and Assurances form must have a scanned
+or digital signature of the individual within the organization authorized to bind the Applicant to the
+offer. COMMERCE does not assume responsibility for problems with Applicant’s e-mail. If
+COMMERCE email is not working, appropriate allowances will be made.
+Applications may not be transmitted using facsimile transmission.
+Applicants should allow sufficient time to ensure timely receipt of the Application by the RFA
+Coordinator. Late Applications will not be accepted and will be automatically disqualified from
+further consideration, unless COMMERCE e-mail is found to be at fault at COMMERCE’S sole
+determination. Applications should be sent in one email, however if more than one email is needed all
+must be received by the due date and time. Exceptions will not be made for partial submissions.
+Requests for deadline extensions will not be granted. All Applications and any accompanying
+documentation become the property of COMMERCE and will not be returned.
+All applicants will receive an email confirming receipt of all applications submitted before the
+deadlines specified in SECTION 2.2 ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES
+within two (2) business days of receipt. If applicants do not receive a confirmation email within two (2)
+business days of submission, they should contact the RFA coordinator using the information provided
+in SECTION 2.1 RFA COORDINATOR.
+PROPRIETARY INFORMATION AND PUBLIC DISCLOSURE
+Applications submitted in response to this RFA shall become the property of COMMERCE. All
+Applications received shall remain confidential until the Apparent Successful Contractor is
+announced; thereafter, all Applications are subject to disclosure as provided for in Chapter 42.56 of
+the Revised Code of Washington (RCW).
+Any information in the Application that the Applicant desires to claim as proprietary and exempt from
+disclosure under the provisions of Chapter 42.56 RCW, or other state or federal law that provides for
+the nondisclosure of your document, must be clearly designated. The information must be clearly
+identified and the particular exemption from disclosure upon which the Applicant is making the claim
+P a g e | 11
+must be cited. Each page containing the information claimed to be exempt from disclosure must be
+clearly identified by the words “Proprietary Information” printed on the lower right hand corner of the
+page. Marking the entire Application exempt from disclosure or as Proprietary Information will not be
+honored.
+If a public records request is made for the information that the Applicant has marked as "Proprietary
+Information," COMMERCE will notify the Applicant of the request and of the date that the records will
+be released to the requester unless the Applicant obtains a court order enjoining that disclosure. If
+the Applicant fails to obtain the court order enjoining disclosure, COMMERCE will release the
+requested information on the date specified. If a Applicant obtains a court order from a court of
+competent jurisdiction enjoining disclosure pursuant to Chapter 42.56 RCW, or other state or federal
+law that provides for nondisclosure, COMMERCE shall maintain the confidentiality of the Applicant's
+information per the court order.
+A charge will be made for copying and shipping as allowed by law. No fee shall be charged for
+inspection of contract files, but twenty-four (24) hours’ notice to the RFA Coordinator is required. All
+requests for information should be directed to the RFA Coordinator.
+REVISIONS TO THE RFA
+In the event it becomes necessary to revise any part of this RFA, addenda will be updated on the
+website listed in SECTION 2.1 RFA COORDINATOR. Addenda will also be published on
+Washington’s Electronic Bid System (WEBS), located at https://fortress.wa.gov/ga/webs/. For this
+purpose, the published questions and answers and any other pertinent information shall be provided
+as an addendum to the RFA and will be placed on the website.
+Such addenda will also be published anywhere the RFA is posted, including on COMMERCE’S public
+webpage, located at http://www.commerce.wa.gov/serving-communities/current-opportunities/.
+Applicants are responsible for checking the website for updates, amendments, and addenda.
+COMMERCE accepts no liability and will provide no accommodation for applicants who
+submit an application based on out-of-date solicitation documents.
+COMMERCE also reserves the right to cancel or to reissue the RFA in whole or in part, prior to
+execution of a contract.
+DIVERSE BUSINESS INCLUSION PLAN
+Applicants are required to submit a Diverse Business Inclusion Plan with their Application describing
+in good faith their aspirational goals for subcontractor types. In accordance with legislative findings
+and policies set forth in RCW 39.19, the state of Washington encourages participation in all contracts
+by firms certified by the Office of Minority and Women’s Business Enterprises (OMWBE), set forth in
+RCW 43.60A.200 for firms certified by the Washington State Department of Veterans Affairs, and set
+forth in RCW 39.26.005 for firms that are Washington Small Businesses. No minimum level of
+minority- or women-owned business, Washington Small Businesses, or Washington State certified
+Veteran Business participation is required as a condition for receiving an award. Any affirmative
+action requirements set forth in any federal governmental rules included or referenced in the contract
+documents will apply.
+COMMERCE has the following agency goals:
+10% participation by Minority Owned Business
+6% participation by Women Owned Business
+5% participation by Veteran Owned Business
+5% participation by Small Businesses
+ACCEPTANCE PERIOD
+P a g e | 12
+Applications must provide 60 days for acceptance by COMMERCE from the due date for receipt of
+Applications.
+COMPLAINT PROCESS
+Potential Applicants may submit a complaint to COMMERCE based on any of the following:
+a) The solicitation unnecessarily restricts competition;
+b) The solicitation evaluation or scoring process is unfair; or
+c) The solicitation requirements are inadequate or insufficient to prepare a response.
+A complaint may be submitted to COMMERCE at any time prior to 5 days before the Application
+response deadline. The complaint must meet the following requirements:
+a) The complaint must be in writing;
+b) The complaint must be sent to the RFA coordinator in a timely manner;
+c) The complaint should clearly articulate the basis for the complaint; and
+d) The complaint should include a proposed remedy.
+The RFA coordinator will respond to the complaint in writing. The response to the complaint and any
+changes to the solicitation will be posted on WEBS. The Director of COMMERCE will be notified of all
+complaints and will be provided a copy of COMMERCE’S response. The complaint may not be raised
+again during the protest period. COMMERCE’S action or inaction in response to the complaint is final.
+There is no appeal process.
+RESPONSIVENESS
+All Applications will be reviewed by the RFA Coordinator to determine compliance with administrative
+requirements and instructions specified in this RFA. The Applicant is specifically notified that failure to
+comply with any part of this RFA may result in disqualification of the Application as incomplete and/or
+non-responsive.
+Disqualified Applicants will be notified at or about the time of disqualification.
+Disqualified Applicants will be informed of the reason for disqualification.
+COMMERCE reserves the right at its sole discretion to waive minor administrative irregularities.
+MOST FAVORABLE TERMS
+COMMERCE reserves the right to make an award without further discussion of the Application
+submitted. Therefore, the Application should be submitted initially on the most favorable terms which
+the Applicant can propose. There will be no best and final offer procedure. COMMERCE reserves the
+right to contact an Applicant for clarification of its Application.
+The Apparent Successful Contractor should be prepared to accept this RFA for incorporation into a
+contract resulting from this RFA. Contract negotiations may incorporate some, or all, of the
+Applicant’s Application. The Application will become a part of the official procurement file on this
+matter without obligation to COMMERCE.
+CONTRACT GENERAL TERMS & CONDITIONS
+The Apparent Successful Contractor will be expected to enter into a contract which is substantially the
+same as the example contract and its general terms and conditions attached as Exhibit G. This sample
+contract is for information and review only and should not be returned with your Application. In no event
+is a Applicant to submit its own standard contract terms and conditions in response to this RFA. All
+proposed edits to the contract terms and conditions must be submitted as an attachment to Exhibit A,
+Certifications and Assurances form. COMMERCE will review requested edits and accept or reject the
+same at its sole discretion.
+COSTS TO PROPOSE
+P a g e | 13
+COMMERCE will not be liable for any costs incurred by the Applicant in preparation of a Application
+submitted in response to this RFA, travel to or conduct of a presentation, or any other activities related
+to responding to this RFA.
+NO OBLIGATION TO CONTRACT
+This RFA does not obligate the state of Washington or COMMERCE to contract for services specified
+herein.
+REJECTION OF APPLICATIONS
+COMMERCE reserves the right at its sole discretion to reject any and all Applications received without
+penalty and not to issue a contract as a result of this RFA.
+COMMITMENT OF FUNDS
+The Director of COMMERCE or delegate is the only individual who may legally commit COMMERCE
+to the expenditures of funds for a contract resulting from this RFA. No services may begin and no cost
+chargeable to the proposed contract may be incurred before receipt of a fully executed contract.
+ELECTRONIC PAYMENT
+The state of Washington prefers to utilize electronic payment in its transactions. The successful
+Contractor must have or obtain a Statewide Vendor Number (SWV) from the Office of Financial
+Management to be paid by COMMERCE. For more information, visit: www.ofm.wa.gov.
+INSURANCE COVERAGE
+The Contractor is to furnish COMMERCE with a certificate(s) of insurance executed by a duly
+authorized representative of each insurer, showing compliance with the insurance requirements set
+forth within the contract if requested.
+The Contractor shall, at its own expense, obtain and keep in force insurance coverage which shall be
+maintained in full force and effect during the term of the contract. The Contractor shall furnish evidence
+in the form of a Certificate of Insurance that insurance shall be provided, and, if requested, a copy shall
+be forwarded to COMMERCE within fifteen (15) days of the contract effective date. Standard insurance
+requirements are included within the example contract and its special terms and conditions attached
+as Exhibit G.
+DISCLAIMER
+COMMERCE will not be liable for any costs incurred by the Applicant in preparation of an Application
+submitted in response to this RFA, in conduct of a presentation, or any other activities related to
+responding to this RFA.
+This solicitation does not commit COMMERCE to award any funds, pay any costs incurred in
+preparing an application, or procure or contract for services or supplies.
+Only applications with responses meeting all Mandatory Eligibility Criteria in PHASE ONE: PART A
+and B will be approved for further evaluation in the PHASE ONE: PART C Concept Paper.
+COMMERCE reserves the right to determine at its sole discretion whether the proposer's responses
+to the Mandatory Eligibility Criteria is sufficient for the application to proceed for further review.
+COMMERCE also reserves the right to disqualify any project at any time for any reason.
+COMMERCE reserves the right to modify award amount from that requested, negotiate with qualified
+applicants, cancel or reissue at any time without obligation or liability, or change the application
+guidelines for subsequent funding rounds. Updates will be made to the RFA and the webpage.
+P a g e | 14
+3. APPLICATION PROCESS AND CONTENTS
+Applications should be submitted following the process found in SECTION 2.5 SUBMISSION OF
+APPLICATIONS. Additional details can be found in the application documents.
+Application questions and detailed instructions are provided in the application forms located on the
+Research, Development and Demonstration webpage listed in SECTION 2.1 RFA COORDINATOR.
+Items marked “MANDATORY” must be included as part of the application for it to be considered
+responsive, however, these items are not necessarily scored. Items marked “SCORED” are those
+that have a point system as part of the evaluation conducted by the evaluation team.
+The Applicant must use the provided Application form and required attachments to provide all project
+information -- the evaluation team will review no other documents or attachments. Applications must
+provide information in the same order as presented in the application documents with the same
+headings. This will not only be helpful to the evaluators of the Application, but should also assist the
+Applicant in preparing a thorough response.
+3.1 TWO-PHASE APPLICATION PROCESS
+Phase Application Phase
+Phase One Part A: Applicant Information
+Part B: Minimum Qualifications
+Part C: Concept Paper
+Part D: Optional Information
+Part E: Exhibits/Attachments
+Phase Two Part A: Applicant and Project Information
+Part B: Partnerships and Equity
+Part C: Technical and Budget
+Part D: Team/Management Application
+Part E: Exhibits/Attachments
+Both Track 1 and Track 2 will use the same Two-Phase application process and application forms.
+Applications and forms are different for each phase. Please refer to the application documents for
+details.
+Two-Phase Application Process Overview
+Phase One Process:
+ PHASE ONE: Part A and Part B will be screened for minimum qualifications. COMMERCE staff
+will review PHASE ONE: Part A and Part B to determine whether it was properly completed,
+submitted on time, and whether it addresses and aligns with the minimum qualifications described
+in RFA SECTION 1.3 MINIMUM QUALIFICATIONS.
+Phase One
+Application
+Phase One
+Part A &B
+review
+Phase One
+Part C review Encourage/
+Discourage Phase Two
+Phase
+Two
+Review
+Applicants
+notified
+Disqualification Discourage
+Minimum Qualifications Concept Paper
+Encouraged
+P a g e | 15
+ PHASE ONE: Part A and Part B applications that do not pass the minimum qualifications screening
+will receive an email indicating they were administratively disqualified. If the project meets the
+minimum thresholds, the PHASE ONE: Part C application will be evaluated.
+ An evaluation Team will review PHASE ONE applications in their entirety and assign a numerical
+score based on the criteria listed in SECTION 4.2 EVALUATION BREAKDOWN. COMMERCE staff
+will use the scores to issue “ENCOURAGE” or “DISCOURAGE” notices to applicants but will not
+release individual scores as part of the determination.
+o Favorably reviewed applicants will be notified via email with a recommendation of
+“Encouraged to submit PHASE TWO Application”
+o Unfavorably reviewed applicants will be notified via email a recommendation of
+“Discouraged to submit PHASE TWO Application.”
+ Applicants will not receive feedback on the recommendation. Applicants will not receive an
+indication of the level of anticipated award since this will be determined in the Phase Two review.
+Applicants will not be provided an opportunity for project presentations or to request meetings or
+phone calls to discuss the projects at this stage. Applicants who were “Discouraged” can submit a
+PHASE TWO Application. However, the Evaluation Team will only review a limited number of
+PHASE TWO applications, and will prioritize reviewing the applicants receiving an “Encouraged”
+recommendation.
+ Discouraged applicants who chose to submit an application are not guaranteed an application
+review. The “Encouraged” or “Discouraged” decision is intended to minimize the time and effort to
+develop a PHASE TWO Application for projects that do not meet the intent of the program or have
+a low chance of success.
+Phase Two Process:
+ Applicants will have approximately 65 calendar days from the receipt of the “Encouraged” or
+“Discouraged” email to submit a PHASE TWO Application. As stated in SECTION 2.2 ESTIMATED
+SCHEDULE OF PROCUREMENT ACTIVITIES, COMMERCE reserves the right to revise the
+schedule at any time, and applicants may have fewer than 65 calendar days to prepare the PHASE
+TWO Application. Submitting a PHASE ONE Application does not obligate the applicant to submit
+a PHASE TWO Application. However, applicants must submit a PHASE ONE Application to be
+eligible for consideration for the PHASE TWO application.
+ An Evaluation Team will evaluate PHASE TWO of Encouraged Applicants, including reviewing
+PHASE ONE part C for context.
+ Scores, comments, and recommendations will be provided to COMMERCE for consideration when
+determining awards. COMMERCE will make all final funding decisions. Notification of Research,
+Development and Demonstration Program grant awards, along with notification of unsuccessful
+applications, will take place approximately according to the schedule in SECTION 2.2 ESTIMATED
+SCHEDULE OF PROCUREMENT ACTIVITIES.
+ Successful applicants will enter into contract negotiations starting according to the schedule in
+SECTION 2.2 ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES.
+3.2 PHASE ONE APPLICATION CONTENTS
+PHASE ONE Application must be received by the RFA Coordinator by the date specified in SECTION
+2.2 ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES. PHASE ONE Applications not
+received by the deadline will be disqualified. The application and required supplemental forms are on
+the website and/or in EXHIBITS of the RFA. Refer to the application for detailed instructions and
+contents.
+A. Part A: Application Information (Mandatory)
+o Application Title (Mandatory, Not Scored)
+o Full Legal Name of Organization (Mandatory, Not Scored)
+o Year Incorporated (Mandatory, Not Scored)
+o Entity Type (Mandatory, Not Scored)
+o Organization Mailing Address (Mandatory, Not Scored)
+o Project Address (Mandatory, Not Scored)
+o Project Address County (Mandatory, Not Scored)
+o First Time CEF Applicant (Mandatory, Not Scored)
+o Number of Employees (Mandatory, Not Scored)
+P a g e | 16
+o Supporting Applicant(s) (Mandatory, Not Scored)
+o Primary contact person for this application (Mandatory, Not Scored)
+o Executive (Person with authority to bind organization) (Mandatory, Not Scored)
+o Additional Contacts (Please provide name, email and phone) (Mandatory, Not Scored)
+o Principle Investigator(s) (Mandatory, Not Scored)
+o Applicant Universal Business Identifier (UBI) (Mandatory, Not Scored)
+o Statewide Vendor Number (SWV) (Mandatory, Not Scored)
+o Research Stage (Mandatory, Not Scored)
+o Funding Track (Mandatory, Not Scored)
+o Grant Amount Requested (Mandatory, Not Scored)
+o Match Ratio (Mandatory, Not Scored)
+o Reduced Match Applicant (Mandatory, Not Scored)
+B. Part B: Minimum Qualifications (Mandatory)
+o Applicant Eligibility (Mandatory, Pass/Fail)
+ Lead applicant eligibility (Mandatory, Pass/Fail)
+ Demonstration of significant in-state presence and investment by conducting
+primary, research, development, demonstration and deployment in Washington.
+(Mandatory, Pass/Fail)
+ Business License status (Mandatory, Pass/Fail)
+o Eligible Activities/Projects (Mandatory, Pass/Fail)
+ Research, development and demonstration of eligible clean energy technology
+(Mandatory, Pass/Fail)
+ Capital asset with a minimum of thirteen-year lifespan (Mandatory, Pass/Fail)
+ Consistency with the 2021 State Energy Strategy and policies under 19.405 RCW
+(Pass/Fail)
+C. Part C: Concept Paper (Mandatory, Scored)
+o Project Title (Mandatory, Not Scored)
+o Project Summary (Mandatory, Scored)
+o Impact on State and Federal Policies and Goals (Mandatory, Scored)
+o Equity, Community Benefits and Partnerships (Mandatory, Scored)
+o Funding Need And Match (Mandatory, Scored)
+o Team and Facilities (Mandatory, Scored)
+o Eligible Technology (Mandatory, Scored)
+o Technology Readiness Level (Mandatory, Scored)
+D. Part D: Optional Questions (Optional)
+o Image (Optional)
+o Bibliography and Citations (Optional)
+E. Part E: Exhibits/Attachments (Mandatory)
+o Biographical Sketches (Mandatory, Scored)
+3.3 PHASE TWO APPLICATION CONTENTS
+Phase Two Application must be received by the RFA Coordinator by the date specified in SECTION
+2.2. PHASE TWO Applications not received by the deadline will be disqualified. The application and
+required supplemental forms are on the website and/or in EXHIBITS of the RFA. Refer to the
+application for detailed instructions and contents.
+A. Part A: Application Information (Mandatory)
+o Application Title (Mandatory, Not Scored)
+o Full Legal Name of Organization (Mandatory, Not Scored)
+o Supporting Applicant(s) (Mandatory, Not Scored)
+o Primary Contact person for application (Mandatory, Not Scored)
+o Additional Contacts (Mandatory, Not Scored)
+o Funding Track (Mandatory, Not Scored)
+o Bonus Points: New Awardees (Mandatory, Scored)
+B. Part B: Partnerships and Equity (Mandatory, Scored)
+1. Partnerships Narrative (Mandatory, Scored)
+2. Diversity, Equity, and Inclusion (Mandatory, Scored)
+3. Job creation and workforce development (Mandatory, Scored)
+P a g e | 17
+4. Community and Tribal Benefits (Mandatory, Scored)
+5. Community and Tribal Engagement (Mandatory, Scored)
+6. Emissions Reductions (Mandatory, Scored)
+C. Part C: Technical Application and Budget (Mandatory, Scored)
+7. Project Overview (Mandatory, Scored)
+8. Building on Existing Strengths in Washington (Mandatory, Scored)
+9. Background (Mandatory, Scored)
+10. Outcomes/Broader Impacts (Mandatory, Scored)
+11. Methodology (Mandatory, Scored)
+12. Risks (Mandatory, Scored)
+13. Work Plan (Mandatory, Scored)
+14. Scalability (Mandatory, Scored)
+15. Budget (Mandatory, Scored)
+D. Part D: Team and Management Application (Mandatory)
+16. Facility and Organization (Mandatory, Scored)
+17. Team (Mandatory, Scored)
+18. Roles and Responsibilities (Mandatory, Scored)
+19. Related Information (Mandatory, Not Scored)
+E: Part E: Exhibits/Attachments (Mandatory and Optional)
+o Exhibit A to RFA: Certifications and Assurances form (Mandatory, Not Scored)
+o Exhibit B to RFA: Diverse Business Inclusion Plan (Mandatory, Not Scored)
+o Exhibit C to RFA: Workers Rights Certification (Mandatory, Scored)
+o Exhibit D to RFA: Assurances or Documentation of Secured Match (Optional, Scored)
+o Memorandum of Understanding/Partnership Letter (Optional, Scored)
+o Budget Sheet (Mandatory, Scored)
+o Community Input (Optional, Scored)
+o Certification from Washington State Office of Minority and Women’s Business Enterprises
+(OMWBE) (Optional, Not Scored)
+P a g e | 18
+4. EVALUATION AND CONTRACT AWARD
+EVALUATION PROCEDURE
+Complete and responsive Applications will be evaluated strictly in accordance with the requirements
+stated in this RFA and any addenda issued. The evaluation of Applications will be accomplished by an
+evaluation team to be designated by COMMERCE, which will determine the ranking of the Applications.
+COMMERCE staff will review the Application to determine whether it a) was properly completed, b)
+submitted on time, and c) whether it addresses and aligns with the minimum qualifications described in
+RFA Section 1.3 MINIMUM QUALIFICATIONS. If the application does not meet threshold criteria, it will
+not be scored.
+Responsive Applications will be evaluated strictly in accordance with the requirements stated in this
+RFA and any addenda issued. The evaluation of Applications will be accomplished by one or more
+evaluation team(s) designated by COMMERCE, which will determine the ranking of the Applications.
+COMMERCE, in its sole discretion, may elect to invite top-scoring Applicants as finalists for a virtual
+presentation or interview.
+The RFA Coordinator may contact the Applicant for clarification of any portion of their Application.
+Applicants are not permitted to submit, resubmit, correct, or change any materials of any kind after the
+date and time stated in Section 2.5 SUBMISSION OF APPLICATIONS.
+EVALUATION BREAKDOWN
+The following weighting will be assigned to each Application section for evaluation purposes.
+Subsections may or may not be of equal weight.
+Additionally, those organizations which certify they do not require their employees to sign an individual
+arbitration clause as a condition of employment will receive an extra 3% of their awarded points added
+to their final score (see Exhibit C).
+Phase One: Weighting
+Application Section Criteria Weight
+Part A: Applicant
+Information
+Applicant and Project Information Not Scored
+Part B: Minimum
+Qualifications
+Applicant Eligibility Pass/Fail
+Eligible Activities/Projects Pass/Fail
+Part C: Concept Paper
+Project Narrative
+1. Project Summary 20
+2. Impact on State and Federal Policies and
+Goals
+10
+3. Equity, Community Benefits, and
+Partnerships
+20
+4. Funding Need and Match Requirement 10
+5. Team and Facilities 20
+6. Eligible Technology 10
+7. Technology Readiness Level 10
+Part D: Optional
+Information
+8. Image (Optional) Not Scored
+9. Bibliography and Citations Not Scored
+Phase One Total 100 points
+P a g e | 19
+The weights for PHASE ONE are guidelines for applicants on which questions the review team will
+prioritize. PHASE ONE will have a numerical score determined by reviewers and not shared publicly,
+but used to issue an “Encouraged” or “Discouraged” determination.
+Phase Two Weighting
+Application Section Criteria Weight
+Part A: Applicant
+Information
+Applicant Information Not Scored
+Additional Evaluation Points: New awardees 10 points added to
+score
+Part B: Partnerships
+and Equity
+30%
+1. Partnerships 15 points
+2. Diversity, Equity and Inclusion 5 points
+3. Job Creation and Workforce Development 10 points
+4. Community and Tribal Benefits 15 points
+5. Community and Tribal Engagement 10 points
+6. Emissions Reductions 5 points
+Part C: Technical and
+Budget
+50%
+7. Project Overview 10 points
+8. Building on Washington's Strengths 5 points
+9. Background 10 points
+10. Outcomes/Broader Impacts 10 points
+11. Methodology 15 points
+12. Risks 10 points
+13. Work Plan 15 points
+14. Scalability 5 points
+15. Budget
+-Budget
+-Additional match
+-Secured match
+20 points
+Part D: Team and
+Management
+Application
+20%
+16. Facility and Organization 15 points
+17. Team 15 points
+18. Roles and Responsibilities 10 points
+19. Related Information Not Scored
+Phase Two Total 200 points
+210 points with new
+awardee additional
+points
+Part E:
+Exhibits/Attachments
+Worker’s Rights Certification without individual
+arbitration clause
+3% added to
+applicant’s overall
+score
+COMMERCE reserves the right to award the contract to the Applicant whose Application is deemed to
+be in the best interest of COMMERCE and the state of Washington.
+COMMERCE reserves the right to consider geographic location when awarding funding.
+P a g e | 20
+VIRTUAL PRESENTATIONS MAY BE REQUIRED
+After evaluating the written Applications COMMERCE may elect to schedule virtual presentations or
+interviews of top-scoring Applicants. If so, COMMERCE will contact the top-scoring Applicants from the
+written evaluation to schedule a date and time to meet on a platform such as Zoom or Microsoft Teams.
+Any commitments made by the Applicant during a virtual presentation or interview will be considered
+binding.
+The scores from the written evaluation and the virtual presentation combined together will determine
+the Apparent Successful Contractor.
+NOTIFICATION TO APPLICANTS
+COMMERCE will notify the Apparent Successful Contractor(s) of their selection in writing upon
+completion of the evaluation process. Applicants who were not selected for further negotiation or award
+will be notified separately. Notification may also be made to the COMMERCE public website,
+Washington Electronic Business Solution (WEBS), or other publically accessible locations.
+DEBRIEFING OF UNSUCCESSFUL APPLICANTS
+Any Applicant who has submitted a Application and received notice that they were not selected for
+contract negotiation may request a debriefing. The request for a debriefing conference must be received
+by the RFA Coordinator within three (3) business days after the Unsuccessful Applicant Notification is
+e-mailed to the Applicant. The debriefing must be scheduled within three (3) business days of the
+request.
+Discussion at the debriefing conference is strictly limited to the following:
+ Evaluation and scoring of that Applicant’s Application;
+ Any written comments from evaluators related to that Applicant;
+ Review of Applicant’s final score in comparison with the other final scores without identifying
+the other Applicants or reviewing their Applications.
+Comparisons between Applications or evaluations of the other Applications is not allowed.
+COMMERCE will not discuss any items other than the three bullet points above. Debriefing conferences
+may be conducted on the telephone or by other electronic means and will be scheduled for a maximum
+of thirty (30) minutes. COMMERCE reserves the right to end a debriefing for any reason.
+PROTEST PROCEDURE
+Protests may be filed only by Applicants who submitted a response to this RFA and who have
+participated in a debriefing conference. Upon completing the debriefing conference, the Applicant is
+allowed five (5) business days to file a protest with the RFA Coordinator. Protests must be received by
+the RFA Coordinator no later than 5:00pm Pacific time on the fifth business day following the debriefing.
+Protests must be submitted by email. Applicants may choose to copy COMMERCE’S Central Contracts
+Office at comcustserv@commerce.wa.gov. Do not copy any other COMMERCE staff.
+Applicants protesting this RFA shall follow the procedures described below. Protests that do not follow
+these procedures will not be considered. This protest procedure constitutes the sole administrative
+remedy available to Applicants under this RFA.
+All protests must be in writing, addressed to the RFA Coordinator, and signed by the protesting party
+or an authorized agent. The protest must state the RFA number, the grounds for the protest from the
+list below with specific facts, and complete statements of the action(s) being protested. A description
+of the relief or corrective action being requested should also be included.
+Only protests stipulating an issue of fact concerning the following subjects shall be considered:
+P a g e | 21
+ A matter of bias, discrimination, or conflict of interest on the part of an evaluator;
+ Errors in computing the score;
+ Non-compliance with procedures described in this RFA or COMMERCE policy.
+Protests not based on procedural matters will not be considered. Protests will be dismissed as without
+merit if they address issues such as an evaluator’s professional judgment on the quality of a Application,
+or COMMERCE’S assessment of its own and/or other agencies’ needs or requirements.
+Scores received are not a valid basis of protest and will be dismissed as without merit unless included
+with facts supporting bias, discrimination, or conflict of interest on the part of an evaluator.
+Upon receipt of a protest, a protest review will be held by COMMERCE. COMMERCE’S Chief Contracts
+Officer, or other employee delegated by the Director who was not involved in the award process, will
+consider the record along with all available facts and issue a decision within ten (10) business days of
+receipt of the protest. If additional time is required, the protesting party will be notified of the delay.
+In the event a protest may directly impact the actual interest of another Applicant, such Applicant may
+be given an opportunity to submit its views and any relevant information on the protest.
+The final determination of the protest shall:
+ Find the protest lacking in merit and uphold COMMERCE’S action; or
+ Find only technical or harmless errors in COMMERCE’S process and determine COMMERCE
+to be in substantial compliance and reject the protest; or
+ Find merit in the protest and provide COMMERCE options which may include:
+o Correct the error(s) and re-evaluate all Applications, or
+o Cancel this RFA and begin a new process, or
+o Make other findings and determine other courses of action as appropriate.
+If COMMERCE does not find merit in the protest, COMMERCE may enter into a contract with the
+Apparent Successful Contractor(s). If the protest is determined to have merit, one of the options above
+will be taken.
+P a g e | 22
+5. RFA EXHIBITS
+Exhibit A Certifications and Assurances
+Exhibit B Diverse Business Inclusion Plan
+Exhibit C Workers’ Rights Certification
+Exhibit D Assurances or Documentation of Secured Match
+Exhibit E Technology Readiness Level
+Exhibit F 2021 State Energy Strategy
+Exhibit G Capital Contract Format with General Terms and Conditions
+PAGE | 23
+EXHIBIT A: CERTIFICATIONS AND ASSURANCES
+I/we make the following certifications and assurances as a required element of the Application to
+which it is attached, understanding that the truthfulness of the facts affirmed here and the
+continuing compliance with these requirements are conditions precedent to the award or
+continuation of the related contract:
+1. I/we declare that all answers and statements made in the Application are true and correct.
+2. The prices and/or cost data have been determined independently, without consultation, communication,
+or agreement with others for the purpose of restricting competition. However, I/we may freely join with
+other persons or organizations for the purpose of presenting a single Application.
+3. The attached Application is a firm offer for a period of 60 days following receipt, and it may be accepted
+by COMMERCE without further negotiation (except where obviously required by lack of certainty in key
+terms) at any time within the 60-day period.
+4. In preparing this Application, I/we have not been assisted by any current or former employee of the
+state of Washington whose duties relate (or did relate) to this RFA or prospective contract, and who
+was assisting in other than his or her official, public capacity. If there are exceptions to these
+assurances, I/we have described them in full detail on a separate page attached to this document.
+5. I/we understand that COMMERCE will not reimburse me/us for any costs incurred in the preparation of
+this Application. All Applications become the property of COMMERCE, and I/we claim no proprietary
+right to the ideas, writings, items, or samples, unless so stated in this Application.
+6. Unless otherwise required by law, the prices and/or cost data which have been submitted have not
+been knowingly disclosed by the Applicant and will not be knowingly disclosed by him/her prior to
+opening, directly or indirectly, to any other Applicant or to any competitor.
+7. I/we agree that submission of the attached Application constitutes acceptance of the RFA contents and
+the attached example contract and general terms and conditions. If there are any proposed edits to
+these terms, I/we have described those edits in detail on a page attached to this document.
+8. No attempt has been made or will be made by the Applicant to induce any other person or organization
+to submit or not to submit a Application for the purpose of restricting competition.
+9. I/we grant COMMERCE the right to contact references and any others who may have pertinent
+information regarding the ability of the Applicant and the lead staff person to perform the services
+contemplated in this RFA.
+10. If any staff member(s) who will perform work on this contract has retired from the state of Washington
+under the provisions of the 2008 Early Retirement Factors legislation, his/her name(s) is noted on a
+separately attached page.
+11. I/we are not debarred from doing business with the state of Washington or the United States.
+I/We have reviewed the Contract and General Terms and Conditions and I/we: (check one)
+☐ are submitting proposed contract edits. If proposed contract edits are being submitted for consideration,
+I/we have attached them to this form. (See Section 2.14)
+☐ are not submitting proposed contract edits. (Default if neither are checked)
+On behalf of the Applicant submitting this Application, my signature below attests to the accuracy of the
+above statement as well as my authority to bind the submitting organization.
+Signature of Applicant Date
+Printed Name Title
+PAGE | 24
+EXHIBIT B: DIVERSE BUSINESS INCLUSION PLAN
+Please see Section 2.9 for more information regarding the Diverse Business Inclusion Plan.
+If awarded a contract as a result of this RFA, Yes No
+Do you anticipate subcontracting* with State Certified Minority Businesses? ☐ ☐
+Do you anticipate subcontracting with State Certified Women’s Businesses? ☐ ☐
+Do you anticipate subcontracting with State Certified Veteran Businesses? ☐ ☐
+Do you anticipate subcontracting with Washington State Small Businesses? ☐ ☐
+Applicant’s Goals:
+Please list the approximate percentage of work to be accomplished by each subcontractor type:
+Minority-owned businesses: __%
+Woman-owned businesses: __%
+Veteran-owned businesses: __%
+Small businesses: __%
+If you plan to subcontract and answered ‘No’ to all questions above, please explain:
+Click or tap here to enter text.
+☐ I/We do not plan to subcontract any of the work described in this RFA.
+Please identify the person in your organization who will manage your Diverse Business Inclusion Plan
+related to this project:
+Name: __________________
+Title: __________________
+Phone: __________________
+E-Mail: __________________
+* Please note that subcontracting must be done in accordance with contractual terms and
+conditions which may include specific subcontractor selection requirements. Do not select
+subcontractors until you have reviewed all applicable requirements.
+PAGE | 25
+EXHIBIT C: Workers’ Rights Certification
+CONTRACTOR CERTIFICATION
+EXECUTIVE ORDER 18-03 – WORKERS’ RIGHTS
+WASHINGTON STATE GOODS & SERVICES CONTRACTS
+Pursuant to the Washington State Governor’s Executive Order 18-03 dated June 12, 2018, the
+Washington Department of Commerce is seeking to contract with qualified organizations which certify
+that their employees are not, as a condition of employment, subject to mandatory individual arbitration
+clauses and class or collective action waivers. See Section 4.2.
+RFA Number: RDD2023
+I hereby certify, on behalf of the organization identified below, as follows (check one and sign below):
+☐ NO MANDATORY INDIVIDUAL ARBITRATION CLAUSES AND CLASS OR COLLECTIVE ACTION WAIVERS FOR
+EMPLOYEES. This organization does NOT require its employees, as a condition of employment, to
+sign or agree to mandatory individual arbitration clauses or class or collective action waivers.
+OR
+☐ MANDATORY INDIVIDUAL ARBITRATION CLAUSES AND CLASS OR COLLECTIVE ACTION WAIVERS FOR
+EMPLOYEES. This organization requires its employees, as a condition of employment, to sign or
+agree to mandatory individual arbitration clauses or class or collective action waivers.
+OR
+☐ This organization certifies it has no employees.
+I hereby certify, under penalty of perjury under the laws of the state of Washington, that the certifications
+herein are true and correct and that I am authorized to make these certifications on behalf of the
+organization listed herein.
+NAME: ______________________________________________________________
+Print full legal entity name of organization
+By: ____________________________
+Signature of authorized person
+Title: ____________________________
+Title of person signing certificate
+Date: ___________________________
+_________________________________
+Printed Name
+Place: ____________________________
+Print city and state where signed
+Return to Procurement Coordinator as part of your complete response.
+P a g e | 26
+Exhibit D: ASSURANCES OR DOCUMENTATION OF REQUIRED MATCH SAMPLE
+Submit letters on letterhead of business and/or organization with the non-state funding
+you are seeking to match.
+Text can be modified but needs to address the following basic information.
+Non-state Funding Letter of Intent to Commit
+(date)
+(applicant name, title and address)
+Dear (applicant chief executive officer),
+I am pleased to confirm our commitment of ($xxxxxx) towards (project title).
+Please note (Additional instructions for items to address in the match funding commitment letter):
+1. Please notify us once the match is fulfilled. You may subsequently draw upon our committed
+funds in whole or in part (revise per standard practice of funding organization).
+2. (Add any unique conditions and/or expectations of non-state funding source here such as subject
+to completion of due diligence.)
+3. Please sign and return a copy of this intent to commit letter to verify your acceptance of this offer
+and the conditions herein.
+Sincerely,
+(name and title of person authorized to make offer)
+Accepted by: _________________________ on _____
+(name) (date)
+Authorized Signature: _______________________________
+P a g e | 27
+Exhibit E: Technology Readiness Level
+Technology Readiness Level (TRL) is a method of measuring the maturity of a technology, with respect to
+commercialization, originally developed by NASA. While there are many TRL definitions and scales,
+please refer to Table 1. “Technology Readiness Levels” under the Department of Energy Technology
+Readiness Assessment Guide.
+P a g e | 28
+Exhibit F: 2021 State Energy Strategy
+Executive Summary of 2021 State Energy Strategy
+P a g e | 1
+Exhibit G: Capital Contract Template
+Capital Agreement with
+Please enter the Local Government /Business Name of Recipient Organization
+through
+Click or tap here to enter text.
+Contract Number:
+Please enter Contract Number
+For
+Provide Project Title/ Primary Contract Purpose in 25 words or less
+Dated: Please enter start date of contract
+________________________________________________________________________________________________________
+Page 2
+Table of Contents
+Table of Contents .............................................................................................................................................. 2
+Face Sheet ...............................................................................................................Error! Bookmark not defined.
+DECLARATIONS ...................................................................................................................................................5
+Program Specific Terms and Conditions ...................................................................................................... 6
+1. BILLING AND COMPENSATION FOR PERFORMANCE BASED CONTRACT (REPLACES
+SPECIAL TERMS AND CONDITIONS #3 BILLING PROCEDURES AND PAYMENT) ............................6
+2. INSURANCE (REPLACES SPECIAL TERMS AND CONDITIONS #6 INSURANCE) ......................7
+3. COPYRIGHT (REPLACES GENERAL TERMS AND CONDITIONS #13 COPYRIGHT) .................7
+4. SUBCONTRACTING (REPLACES GENERAL TERMS AND CONDITIONS #37
+SUBCONTRACTING) ............................................................................................................................................7
+Special Terms and Conditions ........................................................................................................................ 9
+1. CONTRACT MANAGEMENT .....................................................................................................................9
+2. COMPENSATION ........................................................................................................................................9
+3. BILLING PROCEDURES AND PAYMENT (REPLACED BY PROGRAM SPECIFIC TERMS AND
+CONDITIONS #1) ..................................................................................................................................................9
+4. SUBCONTRACTOR DATA COLLECTION ............................................................................................10
+5. HISTORICAL OR CULTURAL ARTIFACTS ...........................................................................................10
+6. INSURANCE (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #2) ...............10
+7. FRAUD AND OTHER LOSS REPORTING ............................................................................................11
+8. ORDER OF PRECEDENCE .....................................................................................................................12
+General Terms and Conditions ..................................................................................................................... 13
+1. DEFINITIONS..............................................................................................................................................13
+2. ALLOWABLE COSTS ................................................................................................................................13
+3. ALL WRITINGS CONTAINED HEREIN ..................................................................................................13
+4. AMENDMENTS ..........................................................................................................................................13
+5. AMERICANS WITH DISABILITIES ACT (ADA) OF 1990, PUBLIC LAW 101-336, also referred to
+as the “ADA” 28 CFR Part 35 .............................................................................................................................13
+6. APPROVAL .................................................................................................................................................13
+7. ASSIGNMENT ............................................................................................................................................14
+8. ATTORNEYS’ FEES ..................................................................................................................................14
+9. CODE REQUIREMENTS ..........................................................................................................................14
+10. CONFIDENTIALITY/SAFEGUARDING OF INFORMATION ...............................................................14
+11. CONFORMANCE .......................................................................................................................................14
+12. CONFLICT OF INTEREST .......................................................................................................................14
+________________________________________________________________________________________________________
+Page 3
+13. COPYRIGHT (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #3) ..............15
+14. DISALLOWED COSTS ..............................................................................................................................15
+15. DISPUTES ...................................................................................................................................................15
+16. DUPLICATE PAYMENT ............................................................................................................................16
+17. GOVERNING LAW AND VENUE ............................................................................................................16
+18. INDEMNIFICATION ...................................................................................................................................16
+19. INDEPENDENT CAPACITY OF THE CONTRACTOR.........................................................................16
+20. INDUSTRIAL INSURANCE COVERAGE ...............................................................................................17
+21. LAWS ...........................................................................................................................................................17
+22. LICENSING, ACCREDITATION AND REGISTRATION ......................................................................17
+23. LIMITATION OF AUTHORITY ..................................................................................................................17
+24. LOCAL PUBLIC TRANSPORTATION COORDINATION.....................................................................17
+25. NONCOMPLIANCE WITH NONDISCRIMINATION LAWS .................................................................17
+26. PAY EQUITY ...............................................................................................................................................17
+27. POLITICAL ACTIVITIES ............................................................................................................................18
+28. PREVAILING WAGE LAW ........................................................................................................................18
+29. PROHIBITION AGAINST PAYMENT OF BONUS OR COMMISSION ..............................................18
+30. PUBLICITY ..................................................................................................................................................18
+31. RECAPTURE ..............................................................................................................................................18
+32. RECORDS MAINTENANCE .....................................................................................................................18
+33. REGISTRATION WITH DEPARTMENT OF REVENUE ......................................................................19
+34. RIGHT OF INSPECTION ..........................................................................................................................19
+35. SAVINGS .....................................................................................................................................................19
+36. SEVERABILITY ..........................................................................................................................................19
+37. SUBCONTRACTING (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #4) .19
+38. SURVIVAL ...................................................................................................................................................19
+39. TAXES ..........................................................................................................................................................20
+40. TERMINATION FOR CAUSE ...................................................................................................................20
+41. TERMINATION FOR CONVENIENCE ....................................................................................................20
+42. TERMINATION PROCEDURES ..............................................................................................................20
+43. TREATMENT OF ASSETS .......................................................................................................................21
+44. WAIVER .......................................................................................................................................................21
+Attachment A: Scope of Work ..............................................................................Error! Bookmark not defined.
+Attachment B: Budget ...........................................................................................Error! Bookmark not defined.
+________________________________________________________________________________________________________
+Page 4
+Attachment C: Reporting ............................................................................................................................... 24
+Attachment D: Proviso ................................................................................................................................... 25
+________________________________________________________________________________________________________
+Page 5
+Face Sheet
+Contract Number: <Insert Number>
+Energy Division, Energy Programs in Communities
+Research, Development and Demonstration Program
+DECLARATIONS
+The Washington State Department of Commerce (Commerce) has appropriated state funds under
+SECTION 1005 of Engrossed Substitute Senate Bill 6248, SECTION 1028 of the Second Engrossed
+House Bill 1115, SECTION 1013 of Substitute Senate Bill 6090, SECTION 1064 of the Substitute House
+Bill 1080 and Section 1017 of Substitute Senate Bill 5200, to provide grants for the Research,
+Development And Demonstration program.
+1. Contractor 2. Contractor Doing Business As (as applicable)
+<Insert legal name>
+<Insert mailing address>
+<Insert physical address>
+<Insert location>
+<Insert DBA name>
+<Insert DBA mailing address>
+<Insert DBA physical address>
+<Insert DBA location>
+3. Contractor Representative 4. COMMERCE Representative
+<Insert name>
+<Insert title>
+<Insert phone>
+<Insert FAX>
+<Insert e-mail>
+<Insert name>
+<Insert title>
+<Insert phone>
+<Insert FAX>
+<Insert e-mail>
+<Insert mailing address>
+<Insert physical address>
+<Insert location>
+5. Contract Amount 6. Funding Source 7. Start Date 8. End Date
+<Insert $ Total> Federal: State: Other: N/A: <Insert date> <Insert date>
+9. Federal Funds (as applicable)
+<Insert $ amount>
+Federal Agency:
+<Insert name>
+ALN
+<Insert number>
+10. Tax ID # 11. SWV # 12. UBI # 13. UEI #
+<Insert number> <Insert number> <Insert number> <Insert number>
+14. Contract Purpose
+<Briefly describe contract purpose>
+COMMERCE, defined as the Department of Commerce, and Contractor acknowledge and accept the terms of this Contract
+and attachments and have executed this Contract on the date below to start as of the date and year referenced above. The
+rights and obligations of both parties to this Contract are governed by this Contract and the following other documents
+incorporated by reference: Contractor Terms and Conditions including Attachment “A” – Scope of Work, Attachment “B” –
+Budget, Attachment “C” – Reporting.
+FOR CONTRACTOR FOR COMMERCE
+<insert name>, <insert title>
+Signature
+Date
+<insert name>, <insert title>
+Date
+APPROVED AS TO FORM ONLY
+BY ASSISTANT ATTORNEY GENERAL
+APPROVAL ON FILE
+________________________________________________________________________________________________________
+Page 6
+CLIENT INFORMATION
+Legal Name:
+Contract Number:
+Award Year:
+State Wide Vendor Number:
+PROJECT INFORMATION
+Project Title:
+Project Address:
+Project City:
+Project State:
+Project Zip Code:
+GRANT INFORMATION
+Grant Amount:
+Non-State Match
+Type of Match Accepted:
+Earliest Date for Reimbursement:
+Time of Performance:
+PROGRAM SPECIFIC TERMS AND CONDITIONS GOVERNING THIS GRANT
+Program Specific Terms and Conditions
+As identified herein, notwithstanding General & Specific Terms and Conditions SECTIONs, the following
+Program Specific Terms and Conditions take precedence over any similarly referenced Special or
+General Terms and Conditions:
+1. BILLING AND COMPENSATION FOR PERFORMANCE BASED CONTRACT (REPLACES SPECIAL
+TERMS AND CONDITIONS #3 BILLING PROCEDURES AND PAYMENT )
+COMMERCE will pay Contractor not more often than monthly upon acceptance of services provided and
+receipt of properly completed invoices for completed milestones, which shall be submitted to the
+Representative for COMMERCE.
+The Grantee shall provide the Representative of COMMERCE a signed electronic Invoice A19 form that
+includes the contract number referenced on the declarations page.
+The invoices shall describe and document, to COMMERCE's satisfaction, a description of the work
+performed and the milestone number(s) achieved.
+The Grantee is required to maintain documentation to support invoiced costs and cost share obligations.
+The Grantee shall make these documents available to COMMERCE if requested.
+COMMERCE will pay Grantee the amounts set forth in Attachment B upon full completion of each
+milestone. Upon full completion of each Milestone, Grantee will provide an invoice and any required
+supporting documentation to the Representative of COMMERCE. Except as may be agreed by
+COMMERCE in its discretion, COMMERCE shall only be obligated to make payments upon demonstration
+of completion of all Deliverables within a given Milestone. However, it is acknowledged that in the event
+one or two Deliverables of a Milestone is unduly delayed (more than 3 months) due to circumstances
+outside Grantee’s control, COMMERCE may, in its sole discretion, reasonably negotiate with Grantee
+regarding paying for those Deliverables of such Milestones that are completed.
+Payment shall be considered timely if made by COMMERCE within thirty (30) calendar days after receipt
+of properly completed invoices. Payment shall be sent to the address designated by the Contractor.
+________________________________________________________________________________________________________
+Page 7
+COMMERCE may, in its sole discretion, terminate the Contract or withhold payments claimed by the
+Contractor for services rendered if the Contractor fails to satisfactorily comply with any term or condition of
+this Contract.
+No payments in advance or in anticipation of services or supplies to be provided under this Agreement shall
+be made by COMMERCE.
+Invoices and End of Fiscal Year
+Invoices are due on the 20th of the month following the provision of services.
+Final invoices for a state fiscal year may be due sooner than the 20th and Commerce will provide notification
+of the end of fiscal year due date.
+The grantee must invoice for all expenses from the beginning of the contract through June 30, regardless
+of the contract start and end date.
+Duplication of Billed Costs
+The Contractor shall not bill COMMERCE for services performed under this Agreement, and COMMERCE
+shall not pay the Contractor, if the Contractor is entitled to payment or has been or will be paid by any other
+source, including grants, for that service.
+Disallowed Costs
+The Contractor is responsible for any audit exceptions or disallowed costs incurred by its own organization
+or that of its subcontractors.
+2. INSURANCE (REPLACES SPECIAL TERMS AND CONDITIONS #6 INSURANCE)
+The Grantee shall provide insurance coverage as set out in this SECTION. The intent of the required
+insurance is to protect the State should there be any claims, suits, actions, costs, damages or expenses
+arising from any loss, or negligent or intentional act or omission of the Grantee or Subcontractor, or agents
+of either, while performing under the terms of this contract.
+The insurance required shall be issued by an insurance company authorized to do business within the state
+of Washington. The insurance shall name the state of Washington, its agents, officers, and employees as
+additional insureds under the insurance policy. All policies shall be primary to any other valid and collectable
+insurance. The Grantee shall instruct the insurers to give COMMERCE thirty (30) calendar days advance
+notice of any insurance cancellation, non-renewal or modification.
+The Grantee shall submit to COMMERCE within fifteen (15) calendar days of the Contract start date, a
+certificate of insurance which outlines the coverage and limits defined in this insurance SECTION.
+The Grantee shall provide, at COMMERCE’s request, copies of insurance instruments or certifications from
+the insurance issuing agency. The copies or certifications shall show the insurance coverage, the
+designated beneficiary, who is covered, the amounts, the period of coverage, and that COMMERCE will be
+provided thirty (30) days advance written notice of cancellation. The Grantee shall provide insurance
+coverage that shall be maintained in full force and effect during the term of this Contract, as follows:
+Commercial General Liability Insurance Policy. Provide a Commercial General Liability Insurance Policy,
+which shall specifically exclude Products & Completed Operations, including contractual liability, written on
+an occurrence basis, in adequate quantity to protect against legal liability arising out of contract activity but
+no less than $1,000,000 per occurrence. Additionally, the Grantee is responsible for ensuring that any
+Subcontractors provide adequate insurance coverage for the activities arising out of subcontracts.
+3. SUBCONTRACTING (REPLACES GENERAL TERMS AND CONDITIONS #37 SUBCONTRACTING)
+The Grantee may only subcontract work contemplated under this Contract if it provides written notification
+to COMMERCE of any subcontractors who will be performing work under this Grant Agreement. The written
+notice must provide the names and address of the subcontractor with a brief description of which tasks
+within the Grantee Scope of Work (Attachment A) that will be undertaken by the subcontractor(s).
+The Grantee shall maintain written procedures related to subcontracting, as well as copies of all
+subcontracts and records related to subcontracts. For cause, COMMERCE in writing may: (a) require the
+Grantee to amend its subcontracting procedures as they relate to this Contract; (b) prohibit the Grantee
+________________________________________________________________________________________________________
+Page 8
+from subcontracting with a particular person or entity; or (c) require the Grantee to rescind or amend a
+subcontract.
+Every subcontract shall bind the Subcontractor to follow all applicable terms of this Contract. The Grantee
+is responsible to COMMERCE if the Subcontractor fails to comply with any applicable term or condition of
+this Contract. The Grantee shall appropriately monitor the activities of the Subcontractor to assure fiscal
+conditions of this Contract. In no event shall the existence of a subcontract operate to release or reduce
+the liability of the Grantee to COMMERCE for any breach in the performance of the Grantee’s duties.
+Every subcontract shall include a term that COMMERCE and the State of Washington are not liable for
+claims or damages arising from a Subcontractor’s performance of the subcontract.
+All reference to the Grantee under this clause shall also include Grantee’s employees, agents or
+subcontractors.
+________________________________________________________________________________________________________
+Page 9
+Special Terms and Conditions
+1. CONTRACT MANAGEMENT
+The Representative for each of the parties shall be responsible for and shall be the contact person
+for all communications and billings regarding the performance of this Contract.
+The Representative for COMMERCE and their contact information are identified on the Face Sheet
+of this Contract.
+The Representative for the Contractor and their contact information are identified on the Face Sheet
+of this Contract.
+2. COMPENSATION
+COMMERCE shall pay an amount not to exceed the amount shown as grant amount on the Contract
+Face Sheet for the performance of all things necessary for or incidental to the performance of work
+as set forth in the Scope of Work. Grantee’s compensation for services rendered shall be based on
+the schedule set forth in Attachment “B” – Budget.
+3. BILLING PROCEDURES AND PAYMENT (REPLACED BY PROGRAM SPECIFIC TERMS AND
+CONDITIONS #1)
+COMMERCE will pay Contractor upon acceptance of services provided and receipt of properly
+completed invoices, which shall be submitted to the Representative for COMMERCE not more often
+than monthly nor less than quarterly.
+The invoices shall describe and document, to COMMERCE's satisfaction, a description of the work
+performed, the progress of the project, and fees. The invoice shall include the Contract Number
+. If expenses are invoiced, provide a detailed breakdown of each type. A receipt must
+accompany any single expenses in the amount of $50.00 or more in order to receive reimbursement.
+Payment shall be considered timely if made by COMMERCE within thirty (30) calendar days after
+receipt of properly completed invoices. Payment shall be sent to the address designated by the
+Contractor.
+COMMERCE may, in its sole discretion, terminate the Contract or withhold payments claimed by the
+Contractor for services rendered if the Contractor fails to satisfactorily comply with any term or
+condition of this Contract.
+No payments in advance or in anticipation of services or supplies to be provided under this Agreement
+shall be made by COMMERCE.
+Invoices and End of Fiscal Year
+Invoices are due on the 20th of the month following the provision of services.
+Final invoices for a state fiscal year may be due sooner than the 20th and Commerce will provide
+notification of the end of fiscal year due date.
+The Contractor must invoice for all expenses from the beginning of the contract through June 30,
+regardless of the contract start and end date.
+Duplication of Billed Costs
+The Contractor shall not bill COMMERCE for services performed under this Agreement, and
+COMMERCE shall not pay the Contractor, if the Contractor is entitled to payment or has been or will
+be paid by any other source, including grants, for that service.
+Disallowed Costs
+The Contractor is responsible for any audit exceptions or disallowed costs incurred by its own
+organization or that of its subcontractors.
+________________________________________________________________________________________________________
+Page 10
+COMMERCE may, in its sole discretion, withhold ten percent (10%) from each payment until
+acceptance by COMMERCE of the final report (or completion of the project, etc.).
+4. SUBCONTRACTOR DATA COLLECTION
+Contractor will submit reports, in a form and format to be provided by Commerce and at intervals as
+agreed by the parties, regarding work under this Contract performed by subcontractors and the portion
+of Contract funds expended for work performed by subcontractors, including but not necessarily
+limited to minority-owned, woman-owned, and veteran-owned business subcontractors.
+“Subcontractors” shall mean subcontractors of any tier.
+5. HISTORICAL OR CULTURAL ARTIFACTS
+Prior to approval and disbursement of any funds awarded under this Contract, Contractor shall
+complete the requirements of Governor’s Executive Order 21-02, where applicable, or Contractor
+shall complete a review under Section 106 of the National Historic Preservation Act, if applicable.
+Contractor agrees that the Contractor is legally and financially responsible for compliance with all
+laws, regulations, and agreements related to the preservation of historical or cultural resources and
+agrees to hold harmless COMMERCE and the state of Washington in relation to any claim related to
+such historical or cultural resources discovered, disturbed, or damaged as a result of the project
+funded by this Contract.
+In addition to the requirements set forth in this Contract, Contractor shall, in accordance with
+Governor’s Executive Order 21-02 coordinate with Commerce and the Washington State Department
+of Archaeology and Historic Preservation (“DAHP”), including any recommended consultation with
+any affected Tribe(s), during Project design and prior to construction to determine the existence of
+any tribal cultural resources affected by Project. Contractor agrees to avoid, minimize, or mitigate
+impacts to the cultural resource as a continuing prerequisite to receipt of funds under this Contract.
+The Contractor agrees that, unless the Contractor is proceeding under an approved historical and
+cultural monitoring plan or other memorandum of agreement, if historical or cultural artifacts are
+discovered during construction, the Contractor shall immediately stop construction and notify the local
+historical preservation officer and the state's historical preservation officer at DAHP, and the
+Commerce Representative identified on the Face Sheet. If human remains are uncovered, the
+Contractor shall report the presence and location of the remains to the coroner and local enforcement
+immediately, then contact DAHP and the concerned Tribe's cultural staff or committee.
+The Contractor shall require this provision to be contained in all subcontracts for work or services
+related to the Scope of Work attached hereto.
+In addition to the requirements set forth in this Contract, Contractor agrees to comply with RCW 27.44
+regarding Indian Graves and Records; RCW 27.53 regarding Archaeological Sites and Resources;
+RCW 68.60 regarding Abandoned and Historic Cemeteries and Historic Graves; and WAC 25-48
+regarding Archaeological Excavation and Removal Permit.
+Completion of the requirements of Section 106 of the National Historic Preservation Act shall
+substitute for completion of Governor’s Executive Order 21-02.
+In the event that the Contractor finds it necessary to amend the Scope of Work the Contractor may
+be required to re-comply with Governor's Executive Order 21-02 or Section 106 of the National
+Historic Preservation Act.
+6. INSURANCE (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #2)
+The Contractor shall provide insurance coverage as set out in this section. The intent of the required
+insurance is to protect the State should there be any claims, suits, actions, costs, damages or
+expenses arising from any loss, or negligent or intentional act or omission of the Contractor or
+Subcontractor, or agents of either, while performing under the terms of this Contract. Failure to
+________________________________________________________________________________________________________
+Page 11
+maintain the required insurance coverage may result in termination of this Contract.
+The insurance required shall be issued by an insurance company authorized to do business within
+the state of Washington. Except for Professional Liability or Errors and Omissions Insurance, the
+insurance shall name the state of Washington, its agents, officers, and employees as additional
+insureds under the insurance policy. All policies shall be primary to any other valid and collectable
+insurance. The Contractor shall provide COMMERCE thirty (30) calendar days’ advance notice of any
+insurance cancellation, non-renewal or modification.
+The Contractor shall submit to COMMERCE within fifteen (15) calendar days of the Contract start
+date OR a written request by COMMERCE, a certificate of insurance which outlines the coverage and
+limits defined in this insurance section. During the term of the Contract, if required or requested, the
+Contractor shall submit renewal certificates not less than thirty (30) calendar days prior to expiration
+of each policy required under this section.
+The Contractor shall provide, at COMMERCE’s request, copies of insurance instruments or
+certifications from the insurance issuing agency. The copies or certifications shall show the insurance
+coverage, the designated beneficiary, who is covered, the amounts, the period of coverage, and that
+COMMERCE will be provided thirty (30) days’ advance written notice of cancellation.
+The Contractor shall provide insurance coverage that shall be maintained in full force and effect during
+the term of this Contract, as follows:
+Commercial General Liability Insurance Policy. Provide a Commercial General Liability Insurance
+Policy, including contractual liability, written on an occurrence basis, in adequate quantity to protect
+against legal liability arising out of contract activity but no less than $1,000,000 per occurrence.
+Additionally, the Contractor is responsible for ensuring that any Subcontractors provide adequate
+insurance coverage for the activities arising out of subcontracts.
+Automobile Liability. In the event that performance pursuant to this Contract involves the use of
+vehicles, owned or operated by the Contractor or its Subcontractor, automobile liability insurance shall
+be required. The minimum limit for automobile liability is $1,000,000 per occurrence, using a
+Combined Single Limit for bodily injury and property damage.
+Professional Liability, Errors and Omissions Insurance. The Contractor shall maintain Professional
+Liability or Errors and Omissions Insurance. The Contractor shall maintain minimum limits of no less
+than $1,000,000 per occurrence to cover all activities by the Contractor and licensed staff employed
+or under contract to the Contractor. The state of Washington, its agents, officers, and employees need
+not be named as additional insureds under this policy.
+Fidelity Insurance. Every officer, director, employee, or agent who is authorized to act on behalf of
+the Contractor for the purpose of receiving or depositing funds into program accounts or issuing
+financial documents, checks, or other instruments of payment for program costs shall be insured to
+provide protection against loss:
+A. The amount of fidelity coverage secured pursuant to this Contract shall be $100,000 or the
+highest of planned reimbursement for the Contract period, whichever is lowest. Fidelity
+insurance secured pursuant to this paragraph shall name COMMERCE as beneficiary.
+B. Subcontractors that receive $10,000 or more per year in funding through this Contract shall
+secure fidelity insurance as noted above. Fidelity insurance secured by Subcontractors
+pursuant to this paragraph shall name the Contractor as beneficiary.
+7. FRAUD AND OTHER LOSS REPORTING
+Contractor shall report in writing all known or suspected fraud or other loss of any funds or other
+property furnished under this Contract immediately or as soon as practicable to the Commerce
+Representative identified on the Face Sheet.
+________________________________________________________________________________________________________
+Page 12
+8. ORDER OF PRECEDENCE
+In the event of an inconsistency in this Contract, the inconsistency shall be resolved by giving
+precedence in the following order:
+ Applicable federal and state of Washington statutes and regulations
+ Attachment D - Proviso
+ Program Specific Terms and Conditions
+ Special Terms and Conditions
+ General Terms and Conditions
+ Attachment A – Scope of Work
+ Attachment B – Budget
+ Attachment C - Reporting
+________________________________________________________________________________________________________
+Page 13
+General Terms and Conditions
+1. DEFINITIONS
+As used throughout this Contract, the following terms shall have the meaning set forth below:
+A. “Authorized Representative” shall mean the Director and/or the designee authorized in writing
+to act on the Director’s behalf.
+B. “COMMERCE” shall mean the Washington Department of Commerce.
+C. “Contract” or “Agreement” or “Grant” means the entire written agreement between
+COMMERCE and the Contractor, including any Exhibits, documents, or materials incorporated
+by reference. E-mail or Facsimile transmission of a signed copy of this contract shall be the
+same as delivery of an original.
+D. "Contractor" or “Grantee” shall mean the entity identified on the face sheet performing
+service(s) under this Contract, and shall include all employees and agents of the Contractor.
+E. “Personal Information” shall mean information identifiable to any person, including, but not
+limited to, information that relates to a person’s name, health, finances, education, business,
+use or receipt of governmental services or other activities, addresses, telephone numbers,
+social security numbers, driver license numbers, other identifying numbers, and any financial
+identifiers and “Protected Health Information” under the federal Health Insurance Portability
+and Accountability Act of 1996 (HIPAA).
+F. “State” shall mean the state of Washington.
+G. "Subcontractor" shall mean one not in the employment of the Contractor, who is performing all
+or part of those services under this Contract under a separate contract with the Contractor. The
+terms “subcontractor” and “subcontractors” mean subcontractor(s) in any tier.
+2. ALLOWABLE COSTS
+Costs allowable under this Contract are actual expenditures according to an approved budget up to
+the maximum amount stated on the Contract Award or Amendment Face Sheet.
+3. ALL WRITINGS CONTAINED HEREIN
+This Contract contains all the terms and conditions agreed upon by the parties. No other
+understandings, oral or otherwise, regarding the subject matter of this Contract shall be deemed to
+exist or to bind any of the parties hereto.
+4. AMENDMENTS
+This Contract may be amended by mutual agreement of the parties. Such amendments shall not be
+binding unless they are in writing and signed by personnel authorized to bind each of the parties.
+5. AMERICANS WITH DISABILITIES ACT (ADA) OF 1990, PUBLIC LAW 101-336, also referred to as
+the “ADA” 28 CFR Part 35
+The Contractor must comply with the ADA, which provides comprehensive civil rights protection to
+individuals with disabilities in the areas of employment, public accommodations, state and local
+government services, and telecommunications.
+6. APPROVAL
+This contract shall be subject to the written approval of COMMERCE’s Authorized Representative
+and shall not be binding until so approved. The contract may be altered, amended, or waived only by
+a written amendment executed by both parties.
+________________________________________________________________________________________________________
+Page 14
+7. ASSIGNMENT
+Neither this Contract, nor any claim arising under this Contract, shall be transferred or assigned by
+the Contractor without prior written consent of COMMERCE.
+8. ATTORNEYS’ FEES
+Unless expressly permitted under another provision of the Contract, in the event of litigation or other
+action brought to enforce Contract terms, each party agrees to bear its own attorneys’ fees and costs.
+9. CODE REQUIREMENTS
+All construction and rehabilitation projects must satisfy the requirements of applicable local, state,
+and federal building, mechanical, plumbing, fire, energy and barrier-free codes. Compliance with the
+Americans with Disabilities Act of 1990 28 C.F.R. Part 35 will be required, as specified by the local
+building Department.
+10. CONFIDENTIALITY/SAFEGUARDING OF INFORMATION
+A. “Confidential Information” as used in this section includes:
+i. All material provided to the Contractor by COMMERCE that is designated as “confidential”
+by COMMERCE;
+ii. All material produced by the Contractor that is designated as “confidential” by
+COMMERCE; and
+iii. All Personal Information in the possession of the Contractor that may not be disclosed
+under state or federal law.
+B. The Contractor shall comply with all state and federal laws related to the use, sharing, transfer,
+sale, or disclosure of Confidential Information. The Contractor shall use Confidential
+Information solely for the purposes of this Contract and shall not use, share, transfer, sell or
+disclose any Confidential Information to any third party except with the prior written consent of
+COMMERCE or as may be required by law. The Contractor shall take all necessary steps to
+assure that Confidential Information is safeguarded to prevent unauthorized use, sharing,
+transfer, sale or disclosure of Confidential Information or violation of any state or federal laws
+related thereto. Upon request, the Contractor shall provide COMMERCE with its policies and
+procedures on confidentiality. COMMERCE may require changes to such policies and
+procedures as they apply to this Contract whenever COMMERCE reasonably determines that
+changes are necessary to prevent unauthorized disclosures. The Contractor shall make the
+changes within the time period specified by COMMERCE. Upon request, the Contractor shall
+immediately return to COMMERCE any Confidential Information that COMMERCE reasonably
+determines has not been adequately protected by the Contractor against unauthorized
+disclosure.
+C. Unauthorized Use or Disclosure. The Contractor shall notify COMMERCE within five (5)
+working days of any unauthorized use or disclosure of any confidential information, and shall
+take necessary steps to mitigate the harmful effects of such use or disclosure.
+11. CONFORMANCE
+If any provision of this contract violates any statute or rule of law of the state of Washington, it is
+considered modified to conform to that statute or rule of law.
+12. CONFLICT OF INTEREST
+Notwithstanding any determination by the Executive Ethics Board or other tribunal, COMMERCE
+may, in its sole discretion, by written notice to the Contractor terminate this contract if it is found after
+due notice and examination by COMMERCE that there is a violation of the Ethics in Public Service
+Act, Chapters 42.52 RCW and 42.23 RCW; or any similar statute involving the Contractor in the
+________________________________________________________________________________________________________
+Page 15
+procurement of, or performance under this contract.
+Specific restrictions apply to contracting with current or former state employees pursuant to chapter
+42.52 of the Revised Code of Washington. The Contractor and their subcontractor(s) must identify
+any person employed in any capacity by the state of Washington that worked with the COMMERCE
+program executing this Contract, including but not limited to formulating or drafting the legislation,
+participating in procurement planning and execution, awarding contracts, and monitoring contract,
+during the 24-month period preceding the start date of this Contract. Identify the individual by name,
+the agency previously or currently employed by, job title or position held, and separation date. If it is
+determined by Commerce that a conflict of interest exists, the Contractor may be disqualified from
+further consideration for the award of a Contract.
+In the event this contract is terminated as provided above, Commerce shall be entitled to pursue the
+same remedies against the Contractor as it could pursue in the event of a breach of the contract by
+the Contractor. The rights and remedies of Commerce provided for in this clause shall not be exclusive
+and are in addition to any other rights and remedies provided by law. The existence of facts upon
+which Commerce makes any determination under this clause shall be an issue and may be reviewed
+as provided in the “Disputes” clause of this contract.
+13. COPYRIGHT
+Unless otherwise provided, all Materials produced under this Contract shall be considered "works for
+hire" as defined by the U.S. Copyright Act and shall be owned by COMMERCE. COMMERCE shall
+be considered the author of such Materials. In the event the Materials are not considered “works for
+hire” under the U.S. Copyright laws, the Contractor hereby irrevocably assigns all right, title, and
+interest in all Materials, including all intellectual property rights, moral rights, and rights of publicity to
+COMMERCE effective from the moment of creation of such Materials.
+“Materials” means all items in any format and includes, but is not limited to, data, reports, documents,
+pamphlets, advertisements, books, magazines, surveys, studies, computer programs, films, tapes,
+and/or sound reproductions. “Ownership” includes the right to copyright, patent, register and the ability
+to transfer these rights.
+For Materials that are delivered under the Contract, but that incorporate pre-existing materials not
+produced under the Contract, the Contractor hereby grants to COMMERCE a nonexclusive, royalty-
+free, irrevocable license (with rights to sublicense to others) in such Materials to translate, reproduce,
+distribute, prepare derivative works, publicly perform, and publicly display. The Contractor warrants
+and represents that the Contractor has all rights and permissions, including intellectual property rights,
+moral rights and rights of publicity, necessary to grant such a license to COMMERCE.
+The Contractor shall exert all reasonable effort to advise COMMERCE, at the time of delivery of
+Materials furnished under this Contract, of all known or potential invasions of privacy contained therein
+and of any portion of such document which was not produced in the performance of this Contract.
+The Contractor shall provide COMMERCE with prompt written notice of each notice or claim of
+infringement received by the Contractor with respect to any Materials delivered under this Contract.
+COMMERCE shall have the right to modify or remove any restrictive markings placed upon the
+Materials by the Contractor.
+14. DISALLOWED COSTS
+The Contractor is responsible for any audit exceptions or disallowed costs incurred by its own
+organization or that of its Subcontractors.
+15. DISPUTES
+Except as otherwise provided in this Contract, when a dispute arises between the parties and it cannot
+be resolved by direct negotiation, either party may request a dispute hearing with the Director of
+COMMERCE, who may designate a neutral person to decide the dispute.
+The request for a dispute hearing must:
+________________________________________________________________________________________________________
+Page 16
+ be in writing;
+ state the disputed issues;
+ state the relative positions of the parties;
+ state the Contractor's name, address, and Contract number; and
+ be mailed to the Director and the other party’s (respondent’s) Contract Representative
+within three (3) working days after the parties agree that they cannot resolve the dispute.
+The respondent shall send a written answer to the requestor’s statement to both the Director or the
+Director’s designee and the requestor within five (5) working days.
+The Director or designee shall review the written statements and reply in writing to both parties within
+ten (10) working days. The Director or designee may extend this period if necessary by notifying the
+parties.
+The decision shall not be admissible in any succeeding judicial or quasi-judicial proceeding.
+The parties agree that this dispute process shall precede any action in a judicial or quasi-judicial
+tribunal.
+Nothing in this Contract shall be construed to limit the parties’ choice of a mutually acceptable
+alternate dispute resolution (ADR) method in addition to the dispute hearing procedure outlined
+above.
+16. DUPLICATE PAYMENT
+Contractor certifies that work to be performed under this contract does not duplicate any work to be
+charged against any other contract, subcontract, or other source.
+17. GOVERNING LAW AND VENUE
+This Contract shall be construed and interpreted in accordance with the laws of the state of
+Washington, and the venue of any action brought hereunder shall be in the Superior Court for
+Thurston County.
+18. INDEMNIFICATION
+To the fullest extent permitted by law, the Contractor shall indemnify, defend, and hold harmless the
+state of Washington, COMMERCE, agencies of the state and all officials, agents and employees of
+the state, from and against all claims for injuries or death arising out of or resulting from the
+performance of the contract. “Claim” as used in this contract, means any financial loss, claim, suit,
+action, damage, or expense, including but not limited to attorney’s fees, attributable for bodily injury,
+sickness, disease, or death, or injury to or the destruction of tangible property including loss of use
+resulting therefrom.
+The Contractor’s obligation to indemnify, defend, and hold harmless includes any claim by
+Contractor’s agents, employees, representatives, or any subcontractor or its employees.
+The Contractor’s obligation shall not include such claims that may be caused by the sole negligence
+of the State and its agencies, officials, agents, and employees. If the claims or damages are caused
+by or result from the concurrent negligence of (a) the State, its agents or employees and (b) the
+Contractor, its subcontractors, agents, or employees, this indemnity provision shall be valid and
+enforceable only to the extent of the negligence of the Contractor or its subcontractors, agents, or
+employees.
+The Contractor waives its immunity under Title 51 RCW to the extent it is required to indemnify, defend
+and hold harmless the state and its agencies, officers, agents or employees.
+19. INDEPENDENT CAPACITY OF THE CONTRACTOR
+The parties intend that an independent contractor relationship will be created by this Contract. The
+Contractor and its employees or agents performing under this Contract are not employees or agents
+of the state of Washington or COMMERCE. The Contractor will not hold itself out as or claim to be an
+officer or employee of COMMERCE or of the state of Washington by reason hereof, nor will the
+________________________________________________________________________________________________________
+Page 17
+Contractor make any claim of right, privilege or benefit which would accrue to such officer or employee
+under law. Conduct and control of the work will be solely with the Contractor.
+20. INDUSTRIAL INSURANCE COVERAGE
+The Contractor shall comply with all applicable provisions of Title 51 RCW. If the Contractor fails to
+provide industrial insurance coverage or fails to pay premiums or penalties on behalf of its employees
+as may be required by law, COMMERCE may collect from the Contractor the full amount payable to
+the Industrial Insurance Accident Fund. COMMERCE may deduct the amount owed by the Contractor
+to the accident fund from the amount payable to the Contractor by COMMERCE under this Contract,
+and transmit the deducted amount to the Department of Labor and Industries, (L&I) Division of
+Insurance Services. This provision does not waive any of L&I’s rights to collect from the Contractor.
+21. LAWS
+The Contractor shall comply with all applicable laws, ordinances, codes, regulations and policies of
+local, state, and federal governments, as now or hereafter amended.
+22. LICENSING, ACCREDITATION AND REGISTRATION
+The Contractor shall comply with all applicable local, state, and federal licensing, accreditation and
+registration requirements or standards necessary for the performance of this Contract.
+23. LIMITATION OF AUTHORITY
+Only the Authorized Representative or Authorized Representative’s designee by writing (designation
+to be made prior to action) shall have the express, implied, or apparent authority to alter, amend,
+modify, or waive any clause or condition of this Contract.
+24. LOCAL PUBLIC TRANSPORTATION COORDINATION
+Where applicable, Contractor shall participate in local public transportation forums and implement
+strategies designed to ensure access to services.
+25. NONCOMPLIANCE WITH NONDISCRIMINATION LAWS
+During the performance of this Contract, the Contractor shall comply with all federal, state, and local
+nondiscrimination laws, regulations and policies. In the event of the Contractor’s non-compliance or
+refusal to comply with any nondiscrimination law, regulation or policy, this Contract may be rescinded,
+canceled or terminated in whole or in part, and the Contractor may be declared ineligible for further
+contracts with COMMERCE. The Contractor shall, however, be given a reasonable time in which to
+cure this noncompliance. Any dispute may be resolved in accordance with the “Disputes” procedure
+set forth herein.
+The funds provided under this contract may not be used to fund religious worship, exercise, or
+instruction. No person shall be required to participate in any religious worship, exercise, or instruction
+in order to have access to the facilities funded by this contract.
+26. PAY EQUITY
+The Contractor agrees to ensure that “similarly employed” individuals in its workforce are
+compensated as equals, consistent with the following:
+A. Employees are “similarly employed” if the individuals work for the same employer, the
+performance of the job requires comparable skill, effort, and responsibility, and the jobs are
+performed under similar working conditions. Job titles alone are not determinative of whether
+employees are similarly employed;
+B. Contractor may allow differentials in compensation for its workers if the differentials are based
+in good faith and on any of the following:
+i. A seniority system; a merit system; a system that measures earnings by quantity or quality
+of production; a bona fide job-related factor or factors; or a bona fide regional difference
+________________________________________________________________________________________________________
+Page 18
+in compensation levels.
+ii. A bona fide job-related factor or factors may include, but not be limited to, education,
+training, or experience that is: Consistent with business necessity; not based on or derived
+from a gender-based differential; and accounts for the entire differential.
+iii. A bona fide regional difference in compensation level must be: Consistent with business
+necessity; not based on or derived from a gender-based differential; and account for the
+entire differential.
+This Contract may be terminated by the Department, if the Department or the Department of
+Enterprise Services determines that the Contractor is not in compliance with this provision.
+27. POLITICAL ACTIVITIES
+Political activity of Contractor’s employees and officers are limited by the State Campaign Finances
+and Lobbying provisions of Chapter 42.17A RCW and the Federal Hatch Act, 5 USC 1501 - 1508.
+No funds may be used for working for or against ballot measures or for or against the candidacy of
+any person for public office.
+28. PREVAILING WAGE LAW
+The Contractor certifies that all contractors and subcontractors performing work on the Project shall
+comply with state Prevailing Wages on Public Works, Chapter 39.12 RCW, as applicable to the
+Project funded by this contract, including but not limited to the filing of the “Statement of Intent to Pay
+Prevailing Wages” and “Affidavit of Wages Paid” as required by RCW 39.12.040. The Contractor shall
+maintain records sufficient to evidence compliance with Chapter 39.12 RCW, and shall make such
+records available for COMMERCE’s review upon request.
+29. PROHIBITION AGAINST PAYMENT OF BONUS OR COMMISSION
+The funds provided under this Contract shall not be used in payment of any bonus or commission for
+the purpose of obtaining approval of the application for such funds or any other approval or
+concurrence under this Contract provided, however, that reasonable fees or bona fide technical
+consultant, managerial, or other such services, other than actual solicitation, are not hereby prohibited
+if otherwise eligible as project costs.
+30. PUBLICITY
+The Contractor agrees not to publish or use any advertising or publicity materials in which the state
+of Washington or COMMERCE’s name is mentioned, or language used from which the connection
+with the state of Washington’s or COMMERCE’s name may reasonably be inferred or implied, without
+the prior written consent of COMMERCE.
+31. RECAPTURE
+In the event that the Contractor fails to perform this Contract in accordance with state laws, federal
+laws, and/or the provisions of this Contract, COMMERCE reserves the right to recapture funds in an
+amount to compensate COMMERCE for the noncompliance in addition to any other remedies
+available at law or in equity.
+Repayment by the Contractor of funds under this recapture provision shall occur within the time period
+specified by COMMERCE. In the alternative, COMMERCE may recapture such funds from payments
+due under this Contract.
+32. RECORDS MAINTENANCE
+The Contractor shall maintain books, records, documents, data and other evidence relating to this
+contract and performance of the services described herein, including but not limited to accounting
+procedures and practices that sufficiently and properly reflect all direct and indirect costs of any nature
+expended in the performance of this contract.
+________________________________________________________________________________________________________
+Page 19
+The Contractor shall retain such records for a period of six years following the date of final payment.
+At no additional cost, these records, including materials generated under the contract, shall be subject
+at all reasonable times to inspection, review or audit by COMMERCE, personnel duly authorized by
+COMMERCE, the Office of the State Auditor, and federal and state officials so authorized by law,
+regulation or agreement.
+If any litigation, claim or audit is started before the expiration of the six (6) year period, the records
+shall be retained until all litigation, claims, or audit findings involving the records have been resolved.
+33. REGISTRATION WITH DEPARTMENT OF REVENUE
+If required by law, the Contractor shall complete registration with the Washington State Department
+of Revenue.
+34. RIGHT OF INSPECTION
+At no additional cost all records relating to the Contractor’s performance under this Contract shall be
+subject at all reasonable times to inspection, review, and audit by COMMERCE, the Office of the
+State Auditor, and federal and state officials so authorized by law, in order to monitor and evaluate
+performance, compliance, and quality assurance under this Contract. The Contractor shall provide
+access to its facilities for this purpose.
+35. SAVINGS
+In the event funding from state, federal, or other sources is withdrawn, reduced, or limited in any way
+after the effective date of this Contract and prior to normal completion, COMMERCE may suspend or
+terminate the Contract under the "Termination for Convenience" clause, without the ten business day
+notice requirement. In lieu of termination, the Contract may be amended to reflect the new funding
+limitations and conditions.
+36. SEVERABILITY
+The provisions of this contract are intended to be severable. If any term or provision is illegal or invalid
+for any reason whatsoever, such illegality or invalidity shall not affect the validity of the remainder of
+the contract.
+37. SUBCONTRACTING (REPLACED BY PROGRAM SPECIFIC TERMS AND CONDITIONS #4)
+The Contractor may only subcontract work contemplated under this Contract if it obtains the prior
+written approval of COMMERCE.
+If COMMERCE approves subcontracting, the Contractor shall maintain written procedures related to
+subcontracting, as well as copies of all subcontracts and records related to subcontracts. For cause,
+COMMERCE in writing may: (a) require the Contractor to amend its subcontracting procedures as
+they relate to this Contract; (b) prohibit the Contractor from subcontracting with a particular person or
+entity; or (c) require the Contractor to rescind or amend a subcontract.
+Every subcontract shall bind the Subcontractor to follow all applicable terms of this Contract. The
+Contractor is responsible to COMMERCE if the Subcontractor fails to comply with any applicable term
+or condition of this Contract. The Contractor shall appropriately monitor the activities of the
+Subcontractor to assure fiscal conditions of this Contract. In no event shall the existence of a
+subcontract operate to release or reduce the liability of the Contractor to COMMERCE for any breach
+in the performance of the Contractor’s duties.
+Every subcontract shall include a term that COMMERCE and the State of Washington are not liable
+for claims or damages arising from a Subcontractor’s performance of the subcontract.
+38. SURVIVAL
+The terms, conditions, and warranties contained in this Contract that by their sense and context are
+intended to survive the completion of the performance, cancellation or termination of this Contract
+shall so survive.
+________________________________________________________________________________________________________
+Page 20
+39. TAXES
+All payments accrued on account of payroll taxes, unemployment contributions, the Contractor’s
+income or gross receipts, any other taxes, insurance or expenses for the Contractor or its staff shall
+be the sole responsibility of the Contractor.
+40. TERMINATION FOR CAUSE
+In the event COMMERCE determines the Contractor has failed to comply with the conditions of this
+contract in a timely manner, COMMERCE has the right to suspend or terminate this contract. Before
+suspending or terminating the contract, COMMERCE shall notify the Contractor in writing of the need
+to take corrective action. If corrective action is not taken within 30 calendar days, the contract may
+be terminated or suspended.
+In the event of termination or suspension, the Contractor shall be liable for damages as authorized
+by law including, but not limited to, any cost difference between the original contract and the
+replacement or cover contract and all administrative costs directly related to the replacement contract,
+e.g., cost of the competitive bidding, mailing, advertising and staff time.
+COMMERCE reserves the right to suspend all or part of the contract, withhold further payments, or
+prohibit the Contractor from incurring additional obligations of funds during investigation of the alleged
+compliance breach and pending corrective action by the Contractor or a decision by COMMERCE to
+terminate the contract. A termination shall be deemed a “Termination for Convenience” if it is
+determined that the Contractor: (1) was not in default; or (2) failure to perform was outside of his or
+her control, fault or negligence.
+The rights and remedies of COMMERCE provided in this contract are not exclusive and are, in
+addition to any other rights and remedies, provided by law.
+41. TERMINATION FOR CONVENIENCE
+Except as otherwise provided in this Contract, COMMERCE may, by ten (10) business days’ written
+notice, beginning on the second day after the mailing, terminate this Contract, in whole or in part. If
+this Contract is so terminated, COMMERCE shall be liable only for payment required under the terms
+of this Contract for services rendered or goods delivered prior to the effective date of termination.
+42. TERMINATION PROCEDURES
+Upon termination of this contract, COMMERCE, in addition to any other rights provided in this
+contract, may require the Contractor to deliver to COMMERCE any property specifically produced or
+acquired for the performance of such part of this contract as has been terminated. The provisions of
+the "Treatment of Assets" clause shall apply in such property transfer.
+COMMERCE shall pay to the Contractor the agreed upon price, if separately stated, for completed
+work and services accepted by COMMERCE, and the amount agreed upon by the Contractor and
+COMMERCE for (i) completed work and services for which no separate price is stated, (ii) partially
+completed work and services, (iii) other property or services that are accepted by COMMERCE, and
+(iv) the protection and preservation of property, unless the termination is for default, in which case the
+Authorized Representative shall determine the extent of the liability of COMMERCE. Failure to agree
+with such determination shall be a dispute within the meaning of the "Disputes" clause of this contract.
+COMMERCE may withhold from any amounts due the Contractor such sum as the Authorized
+Representative determines to be necessary to protect COMMERCE against potential loss or liability.
+The rights and remedies of COMMERCE provided in this section shall not be exclusive and are in
+addition to any other rights and remedies provided by law or under this contract.
+After receipt of a notice of termination, and except as otherwise directed by the Authorized
+Representative, the Contractor shall:
+A. Stop work under the contract on the date, and to the extent specified, in the notice;
+B. Place no further orders or subcontracts for materials, services, or facilities except as may be
+necessary for completion of such portion of the work under the contract that is not terminated;
+________________________________________________________________________________________________________
+Page 21
+C. Assign to COMMERCE, in the manner, at the times, and to the extent directed by the
+Authorized Representative, all of the rights, title, and interest of the Contractor under the orders
+and subcontracts so terminated, in which case COMMERCE has the right, at its discretion, to
+settle or pay any or all claims arising out of the termination of such orders and subcontracts;
+D. Settle all outstanding liabilities and all claims arising out of such termination of orders and
+subcontracts, with the approval or ratification of the Authorized Representative to the extent
+the Authorized Representative may require, which approval or ratification shall be final for all
+the purposes of this clause;
+E. Transfer title to COMMERCE and deliver in the manner, at the times, and to the extent directed
+by the Authorized Representative any property which, if the contract had been completed,
+would have been required to be furnished to COMMERCE;
+F. Complete performance of such part of the work as shall not have been terminated by the
+Authorized Representative; and
+G. Take such action as may be necessary, or as the Authorized Representative may direct, for
+the protection and preservation of the property related to this contract, which is in the
+possession of the Contractor and in which COMMERCE has or may acquire an interest.
+43. TREATMENT OF ASSETS
+Title to all property furnished by COMMERCE shall remain in COMMERCE. Title to all property
+furnished by the Contractor, for the cost of which the Contractor is entitled to be reimbursed as a
+direct item of cost under this contract, shall pass to and vest in COMMERCE upon delivery of such
+property by the Contractor. Title to other property, the cost of which is reimbursable to the Contractor
+under this contract, shall pass to and vest in COMMERCE upon (i) issuance for use of such property
+in the performance of this contract, or (ii) commencement of use of such property in the performance
+of this contract, or (iii) reimbursement of the cost thereof by COMMERCE in whole or in part,
+whichever first occurs.
+A. Any property of COMMERCE furnished to the Contractor shall, unless otherwise provided
+herein or approved by COMMERCE, be used only for the performance of this contract.
+B. The Contractor shall be responsible for any loss or damage to property of COMMERCE that
+results from the negligence of the Contractor or which results from the failure on the part of the
+Contractor to maintain and administer that property in accordance with sound management
+practices.
+C. If any COMMERCE property is lost, destroyed or damaged, the Contractor shall immediately
+notify COMMERCE and shall take all reasonable steps to protect the property from further
+damage.
+D. The Contractor shall surrender to COMMERCE all property of COMMERCE prior to settlement
+upon completion, termination or cancellation of this contract.
+E. All reference to the Contractor under this clause shall also include Contractor’s employees,
+agents or Subcontractors.
+44. WAIVER
+Waiver of any default or breach shall not be deemed to be a waiver of any subsequent default or
+breach. Any waiver shall not be construed to be a modification of the terms of this Contract unless
+stated to be such in writing and signed by Authorized Representative of COMMERCE
+________________________________________________________________________________________________________
+Page 22
+Attachment A: Scope of Work
+________________________________________________________________________________________________________
+Page 23
+Attachment B: Budget
+________________________________________________________________________________________________________
+Page 24
+Attachment C: Reporting
+The Grantee must provide quarterly written reports and/or host a regular quarterly video and/or
+phone call with COMMERCE for project update purposes. Phone contact should cover current
+status of the project and any barriers that are potentially affecting the project schedule.
+The Grantee shall provide a quarterly report to COMMERCE, no later than 15 days after the end of
+each quarter. The report form will be provided by Commerce. The report should describe the
+project activity that occurred during the quarter, including but not limited to:
+1. A narrative summarizing project activities, risks and issues mitigated, and lessons
+learned;
+2. The project milestones met to date and anticipated in the subsequent quarter (such as
+through a project Gantt Chart schedule provided quarterly in Microsoft Project format
+showing actual progress to date along with the baseline schedule developed at project
+kickoff etc.); and,
+3. Any additional metrics required from the capital budget proviso, legislature, governor’s
+office, or COMMERCE.
+4. Quarterly updated invoice projection sheet for grant expenditures. Commerce will provide
+the invoice projection sheet;
+Submit a fact sheet at the end of the contract period. Commerce may request the fact sheet be
+updated as conditions warrant.
+________________________________________________________________________________________________________
+Page 25
+Attachment D: Proviso
+Substitute House Bill 1080, Sec. 1064,
+2021-23 Clean Energy V - Investing in Washington's Clean Energy
+(9) $10,830,000 of the state building construction account—state
+22 appropriation is provided solely for grants for strategic research
+23 and development for new and emerging clean energy technologies. These
+24 grants must be used to match federal or other nonstate funds to
+25 research, develop, and demonstrate clean energy technologies,
+26 focusing on areas that help develop technologies to meet the state's
+27 climate goals, offer opportunities for economic and job growth, and
+28 strengthen technology supply chains. The program may include, but is
+29 not limited to: Solar technologies, advanced bioenergy and biofuels,
+30 development of new earth abundant materials or lightweight materials,
+31 advanced energy storage, recycling energy system components, and new
+32 renewable energy and energy efficiency technologies.
+33 (a) $5,000,000 of the appropriation in this section is provided
+34 solely for competitive grants.
+Engrossed Substitute Senate Bill 5200, Sec. 1017
+2023-2025
+(11) $12,000,000 of the appropriation in the section is provided solely for grants for strategic research,
+development, and demonstration of new and emerging clean energy generation and storage
+technologies and climate change mitigation technologies, including greenhouse gas removal. Grants
+awarded under this subsection must reduce reliance on fossil fuels, reduce risk of irregularities in power
+supply, offer opportunities for economic and job growth, and strengthen technology supply chains.
+Grant funds are intended to catalyze diverse new technologies that change production, use, storage,
+and transportation of energy. The department may provide funding to projects at various stages of
+readiness, including early-stage research, pilot and demonstration projects, and dual use projects that
+produce clean energy and additional benefits.

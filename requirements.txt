@@ -21,5 +21,8 @@ sentence-transformers
 # specific tools
 wikipedia
 
+# website
+django
+
 # debugging
 ipdb
