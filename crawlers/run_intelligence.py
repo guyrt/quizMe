@@ -1,12 +1,12 @@
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
-from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
+from azurewrapper.raw_doc_handler import AzureSECRawDocsBlobHandler
 from azurewrapper.raw_doc_queue import UnderstandDocQueue
 from azurewrapper.doc_summary_handler import DocSummaryBlobHandler
 from intelligence.doc_understanding_driver import DocUnderstandingDriver
 
 
 
-raw_doc = AzureRawDocsBlobHandler()
+raw_doc = AzureSECRawDocsBlobHandler()
 out_qm = UnderstandDocQueue()
 parsed_doc = AzureParsedDocsBlobHandler()
 doc_summary = DocSummaryBlobHandler()

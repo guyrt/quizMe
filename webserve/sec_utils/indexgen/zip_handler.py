@@ -4,7 +4,7 @@ import io
 import tempfile
 import os
 
-from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
+from azurewrapper.raw_doc_handler import AzureSECRawDocsBlobHandler
 
 from .common import headers
 from azurewrapper.gate import Gate
@@ -13,7 +13,7 @@ from .read_rss import get_all_entries, get_local_entries
 
 class FileCopyDriver(object):
 
-    def __init__(self, uploader : AzureRawDocsBlobHandler, doc_queue) -> None:
+    def __init__(self, uploader : AzureSECRawDocsBlobHandler, doc_queue) -> None:
         self._doc_uploader = uploader
         self._raw_doc_queue = doc_queue
 

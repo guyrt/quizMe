@@ -5,7 +5,7 @@ import os
 from bs4 import BeautifulSoup
 
 from azurewrapper.raw_doc_queue import AzureQueueManagerBase
-from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
+from azurewrapper.raw_doc_handler import AzureSECRawDocsBlobHandler
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
 from indexgen.localtypes import SecDocRssEntry, get_sec_entry_from_dict
 
@@ -21,7 +21,7 @@ from .workiva import WorkivaParser
 class ParserDriver(object):
 
     def __init__(self, 
-                 raw_doc_handler : AzureRawDocsBlobHandler, 
+                 raw_doc_handler : AzureSECRawDocsBlobHandler, 
                  incoming_queue_manager : AzureQueueManagerBase,
                  parsed_doc_handler : AzureParsedDocsBlobHandler,
                  outgoing_queue_manager : AzureQueueManagerBase,

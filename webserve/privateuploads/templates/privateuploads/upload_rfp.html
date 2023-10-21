@@ -38,13 +38,32 @@
             background-color: #0056b3;
         }
     </style>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const uploadForm = document.getElementById("upload-form");
+            const uploadButton = document.getElementById("upload-button");
+            const processingMessage = document.getElementById("processing-message");
+        
+            uploadForm.addEventListener("submit", function () {
+                // Show the processing message
+                processingMessage.style.display = "block";
+                // Disable the upload button to prevent multiple submissions
+                uploadButton.disabled = true;
+            });
+        });
+    </script>
+    
 </head>
 <body>
     <h1>Upload a File</h1>
     <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
         <input type="file" name="file">
+        <label for="analyze">Run Analysis</label>
+        <input type="checkbox" name="analyze" id="analyze">
         <input type="submit" value="Upload">
+        <div id="processing-message" style="display: none;">Workign on it...</div>
     </form>
 </body>
 </html>

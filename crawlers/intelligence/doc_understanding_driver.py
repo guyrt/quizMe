@@ -7,7 +7,7 @@ from uuid import uuid4
 from azurewrapper.doc_summary_handler import DocSummaryBlobHandler
 from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
-from azurewrapper.raw_doc_handler import AzureRawDocsBlobHandler
+from azurewrapper.raw_doc_handler import AzureSECRawDocsBlobHandler
 from azurewrapper.raw_doc_queue import AzureQueueManagerBase
 from indexgen.localtypes import (EdgarFile, SecDocRssEntry,
                                  get_sec_entry_from_dict)
@@ -22,7 +22,7 @@ from .promptlib.quarter_annual_prompts import quarterly_annual_prompts
 class DocUnderstandingDriver:
 
     def __init__(self, 
-                 raw_doc_handler: AzureRawDocsBlobHandler, 
+                 raw_doc_handler: AzureSECRawDocsBlobHandler, 
                  incoming_queue : AzureQueueManagerBase,
                  parsed_doc_handler : AzureParsedDocsBlobHandler,
                  summary_upload_handler : DocSummaryBlobHandler) -> None:
