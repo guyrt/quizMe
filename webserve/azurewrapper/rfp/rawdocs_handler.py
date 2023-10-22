@@ -17,6 +17,7 @@ class RfpRawBlobHander:
     def upload(self, inmem_file : InMemoryUploadedFile, filename : str):
         blob_client = self.container_client.get_blob_client(filename)
         blob_client.upload_blob(inmem_file, overwrite=True)  # todo return and store etags
+        inmem_file.seek(0)
         return self.container_name, filename
 
     def get_path(self, remote_path) -> str:

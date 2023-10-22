@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>List of {{ doc_cluster_list.0._meta.verbose_name_plural }}</title>
+</head>
+<body>
+    <h1>List of {{ doc_cluster_list.0._meta.verbose_name_plural }}</h1>
+    <ul>
+        {% for object in doc_cluster_list %}
+            <li>{{ object.title }}</li>
+            <!-- Add more details as needed -->
+        {% empty %}
+            <li>No {{ doc_cluster_list.0._meta.verbose_name_plural }} found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

@@ -8,6 +8,9 @@ from typing import Literal, Tuple, List
 UploadSources = Literal['RFP', 'PublicSEC']
 
 
+DocFormat = Literal['pdf', 'docx', 'zip']
+
+
 DocFormats = [
     ("pdf", "pdf"),
     ("docx", "docx"),
@@ -16,9 +19,19 @@ DocFormats = [
 
 
 ProcessingChoices = [
+    ("notstarted", "notstarted"),
     ("done", "done"),
     ("active", "active"),
     ("error", "error")
+]
+
+
+FileRoles = Literal['rfp', 'unknown']
+
+
+FileRolesChoices = [
+    ('rfp', 'rfp'),
+    ('unknown', 'unknown')
 ]
 
 
@@ -51,7 +64,7 @@ class DocumentFile(ModelBaseMixin):
     document = models.ForeignKey(DocumentCluster, on_delete=models.CASCADE)
     source = models.ForeignKey(RawUpload, on_delete=models.CASCADE)
 
-    file_role = models.CharField(max_length=16)  # TODO track main file vs addendum ect.
+    file_role = models.CharField(max_length=16, choices=FileRolesChoices)  # TODO track main file vs addendum ect.
     doc_format = models.CharField(max_length=8, choices=DocFormats)
     doc_name = models.TextField()  # name of doc as a relative path to root.
 
@@ -59,8 +72,8 @@ class DocumentFile(ModelBaseMixin):
     location_path = models.CharField(max_length=256)
 
     # Tell us current process state.
-    processing_status = models.CharField(max_length=8, choices=ProcessingChoices)
-    last_jobid = models.CharField(max_length=32)
+    processing_status = models.CharField(max_length=16, choices=ProcessingChoices)
+    last_jobid = models.CharField(max_length=32, default='')
 
 
 class DocumentExtract(ModelBaseMixin):

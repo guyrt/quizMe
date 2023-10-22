@@ -1,14 +1,15 @@
 from uuid import uuid4
 
+from azurewrapper.rfp.rawdocs_handler import RfpRawBlobHander
 from django.http import HttpResponseRedirect
 from django.urls import reverse
 from django.views.generic.edit import FormView
+from django.views.generic import DetailView, ListView
 
-from webserve.privateuploads.models import DocumentCluster, RawUpload
+from privateuploads.doc_parser import RawDocParser
 
 from .forms import FileUploadForm
-
-from azurewrapper.rfp.rawdocs_handler import RfpRawBlobHander
+from .models import DocumentCluster, RawUpload
 
 
 class FileUploadView(FormView):
@@ -44,9 +45,9 @@ class FileUploadView(FormView):
         )
         raw_upload.save()
 
-        # queue up some work.
+        RawDocParser().parse(uploaded_file, raw_upload)
 
-        success_url = reverse('success_page', kwargs={'parameter_name': 1})
+        success_url = reverse('doc_cluster_detail', kwargs={'id': doc_cluster.pk})
         
         return HttpResponseRedirect(success_url)
 
@@ -57,11 +58,15 @@ class FileUploadView(FormView):
         raise ValueError(f"Unexpected type {raw_type}")
 
 
-class DocumentClusterListView():
+class DocumentClusterListView(ListView):
     """todo - list all docs uploaded with 'analyze' buttons"""
-    pass
+    model = DocumentCluster  # Specify the model
+    template_name = 'privateuploads/rfp_list.html'
+    context_object_name = 'doc_cluster_list'
 
 
-class DocumentClusterDetailView():
+class DocumentClusterDetailView(DetailView):
     """todo - list a single doc. show either 'processing' or show latest results"""
-    pass
+    model = DocumentCluster  # Specify the model
+    template_name = 'privateuploads/rfp_detail.html'  # Specify the template for rendering
+    context_object_name = 'doc_cluster'
