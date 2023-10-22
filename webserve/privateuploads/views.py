@@ -1,11 +1,11 @@
 from uuid import uuid4
 
 from azurewrapper.rfp.rawdocs_handler import RfpRawBlobHander
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import HttpResponseRedirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.views.generic import DeleteView, DetailView, ListView
 from django.views.generic.edit import FormView
-from django.views.generic import DetailView, ListView
-
 from privateuploads.doc_parser import RawDocParser
 
 from .forms import FileUploadForm
@@ -23,8 +23,8 @@ class FileUploadView(FormView):
         Kick a job to process the RawUpload to individual files.
         Kick a job to process further if user said to.
         """
-        uploaded_file = form.cleaned_data['file']
-        clean_filetype = self._clean_type(uploaded_file.format)
+        uploaded_file : InMemoryUploadedFile = form.cleaned_data['file']
+        clean_filetype = self._clean_type(uploaded_file.content_type)
 
         full_path = f"{self.request.user.pk}/{uuid4()}/{uploaded_file.name}"
         blob_handler = RfpRawBlobHander()
@@ -45,7 +45,7 @@ class FileUploadView(FormView):
         )
         raw_upload.save()
 
-        RawDocParser().parse(uploaded_file, raw_upload)
+        RawDocParser().parse(uploaded_file, raw_upload, clean_filetype)
 
         success_url = reverse('doc_cluster_detail', kwargs={'id': doc_cluster.pk})
         
@@ -64,9 +64,29 @@ class DocumentClusterListView(ListView):
     template_name = 'privateuploads/rfp_list.html'
     context_object_name = 'doc_cluster_list'
 
+    def get_queryset(self):
+        # Filter the objects to include only those marked as "active"
+        return self.model.objects.filter(active=True)
+
 
 class DocumentClusterDetailView(DetailView):
     """todo - list a single doc. show either 'processing' or show latest results"""
     model = DocumentCluster  # Specify the model
     template_name = 'privateuploads/rfp_detail.html'  # Specify the template for rendering
     context_object_name = 'doc_cluster'
+
+    def get_queryset(self):
+        # Filter the objects to include only those marked as "active"
+        return self.model.objects.filter(active=True)
+
+
+class DocumentClusterDeleteView(DeleteView):
+    model = DocumentCluster  # Specify the model
+    template_name = 'privateuploads/documentcluster_confirm_delete.html'  # Specify the template for confirmation
+    success_url = reverse_lazy('doc_cluster_list')  # Redirect after deletion
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False  # Set the object as inactive
+        self.object.save()
+        return super(DocumentClusterDeleteView, self).delete(request, *args, **kwargs)

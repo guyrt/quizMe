@@ -49,6 +49,10 @@ class DocumentCluster(ModelBaseMixin):
 
     upload_source = models.CharField(max_length=16, choices=UploadSourceChoices)
 
+    def get_title(self):
+        return self.documentfile_set.get(active=True).doc_name
+
+
 
 class RawUpload(ModelBaseMixin):
 

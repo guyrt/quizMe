@@ -1,16 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>List of {{ doc_cluster_list.0._meta.verbose_name_plural }}</title>
+    <title>Your RFPs</title>    
 </head>
 <body>
-    <h1>List of {{ doc_cluster_list.0._meta.verbose_name_plural }}</h1>
+    <h1>Your RFPs</h1>
     <ul>
         {% for object in doc_cluster_list %}
-            <li>{{ object.title }}</li>
+            <li>
+                <a href="{% url 'doc_cluster_detail' object.id %}">{{ object.get_title }}</a>
+                <a href="{% url 'doc_cluster_delete' object.id %}">delete</a>
+            </li>
             <!-- Add more details as needed -->
         {% empty %}
-            <li>No {{ doc_cluster_list.0._meta.verbose_name_plural }} found.</li>
+            <li>None found.</li>
         {% endfor %}
     </ul>
 </body>

@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>{{ doc_cluster.owner }}</title>
+    <title>{{ doc_cluster.get_title }}</title>
 </head>
 <body>
-    <h1>{{ doc_cluster.owner }}</h1>
-    <!-- Add more details as needed -->
+    <h1>{{ doc_cluster.get_title }}</h1>
+    <p>Uploaded {{doc_cluster.date_added}} by {{doc_cluster.owner}}</p>
+    
+    <button id="js-reprocess">Reprocess</button>
+    
+
 </body>
 </html>
