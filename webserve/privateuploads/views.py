@@ -47,6 +47,8 @@ class FileUploadView(FormView):
 
         RawDocParser().parse(uploaded_file, raw_upload, clean_filetype)
 
+        # start a queued work item.
+
         success_url = reverse('doc_cluster_detail', kwargs={'id': doc_cluster.pk})
         
         return HttpResponseRedirect(success_url)
