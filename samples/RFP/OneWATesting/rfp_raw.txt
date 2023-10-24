@@ -1,0 +1,1405 @@
+STATE OF WASHINGTON
+OFFICE OF FINANCIAL MANAGEMENT
+REQUEST FOR PROPOSALS (RFP) 
+PROJECT TITLE: One Washington Testing Services
+PROPOSAL DUE DATE: August 25th, 2023, at 3:30 P.M. Local Time, Olympia, Washington, USA.
+ESTIMATED TIME PERIOD FOR CONTRACT: October 13th, 2023**, through June 30th, 2025
+(with possibility for extensions) **Signing of a Software License Agreement will be Subject to 
+completion of Security Design Review
+CONTENTS OF THIS REQUEST FOR PROPOSALS: 
+1. Introduction
+2. General Information
+3. Proposal Contents
+4. Evaluation and Award
+5. Exhibits
+A. Certifications and Assurances
+B. General Terms and Conditions
+C. Wage Theft Certification
+D. Executive Order #18-03 Contractor Certification
+E. Technical Questionnaire
+Note to Vendors: This RFP and amendments will be available on the Office of Financial Management 
+(OFM) website at http://ofm.wa.gov/contracts_procurements/default.asp. Vendors are also 
+encouraged to register on the Department of Enterprise Services (DES), Washington Electronic 
+Business Solution (WEBS) Procurement Website at https://des.wa.gov/services/contractingpurchasing/doing-business-state/webs-registration-search-tips. All RFP amendments or Bidder 
+questions/OFM answers will be posted on the OFM website and on WEBS.
+Procurement Number 23-700
+RFP #23-700
+One Washington Testing Services Page 1
+TABLE OF CONTENTS
+1. INTRODUCTION............................................................................................................................... 3
+1.1 PURPOSE AND BACKGROUND...................................................................................................... 3
+1.2 OBJECTIVES AND SCOPE OF WORK................................................................................... 3
+1.3 QUALIFICATIONS.................................................................................................................... 3
+1.4 MINIMUM QUALIFICATIONS .................................................................................................. 3
+1.5 PREFERRED QUALIFICATIONS ............................................................................................ 4
+1.6 FUNDING.................................................................................................................................. 4
+1.7 PERIOD OF PERFORMANCE ................................................................................................. 4
+1.8 CONTRACTS............................................................................................................................ 4
+1.9 CONTRACTING WITH CURRENT OR FORMER STATE EMPLOYEES ...............................4
+1.10 DEFINITIONS............................................................................................................................ 4
+1.9. ADA........................................................................................................................................... 5
+2. GENERAL INFORMATION .............................................................................................................. 5
+2.1 RFP COORDINATOR .................................................................................................................... 5
+2.2 ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES .....................................................5
+2.4 QUESTIONS AND ANSWERS...................................................................................................... 6
+2.5 SUBMISSION OF PROPOSALS.............................................................................................. 6
+2.6 REVISIONS TO THE RFP ........................................................................................................ 7
+2.7. PROPRIETARY INFORMATION/PUBLIC DISCLOSURE.......................................................7
+2.8. ACCEPTANCE OF RFP TERMS ............................................................................................. 7
+2.9. RESPONSIVENESS................................................................................................................. 7
+2.10. CONTRACT AND GENERAL TERMS & CONDITIONS..........................................................8
+2.11. COSTS TO PREPARE PROPOSAL ........................................................................................ 8
+2.12. NO OBLIGATION TO CONTRACT.......................................................................................... 8
+2.13. REJECTION OF PROPOSALS................................................................................................ 8
+2.14. COMMITMENT OF FUNDS...................................................................................................... 8
+2.15. ELECTRONIC PAYMENT ........................................................................................................ 9
+2.16. INSURANCE COVERAGE ....................................................................................................... 9
+2.17. COMPLAINT PROCESS ........................................................................................................10
+2.18. MINORITY & WOMEN-OWNED BUSINESS PARTICIPATION ............................................11
+3. PROPOSAL CONTENTS ...............................................................................................................12
+3.1 ADMINISTRATIVE REQUIREMENTS (Section 1 of Proposal) ................................................12
+3.2 TECHNICAL PROPOSAL (Section 2 of Proposal)..............................................................13
+3.3 MANAGEMENT PROPOSAL (Section 3 of Proposal) .............................................................14
+3.4 BUDGET PROPOSAL (Section 4 of Proposal).........................................................................15
+4. EVALUATION AND CONTRACT AWARD....................................................................................16
+4.1 EVALUATION PROCEDURE......................................................................................................16
+4.2 EVALUATION AND SCORING ..............................................................................................16
+RFP #23-700
+One Washington Testing Services Page 2
+4.3 FINAL DETERMINATION OF APPARENTLY SUCCESSFUL APPLICANTS .....................17
+4.4 NOTIFICATION TO APPLICANTS.........................................................................................18
+4.5 DEBRIEFING OF UNSUCCESSFUL APPLICANTS .............................................................18
+4.6 PROTEST PROCEDURE .......................................................................................................18
+ 5. RFP Exhibits …………………………………………………………………………………………. 19
+Exhibit A Certifications and Assurances
+Exhibit B General Terms and Conditions 
+Exhibit C Wage Theft Certification
+Exhibit D Executive Order #18-03 Contractor Certification
+Exhibit E Technical Questionnaire
+RFP #23-700
+One Washington Testing Services Page 3
+1.INTRODUCTION
+1.1 PURPOSE AND BACKGROUND
+The State of Washington Office of Financial Management (OFM) is procuring an automated testing 
+solution and service to support our Washington State Enterprise, Workday implementation, Phase 
+1A. The OFM intends to contract, as an outcome of this RFP, an automated Enterprise Resource 
+Planning (ERP) testing tool and consulting services for the automated testing tool implementation and 
+support. 
+The One Washington Program, led by the Office of Financial Management, is an enterprise-wide 
+transformation project focused on replacing 1960s-era legacy technology with Workday cloud-based, 
+software as a service, solution for finance, procurement, budget, HR, and payroll processes as a 
+shared solution for 100+ Washington State Agencies. OFM has contracted a System Integrator. This 
+RFP does not include system integration services.
+The One Washington Program Workday implementation will be phased beginning with basic 
+Financials, followed by Procurement, HR/Payroll and Budgeting in future phases. Phase 1A is 
+implementation of Financials. One Washington Program anticipates the following Phase 1A 
+milestones:
+• April 2024 - Design complete
+• October 2024 - End-to-End Testing
+• December 2024 - User Experience Review
+• March 2025 - Workday final release prior to Go Live
+• July 2025 - Go Live
+1.2. OBJECTIVES AND SCOPE OF WORK
+This RFP is to acquire the following:
+A. A complete solution, including technology software and infrastructure to provide automated 
+testing of the Workday implementation described in section 1.1.
+B. A hosted solution that can integrate with Workday without requiring additional layers of 
+technical infrastructure to support the integration. i.e., the vendor solution connects directly to 
+a Workday hosted tenant.
+C. Consulting services required to implement the solution.
+D. Consulting services required to develop automated testing scripts in support of Phase 1A.
+E. Consulting services required to maintain an automation test suite in support of Phase 1A.
+F. Consulting services required to supplement One Washington Program and Workday
+capabilities in the areas of automated testing, including regression testing in support of Phase 
+1A.
+Consulting services are to be deliverables-based. Time and materials proposals are not permitted.
+It is expressly not the intent of One Washington Program to engage in a consultative relationship to 
+identify technological solutions to support OFM’s needs. One Washington expects RFP responses to 
+recommend a solution that best satisfies requirements of this RFP.
+It is expressly not the intent of One Washington Program to procure consulting services for manual 
+testing within the scope of this RFP. 
+Security Design Review must be completed, prior to license agreement execution.
+1.3. QUALIFICATIONS
+MINIMUM QUALIFICATIONS
+RFP #23-700
+One Washington Testing Services Page 4
+a. Licensed to do business in the State of Washington or provide a commitment to become 
+licensed in Washington within thirty (30) calendar days of being selected as Apparently
+Successful Applicant.
+b. Minimum of 5 years testing Workday Financials Implementations, including automated 
+regression testing of at least 4 Workday releases.
+c. What Security Framework does your company use: NIST CSF, NIST 800-53 (series) or other 
+security framework?
+1.4 PREFERRED QUALIFICATIONS
+Individuals providing consulting services on behalf of Applicant have Workday experience and 
+Workday Financials certification.
+1.5. FUNDING
+Any contract awarded as a result of this procurement is contingent upon the availability of funding. 
+The initial term amount shall not exceed $650,000.00 for both licenses and services.
+1.6. PERIOD OF PERFORMANCE
+The period of performance of any contract resulting from this RFP is tentatively scheduled to begin on 
+or about October 16, 2023, and to end on June 30, 2025. Amendments extending the period of 
+performance, if any, shall be at the sole discretion of OFM.
+OFM reserves the option to renew the contract for additional terms of two (2) years. This includes all 
+licensing agreements.
+1.7. CONTRACTS
+OFM intends to award a contract to provide the services described in this RFP. Additional services 
+that are appropriate to the scope of this RFP, as determined by OFM, may be added to the resulting 
+contracts by a written amendment mutually agreed to and executed by both parties.
+Security Design Review must be completed, prior to license agreement execution.
+.
+1.8. CONTRACTING WITH CURRENT OR FORMER STATE EMPLOYEES
+Specific restrictions apply to contracting with current or former state employees pursuant to chapter 
+42.52 of the Revised Code of Washington. Proposers should familiarize themselves with the 
+requirements prior to submitting a proposal that includes current or former state employees.
+1.9. DEFINITIONS
+Agency: The Office of Financial Management is the agency of the state of Washington that is issuing
+this RFP.
+Apparently Successful Applicants: The organization(s) selected as the entities to perform the 
+anticipated services, subject to completion of contract negotiations and execution of written contracts. 
+Applicant: Organization interested in the RFP that may or does submit a proposal in order to attain a 
+contract with OFM.
+Contingency Activities: Category within proposals that reflect activities that will be increased or 
+reallocated to areas with low response rates based on feedback from the Census Bureau (not all 
+proposals need to include this category).
+RFP #23-700
+One Washington Testing Services Page 5
+Contractor: Organization whose proposal has been accepted by OFM and is awarded a fully 
+executed, written contract.
+Joint Proposal: Proposal that combines the activities of multiple organizations into one proposal under 
+one prime Applicant.
+OFM: The Washington State Office of Financial Management
+Prime Applicant: Organization that submits proposal for activities by multiple, related organizations 
+and assumes responsibility for invoicing, performance, and reporting.
+Proposal: A formal offer submitted in response to this RFP.
+Request for Proposals (RFP): This document, or generally, a formal procurement document in which 
+a service or need is identified but no specific method to achieve it has been chosen. The purpose of 
+an RFP is to permit the Applicant community to suggest various approaches to meet the need at a 
+given price.
+1.10.ADA
+OFM complies with the Americans with Disabilities Act (ADA). Applicants may contact the RFP 
+Coordinator to receive this Request for Proposals in Braille or on tape.
+2. GENERAL INFORMATION 
+2.1 RFP COORDINATOR
+The RFP Coordinator is the sole point of contact in OFM for this procurement. All communication 
+between the Applicant and OFM upon release of this RFP shall be with the RFP Coordinator, as follows:
+Name Kristy.Brodersen
+Submission 
+Email
+ofmprocurements@ofm.wa.gov
+Any other communication will be considered unofficial and non-binding on OFM. Applicants are 
+to rely on written statements issued by the RFP Coordinator. Communication directed to parties 
+other than the RFP Coordinator may result in disqualification of the Applicant.
+2.2 ESTIMATED SCHEDULE OF PROCUREMENT ACTIVITIES
+Issue Request for Proposals July 12, 2023
+Pre-Proposal Conference July 25, 2023
+Applicant may submit written questions until 3:30 local time, 
+Olympia, WA
+August 15, 2023
+OFM will issue responses August 18, 2023
+Complaints due August 25, 2023
+Applicant must submit Proposal by 3:30 local time, Olympia, 
+WA
+August 31, 2023
+OFM scoring of proposals September 1 –
+September 19, 2023
+If Required OFM to Hold Oral Presentation September 25-26, 
+2023
+RFP #23-700
+One Washington Testing Services Page 6 
+OFM announces successful Applicants September 28, 2023
+OFM notifies unsuccessful Applicants September 28, 2023
+Unsuccessful Applicants may request Debriefing until 3:30
+p.m. Local Time, Olympia, WA
+October 3, 2023
+OFM holds Debriefing Conferences, if requested September 29 –
+October 5-27, 2023
+Sign Agreements October 13, 2023**
+** Is earliest possible 
+date and is subject 
+to Security Design 
+Review
+OFM may revise the above schedule. Revisions, if made, will be posted to WEBS and the OFM 
+website.
+2.3 PRE-PROPOSAL CONFERENCE 
+A pre-proposal conference is scheduled to be held on July 25, 2023, at 3:30 p.m. local time, Olympia, 
+WA. The pre-proposal conference purpose is to provide Applicants an overview of the RFP process 
+and allow Applicants to ask questions verbally about the RFP process, which will also be requested to 
+be submitted in writing. The location of the pre-proposal conference is held via Teams Virtual Meeting
+at this link provided below. All prospective Applicants are encouraged to attend; however, attendance 
+is not mandatory. 
+OFM will be bound only to OFM written answers to questions. Questions arising at the preproposal conference or in subsequent communication with the RFP Coordinator, will be 
+documented and answered in written form, which will be posted to WEBS and on the OFM 
+website. 
+Link to Pre-Proposal:
+Microsoft Teams meeting 
+Join on your computer, mobile app or room device 
+Click here to join the meeting 
+Meeting ID: 238 124 052 695 
+Passcode: 9Qupe5 
+Download Teams | Join on the web
+Or call in (audio only) 
++1 564-999-2000,,638483561# United States, Olympia 
+Phone Conference ID: 638 483 561# 
+Find a local number | Reset PIN 
+Learn More | Meeting options 
+________________________________________________________________________________ 
+2.4 QUESTIONS AND ANSWERS
+Applicants may e-mail written questions to the RFP Coordinator. Questions will be accepted until the 
+date set forth in the Procurement Schedule. Early submission of questions is encouraged. Questions 
+and answers will be posted by addenda on WEBS. Applicants may only rely on written statements 
+issued by the RFP Coordinator. Any oral communications are unofficial and are not binding on OFM. 
+2.5 SUBMISSION OF PROPOSALS
+The proposal must be received by the RFP Coordinator no later than August 31, 2023 – 3:30 p.m. 
+local time, Olympia, WA. 
+RFP #23-700
+One Washington Testing Services Page 7 
+Applicants are required to submit proposals as an attachment to an e-mail to the RFP Coordinator at 
+the e-mail address above, on or before the proposal due date and time stated in Section 2.2. The 
+Applicant must identify each document with RFP #23-700 and Title, One Washington Workday 
+Testing Services. Attachments to e-mail shall be in Microsoft Word format or PDF. Zipped files cannot 
+be received by OFM and cannot be used for submission of proposals. 
+Late proposals will not be accepted and will be automatically disqualified from further consideration. 
+All proposals and any accompanying documentation become the property of the AGENCY and will 
+not be returned.
+2.6 REVISIONS TO THE RFP
+In the event it becomes necessary to revise any part of this RFP, addenda will be published on 
+WEBS at https://fortress.wa.gov/ga/webscust and on the AGENCY website at www.ofm.wa.gov. 
+For this purpose, the published questions and answers and any other pertinent information 
+shall be provided as an addendum to the RFP and will be placed on WEBS.
+OFM also reserves the right to cancel or reissue the RFP in whole or in part, prior to execution 
+of a contract.
+2.7. PROPRIETARY INFORMATION/PUBLIC DISCLOSURE
+Proposals submitted in response to this competitive procurement shall become the property of the 
+AGENCY. All proposals received shall remain confidential until the AGENCY announces the 
+Apparently Successful Applicant, at which time the proposals shall be deemed public records as 
+defined in Chapter 42.56 of the Revised Code of Washington (RCW). 
+ 
+Any information in the proposal that the Applicant desires to claim as proprietary and exempt from 
+disclosure under the provisions of Chapter 42.56 RCW, or other state or federal law that provides for 
+the nondisclosure of your document, must be clearly designated. The information must be clearly 
+identified and the particular exemption from disclosure upon which the Applicant is making the claim 
+must be cited. Each page containing the information claimed to be exempt from disclosure must be 
+clearly identified by the words “Proprietary Information” printed on the lower right hand corner of the 
+page. Marking the entire proposal exempt from disclosure or as Proprietary Information will not be 
+honored. 
+ 
+If a public records request is made for the information that the Applicant has marked as “Proprietary 
+Information,” the AGENCY will notify the Applicant of the request and of the date that the records will 
+be released to the requester unless the Applicant obtains a court order enjoining that disclosure. If 
+the Applicant fails to obtain the court order enjoining disclosure, the AGENCY will release the 
+requested information on the date specified. If an Applicant obtains a court order from a court of 
+competent jurisdiction enjoining disclosure pursuant to Chapter 42.56 RCW, or other state or federal 
+law that provides for nondisclosure, the AGENCY shall maintain the confidentiality of the Applicant’s 
+information per the court order.
+A charge will be made for copying and shipping, as outlined in RCW 42.56. No fee shall be 
+charged for inspection of contract files, but twenty-four (24) hours’ notice to the RFP
+Coordinator is required. All requests for information should be directed to the RFP Coordinator.
+2.8. ACCEPTANCE OF RFP TERMS 
+The Applicant acknowledges that the submission of a Proposal which includes a signed Applicant
+Certification and Assurances Form, attached as Exhibit A, constitutes a binding offer that is valid for 60 
+days from the due date for receipt of proposals. 
+2.9. RESPONSIVENESS
+RFP #23-700
+One Washington Testing Services Page 8
+All proposals will be reviewed by the RFP Coordinator to determine compliance with administrative 
+requirements and instructions specified in this RFP. The Applicant is specifically notified that the 
+AGENCY may reject or withdraw a Proposal at any time as nonresponsive for any of the following 
+reasons:
+a. Incomplete Proposal
+b. Submission of a proposal that proposes services that deviate from the technical requirements 
+set forth in this document
+c. Failure to comply with any part of this RFP or any exhibit to this RFP
+d. Submission of incorrect, misleading, or false information. 
+The AGENCY also reserves the right at its sole discretion to waive minor administrative irregularities.
+2.10.CONTRACT AND GENERAL TERMS & CONDITIONS
+The Apparently Successful Applicant will be expected to enter into a contract that will include General 
+Terms and Conditions, attached as Exhibit B. In no event is an Applicant to submit its own standard 
+contract terms and conditions in response to this solicitation.
+Applicant must also submit all licensing terms and conditions with its proposal.
+The Applicant may submit exceptions as allowed in the Certifications and Assurances form, Exhibit A 
+to this solicitation. All exceptions to the contract terms and conditions must be submitted as Track 
+Changes to Exhibit B. Applicant must explain the reason for each requested exception, identifying the 
+language in Exhibit B found problematic, the reason Applicant finds the language to be problematic, 
+and any recommended methods/alternate language of mitigating or limiting the perceived negative 
+consequences. Applicant must also explain why each item proposed as a change to a term is in the 
+state’s best interest as a customer and how it will support the state’s business objectives. Where terms 
+and conditions cannot be changed and may result in negative consequences on the quality of services 
+or their supply, Applicants are required to recommend methods of mitigating or limiting these negative 
+consequences.
+The AGENCY will review requested exceptions and accept or reject the same at its sole discretion. 
+Requested exceptions may be grounds for disqualification from further consideration in the award of a 
+Contract, at the AGENCY’s discretion.
+2.11.COSTS TO PREPARE PROPOSAL
+The AGENCY will not be liable for any costs incurred by the Applicant in preparation of a proposal 
+submitted in response to this RFP, in conduct of a presentation, or any other activities related to 
+responding to this RFP.
+2.12.NO OBLIGATION TO CONTRACT
+This RFP does not obligate the state of Washington or the AGENCY to contract for services specified 
+herein.
+2.13.REJECTION OF PROPOSALS
+The AGENCY reserves the right at its sole discretion to reject any or all proposals received without 
+penalty and not to issue a contract as a result of this RFP.
+2.14.COMMITMENT OF FUNDS
+RFP #23-700
+One Washington Testing Services Page 9 
+The Director of the AGENCY or his delegate is the only individual who may legally commit the AGENCY 
+to the expenditures of funds for a contract resulting from this RFP. No cost chargeable to the proposed 
+contract may be incurred before receipt of a fully executed contract.
+2.15.ELECTRONIC PAYMENT
+The state of Washington prefers to utilize electronic payment in its transactions. Proposers who 
+are awarded a contract as a result of this RFQQ must register in the Statewide Vendor Payee 
+Registration System. The Department of Enterprise Services (DES) maintains a central contractor 
+registration file for Washington State agencies to process Contractor payments. To obtain registration 
+materials and instructions for registration go to 
+http://des.wa.gov/services/ContractingPurchasing/Business/VendorPay/Pages/default.aspx
+2.16.INSURANCE COVERAGE
+The Contractor is to furnish the Agency with a certificate(s) of insurance executed by a duly authorized 
+representative of each insurer, showing compliance with the insurance requirements set forth below.
+The Contractor shall, at its own expense, obtain and keep in force insurance coverage, which shall be 
+maintained in full force and effect during the term of the contract. The Contractor shall furnish evidence 
+in the form of a Certificate of Insurance that insurance shall be provided, and a copy shall be forwarded 
+to the Agency within fifteen (15) days of the contract effective date.
+Should an Applicant find the following insurance requirements to be overly burdensome, the Applicant 
+should include in its Letter of Submittal (Section 3.1 of the RFP) a statement substantiating as such. If 
+Applicant makes no such statement in the Letter of Submittal, the Agency will assume that the Applicant 
+is able to meet the requirements. 
+a. Liability Insurance
+1) Commercial General Liability Insurance: Contractor shall maintain commercial general 
+liability (CGL) insurance and, if necessary, commercial umbrella insurance, with a limit of not 
+less than $1,000,000 per each occurrence. If CGL insurance contains aggregate limits, the 
+General Aggregate limit shall be at least twice the “each occurrence” limit. CGL insurance 
+shall have products-completed operations aggregate limit of at least two times the “each 
+occurrence” limit. CGL insurance shall be written on ISO occurrence from CG 00 01 (or a 
+substitute form providing equivalent coverage). All insurance shall cover liability assumed 
+under an insured contract (including the tort liability of another assumed in a business 
+contract), and contain separation of insureds (cross liability) condition.
+Additionally, the Contractor is responsible for ensuring that any subcontractors provide 
+adequate insurance coverage for the activities arising out of subcontracts.
+2) Business Auto Policy: As applicable, the Contractor shall maintain business auto liability 
+and, if necessary, commercial umbrella liability insurance with a limit not less than $1,000,000 
+per accident. Such insurance shall cover liability arising out of “Any Auto.” Business auto 
+coverage shall be written on ISO form CA 00 01, 1990 or later edition, or substitute liability 
+form providing equivalent coverage. 
+b. Employers Liability (“Stop Gap”) Insurance: In addition, the Contractor shall buy employers 
+liability insurance and, if necessary, commercial umbrella liability insurance with limits not less than 
+$1,000,000 each accident for bodily injury by accident or $1,000,000 each employee for bodily 
+injury by disease.
+c. Additional Provisions. The above insurance shall include the following provisions:
+RFP #23-700
+One Washington Testing Services Page 10
+1) Additional Insured. The state of Washington, [agency name], its elected and appointed 
+officials, agents and employees shall be named as an additional insured on all general liability, 
+excess, umbrella and property insurance policies. All insurance provided in compliance with 
+this contract shall be primary as to any other insurance or self-insurance programs afforded to 
+or maintained by the state. 
+2) Cancellation. State of Washington, [agency name], shall be provided written notice before 
+cancellation or non-renewal of any insurance referred to therein, in accord with the following 
+specifications. Insurers subject to 48.18 RCW (Admitted and Regulation by the Insurance 
+Commissioner): The insurer shall give the state 45 days advance notice of cancellation or nonrenewal. If cancellation is due to non-payment of premium, the state shall be given 10 days 
+advance notice of cancellation. Insurers subject to 48.15 RCW (Surplus lines): The state shall 
+be given 20 days advance notice of cancellation. If cancellation is due to non-payment of 
+premium, the state shall be given 10 days advance notice of cancellation. 
+3) Identification. Policy must reference the state’s contract number and the agency name.
+4) Insurance Carrier Rating. All insurance and bonds should be issued by companies admitted 
+doing business within the state of Washington and have a rating of A-, Class VII or better in the 
+most recently published edition of Best’s Reports. Any exception shall be reviewed and 
+approved by the Office of Financial Management Risk Manager, or the Risk Manager for the 
+state of Washington, before the contract is accepted or work may begin. If an insurer is not 
+admitted, all insurance policies and procedures for issuing the insurance policies must comply 
+with Chapter 48.15 RCW and 284-15 WAC
+5) Excess Coverage. By requiring insurance herein, the state does not represent that coverage 
+and limits will be adequate to protect Contractor, and such coverage and limits shall not limit 
+Contractor’s liability under the indemnities and reimbursements granted to the state in this 
+contract.
+d. Workers’ Compensation Coverage. The Contractor will at all times comply with all applicable 
+workers’ compensation, occupational disease, and occupational health and safety laws, statutes, 
+and regulations to the full extent applicable. The state will not be held responsive in any way for 
+claims filed by the Contractor or their employees for services performed under the terms of this 
+contract.
+2.17.COMPLAINT PROCESS
+This procedure is available to potential Applicants who are contemplating submitting a bid in 
+response to this RFP. Only complaints concerning the following subjects shall be considered:
+• A claim that the solicitation unnecessarily restricts competition.
+• A claim the solicitation evaluation or scoring process is unfair or flawed, or 
+• A claim the solicitation requirements are inadequate or insufficient to prepare a response. 
+Applicants complaining about this procurement shall follow the procedures described below. 
+Complaints that do not follow these procedures shall not be considered. If an Applicant registers a 
+complaint against this solicitation, the complaint cannot be raised again during the protest period.
+All complaints must be in writing and signed by the complaining party or an authorized Agent. The 
+complaint must be sent to the Procurement Coordinator, or designee by the date set forth in the 
+Procurement Schedule and must clearly articulate the basis for the complaint. The Applicant
+submitting the complaint must also include a proposed remedy.
+Upon receipt of a complaint, a complaint review will be held by the AGENCY. The AGENCY 
+procurement coordinator will respond to complaints in writing and the AGENCY director will be 
+notified of all complaints and provided a copy of the AGENCY’S response. A copy of the response to 
+the complaint, including any changes to the solicitation, will also be posted to WEBS.
+The complaint process does not include an appeal process.
+RFP #23-700
+One Washington Testing Services Page 11
+2.18.MINORITY & WOMEN-OWNED BUSINESS PARTICIPATION
+In accordance with Chapter 39.19 of the Revised Code of Washington (RCW), the State of 
+Washington encourages participation in all of its contracts by firms certified by the Office of Minority 
+and Women’s Business Enterprises (OMWBE). Participation may be either on a direct basis in 
+response to this solicitation or on a subcontractor basis. However, no preference will be included in 
+the evaluation of proposals, no minimum level of MWBE participation shall be required as a condition 
+for receiving an award and proposals will not be rejected or considered non-responsive on that basis. 
+The established annual procurement participation goals for MBE is 10% and for WBE, 4%, for this 
+type of project. These goals are voluntary. Bidders may contact OMWBE at (360) 753-9693 to 
+obtain information on certified firms.
+RFP #23-700
+One Washington Testing Services Page 12
+3.PROPOSAL CONTENTS
+Applicants are requested to provide concise responses to the required proposal contents. Brevity is 
+appreciated. 
+Proposals must be written in English and submitted electronically to the RFP Coordinator in the order 
+noted below: 
+3.1 Administrative Requirements
+3.2 Technical Proposal.
+3.3 Management Proposal; and
+3.4 Budget Proposal
+Proposals must provide information in the same order as presented in this document with the same 
+headings. Following this instruction will not only be helpful to the evaluators of the proposal but
+should assist the Applicant in preparing a thorough response.
+3.1 ADMINISTRATIVE REQUIREMENTS (Section 1 of Proposal) 
+a. Letter of Submittal. Applicants must include a signed Latter of Submittal on 
+Applicant’s official business letterhead as the first page. Signing the Letter of 
+Submittal indicates that the Applicant accepts the terms and conditions of the RFP.
+1) Name, address, principal place of business, telephone number, and fax number/email address of legal entity or individual with whom contract would be written.
+2) The name of the contact person for this RFP.
+3) Name, address, and telephone number of each principal officer (President, Vice 
+President, Treasurer, Chairperson of the Board of Directors, etc.)
+4) Legal status of the Applicant (sole proprietorship, partnership, corporation, etc.) and 
+the year the entity was organized to do business as the entity now substantially 
+exists.
+5) Federal Employer Tax Identification number or Social Security number and the 
+Washington Uniform Business Identification (UBI) number issued by the state of 
+Washington Department of Revenue. If the Applicant does not have a UBI number, 
+the Applicant must state that it will become licensed in Washington within thirty (30) 
+calendar days of being selected as the Apparently Successful Applicant. 
+6) Location of the facility from which the Applicant would operate.
+7) Identify any state employees or former state employees employed or on the firm’s 
+governing board as of the date of the proposal. Include their position and 
+responsibilities within the Applicant’s organization. If following a review of this 
+information, it is determined by the AGENCY that a conflict of interest exists, the 
+Applicant may be disqualified from further consideration for the award of a contract.
+8) A list of all RFP addenda downloaded by the Applicant from WEBS and listed in 
+order by addenda number and date. If there are no RFP addenda, the Applicant
+must include a statement to that effect.
+9) A statement substantiating that the person who signs the letter is authorized to 
+contractually bind the Applicant’s firm.
+RFP #23-700
+One Washington Testing Services Page 13
+10) A statement substantiating that the Applicant meets all of the Minimum 
+Qualifications as listed in Section 1.3, Minimum Qualifications.
+11) Identification of the page numbers on the Applicant’s Proposal that are marked 
+“Proprietary Information”.
+12) If the Applicant or any subcontractor contracted with the state of Washington during 
+the past 24 months, indicate the name of the agency, the contract number and 
+project description and/or other information available to identify the contract.
+13) If the Applicant’s staff or subcontractor’s staff was an employee of the state of 
+Washington during the past 24 months, or is currently a Washington State 
+employee, identify the individual by name, the agency previously or currently 
+employed by, job title or position held and separation date.
+14) If the Applicant has had a contract terminated for default in the last five years, 
+describe such incident. Termination for default is defined as notice to stop 
+performance due to the Applicant’s non-performance or poor performance and the 
+issue of performance was either (a) not litigated due to inaction on the part of the 
+Proposer, or (b) litigated and such litigation determined that the Applicant was in 
+default.
+15) Submit full details of the termination for default including the other party’s name, 
+address, and phone number. Present the Applicant’s position on the matter. The 
+AGENCY will evaluate the facts and may, at its sole discretion, reject the proposal 
+on the grounds of the past experience. If no such termination for default has been 
+experienced by the Applicant in the past five years, so indicate.
+3.2 TECHNICAL PROPOSAL (Section 2 of Proposal)
+General Requirements: In the Technical Section of the Proposal, the Applicant is to provide a 
+description of the proposed project, which is consistent with the goals and objectives set forth in 
+Section 1.2 Objectives and Scope of Work and demonstrates the Applicant’s understanding of the 
+skills and resources required to successfully accomplish the objectives of the project and assure 
+timely completion of deliverables. 
+Identification of Sections. Please identify each section of the technical proposal so that it 
+corresponds to the three requirements defined below in bold. The section must be labeled as 
+indicated in bold and must begin with a restatement of the requirement, followed by the 
+Applicant’s response. Reference to another section will not suffice as each section must standalone. 
+Attachments. Attachments must be labeled and clearly indicate to which requirement it refers. 
+Points Awarded for Requirements. The number in parentheses after each requirement description 
+represents the maximum number of points that may be awarded for the Applicant’s response to 
+that requirement.
+a. Project Approach: Include a complete description of your proposed strategy to achieve 
+the objectives listed in Section 1.1. The description should demonstrate a clear 
+understanding of the Applicant’s proposed objectives. Provide detail about source of 
+funding, amount of funding, contract period of performance, and key deliverables.
+(70 points possible) 
+RFP #23-700
+One Washington Testing Services Page 14
+b. Technical Questionnaire: Respond to each of the items listed in the Exhibit E Technical 
+Questionnaire. Applicant must provide sufficient detail to convey to members of the 
+evaluation team the Applicant’s knowledge of the subjects and skills necessary to 
+successfully meet the OFM’s needs. The Applicant may provide any pertinent supporting 
+documentation. 
+(128 points possible) 
+c. Implementation Schedule: This section should include a project schedule clearly 
+indicating the dates on which each individually proposed activity will be conducted and 
+completed. Please keep in mind the anticipated Phase 1A milestone dates provided in 
+Section 1 of the RFP. (the Applicant may choose to submit a matrix to describe the 
+project schedule). 
+(35 points possible) 
+3.3 MANAGEMENT PROPOSAL (Section 3 of Proposal)
+General Requirements: In this section of the proposal, the Applicant is to discuss project 
+organization and the knowledge, skills, abilities, and experience of the proposed team members
+and organizations. The contract resulting from this procurement will require that any change in 
+key staff (as identified in Applicant’s response to this procurement) be subject to prior OFM 
+acceptance. The contract will also provide that OFM may request that Applicant remove selected 
+staff on one (1) days’ notice and provide replacement staff without impacting the schedule.
+Identification of Sections. Please identify each section of the management proposal so that it 
+corresponds to the two requirements defined below in bold: Project Management and Experience. 
+The section must be labeled as indicated in bold and must begin with a restatement of the 
+requirement, followed by the Applicant’s response. Reference to another section will not suffice 
+as each section must stand-alone.
+Attachments. Attachments must be labeled and clearly indicate to which requirement it refers. 
+Points Awarded for Requirements. 90 points possible is the maximum number of points that 
+may be awarded for the Applicant’s complete response to the following requirements.
+a. Project Management 
+1) Project Team Structure/Internal Controls: Provide a description of the proposed 
+project team structure, including any subcontractors. Include a description of how 
+this model changes over the first 12 months of engagement. How does the team 
+change to support different aspects of the engagement?
+2) For Joint Proposals Only: Describe the overall structure of the coalition. Include 
+the role of the Prime Applicant and the contributions of the coalition 
+partners/subcontractors to the broader strategy. Minimum and Preferred 
+Qualifications are applicable to all coalition partners/subcontractors. Provide 
+detail about source of funding, amount of funding, contract period of 
+performance, and key deliverables.
+b. Experience 
+1) Applicant Experience: Indicate the experience the Applicant, as a firm, has 
+delivering services as described in Objectives and Statement of Work Section 
+1.2. Provide clear indication of how Minimum and Preferred Qualifications 
+RFP #23-700
+One Washington Testing Services Page 15
+Sections 1.3 and 1.4 are satisfied. Include a list of customers with similar size 
+and complexity. 
+2) Consultant Experience: Indicate the experience the individuals who will be 
+assigned to the potential contract by the Applicant, have delivering services as 
+described in in Objectives and Statement of Work Section 1.2.A through 1.2.F. 
+Provide clear indication of how Section 1.3 Minimum and 1.4 Preferred 
+Qualifications are satisfied by individuals assigned. Include applicable Workday 
+certifications. Consider providing resumes.
+3) Subcontractor Experience: Indicate the experience any subcontractors who will 
+be used to carry out the proposal have delivering services as described in 
+Objectives and Statement of Work Section 1.2.A through 1.2.F . Provide clear 
+indication of how Sections 1.3 Minimum and 1.4 Preferred Qualifications are 
+satisfied by subcontractor. Include applicable Workday certifications. Consider 
+providing resumes.
+4) Provide reference contact information for at least three similar projects that 
+Applicant and/or Consultants have supported before.
+3.4 BUDGET PROPOSAL (Section 4 of Proposal)
+Points Awarded for Requirements. The number in parentheses after each requirement description 
+represents the maximum number of points that may be awarded for the Applicant’s response to 
+that requirement.
+RFP (PHASE 1A) BUDGET PROPOSAL
+Identify in U.S. dollars all costs required for performing the tasks and requirements necessary to 
+accomplish the Objectives and Scope of Work Section 1.2, items 1.2.A through 1.2.F, Technical 
+Proposal Section 3.2, and Management Proposal Section 3.3. The fully detailed budget should be 
+organized according to the outcomes and deliverables described in Sections 3.2, breaking out the 
+related costs associated with each deliverable. The format below should be used. Licensing costs 
+must be included.
+Proposals must be deliverables-based. Time and Material proposals are not permitted.
+Budget for the RFP is not to exceed $650,000.00. 
+Deliverable/Activity $XX,XXXX total
+Breakdown of total
+Cost component $x,xxx
+Cost component $x,xxx
+Cost component $x,xxx
+Cost component $x,xxx
+(25 points possible)
+5-YEAR LICENSING AND ONGOING COSTS
+RFP #23-700
+One Washington Testing Services Page 16
+Identify in U.S. dollars all ongoing costs necessary to maintain the solution proposed to satisfy 
+Objectives and Statement of Work Section 1.2.A and 1.2.B for 5 years beyond the period of 
+performance for this contract. This should include software licensing and infrastructure hosting 
+costs. This should exclude Consulting services. 
+Costs specified here are beyond the scope of this RFP and the resulting Contract. However, they 
+are a consideration for selection of the Apparently Successful Applicant.
+Licensing total cost $XX,XXXX total
+Breakdown of licensing costs:
+Cost component $x,xxx
+Cost component $x,xxx
+ (12 points possible) 
+4.EVALUATION AND CONTRACT AWARD
+4.1 EVALUATION PROCEDURE
+Responsive proposals will be evaluated strictly in accordance with the requirements stated in this RFP 
+and any addenda issued. An evaluation team(s) to be designated by OFM shall consensus score each 
+proposal. 
+The RFP Coordinator may contact the Applicant for clarification of any portion of the Applicant’s 
+proposal. 
+4.2 EVALUATION AND SCORING 
+Round 1: Administrative Requirements Pass/Fail
+Failed proposals will not advance to Round 2.
+ 
+Round 2: Written proposal scoring
+Technical Proposal 
+ Project Approach 70 points
+ Technical Questionnaire 128 points
+ Implementation Schedule 35 points
+ Management Proposal 90 points
+Budget Proposal 
+ RFP (Phase 1A) Budget Proposal 25 points
+ 5-year Licensing and Ongoing Cost 12 points
+_______________________________________________________________________
+TOTAL 360 points (maximum)
+Technical Questionnaire Scoring. Each question will be scored a maximum of 4. Each question’s 
+score will be multiplied by a weighted value for the individual question, rounded to the nearest 
+hundredth of a point. See Exhibit E.
+RFP #23-700
+One Washington Testing Services Page 17
+Budget Proposal Scoring. Scores for the Budget Proposal are computed by dividing the lowest bid by 
+the amount bid in the Applicant’s Budget Proposal and multiplying that percentage against the total 
+points available for that Budget Proposal requirement, rounded to the nearest hundredth of a point.
+Example: If total possible points for cost were 20. 
+ Applicant A’s cost is $20,000. 
+ Applicant B’s cost is $25,000. 
+ Applicant A would score 20 points, 
+ Applicant B would score 16 points ($20,000/$25,000) = 80% x 20 points = 16).
+Lowest Budget Cost X Number of Points
+Possible = Score This Applicant’s Cost
+Round 3: Oral Presentation (if required)
+If required, OFM may select the top-scoring Applicant(s) as finalists and require an Oral Presentation
+on the date specified in Section 2.2 Estimated Schedule. The RFP Coordinator will notify finalists of 
+time and access information for the presentation. OFM reserves the right to require an Oral 
+Presentation. 
+Applicants are required to include key personnel and sub-contract(s) proposed in the oral
+presentation. The presentation will be performed via Teams. 
+Points Awarded for Requirements. The number in parentheses after each required Oral Presentation
+content represents the maximum number of points that may be awarded for the Applicant’s 
+presentation of that content. Scores do not carry forward from Round 2.
+Oral Presentation Content. Finalists are required to provide an executive briefing on their proposal. 
+Applicants should anticipate and accommodate questions throughout their presentation. One hour will 
+be scheduled. The following content is required: 
+• Technical proposal 40 points possible
+• Management proposal 30 points possible 
+• Budget proposal 30 points possible
+_______________________________________________________________________
+TOTAL 100 points (maximum)
+OFM reserves the right to award the contracts to the Applicant whose proposals are deemed to be in 
+the best interest of OFM and the state of Washington. 
+As part of final funding decisions for proposals, in addition to scoring, OFM will also consider factors 
+like geography, cultural and linguistic diversity of communities, and types of activities proposed to 
+ensure a diversity of approaches are funded. 
+4.3 FINAL DETERMINATION OF APPARENTLY SUCCESSFUL APPLICANTS
+OFM program staff and/or management may conduct reference interviews in addition to final review 
+of the evaluation and scoring of finalists(s). 
+In the final review, OFM may consider past or current performance of any Washington State Agency
+contracts by a finalist(s), and any experience of the program, OFM or Washington State Agency in 
+working with a finalist(s) under any past or current contract with a Washington State Agency. 
+In doing so, OFM management shall be guided, but not bound, by the scores awarded by the 
+evaluators. Program staff and OFM management shall determine which Proposals reviewed during 
+this final selection process will best meet the needs of OFM and, specifically, the needs of OFM. 
+RFP #23-700
+One Washington Testing Services Page 18
+Any Applicant who would be an Apparently Successful Applicant based on the scores awarded by the 
+evaluators, and who is not selected, shall be provided, upon request, the reasons why OFM selected 
+an Applicant with a lower score. 
+4.4 NOTIFICATION TO APPLICANTS
+OFM will notify the Apparently Successful Applicants of their selection in writing upon completion of the 
+evaluation process. Individuals or firms whose proposals were not selected for further negotiation or 
+award will be notified separately by e-mail.
+4.5 DEBRIEFING OF UNSUCCESSFUL APPLICANTS
+Any Applicant who has submitted a proposal and been notified that they were not selected for contract 
+award may request a debriefing. The request for a debriefing conference must be received by the RFP 
+Coordinator no later than 3:30 pm, local time, in Olympia, Washington on the date as specified in 
+Section 2.2 of this RFP. 
+Discussion at the debriefing conference will be limited to the following:
+• Evaluation and scoring of the Applicant’s proposal;
+• Critique of the proposal based on the evaluation;
+• Review of Applicant’s final score in comparison with other final scores without identifying the 
+other Applicants.
+Comparisons between proposals or evaluations of the other proposals will not be allowed. Debriefing 
+conferences may be conducted in person or on the telephone and will be scheduled for a maximum of 
+one hour.
+4.6 PROTEST PROCEDURE
+Protests may be made only by Applicants who submitted a response to this solicitation document and 
+participated in a debriefing conference. Upon completing the debriefing conference, the Applicant is 
+allowed five (5) business days to file a protest of the acquisition with the RFP Coordinator. Protests 
+must be received by the RFP Coordinator no later than 5:00pm, local time, in Olympia, Washington on 
+the fifth business day following the debriefing. Protests may be submitted by e-mail but must then be 
+followed by the document with an original signature.
+Applicants protesting this procurement shall follow the procedures described below. Protests that do 
+not follow these procedures shall not be considered. This protest procedure constitutes the sole 
+administrative remedy available to Applicants under this procurement.
+All protests must be in writing, addressed to the RFP Coordinator, and signed by the protesting party 
+or an authorized Agent. The protest must state the RFP number, the grounds for the protest with 
+specific facts and complete statements of the action(s) being protested. A description of the relief or 
+corrective action being requested should also be included. 
+Only protests stipulating an issue of fact concerning the following subjects shall be considered:
+• A matter of bias, discrimination or conflict of interest on the part of an evaluator;
+• Errors in computing the score;
+• Non-compliance with procedures described in the RFP or OFM policy.
+Protests not based on procedural matters will not be considered. Protests will be rejected as 
+without merit if they address issues such as: 1) an evaluator’s professional judgment on the 
+quality of a proposal, or 2) OFM’s assessment of its own and/or other agencies needs or 
+requirements.
+Upon receipt of a protest the Procurement Coordinator will immediately forward it to an OFM Protest 
+Officer, who will be an employee delegated by the Director who was not involved in the procurement. 
+RFP #23-700
+One Washington Testing Services Page 19
+The Protest Officer will consider the record and all available facts and issue a decision within five (5) 
+business days of receipt of the protest. If additional time is required, the protesting party will be 
+notified of the delay.
+In the event a protest may affect the interest of another Applicant that also submitted a proposal, 
+such Applicant will be given an opportunity to submit its views and any relevant information on 
+the protest to the RFP Coordinator.
+The final determination of the protest shall:
+• Find the protest lacking in merit and uphold OFM’s action; or
+• Find only technical or harmless errors in OFM’s acquisition process and determine OFM to 
+be in substantial compliance and reject the protest; or
+• Find merit in the protest and provide OFM options, which may include:
+-- Correct the errors and re-evaluate all proposals, and/or
+-- Reissue the solicitation document and begin a new process, or
+-- Make other findings and determine other courses of action as appropriate.
+If OFM determines that the protest is without merit, OFM will enter into contracts with the Apparently
+Successful Applicants. If the protest is determined to have merit, one of the alternatives noted in the 
+preceding paragraph will be taken. 
+EXHIBIT A
+CERTIFICATIONS AND ASSURANCES
+I/we make the following certifications and assurances as a required element of the proposal to which 
+it is attached, understanding that the truthfulness of the facts affirmed here and the continuing 
+compliance with these requirements are conditions precedent to the award or continuation of the 
+related contract:
+1. I/we declare that all answers and statements made in the proposal are true and correct. 
+2. The prices and/or cost data have been determined independently, without consultation, 
+communication, or agreement with others for the purpose of restricting competition. However, I/we 
+may freely join with other persons or organizations for the purpose of presenting a single proposal.
+3. The attached proposal is a firm offer for a period of 60 days following receipt, and it may be accepted 
+by OFM without further negotiation (except where obviously required by lack of certainty in key terms) 
+at any time within the 60-day period.
+4. In preparing this proposal, I/we have not been assisted by any current or former employee of the 
+state of Washington whose duties relate (or did relate) to this proposal or prospective contract, and 
+who was assisting in other than his or her official, public capacity. If there are exceptions to these 
+assurances, I/we have described them in full detail on a separate page attached to this document.
+5. I/we understand that OFM will not reimburse me/us for any costs incurred in the preparation of this 
+proposal. All proposals become the property of OFM, and I/we claim no proprietary right to the ideas, 
+writings, items, or samples, unless so stated in this proposal.
+6. Unless otherwise required by law, the prices and/or cost data that have been submitted have not 
+been knowingly disclosed by the Applicant and will not knowingly be disclosed by him/her prior to 
+opening, directly or indirectly, to any other Applicant or to any competitor.
+7. I/we agree that submission of the attached proposal constitutes acceptance of the solicitation 
+contents and the attached sample contract and general terms and conditions. If there are any 
+exceptions to these terms, I/we have described those exceptions in detail on a page attached to this 
+document. 
+8. No attempt has been made or will be made by the Applicant to induce any other person or firm to 
+submit or not to submit a proposal for the purpose of restricting competition.
+9. I/we grant OFM the right to contact references and others who may have pertinent information 
+regarding the ability of the Applicant and the lead staff person to perform the services contemplated 
+by this RFP.
+10. If any staff member(s) who will perform work on this contract has retired from the State of Washington 
+under the provisions of the 2008 Early Retirement Factors legislation, his/her name(s) is noted on a 
+separately attached page. 
+We (circle one) are / are not submitting proposed Contract exceptions. (See Section 2.10, Contract 
+and General Terms and Conditions.) If Contract exceptions are being submitted, I/we have attached 
+them to this form.
+On behalf of the Applicant submitting this proposal, my name below attests to the accuracy of the 
+above statement. We are submitting a scanned signature of this form with our proposal.
+Signature of Proposer
+Title Date
+EXHIBIT B
+GENERAL TERMS AND CONDITIONS
+1. DEFINITIONS
+As used throughout this contract, the following terms shall have the meaning set forth below:
+a. "AGENCY" shall mean the Office of Financial Management of the State of Washington, any 
+division, section, office, unit or other entity of the AGENCY, or any of the officers or other officials 
+lawfully representing that AGENCY.
+b. "AGENT" shall mean the Director, and/or the delegate authorized in writing to 
+act on the Director's behalf.
+c. "CONTRACTOR" shall mean that firm, provider, organization, individual or other entity performing 
+service(s) under this contract and shall include all employees of the CONTRACTOR.
+d. "SUBCONTRACTOR" shall mean one not in the employment of the CONTRACTOR, who is 
+performing all or part of those services under this contract under a separate contract with the 
+CONTRACTOR. The terms "SUBCONTRACTOR" and "SUBCONTRACTORS" means 
+SUBCONTRACTOR(s) in any tier.
+2. ACCESS TO DATA
+In compliance with RCW 39.26.180(2), the CONTRACTOR shall provide access to data generated 
+under this contract to AGENCY, the Joint Legislative Audit and Review Committee, and the State 
+Auditor at no additional cost. This includes access to all information that supports the findings, 
+conclusions, and recommendations of the CONTRACTOR’S reports, including computer models and 
+methodology for those models.
+3. ADVANCE PAYMENTS PROHIBITED
+No payments in advance of or in anticipation of goods or services to be provided under this contract 
+shall be made by the AGENCY. 
+4. AMENDMENTS
+With the exception of administrative changes, this contract may be amended by mutual agreement of 
+the parties. Such amendments shall not be binding unless they are in writing and signed by 
+personnel authorized to bind each of the parties. In the case of administrative changes, both parties 
+agree that changes can be memorialized by letter.
+5. AMERICANS WITH DISABILITIES ACT (ADA) OF 1990, PUBLIC LAW 101-336, also referred to 
+as the "ADA" 28 CFR Part 35
+The CONTRACTOR must comply with the ADA, which provides comprehensive civil rights protection 
+to individuals with disabilities in the areas of employment, public accommodations, state and local 
+government services, and telecommunications.
+6. ASSIGNMENT
+Neither this contract, nor any claim arising under this contract, shall be transferred or assigned by the 
+CONTRACTOR without prior written consent of the AGENCY. 
+7. ATTORNEYS’ FEES
+In the event of litigation or other action brought to enforce contract terms, each party agrees to bear 
+its own attorney fees and costs.
+8. CONFIDENTIALITY/SAFEGUARDING OF INFORMATION
+The CONTRACTOR shall not use or disclose any information concerning the AGENCY, or 
+information that may be classified as confidential, for any purpose not directly connected with the 
+administration of this contract, except with prior written consent of the AGENCY, or as may be 
+required by law. 
+9. CONFLICT OF INTEREST
+Notwithstanding any determination by the Executive Ethics Board or other tribunal, the AGENCY 
+may, in its sole discretion, by written notice to the CONTRACTOR terminate this contract if it is found 
+after due notice and examination by the AGENT that there is a violation of the Ethics in Public Service 
+Act, Chapter 42.52 RCW; or any similar statute involving the CONTRACTOR in the procurement of, 
+or performance under this contract.
+In the event this contract is terminated as provided above, the AGENCY shall be entitled to pursue 
+the same remedies against the CONTRACTOR as it could pursue in the event of a breach of the 
+contract by the CONTRACTOR. The rights and remedies of the AGENCY provided for in this clause 
+shall not be exclusive and are in addition to any other rights and remedies provided by law. The 
+existence of facts upon which the AGENT makes any determination under this clause shall be an 
+issue and may be reviewed as provided in the “Disputes” clause of this contract.
+10. COPYRIGHT PROVISIONS
+Unless otherwise provided, all materials produced under this contract shall be considered "works for 
+hire" as defined by the U.S. Copyright Act and shall be owned by the AGENCY. The AGENCY shall 
+be considered the author of such materials. In the event the materials are not considered “works for 
+hire” under the U.S. Copyright laws, CONTRACTOR hereby irrevocably assigns all right, title, and 
+interest in materials, including all intellectual property rights, to the AGENCY effective from the 
+moment of creation of such materials. 
+Materials means all items in any format and includes, but is not limited to, data, reports, documents, 
+pamphlets, advertisements, books, magazines, surveys, studies, computer programs, films, tapes, 
+and/or sound reproductions. Ownership includes the right to copyright, patent, register and the ability 
+to transfer these rights. 
+For materials that are delivered under the contract, but that incorporate pre-existing materials not 
+produced under the contract, CONTRACTOR hereby grants to the AGENCY a nonexclusive, royaltyfree, irrevocable license (with rights to sublicense others) in such materials to translate, reproduce, 
+distribute, prepare derivative works, publicly perform, and publicly display. The CONTRACTOR 
+warrants and represents that CONTRACTOR has all rights and permissions, including intellectual 
+property rights, moral rights and rights of publicity, necessary to grant such a license to the AGENCY. 
+The CONTRACTOR shall exert all reasonable effort to advise the AGENCY, at the time of delivery of 
+materials furnished under this contract, of all known or potential invasions of privacy contained therein 
+and of any portion of such document that was not produced in the performance of this contract. 
+The AGENCY shall receive prompt written notice of each notice or claim of infringement received by 
+the CONTRACTOR with respect to any data delivered under this contract. The AGENCY shall have 
+the right to modify or remove any restrictive markings placed upon the data by the CONTRACTOR.
+11. COVENANT AGAINST CONTINGENT FEES
+The CONTRACTOR warrants that no person or selling agent has been employed or retained to solicit 
+or secure this contract upon an agreement or understanding for a commission, percentage, 
+brokerage or contingent fee, excepting bona fide employees or bona fide established agents 
+maintained by the CONTRACTOR for securing business. 
+The AGENCY shall have the right, in the event of breach of this clause by the CONTRACTOR, to 
+annul this contract without liability or, in its discretion, to deduct from the contract price or 
+consideration or recover by other means the full amount of such commission, percentage, brokerage 
+or contingent fee.
+12. DEBARMENT: CERTIFICATION REGARDING DEBARMENT, SUSPENSION OR INELIGIBILITY 
+AND VOLUNTARY EXCLUSION—PRIMARY AND LOWER TIER COVERED TRANSACTIONS
+a. Contractor, defined as the primary participant and it principals, certifies by signing these General 
+Terms and Conditions that to the best of its knowledge and belief that they:
+1) Are not presently debarred, suspended, proposed for debarment, declared ineligible, or 
+voluntarily excluded from covered transactions by any Federal department or agency.
+2) Have not within a three-year period preceding this Contract, been convicted of or had a civil 
+judgment rendered against them for commission of fraud or a criminal offense in connection with 
+obtaining, attempting to obtain, or performing a public or private agreement or transaction, 
+violation of Federal or State antitrust statutes or commission of embezzlement, theft, forgery, 
+bribery, falsification or destruction of records, making false statements, tax evasion, receiving 
+stolen property, making false claims, or obstruction of justice;
+3) Are not presently indicted for or otherwise criminally or civilly charged by a governmental entity 
+(Federal, State, or local) with commission of any of the offenses enumerated in paragraph (1)(b) 
+of federal Executive Order 12549; and
+4) Have not within a three-year period preceding the signing of this Contract had one or more public 
+transactions (Federal, State, or local) terminated for cause of default.
+b. Where the Contractor is unable to certify to any of the statements in this Contract, the Contractor 
+shall attach an explanation to this Contract.
+c. The Contractor agrees by signing this Contract that it shall not knowingly enter into any lower tier 
+covered transaction with a person who is debarred, suspended, declared ineligible, or voluntarily 
+excluded from participation in this covered transaction, unless authorized by AGENCY.
+d. The Contractor further agrees by signing this Contract that it will include the clause titled 
+“Certification Regarding Debarment, Suspension, Ineligibility and Voluntary Exclusion-Lower Tier 
+Covered Transaction,” as follows, without modification, in all lower tier covered transactions and in all 
+solicitations for lower tier covered transactions:
+LOWER TIER COVERED TRANSACTIONS
+1) The lower tier contractor certifies, by signing this Contract that neither it nor its principals is 
+presently debarred, suspended, proposed for debarment, declared ineligible, or voluntarily 
+excluded from participation in this transaction by any Federal department or agency.
+2) Where the lower tier contractor is unable to certify to any of the statements in this Contract, such 
+contractor shall attach an explanation to this Contract.
+e. The terms covered transaction, debarred, suspended, ineligible, lower tier covered transaction, 
+person, primary covered transaction, principal, and voluntarily excluded, as used in this section, have 
+the meanings set out in the Definitions and Coverage sections of the rules implementing Executive 
+Order 12549. You may contact AGENCY for assistance in obtaining a copy of these regulations.
+13. DISALLOWED COSTS 
+The Contractor is responsible for any audit exceptions or disallowed costs incurred by its own 
+organization or that of its Subcontractors.
+14. DISPUTES
+Except as otherwise provided in this contract, when a dispute arises between the parties and it 
+cannot be resolved by direct negotiation, either party may request a dispute hearing with AGENT. 
+a. The request for a dispute hearing must: 
+ Be in writing;
+ State the disputed issue(s);
+ State the relative positions of the parties;
+ State the CONTRACTOR’S name, address, and contract number; and 
+ Be mailed to the AGENT and the other party’s (respondent’s) contract manager within 3 working 
+calendar days after the parties agree that they cannot resolve the dispute.
+b. The respondent shall send a written answer to the requester’s statement to both the agent and 
+the requester within 5 working calendar days.
+c. The AGENT shall review the written statements and reply in writing to both parties within 10 
+working days. The AGENT may extend this period if necessary by notifying the parties.
+d. The parties agree that this dispute process shall precede any action in a judicial or quasi-judicial 
+tribunal. 
+Nothing in this contract shall be construed to limit the parties’ choice of a mutually acceptable 
+alternate dispute resolution method in addition to the dispute resolution procedure outlined above.
+15. DUPLICATE PAYMENT
+The AGENCY shall not pay the CONTRACTOR, if the CONTRACTOR has charged or will charge the 
+State of Washington or any other party under any other contract or agreement, for the same services 
+or expenses.
+16. GOVERNING LAW
+This contract shall be construed and interpreted in accordance with the laws of the State of 
+Washington, and the venue of any action brought hereunder shall be in the Superior Court for 
+Thurston County. 
+17. INDEMNIFICATION
+To the fullest extent permitted by law, CONTRACTOR shall indemnify, defend, and hold harmless 
+State, agencies of State and all officials, agents and employees of State, from and against all claims 
+for injuries or death arising out of or resulting from the performance of the contract. “Claim,” as used 
+in this contract, means any financial loss, claim, suit, action, damage, or expense, including but not 
+limited to attorney’s fees, attributable for bodily injury, sickness, disease, or death, or injury to or 
+destruction of tangible property including loss of use resulting therefrom. 
+CONTRACTOR’S obligations to indemnify, defend, and hold harmless includes any claim by 
+CONTRACTORS’ agents, employees, representatives, or any subcontractor or its employees. 
+CONTRACTOR expressly agrees to indemnify, defend, and hold harmless the State for any claim 
+arising out of or incident to CONTRACTOR’S or any subcontractor’s performance or failure to perform 
+the contract. CONTRACTOR’S obligation to indemnify, defend, and hold harmless the State shall not 
+be eliminated or reduced by any actual or alleged concurrent negligence of State or its agents, 
+agencies, employees and officials. 
+CONTRACTOR waives its immunity under Title 51 RCW to the extent it is required to indemnify, 
+defend and hold harmless State and its agencies, officials, agents or employees.
+18. INDEPENDENT CAPACITY OF THE CONTRACTOR
+The parties intend that an independent contractor relationship will be created by this contract. The 
+CONTRACTOR and his or her employees or agents performing under this contract are not 
+employees or agents of the AGENCY. The CONTRACTOR will not hold himself/herself out as or 
+claim to be an officer or employee of the AGENCY or of the State of Washington by reason hereof, 
+nor will the CONTRACTOR make any claim of right, privilege or benefit that would accrue to such 
+employee under law. Conduct and control of the work will be solely with the CONTRACTOR.
+19. INDUSTRIAL INSURANCE COVERAGE
+The CONTRACTOR shall comply with the provisions of Title 51 RCW, Industrial Insurance. If the 
+CONTRACTOR fails to provide industrial insurance coverage or fails to pay premiums or penalties on 
+behalf of its employees, as may be required by law, AGENCY may collect from the CONTRACTOR 
+the full amount payable to the Industrial Insurance accident fund. The AGENCY may deduct the 
+amount owed by the CONTRACTOR to the accident fund from the amount payable to the 
+CONTRACTOR by the AGENCY under this contract, and transmit the deducted amount to the 
+Department of Labor and Industries, (L&I) Division of Insurance Services. This provision does not 
+waive any of L&I’s rights to collect from the CONTRACTOR. 
+20. LICENSING, ACCREDITATION AND REGISTRATION
+The CONTRACTOR shall comply with all applicable local, state, and federal licensing, accreditation 
+and registration requirements/standards, necessary for the performance of this contract.
+21. LIMITATION OF AUTHORITY
+Only the AGENT or AGENT’S delegate by writing (delegation to be made prior to action) shall have 
+the express, implied, or apparent authority to alter, amend, modify, or waive any clause or condition 
+of this contract. Furthermore, any alteration, amendment, modification, or waiver or any clause or 
+condition of this contract is not effective or binding unless made in writing and signed by the AGENT.
+22. NONCOMPLIANCE WITH NONDISCRIMINATION LAWS
+In the event of the CONTRACTOR'S non-compliance or refusal to comply with any nondiscrimination 
+law, regulation, or policy, this contract may be rescinded, canceled or terminated in whole or in part, 
+and the CONTRACTOR may be declared ineligible for further contracts with the AGENCY. The 
+CONTRACTOR shall, however, be given a reasonable time in which to cure this noncompliance. Any 
+dispute may be resolved in accordance with the "Disputes" procedure set forth herein.
+23. NONDISCRIMINATION
+During the performance of this contract, the CONTRACTOR shall comply with all federal and state 
+nondiscrimination laws, regulations and policies.
+24. PRIVACY
+Personal information including, but not limited to, “Protected Health Information,” collected, used, or 
+acquired in connection with this contract shall be protected against unauthorized use, disclosure, 
+modification or loss. CONTRACTOR shall ensure its directors, officers, employees, subcontractors or 
+agents use personal information solely for the purposes of accomplishing the services set forth 
+herein. CONTRACTOR and its subcontractors agree not to release, divulge, publish, transfer, sell or 
+otherwise make known to unauthorized persons personal information without the express written 
+consent of the agency or as otherwise required by law. 
+Any breach of this provision may result in termination of the contract and the demand for return of all 
+personal information. The CONTRACTOR agrees to indemnify and hold harmless the AGENCY for 
+any damages related to the CONTRACTOR’S unauthorized use of personal information.
+25. PUBLICITY
+The CONTRACTOR agrees to submit to the AGENCY all advertising and publicity matters relating to 
+this contract wherein the AGENCY’S name is mentioned or language used from which the connection 
+of the AGENCY’S name may, in the AGENCY’S judgment, be inferred or implied. The 
+CONTRACTOR agrees not to publish or use such advertising and publicity matters without the prior 
+written consent of the AGENCY.
+26. RECORDS MAINTENANCE
+The CONTRACTOR shall maintain books, records, documents, data and other evidence relating to 
+this contract and performance of the services described herein, including but not limited to accounting 
+procedures and practices that sufficiently and properly reflect all direct and indirect costs of any 
+nature expended in the performance of this contract. 
+CONTRACTOR shall retain such records for a period of six years following the date of final payment. 
+At no additional cost, these records, including materials generated under the contract, shall be 
+subject at all reasonable times to inspection, review or audit by the AGENCY, personnel duly 
+authorized by the AGENCY, the Office of the State Auditor, and federal and state officials so 
+authorized by law, regulation or agreement.
+If any litigation, claim or audit is started before the expiration of the six (6) year period, the records 
+shall be retained until all litigation, claims, or audit findings involving the records have been resolved.
+27. REGISTRATION WITH DEPARTMENT OF REVENUE
+The CONTRACTOR shall complete registration with the Washington State Department of Revenue 
+and be responsible for payment of all taxes due on payments made under this contract.
+28. RIGHT OF INSPECTION
+The CONTRACTOR shall provide right of access to its facilities to the AGENCY, or any of its officers, 
+or to any other authorized agent or official of the state of Washington or the federal government, at all 
+reasonable times, in order to monitor and evaluate performance, compliance, and/or quality 
+assurance under this contract. 
+29. SAVINGS
+In the event funding from state, federal, or other sources is withdrawn, reduced, or limited in any way 
+after the effective date of this contract and prior to normal completion, the AGENCY may terminate 
+the contract under the "Termination for Convenience" clause, without the ten-day notice requirement, 
+subject to renegotiation at the AGENCY’S discretion under those new funding limitations and 
+conditions.
+30. SEVERABILITY
+The provisions of this contract are intended to be severable. If any term or provision is illegal or 
+invalid for any reason whatsoever, such illegality or invalidity shall not affect the validity of the 
+remainder of the contract.
+31. SITE SECURITY
+While on AGENCY premises, CONTRACTOR, its agents, employees, or subcontractors shall 
+conform in all respects with physical, fire or other security policies or regulations.
+32. SUBCONTRACTING
+Neither the CONTRACTOR nor any SUBCONTRACTOR shall enter into subcontracts for any of the 
+work contemplated under this contract without obtaining prior written approval of the AGENCY. In no 
+event shall the existence of the subcontract operate to release or reduce the liability of the contractor 
+to the Department for any breach in the performance of the contractor’s duties. This clause does not 
+include contracts of employment between the contractor and personnel assigned to work under this 
+contract.
+Additionally, the CONTRACTOR is responsible for ensuring that all terms, conditions, assurances 
+and certifications set forth in this agreement are carried forward to any subcontracts. CONTRACTOR 
+and its subcontractors agree not to release, divulge, publish, transfer, sell or otherwise make known 
+to unauthorized persons personal information without the express written consent of the agency or as 
+provided by law.
+33. TAXES
+All payments accrued because of payroll taxes, unemployment contributions, any other taxes, 
+insurance or other expenses for the CONTRACTOR or its staff shall be the sole responsibility of the 
+CONTRACTOR. 
+34. TERMINATION DUE TO CHANGE IN FUNDING
+If the funds OFM relied upon to establish this Contract are withdrawn or reduced, or if additional or 
+modified conditions are placed on such funding, OFM may immediately terminate this Contract by 
+providing written notice to the Contractor. The termination shall be effective on the date specified in 
+the notice of termination.
+35. TERMINATION FOR CAUSE
+In the event the AGENCY determines the CONTRACTOR has failed to comply with the conditions of 
+this contract in a timely manner, the AGENCY has the right to suspend or terminate this contract. 
+Before suspending or terminating the contract, the AGENCY shall notify the CONTRACTOR in writing 
+of the need to take corrective action. If corrective action is not taken within 30 calendar days, the 
+contract may be terminated or suspended. 
+In the event of termination or suspension, the CONTRACTOR shall be liable for damages as 
+authorized by law including, but not limited to, any cost difference between the original contract and 
+the replacement or cover contract and all administrative costs directly related to the replacement 
+contract, e.g., cost of the competitive bidding, mailing, advertising and staff time. 
+The AGENCY reserves the right to suspend all or part of the contract, withhold further payments, or 
+prohibit the CONTRACTOR from incurring additional obligations of funds during investigation of the 
+alleged compliance breach and pending corrective action by the CONTRACTOR or a decision by the 
+AGENCY to terminate the contract. A termination shall be deemed a “Termination for Convenience” 
+if it is determined that the CONTRACTOR: (1) was not in default; or (2) failure to perform was outside 
+of his or her control, fault or negligence. 
+The rights and remedies of the AGENCY provided in this contract are not exclusive and are, in 
+addition to any other rights and remedies, provided by law. 
+36. TERMINATION FOR CONVENIENCE
+Except as otherwise provided in this contract, the AGENCY may, by 10 calendar days written notice, 
+beginning on the second day after the mailing, terminate this contract, in whole or in part. If this 
+contract is so terminated, the AGENCY shall be liable only for payment required under the terms of 
+this contract for services rendered or goods delivered prior to the effective date of termination.
+37. TERMINATION PROCEDURES
+Upon termination of this contract, the AGENCY, in addition to any other rights provided in this 
+contract, may require the CONTRACTOR to deliver to the AGENCY any property specifically 
+produced or acquired for the performance of such part of this contract as has been terminated. The 
+provisions of the "Treatment of Assets" clause shall apply in such property transfer.
+The AGENCY shall pay to the CONTRACTOR the agreed upon price, if separately stated, for 
+completed work and services accepted by the AGENCY, and the amount agreed upon by the 
+CONTRACTOR and the AGENCY for (i) completed work and services for which no separate price is 
+stated, (ii) partially completed work and services, (iii) other property or services that are accepted by 
+the AGENCY, and (iv) the protection and preservation of property, unless the termination is for 
+default, in which case the AGENT shall determine the extent of the liability of the AGENCY. Failure 
+to agree with such determination shall be a dispute within the meaning of the "Disputes" clause of this 
+contract. The AGENCY may withhold from any amounts due the CONTRACTOR such sum as the 
+AGENT determines to be necessary to protect the AGENCY against potential loss or liability.
+The rights and remedies of the AGENCY provided in this section shall not be exclusive and are in 
+addition to any other rights and remedies provided by law or under this contract.
+After receipt of a notice of termination, and except as otherwise directed by the AGENT, the 
+CONTRACTOR shall:
+a. Stop work under the contract on the date, and to the extent specified, in the notice;
+b. Place no further orders or subcontracts for materials, services, or facilities except as may be 
+necessary for completion of such portion of the work under the contract that is not terminated;
+c. Assign to the AGENCY, in the manner, at the times, and to the extent directed by the AGENT, all 
+of the rights, title, and interest of the CONTRACTOR under the orders and subcontracts so 
+terminated, in which case the AGENCY has the right, at its discretion, to settle or pay any or all 
+claims arising out of the termination of such orders and subcontracts;
+d. Settle all outstanding liabilities and all claims arising out of such termination of orders and 
+subcontracts, with the approval or ratification of the AGENT to the extent AGENT may require, which 
+approval or ratification shall be final for all the purposes of this clause;
+e. Transfer title to the AGENCY and deliver in the manner, at the times, and to the extent directed 
+by the AGENT any property which, if the contract had been completed, would have been required to 
+be furnished to the AGENCY;
+f. Complete performance of such part of the work as shall not have been terminated by the AGENT; 
+and
+g. Take such action as may be necessary, or as the AGENT may direct, for the protection and 
+preservation of the property related to this contract, which is in the possession of the CONTRACTOR 
+and in which the AGENCY has or may acquire an interest.
+38. TREATMENT OF ASSETS
+a. Title to all property furnished by the AGENCY shall remain in the AGENCY. Title to all property 
+furnished by the CONTRACTOR, for the cost of which the CONTRACTOR is entitled to be 
+reimbursed as a direct item of cost under this contract, shall pass to and vest in the AGENCY upon 
+delivery of such property by the CONTRACTOR. Title to other property, the cost of which is 
+reimbursable to the CONTRACTOR under this contract, shall pass to and vest in the AGENCY upon 
+(i) issuance for use of such property in the performance of this contract, or (ii) commencement of use 
+of such property in the performance of this contract, or (iii) reimbursement of the cost thereof by the 
+AGENCY in whole or in part, whichever first occurs.
+b. Any property of the AGENCY furnished to the CONTRACTOR shall, unless otherwise provided 
+herein or approved by the AGENCY, be used only for the performance of this contract.
+c. The CONTRACTOR shall be responsible for any loss or damage to property of the AGENCY that 
+results from the negligence of the CONTRACTOR or which results from the failure on the part of the 
+CONTRACTOR to maintain and administer that property in accordance with sound management 
+practices.
+d. If any AGENCY property is lost, destroyed or damaged, the CONTRACTOR shall immediately 
+notify the AGENCY and shall take all reasonable steps to protect the property from further damage.
+e. The CONTRACTOR shall surrender to the AGENCY all property of the AGENCY prior to 
+settlement upon completion, termination or cancellation of this contract
+f. All reference to the CONTRACTOR under this clause shall also include CONTRACTOR'S 
+employees, agents or SUBCONTRACTORS.
+39. U.S. Department of Treasury, Office of Foreign Assets Control
+The agency complies with U.S. Department of the Treasury, Office of Foreign Assets Control (OFAC) 
+payment rules. OFAC prohibits financial transactions with individuals or organizations, which have 
+been placed on the OFAC Specially Designated Nationals (SDN) and Blocked Persons sanctions list 
+located at http://www.treas.gov/offices/enforcement/ofac/index.html. Compliance with OFAC payment 
+rules ensures that the agency does not conduct business with individuals or organizations that have 
+been determined to be supporters of terrorism and international drug dealing or that pose other 
+dangers to the United States.
+Prior to making payment to individuals or organizations, the agency will download the current OFAC 
+SDN file and compare it to agency and statewide vendor files. In the event of a positive match, the 
+agency reserves the right to: (1) make a determination of “reasonability” before taking the positive 
+match to a higher authority, (2) seek assistance from the Washington State Office of the State 
+Treasurer (OST) for advanced assistance in resolving the positive match, (3) comply with an OFAC 
+investigation, if required, and/or (4) if the positive match is substantiated, notify the contractor in 
+writing and terminate the contract according to the Termination for Convenience provision without 
+making payment. The agency will not be liable for any late payment fees or missed discounts that 
+are the result of time required to address the issue of an OFAC match. 
+40. WAIVER
+Waiver of any default or breach shall not be deemed a waiver of any subsequent default or breach. 
+Any waiver shall not be construed to be a modification of the terms of this contract unless stated to be 
+such in writing and signed by authorized representative of the AGENCY.
+41. WAGE THEFT CERTIFICATION
+Contractor certifies by signing this agreement that, to the best of its knowledge and belief, they have 
+not been determined by a final and binding citation and notice of assessment issued by the 
+Washington Department of Labor and Industries or through a civil judgment entered by a court of 
+limited or general jurisdiction to have willfully violated, as defined in RCW 49.48.082, any provision of 
+RCW chapters 49.46, 49.48, or 49.52 within three (3) years prior to the date of the above-referenced 
+procurement solicitation date.
+EXHIBIT C
+Contractor Certification
+Wage Theft Prevention – Responsible Bidder Criteria
+Prior to awarding a contract, agencies are required to determine that a bidder is a ‘responsible 
+bidder.’ See RCW 39.26.160(2) & (4). Pursuant to legislative enactment in 2017, the responsible 
+bidder criteria include a contractor certification that the contractor has not willfully violated 
+Washington’s wage laws. See Chap. 258, 2017 Laws (enacting SSB 5301).
+OFM Procurement Number: 23-700 One Washington Workday Testing 
+Services
+I hereby certify, on behalf of the organization/organizations identified below, as follows (check one):
+ NO WAGE VIOLATIONS. This organization and, in cases of joint proposals, the members of our 
+coalition, has NOT been determined by a final and binding citation and notice of 
+assessment issued by the Washington Department of Labor and Industries or through a civil 
+judgment entered by a court of limited or general jurisdiction to have willfully violated, as 
+defined in RCW 49.48.082, any provision of RCW chapters 49.46, 49.48, or 49.52 within 
+three (3) years prior to the date of the above-referenced procurement solicitation date.
+or
+ VIOLATIONS OF WAGE LAWS. This organization and, in cases of joint proposals, the members 
+of our coalition, has been determined by a final and binding citation and notice of 
+assessment issued by the Washington Department of Labor and Industries or through a civil 
+judgment entered by a court of limited or general jurisdiction to have willfully violated, as 
+defined in RCW 49.48.082, a provision of RCW chapters 49.46, 49.48, or 49.52 within three 
+(3) years prior to the date of the above-referenced procurement solicitation date.
+I hereby certify, under penalty of perjury under the laws of the State of Washington, that the 
+certifications herein are true and correct and that I am authorized to make these certifications on 
+behalf of the firm listed herein.
+ORGANIZATION Name: _____________________________________________________
+Name of Applicant – Print full legal entity name of organization
+By: ______________________________
+Signature of authorized person
+Title:
+______________________________
+Title of person signing certificate
+Date:
+________________________________
+__________________________________
+_ 
+Print Name of person making certifications for 
+firm
+Place:
+________________________________
+Print city and state where signed
+Return to Procurement Coordinator with bid response. Failure to submit will result in disqualification.
+Exhibit D
+Contractor Certification
+Executive Order 18-03 – Workers’ Rights
+Washington State Goods & Services Contracts
+Pursuant to the Washington State Governor’s Executive Order 18-03 (dated June 12, 2018), the 
+Washington State Office of Financial Management is seeking to contract with qualified entities and 
+business owners who certify that their employees are not, as a condition of employment, subject to 
+mandatory individual arbitration clauses and class or collective action waivers.
+Solicitation No.: 23-700 One Washington Workday 
+Testing Services
+I hereby certify, on behalf of the firm identified below, as follows (check one):
+ NO MANDATORY INDIVIDUAL ARBITRATION CLAUSES AND CLASS OR COLLECTIVE ACTION WAIVERS 
+FOR EMPLOYEES. This firm does NOT require its employees, as a condition of employment, 
+to sign or agree to mandatory individual arbitration clauses or class or collective action 
+waivers.
+or
+ MANDATORY INDIVIDUAL ARBITRATION CLAUSES AND CLASS OR COLLECTIVE ACTION WAIVERS FOR 
+EMPLOYEES. This firm requires its employees, as a condition of employment, to sign or 
+agree to mandatory individual arbitration clauses or class or collective action waivers.
+I hereby certify, under penalty of perjury under the laws of the State of Washington, that the 
+certifications herein are true and correct and that I am authorized to make these certifications on 
+behalf of the firm listed herein.
+Firm Name: _____________________________________________________
+Name of Contractor/Bidder – Print full legal entity name of firm
+By: ______________________________
+Signature of authorized person
+Title:
+______________________________
+Title of person signing certificate
+Date:
+________________________________
+__________________________________
+_ 
+Print Name of person making certifications for 
+firm
+Place:
+________________________________
+Print city and state where signed
+Return to Procurement Coordinator with bid response. Failure to submit will result in disqualification.
+Contractor Certification
+Executive Order 18-03 – Workers’ Rights
+Washington State Goods & Services Contracts
+Pursuant to the Washington State Governor’s Executive Order 18-03 (dated June 12, 2018), the 
+Washington State Office of Financial Management is seeking to contract with qualified entities and 
+business owners who certify that their employees are not, as a condition of employment, subject to 
+mandatory individual arbitration clauses and class or collective action waivers.
+Solicitation No.: 23-700 One Washington Workday 
+Testing Services
+I hereby certify, on behalf of the firm identified below, as follows (check one):
+ NO MANDATORY INDIVIDUAL ARBITRATION CLAUSES AND CLASS OR COLLECTIVE ACTION WAIVERS 
+FOR EMPLOYEES. This firm does NOT require its employees, as a condition of employment, 
+to sign or agree to mandatory individual arbitration clauses or class or collective action 
+waivers.
+or
+ MANDATORY INDIVIDUAL ARBITRATION CLAUSES AND CLASS OR COLLECTIVE ACTION WAIVERS FOR 
+EMPLOYEES. This firm requires its employees, as a condition of employment, to sign or 
+agree to mandatory individual arbitration clauses or class or collective action waivers.
+I hereby certify, under penalty of perjury under the laws of the State of Washington, that the 
+certifications herein are true and correct and that I am authorized to make these certifications on 
+behalf of the firm listed herein.
+Firm Name: _____________________________________________________
+Name of Contractor/Bidder – Print full legal entity name of firm
+By: ______________________________
+Signature of authorized person
+Title:
+______________________________
+Title of person signing certificate
+Date:
+________________________________
+__________________________________
+_ 
+Print Name of person making certifications for 
+firm
+Place:
+________________________________
+Print city and state where signed
+Return to Procurement Coordinator with bid response. Failure to submit will result in disqualification.
+EXHIBIT E 
+Technical Questionnaire
+Contractual Weight
+1. How would you collaborate with other vendors, such as software vendor, 
+system implementor and other consultants?
+1.54%
+2. What does customer have to do to get started using applicant's service? 3.08%
+3. How do you manage and ensure service quality? 1.54%
+4. How do you measure customer success? 1.54%
+5. Describe the licensing of your solution at implementation and during 
+operations. Are costs monthly/annually/transactional/volume-based? Are there 
+any items that the customer needs to license separately, from a different vendor?
+3.08%
+6. Describe any tools, training, or other potential costs to the customer that are 
+not specifically included in your proposal. Include any uncommon, or unexpected 
+costs related to a typical engagement, in addition to costs specific to this 
+engagement.
+1.54%
+Standards
+7. Describe how your solution meets Washington State OCIO Policy 141.10 Section 
+6 (https://ocio.wa.gov/policy/securing-information-technology-assets-standardsparts-rescinded) - Access Security
+1.54%
+8. Describe how any user facing, technology enabled, portions of your solution 
+meet WCAG 2.1 and Washington State OCIO Policy 188.10 
+(https://ocio.wa.gov/policy/minimum-accessibility-standard).
+4.62%
+9. Describe what you need from One Washington or Workday to implement your 
+proposed solution. 3.08%
+Methodology
+10. Describe how execution of tests is performed, by whom, and when, or if, there 
+is an expectation that those responsibilities would shift depending on the 
+customer's experience level.
+4.62%
+11. Describe any features of your solution specifically designed to identify and 
+report on usability and, or, accessibility of the customer's configuration of the 
+Workday instance, including help texts, work flows, and any other configurable 
+aspects of the instance.
+4.62%
+12. Describe how your solution will provide for simulated, or live, connections to 
+systems outside of the Workday tenant. 3.08%
+13. Describe the process for creating the first set of test scripts. What are the 
+roles involved for applicant and customer teams? Is there an available library of 
+scripts to use as a base?
+1.54%
+14. Describe your process for adapting any canned, or pre-existing, scripts for a 
+new customer.
+1.54%
+15. Describe your approach to creating repeatable sets of scripts, including data 
+management
+3.08%
+16. Describe when and how scripts are updated. What are the roles involved on 
+applicant and customer teams? 3.08%
+17. Describe any requirements of the customer in creating and/or updating data 
+required for script execution. 3.08%
+18. Describe how you handle sensitive data in the scripting process, and in 
+Workday. 4.62% 
+19. Describe your typical approach to Workday's Semi-annual releases, including 
+the types of tests to run, who executes, and what costs are involved. 3.08%
+Technology
+20. Describe all technology components provided with your proposal, including 
+the capabilities and features each component would provide. 3.08%
+21. Describe how this technology interfaces or interacts with Workday. 1.54%
+22. Describe any portions of the technology that require installation by the 
+customer. What skills and/or support is required from the customer organization 
+to complete installation?
+4.62%
+23. Describe how the technical solution transfers results and/or defects to 
+external tracking or reporting tools. 4.62%
+24. Describe how your solution supports integrations to and from external 
+systems outside the control of the team supporting the Workday implementation. 
+Specifically, how does your solution interact with the Informatica platform being 
+used by OFM to communicate between external systems and the Workday 
+instance?
+4.62%
+25. Describe how your solution has been used for Workday implementations in 
+the past and why it is the best choice. 1.54%
+26. Provide a diagram visual of the proposed technology solution including 
+required interfaces/data exchanges. 3.08%
+Support
+27. Describe how the applicant will provide support to the customer organization 
+during the on-boarding and on-going operations, phases of this engagement. 4.62% 
+28. Describe any/all training that will be required of the customer to effectively 
+use the applicant's solution. How is the training delivered? What is the intended 
+audience?
+3.08%
+29. Describe how applicant will provide Knowledge Transfer to the customer. 3.08%
+30. Describe capacity of staff proposed for development of automated testing 
+scripts, for example, the quantity and complexity over a given period of time. 3.08%
+31. Describe requirements of One Washington and Workday to enable the staff 
+support proposed for development of automated testing scripts: what is the 
+impact to our team?
+4.62%
+Offboarding
+32. Describe in detail the offboarding process. Include what artifacts will be 
+owned by the customer, and the applicant, and the state each artifact will take at 
+separation. Also clearly delineate what artifacts are the property of the 
+customer, which can be obtained through access of applicant retained content, 
+and which are no longer available at such a time as this contract is terminated.
+4.52%

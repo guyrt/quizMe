@@ -5,7 +5,7 @@ from dataclasses import asdict, replace
 from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.prompt_types import fill_prompt, Prompt, PromptCell
 from azurewrapper.gate import Gate
-from rfp.prompts import build_prompts
+from .prompts import build_prompts
 
 from typing import List
 

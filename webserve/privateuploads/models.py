@@ -4,17 +4,17 @@ from webserve.mixins import ModelBaseMixin
 
 from typing import Literal, Tuple, List
 
+from webserve.privateuploads.types import DocFormat
+
 
 UploadSources = Literal['RFP', 'PublicSEC']
 
 
-DocFormat = Literal['pdf', 'docx', 'zip']
 
-
-DocFormats = [
+DocChoices : List[Tuple(DocFormat, DocFormat)]= [
     ("pdf", "pdf"),
     ("docx", "docx"),
-    ('zip', 'zip')
+    ('zip', 'zip'),
 ]
 
 
@@ -57,7 +57,7 @@ class DocumentCluster(ModelBaseMixin):
 class RawUpload(ModelBaseMixin):
 
     document = models.ForeignKey(DocumentCluster, on_delete=models.CASCADE)
-    format = models.CharField(max_length=8, choices=DocFormats)
+    format = models.CharField(max_length=8, choices=DocChoices)
     
     location_container = models.CharField(max_length=64)
     location_path = models.CharField(max_length=256)
@@ -69,7 +69,7 @@ class DocumentFile(ModelBaseMixin):
     source = models.ForeignKey(RawUpload, on_delete=models.CASCADE)
 
     file_role = models.CharField(max_length=16, choices=FileRolesChoices)  # TODO track main file vs addendum ect.
-    doc_format = models.CharField(max_length=8, choices=DocFormats)
+    doc_format = models.CharField(max_length=8, choices=DocChoices)
     doc_name = models.TextField()  # name of doc as a relative path to root.
 
     location_container = models.CharField(max_length=64)

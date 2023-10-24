@@ -1,29 +1,24 @@
-from azure.storage.blob import BlobServiceClient, ContentSettings
+from azure.storage.blob import BlobServiceClient
 from azure.core.exceptions import ResourceNotFoundError
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from webserve.privateuploads.types import DocFormat, docformat_to_contenttype
+from webserve.privateuploads.models import DocFormat
 
 
-class RfpRawBlobHander:
+class RfpExtractedTextBlobHander:
 
     def __init__(self, container_name=None):
-        self.connection_string = settings.AZURE['RFP_RAW_BLOB']['CONNECTION']
-        self.container_name = container_name or settings.AZURE['RFP_RAW_BLOB']['CONTAINER']
+        self.connection_string = settings.AZURE['RFP_EXTRACTEDTEXT']['CONNECTION']
+        self.container_name = container_name or settings.AZURE['RFP_EXTRACTEDTEXT']['CONTAINER']
 
         self.blob_service_client = BlobServiceClient.from_connection_string(self.connection_string)
         self.container_client = self.blob_service_client.get_container_client(self.container_name)
 
-    def upload(self, inmem_file : InMemoryUploadedFile, filename : str, data_type : DocFormat):
+    def upload(self, input : str, filename : str):
         blob_client = self.container_client.get_blob_client(filename)
-
-        content_str = docformat_to_contenttype(data_type)
-        content_settings = ContentSettings(content_type=content_str)
-
-        blob_client.upload_blob(inmem_file, overwrite=True, content_settings=content_settings)  # todo return and store etags
-        inmem_file.seek(0)
+        blob_client.upload_blob(input, overwrite=True)  # todo return and store etags
         return self.container_name, filename
 
     def get_path(self, remote_path):
@@ -32,7 +27,7 @@ class RfpRawBlobHander:
         except ResourceNotFoundError:
             raise ValueError(f"Failure to find blob {remote_path}")
 
-        return blob_stream
+        return blob_stream.readall().decode('utf-8', 'ignore')
 
     def walk_blobs(self, prefix : str, blob_name : str):
         for blob in self.container_client.list_blobs(name_starts_with=prefix):

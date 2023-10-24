@@ -137,5 +137,9 @@ AZURE = {
     'RFP_RAW_BLOB': {
         'CONTAINER': os.environ['RFPRawBlobContainer'],
         "CONNECTION": os.environ['RFPRawBlobConnectionString']
+    },
+    'RFP_EXTRACTEDTEXT': {
+        'CONTAINER': os.environ['RFPExtractedTextContainer'],
+        "CONNECTION": os.environ['RFPExtractedConnectionString']
     }
 }

@@ -4,6 +4,7 @@ requests
 bs4
 lxml
 json_repair
+pypdf
 
 # storage related
 python-dotenv
