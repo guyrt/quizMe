@@ -34,13 +34,70 @@
     </script>
         
     <title>{{ doc_cluster.get_title }}</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            color: #333;
+            text-align: center;
+        }
+
+        p {
+            color: #666;
+            text-align: center;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        button {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        #js-reprocess {
+            display: block;
+            margin: 20px auto;
+        }
+    </style>
 </head>
 <body>
     <h1>{{ doc_cluster.get_title }}</h1>
     <p>Uploaded {{doc_cluster.date_added}} by {{doc_cluster.owner}}</p>
     
-    <button id="js-reprocess">Reprocess</button>
-    
+    <h2>List of Documents:</h2>
+    <ul>
+        {% for extract in doc_cluster.documentfile_set.all %}
+            <li>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</li>
+        {% empty %}
+            <li>No extracts available</li>
+        {% endfor %}
+    </ul>
+
+
+    <button id="js-reprocess">Reprocess everything</button>
 
 </body>
 </html>

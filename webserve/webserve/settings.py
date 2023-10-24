@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_rq",
     "users",
-    "privateuploads"
+    "privateuploads",
+    "mltrack"
 ]
 
 MIDDLEWARE = [

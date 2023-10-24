@@ -22,7 +22,10 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
             PromptCell(role='system', content=_default_system_instruction),
             PromptCell(role='user', content="""Describe the project in this RFP""")
         ],
-        version=1
+        continuations=[
+            PromptCell(role='user', content="Summarize your last summary in a single sentence."),
+        ],
+        version=2
     )
 
     _extract_details = Prompt(

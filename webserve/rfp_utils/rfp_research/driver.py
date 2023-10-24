@@ -46,6 +46,7 @@ class RfpDriver:
             messages.append(asdict(c))
             self._gate.gate()
             raw_response_d = self._oai.call(messages)
+            import ipdb; ipdb.set_trace()
             raw_response = raw_response_d['response']
             raw_responses.append(raw_response)
             messages.append(asdict(PromptCell(role='assistant', content=raw_response)))
