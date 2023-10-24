@@ -2,9 +2,6 @@ from azure.storage.blob import BlobServiceClient
 from azure.core.exceptions import ResourceNotFoundError
 
 from django.conf import settings
-from django.core.files.uploadedfile import InMemoryUploadedFile
-
-from webserve.privateuploads.models import DocFormat
 
 
 class RfpExtractedTextBlobHander:

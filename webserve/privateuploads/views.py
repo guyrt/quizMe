@@ -2,14 +2,18 @@ from uuid import uuid4
 
 from azurewrapper.rfp.rawdocs_handler import RfpRawBlobHander
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
-from django.views.generic import DeleteView, DetailView, ListView
+from django.views.generic import DeleteView, DetailView, ListView, View
 from django.views.generic.edit import FormView
+from django_rq import enqueue
+
 from privateuploads.doc_parser import RawDocParser
 
+from rfp_utils.raw_doc_parser import execute_rfp_parse
+
 from .forms import FileUploadForm
-from .models import DocumentCluster, RawUpload
+from .models import DocumentCluster, RawUpload, DocumentFile
 
 
 class FileUploadView(FormView):
@@ -28,7 +32,7 @@ class FileUploadView(FormView):
 
         full_path = f"{self.request.user.pk}/{uuid4()}/{uploaded_file.name}"
         blob_handler = RfpRawBlobHander()
-        container, path = blob_handler.upload(uploaded_file, full_path)
+        container, path = blob_handler.upload(uploaded_file, full_path, clean_filetype)
 
         # Create object.
         doc_cluster = DocumentCluster(
@@ -45,11 +49,15 @@ class FileUploadView(FormView):
         )
         raw_upload.save()
 
-        RawDocParser().parse(uploaded_file, raw_upload, clean_filetype)
+        docs = RawDocParser().parse(uploaded_file, raw_upload, clean_filetype)
 
         # start a queued work item.
+        for doc in docs:
+            result = enqueue(execute_rfp_parse, doc.id)
+            doc.last_jobid = result.id
+            doc.save()
 
-        success_url = reverse('doc_cluster_detail', kwargs={'id': doc_cluster.pk})
+        success_url = reverse('doc_cluster_detail', kwargs={'pk': doc_cluster.pk})
         
         return HttpResponseRedirect(success_url)
 
@@ -92,3 +100,14 @@ class DocumentClusterDeleteView(DeleteView):
         self.object.is_active = False  # Set the object as inactive
         self.object.save()
         return super(DocumentClusterDeleteView, self).delete(request, *args, **kwargs)
+
+
+class DocumentClusterReprocessView(View):
+
+    def post(self, request, pk):
+        objs = DocumentFile.objects.filter(active=True).filter(document__id=pk)
+        for doc in objs:
+            result = enqueue(execute_rfp_parse, doc.id)
+            doc.last_jobid = result.id
+            doc.save()
+        return JsonResponse({'message': f'Reprocessing {len(objs)} documents.'})

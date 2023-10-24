@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "django_rq",
     "users",
     "privateuploads"
 ]
@@ -140,6 +141,15 @@ AZURE = {
     },
     'RFP_EXTRACTEDTEXT': {
         'CONTAINER': os.environ['RFPExtractedTextContainer'],
-        "CONNECTION": os.environ['RFPExtractedConnectionString']
+        "CONNECTION": os.environ['RFPExtractedTextConnectionString']
     }
+}
+
+RQ_QUEUES = {
+    'default': {
+        'HOST': os.environ['rqhost'],  # Redis server host
+        'PORT': 6379,         # Redis server port
+        'DB': 0,
+        'DEFAULT_TIMEOUT': 360,
+    },
 }

@@ -24,6 +24,8 @@ wikipedia
 
 # website
 django
+rq
+django-rq
 
 # debugging
 ipdb

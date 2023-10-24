@@ -1,6 +1,38 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const reprocessButton = document.getElementById("js-reprocess");
+        
+            reprocessButton.addEventListener("click", function() {
+                // Make an AJAX request to the reprocess URL
+                fetch("{% url 'doc_cluster_reprocess' doc_cluster.id %}", {
+                    method: "POST", 
+                    body: JSON.stringify({}),
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": getCookie("csrftoken")
+                    },
+                })
+                .then(data => {
+                    location.reload();
+                })
+                .catch(error => {
+                    // Handle errors, if necessary
+                });
+            });
+        });
+
+        function getCookie(name) {
+            const value = `; ${document.cookie}`;
+            const parts = value.split(`; ${name}=`);
+            if (parts.length === 2) {
+                return parts.pop().split(";").shift();
+            }
+        }
+    </script>
+        
     <title>{{ doc_cluster.get_title }}</title>
 </head>
 <body>

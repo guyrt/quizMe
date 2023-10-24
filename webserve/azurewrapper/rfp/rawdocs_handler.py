@@ -1,10 +1,12 @@
+from io import BytesIO
+
 from azure.storage.blob import BlobServiceClient, ContentSettings
 from azure.core.exceptions import ResourceNotFoundError
 
 from django.conf import settings
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
-from webserve.privateuploads.types import DocFormat, docformat_to_contenttype
+from privateuploads.types import DocFormat, docformat_to_contenttype
 
 
 class RfpRawBlobHander:
@@ -26,13 +28,15 @@ class RfpRawBlobHander:
         inmem_file.seek(0)
         return self.container_name, filename
 
-    def get_path(self, remote_path):
+    def get_path_pdf(self, remote_path) -> BytesIO:
         try:
             blob_stream = self.container_client.download_blob(remote_path)
         except ResourceNotFoundError:
             raise ValueError(f"Failure to find blob {remote_path}")
 
-        return blob_stream
+        stream = BytesIO()
+        blob_stream.readinto(stream)
+        return stream
 
     def walk_blobs(self, prefix : str, blob_name : str):
         for blob in self.container_client.list_blobs(name_starts_with=prefix):

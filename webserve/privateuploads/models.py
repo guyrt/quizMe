@@ -4,17 +4,17 @@ from webserve.mixins import ModelBaseMixin
 
 from typing import Literal, Tuple, List
 
-from webserve.privateuploads.types import DocFormat
+from privateuploads.types import DocFormat
 
 
 UploadSources = Literal['RFP', 'PublicSEC']
 
 
 
-DocChoices : List[Tuple(DocFormat, DocFormat)]= [
+DocChoices : List[Tuple[DocFormat, DocFormat]]= [
     ("pdf", "pdf"),
     ("docx", "docx"),
-    ('zip', 'zip'),
+    ('zip', 'zip')
 ]
 
 
