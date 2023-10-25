@@ -1,4 +1,5 @@
 from django.db import models
+import markdown
 
 from privateuploads.models import DocumentExtract
 from webserve.mixins import ModelBaseMixin
@@ -31,3 +32,6 @@ class PromptResponse(ModelBaseMixin):
 
     prompt_tokens = models.IntegerField(default=0)
     completion_tokens = models.IntegerField(default=0)
+
+    def as_html(self):
+        return markdown.markdown(self.result, extensions=['extra'])

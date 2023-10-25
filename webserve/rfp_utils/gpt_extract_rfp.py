@@ -58,7 +58,7 @@ class RFPPromptRunner:
                 template_name=prompt.name,
                 template_version=prompt.version,
                 output_role='shortsummary',
-                result=results[1],
+                result=results[1]['response'],
                 prompt_tokens=results[1]['prompt_tokens'],
                 completion_tokens=results[1]['completion_tokens']
             )
@@ -82,7 +82,7 @@ class RFPPromptRunner:
                 template_name=prompt.name,
                 template_version=prompt.version,
                 output_role=role,
-                result=results[-1],
+                result=results[-1]['response'],
                 prompt_tokens=results[-1]['prompt_tokens'],
                 completion_tokens=results[-1]['completion_tokens']
             )
