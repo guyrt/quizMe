@@ -26,6 +26,7 @@ wikipedia
 django
 rq
 django-rq
+django-cors-headers
 
 # debugging
 ipdb
