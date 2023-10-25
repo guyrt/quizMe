@@ -151,6 +151,6 @@ RQ_QUEUES = {
         'HOST': os.environ['rqhost'],  # Redis server host
         'PORT': 6379,         # Redis server port
         'DB': 0,
-        'DEFAULT_TIMEOUT': 360,
+        'DEFAULT_TIMEOUT': 3600,
     },
 }

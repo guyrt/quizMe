@@ -28,7 +28,7 @@ class RFPPromptRunner:
 
         for prompt in build_prompts():
             results = self._run_prompt(prompt, content)
-            self._process_results(results)
+            self._process_results(doc, prompt, results)
 
     def _get_doc_content(self, payload_s : str):
         payload = json.loads(payload_s)
@@ -50,6 +50,7 @@ class RFPPromptRunner:
                 prompt_tokens=results[0]['prompt_tokens'],
                 completion_tokens=results[0]['completion_tokens']
             )
+            r.save()
             r.document_inputs.add(doc)
             r.save()
 
@@ -61,6 +62,7 @@ class RFPPromptRunner:
                 prompt_tokens=results[1]['prompt_tokens'],
                 completion_tokens=results[1]['completion_tokens']
             )
+            r.save()
             r.document_inputs.add(doc)
             r.save()
 
@@ -84,6 +86,7 @@ class RFPPromptRunner:
                 prompt_tokens=results[-1]['prompt_tokens'],
                 completion_tokens=results[-1]['completion_tokens']
             )
+            r.save()
             r.document_inputs.add(doc)
             r.save()
 
@@ -96,8 +99,12 @@ class RFPPromptRunner:
         messages = [asdict(c) for c in current.content]
         raw_response_d = self._oai.call(messages)
 
-        raw_response = raw_response_d['response']
-        messages.append(asdict(PromptCell(role='assistant', content=raw_response)))
+        raw_response = {
+            'response': raw_response_d['response'],
+            'prompt_tokens': raw_response_d['tokens']['prompt_tokens'],
+            'completion_tokens': raw_response_d['tokens']['completion_tokens']
+        }
+        messages.append(asdict(PromptCell(role='assistant', content=raw_response_d['response'])))
 
         raw_responses.append(raw_response)
         while prompt.continuations:
@@ -112,7 +119,7 @@ class RFPPromptRunner:
                 'completion_tokens': raw_response_d['tokens']['completion_tokens']
             }
             raw_responses.append(raw_response)
-            messages.append(asdict(PromptCell(role='assistant', content=raw_response)))
+            messages.append(asdict(PromptCell(role='assistant', content=raw_response_d['response'])))
 
         return raw_responses
 
@@ -123,10 +130,14 @@ def gpt_extract(raw_docextracts : List[int], doc_file_id):
     doc_file.processing_status = 'active'
     doc_file.save()
 
-    pr = RFPPromptRunner()
-    for raw_docextract in raw_docextracts:
-        pr.execute(raw_docextract)
-
-    doc_file = DocumentFile.objects.get(id=doc_file_id)
-    doc_file.processing_status = 'done'
-    doc_file.save()
+    try:
+        pr = RFPPromptRunner()
+        for raw_docextract in raw_docextracts:
+            pr.execute(raw_docextract)
+    except:
+        doc_file.processing_status = 'error'
+        doc_file.save()
+    else:
+        doc_file = DocumentFile.objects.get(id=doc_file_id)
+        doc_file.processing_status = 'done'
+        doc_file.save()

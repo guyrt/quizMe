@@ -91,6 +91,23 @@
     <ul>
         {% for extract in doc_cluster.documentfile_set.all %}
             <li>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</li>
+
+            {% if 'shortsummary' in prompts %}
+                <p>Summary:</p>    
+                <p>{{ prompts.shortsummary.result }}</p>
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
+
+            {% if 'longsummary' in prompts %}
+                <p>Summary:</p>    
+                <p>{{ prompts.longsummary.result }}</p>
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
+
+
+
         {% empty %}
             <li>No extracts available</li>
         {% endfor %}

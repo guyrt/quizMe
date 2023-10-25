@@ -15,6 +15,8 @@ from rfp_utils.raw_doc_parser import execute_rfp_parse
 from .forms import FileUploadForm
 from .models import DocumentCluster, RawUpload, DocumentFile
 
+from mltrack.models import PromptResponse
+
 
 class FileUploadView(FormView):
     form_class = FileUploadForm  # Define your custom form class
@@ -88,6 +90,21 @@ class DocumentClusterDetailView(DetailView):
     def get_queryset(self):
         # Filter the objects to include only those marked as "active"
         return self.model.objects.filter(active=True)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        # get all your prompts.
+        prompts = list(PromptResponse.objects.filter(document_inputs__docfile__document=self.object).filter(document_inputs__active=1))
+
+        # Add additional context data
+        prompts = {
+            p.output_role: p
+            for p in prompts
+        }
+        context['prompts'] = prompts
+        
+        return context
 
 
 class DocumentClusterDeleteView(DeleteView):

@@ -53,7 +53,6 @@ class DocumentCluster(ModelBaseMixin):
         return self.documentfile_set.get(active=True).doc_name
 
 
-
 class RawUpload(ModelBaseMixin):
 
     document = models.ForeignKey(DocumentCluster, on_delete=models.CASCADE)

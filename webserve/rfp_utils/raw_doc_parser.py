@@ -24,6 +24,11 @@ class RFPDocumentExtract:
         else:
             raise NotImplementedError(f"RawUpload {doc_file.pk}: {doc_file.doc_format}")
 
+        # remove existing and save
+        DocumentExtract.objects.filter(docfile=doc_id).update(active=0)
+        for de in extracted_files:
+            de.save()
+
         # Step 2: queue up GPT parse
         result = enqueue(gpt_extract, [d.id for d in extracted_files], doc_file.id)
         doc_file.last_jobid = result.id
@@ -41,7 +46,6 @@ class RFPDocumentExtract:
             location_container=container,
             location_path=blob_path
         )
-        d.save()
         return d
 
 
