@@ -99,22 +99,22 @@
         {% endif %}
 
         {% if 'longsummary' in prompts %}
-            <p>Summary:</p>    
+            <p>Longer Summary:</p>    
             <p>{{ prompts.longsummary.as_html |safe}}</p>
         {% else %}
             <p>Processing....</p>
         {% endif %}
 
         {% if 'specific_dates' in prompts %}
-            <p>Summary:</p>    
+            <p>Specific Dates:</p>    
             <p>{{ prompts.specific_dates.as_html |safe}}</p>
         {% else %}
             <p>Processing....</p>
         {% endif %}
 
         {% if 'expertise' in prompts %}
-            <p>Summary:</p>    
-            <p>{{ prompts.expertise.as_html |safe}}</p>
+            <p>Expertise required:</p>    
+            {{ prompts.expertise.as_html |safe}}
         {% else %}
             <p>Processing....</p>
         {% endif %}

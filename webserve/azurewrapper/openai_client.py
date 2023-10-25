@@ -21,12 +21,12 @@ class OpenAIClient:
         self.max_doc_tokens = 12000  # 16824 total for gpt16k
         self.gate = Gate(1)  # 1 call/sec
 
-    def call(self, messages) -> str:
+    def call(self, messages, temp=None) -> str:
         self.gate.gate()
         response = openai.ChatCompletion.create(
             engine=self._engine,
             messages=messages,
-            temperature=self._temp,
+            temperature=temp or self._temp,
             
             top_p=0.95,
             frequency_penalty=0,

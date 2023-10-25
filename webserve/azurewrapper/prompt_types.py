@@ -31,6 +31,8 @@ class Prompt:
     # If not empty, expectation is that we chain these after last system response.
     continuations : List[PromptCell] = field(default_factory=list)
 
+    temp : float = 0.9
+
 
 @dataclass
 class PromptResponse:
@@ -55,7 +57,8 @@ def fill_prompt(prompt : Prompt, context):
         name=prompt.name,
         version=prompt.version,
         content = [fill_prompt_cell(p, context) for p in prompt.content],
-        continuations=[fill_prompt_cell(p, context) for p in prompt.content]
+        continuations=[fill_prompt_cell(p, context) for p in prompt.content],
+        temp=prompt.temp
     )
 
 
@@ -72,7 +75,8 @@ def promp_response_from_dict(d) -> PromptResponse:
         name=d['prompt']['name'],
         version=d['prompt']['version'],
         content=[prompt_cell_from_d(c) for c in d['prompt']['content']],
-        continuations=[prompt_cell_from_d(c) for c in d['prompt'].get('continuations', list())]
+        continuations=[prompt_cell_from_d(c) for c in d['prompt'].get('continuations', list())],
+        temp=d['prompt']['temp']
     )
     pr = PromptResponse(
         id=d['id'],

@@ -65,7 +65,8 @@ class RFPPromptRunner:
             r.save()
             r.document_inputs.add(doc)
             r.save()
-
+        elif prompt.name == 'RFPExtractDetails':
+            self._deepdive_extract(doc, prompt, results)
         else:
             # we'll have to break this apart as we get more special cases.
             role = {
@@ -90,6 +91,12 @@ class RFPPromptRunner:
             r.document_inputs.add(doc)
             r.save()
 
+    def _deepdive_extract(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
+        """Parse results, get more details, and produce a link from main table to the subset.
+        
+        Each detail section is a PromptResponse of new type."""
+        pass
+
     def _run_prompt(self, prompt : Prompt, doc) -> List[str]:
         prompt = replace(prompt)
         raw_responses = []
@@ -97,7 +104,7 @@ class RFPPromptRunner:
         
         self._gate.gate()
         messages = [asdict(c) for c in current.content]
-        raw_response_d = self._oai.call(messages)
+        raw_response_d = self._oai.call(messages, prompt.temp)
 
         raw_response = {
             'response': raw_response_d['response'],
