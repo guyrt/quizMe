@@ -38,34 +38,49 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
         }
 
         h1 {
-            color: #333;
-            text-align: center;
+            margin: 20px;
         }
 
-        p {
-            color: #666;
-            text-align: center;
+        nav {
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
         }
 
-        h2 {
-            color: #333;
-            margin-top: 20px;
-        }
-
-        ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        li {
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
             margin: 10px 0;
         }
 
-        button {
+        nav a:hover {
+            background-color: #007bff;
+        }
+
+        main {
+            margin-left: 220px;
+            padding: 20px;
+        }
+
+        #js-reprocess {
             background-color: #007bff;
             color: #fff;
             border: none;
@@ -73,65 +88,86 @@
             cursor: pointer;
         }
 
-        button:hover {
+        #js-reprocess:hover {
             background-color: #0056b3;
         }
 
-        #js-reprocess {
-            display: block;
-            margin: 20px auto;
+        table {
+            border-collapse: collapse;
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
         }
     </style>
 </head>
 <body>
-    <h1>{{ doc_cluster.get_title }}</h1>
-    <p>Uploaded {{doc_cluster.date_added}} by {{doc_cluster.owner}}</p>
-    
-    <h2>List of Documents:</h2>
-    {% for extract in doc_cluster.documentfile_set.all %}
-        <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
+    <header>
+        <h1>{{ doc_cluster.get_title }}</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">RFPs</a></li>
+            <li><a href="#">History</a></li>
+            <li><a href="#">Templates</a></li>
+        </ul>
+    </nav>
+    <main>
+        <h2>List of Documents:</h2>
+        {% for extract in doc_cluster.documentfile_set.all %}
+            <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
 
-        {% if 'shortsummary' in prompts %}
-            <p>Summary:</p>    
-            <p>{{ prompts.shortsummary.as_html |safe}}</p>
-        {% else %}
-            <p>Processing....</p>
-        {% endif %}
+            {% if 'shortsummary' in prompts %}
+                <p>Summary:</p>
+                <p>{{ prompts.shortsummary.as_html | safe }}</p>
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
 
-        {% if 'longsummary' in prompts %}
-            <p>Longer Summary:</p>    
-            <p>{{ prompts.longsummary.as_html |safe}}</p>
-        {% else %}
-            <p>Processing....</p>
-        {% endif %}
+            {% if 'longsummary' in prompts %}
+                <p>Longer Summary:</p>
+                <p>{{ prompts.longsummary.as_html | safe }}</p>
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
 
-        {% if 'specific_dates' in prompts %}
-            <p>Specific Dates:</p>    
-            <p>{{ prompts.specific_dates.as_html |safe}}</p>
-        {% else %}
-            <p>Processing....</p>
-        {% endif %}
+            {% if 'specific_dates' in prompts %}
+                <p>Specific Dates:</p>
+                <p>{{ prompts.specific_dates.as_html | safe }}</p>
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
 
-        {% if 'expertise' in prompts %}
-            <p>Expertise required:</p>    
-            {{ prompts.expertise.as_html |safe}}
-        {% else %}
-            <p>Processing....</p>
-        {% endif %}
+            {% if 'expertise' in prompts %}
+                <p>Expertise required:</p>
+                {{ prompts.expertise.as_html | safe }}
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
 
-        {% if 'req_details' in prompts %}
-            <p>Key Requirements:</p>    
-            {{ prompts.req_details.as_html |safe }}
-        {% else %}
-            <p>Processing....</p>
-        {% endif %}
+            {% if 'req_details' in prompts %}
+                <p>Key Requirements:</p>
+                {{ prompts.req_details.as_html | safe }}
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
 
-    {% empty %}
-        <p>No extracts available</p>
-    {% endfor %}
-
-
-    <button id="js-reprocess">Reprocess everything</button>
-
+        {% empty %}
+            <p>No extracts available</p>
+        {% endfor %}
+        <button id="js-reprocess">Reprocess everything</button>
+    </main>
 </body>
 </html>

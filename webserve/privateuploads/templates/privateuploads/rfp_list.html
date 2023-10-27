@@ -2,19 +2,84 @@
 <html>
 <head>
     <title>Your RFPs</title>    
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 20px 0;
+        }
+
+        h1 {
+            margin: 20px;
+        }
+
+        nav {
+            width: 200px;
+            background-color: #333;
+            color: #fff;
+            padding: 10px;
+            position: fixed;
+            height: 100%;
+            overflow: auto;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            margin: 10px 0;
+        }
+
+        nav a:hover {
+            background-color: #007bff;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            margin: 10px 0;
+        }
+
+        main {
+            margin-left: 220px;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Your RFPs</h1>
-    <ul>
-        {% for object in doc_cluster_list %}
-            <li>
-                <a href="{% url 'doc_cluster_detail' object.id %}">{{ object.get_title }}</a>
-                <a href="{% url 'doc_cluster_delete' object.id %}">delete</a>
-            </li>
-            <!-- Add more details as needed -->
-        {% empty %}
-            <li>None found.</li>
-        {% endfor %}
-    </ul>
+    <header>
+        <h1>Your RFPs</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="#">RFPs</a></li>
+            <li><a href="#">History</a></li>
+            <li><a href="#">Templates</a></li>
+        </ul>
+    </nav>
+    <main>
+        <ul>
+            {% for object in doc_cluster_list %}
+                <li>
+                    <a href="{% url 'doc_cluster_detail' object.id %}">{{ object.get_title }}</a>
+                    <a href="{% url 'doc_cluster_delete' object.id %}">delete</a>
+                </li>
+                <!-- Add more details as needed -->
+            {% empty %}
+                <li>None found.</li>
+            {% endfor %}
+        </ul>
+    </main>
 </body>
 </html>
