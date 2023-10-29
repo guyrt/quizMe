@@ -141,7 +141,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AZURE = {
-    'RFP_RAW_BLOB': {
+    'KM_RAW_BLOB': {
         'CONTAINER': os.environ['KMRawBlobContainer'],
         "CONNECTION": os.environ['KMRawBlobConnectionString']
     },

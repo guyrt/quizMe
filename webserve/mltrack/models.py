@@ -18,7 +18,6 @@ ModelOutputRoles = [
     ('peoplesummary', 'peoplesummary')
 ]
 
-
 # Create your models here.
 class PromptResponse(ModelBaseMixin):
 

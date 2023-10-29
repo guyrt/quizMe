@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.http import HttpResponseRedirect, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, View
 from django.views.generic.edit import FormView
@@ -101,6 +101,7 @@ class DocumentClusterDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        import pdb; pdb.set_trace()
 
         # get all your prompts.
         prompts = list(PromptResponse.objects.filter(document_inputs__docfile__document=self.object).filter(document_inputs__active=1))
@@ -110,7 +111,8 @@ class DocumentClusterDetailView(DetailView):
             p.output_role: p
             for p in prompts
         }
-        context['prompts'] = prompts
+
+        print(prompts)
         
         return context
 

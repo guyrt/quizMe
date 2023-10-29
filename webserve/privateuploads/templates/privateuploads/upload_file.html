@@ -23,7 +23,7 @@
 </head>
 <body>
     <h1>Upload a File</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" id="upload-form">
         {% csrf_token %}
         <div class="mb-3">
             <input type="file" name="file">
@@ -33,7 +33,7 @@
             <select name="form_type" class="form-select" id="form_type">
                 {% for object in all_types %}
                     <option 
-                        value="object.0"
+                        value="{{object.0}}"
                         {% if object.0 == expected_type %} selected {% endif %}
                     >
                         {{object.1}}
