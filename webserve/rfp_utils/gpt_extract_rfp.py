@@ -1,5 +1,5 @@
 import json
-from azurewrapper.rfp.extractedtext_handler import RfpExtractedTextBlobHander
+from azurewrapper.rfp.extractedtext_handler import KMExtractedTextBlobHander
 from dataclasses import asdict, replace
 from mltrack.models import PromptResponse
 
@@ -22,7 +22,7 @@ class RFPPromptRunner:
 
     def execute(self, doc_extract_id : int):
         doc = DocumentExtract.objects.get(id=doc_extract_id)
-        raw_content = RfpExtractedTextBlobHander(doc.location_container).get_path(doc.location_path)
+        raw_content = KMExtractedTextBlobHander(doc.location_container).get_path(doc.location_path)
         content = self._get_doc_content(raw_content)
 
         for prompt in build_prompts():

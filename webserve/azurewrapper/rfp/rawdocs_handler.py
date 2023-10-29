@@ -9,11 +9,11 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from privateuploads.types import DocFormat, docformat_to_contenttype
 
 
-class RfpRawBlobHander:
+class KMRawBlobHander:
 
     def __init__(self, container_name=None):
-        self.connection_string = settings.AZURE['RFP_RAW_BLOB']['CONNECTION']
-        self.container_name = container_name or settings.AZURE['RFP_RAW_BLOB']['CONTAINER']
+        self.connection_string = settings.AZURE['KM_RAW_BLOB']['CONNECTION']
+        self.container_name = container_name or settings.AZURE['KM_RAW_BLOB']['CONTAINER']
 
         self.blob_service_client = BlobServiceClient.from_connection_string(self.connection_string)
         self.container_client = self.blob_service_client.get_container_client(self.container_name)

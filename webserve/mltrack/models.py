@@ -14,7 +14,8 @@ ModelOutputRoles = [
     ('certifications', 'certifications'),
     ('expertise', 'expertise'),
     ('vendors', 'vendors'),
-    ('suggested_questions', 'suggested_questions')
+    ('suggested_questions', 'suggested_questions'),
+    ('peoplesummary', 'peoplesummary')
 ]
 
 

@@ -1,11 +1,11 @@
 import json
 from django_rq import job, enqueue
 
-from azurewrapper.rfp.rawdocs_handler import RfpRawBlobHander
-from azurewrapper.rfp.extractedtext_handler import RfpExtractedTextBlobHander
+from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
+from azurewrapper.rfp.extractedtext_handler import KMExtractedTextBlobHander
 from privateuploads.models import DocumentFile, DocumentExtract
 from rfp_utils.pdf_parser import PdfParser
-from rfp_utils.gpt_extract_rfp import gpt_extract
+from rfp_utils.extract_task import gpt_extract
 
 
 class RFPDocumentExtract:
@@ -35,11 +35,11 @@ class RFPDocumentExtract:
         doc_file.save()
 
     def _extract_pdf(self, raw_obj : DocumentFile) -> DocumentExtract:
-        content = RfpRawBlobHander().get_path_pdf(raw_obj.location_path) # note this may need to change for other types.
+        content = KMRawBlobHander().get_path_pdf(raw_obj.location_path) # note this may need to change for other types.
         text_content = PdfParser().extract_text(content)
         raw_content = json.dumps(text_content)
         upload_path = f"{raw_obj.location_path}.extract.txt"
-        container, blob_path = RfpExtractedTextBlobHander().upload(raw_content, upload_path)
+        container, blob_path = KMExtractedTextBlobHander().upload(raw_content, upload_path)
 
         d = DocumentExtract(
             docfile=raw_obj,

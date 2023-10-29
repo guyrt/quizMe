@@ -1,7 +1,7 @@
 from typing import Any
 from uuid import uuid4
 
-from azurewrapper.rfp.rawdocs_handler import RfpRawBlobHander
+from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.http import HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
@@ -41,7 +41,7 @@ class FileUploadView(FormView):
         clean_filetype = self._clean_type(uploaded_file.content_type)
 
         full_path = f"{self.request.user.pk}/{uuid4()}/{uploaded_file.name}"
-        blob_handler = RfpRawBlobHander()
+        blob_handler = KMRawBlobHander()
         container, path = blob_handler.upload(uploaded_file, full_path, clean_filetype)
 
         # Create object.

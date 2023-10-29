@@ -4,11 +4,11 @@ from azure.core.exceptions import ResourceNotFoundError
 from django.conf import settings
 
 
-class RfpExtractedTextBlobHander:
+class KMExtractedTextBlobHander:
 
     def __init__(self, container_name=None):
-        self.connection_string = settings.AZURE['RFP_EXTRACTEDTEXT']['CONNECTION']
-        self.container_name = container_name or settings.AZURE['RFP_EXTRACTEDTEXT']['CONTAINER']
+        self.connection_string = settings.AZURE['KM_EXTRACTEDTEXT']['CONNECTION']
+        self.container_name = container_name or settings.AZURE['KM_EXTRACTEDTEXT']['CONTAINER']
 
         self.blob_service_client = BlobServiceClient.from_connection_string(self.connection_string)
         self.container_client = self.blob_service_client.get_container_client(self.container_name)

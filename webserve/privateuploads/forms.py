@@ -7,4 +7,5 @@ class FileUploadForm(forms.Form):
     file = forms.FileField(
         validators=[FileExtensionValidator(allowed_extensions=['pdf', 'docx', 'xlsx', 'zip'])]
     )
+
     form_type = forms.ChoiceField(required=True, initial='rfp', choices=DocumentClusterRoleChoices)
