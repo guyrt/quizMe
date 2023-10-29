@@ -7,7 +7,7 @@ from typing import Literal, Tuple, List
 from privateuploads.types import DocFormat
 
 
-UploadSources = Literal['RFP', 'PublicSEC']
+ProjectTypes = Literal['RFP', 'PublicSEC']
 
 
 
@@ -29,9 +29,20 @@ ProcessingChoices = [
 FileRoles = Literal['rfp', 'unknown']
 
 
+# todo - this only applies to RFP docs right now.
+DocumentClusterRoleChoices = [
+    ('rfp', 'RFP'),
+    ('proposal', 'Proposal'),
+    ('resume', 'Resume'),
+    ('verbatim', 'Verbatim Templates'),
+    ('intelligence', 'Customer Intelligence'),
+    ('unknown', 'None')
+]
+
+
 FileRolesChoices = [
-    ('rfp', 'rfp'),
-    ('unknown', 'unknown')
+    ('primary', 'Primary'),
+    ('unknown', 'None')
 ]
 
 
@@ -40,14 +51,10 @@ class DocumentCluster(ModelBaseMixin):
     or single RFP. These may have many underlying documents.
     """
 
-    UploadSourceChoices : List[Tuple[UploadSources, UploadSources]] = [
-        ("RFP", "RFP"),
-        ("PublicSEC", "PublicSEC")
-    ]
-
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    upload_source = models.CharField(max_length=16, choices=UploadSourceChoices)
+    # Role within RFP project. 
+    document_role = models.CharField(max_length=16, choices=DocumentClusterRoleChoices)
 
     def get_title(self):
         return self.documentfile_set.get(active=True).doc_name

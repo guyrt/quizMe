@@ -29,8 +29,17 @@
             <input type="file" name="file">
         </div>
         <div class="mb-3">
-            <label for="analyze" class="form-label">Run Analysis</label>
-            <input type="checkbox" name="analyze" class="form-check-input" id="analyze">
+            <label for="form_type" class="form-label">Run Analysis</label>
+            <select name="form_type" class="form-select" id="form_type">
+                {% for object in all_types %}
+                    <option 
+                        value="object.0"
+                        {% if object.0 == expected_type %} selected {% endif %}
+                    >
+                        {{object.1}}
+                    </option>
+                {% endfor %}
+            </select>
         </div>  
         <button type="submit" class="btn btn-primary" id="upload-button">Upload</button>
         <div id="processing-message" style="display: none;">Working on it...</div>

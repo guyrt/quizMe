@@ -13,7 +13,7 @@ class RawDocParser():
             doc_file = DocumentFile(
                 document=doc_cluster,
                 source=raw_file_obj,
-                file_role='rfp',
+                file_role='primary',
                 doc_format=doc_type,
                 doc_name=local_file.name,
                 location_container=raw_file_obj.location_container,

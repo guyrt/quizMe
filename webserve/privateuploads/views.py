@@ -1,3 +1,4 @@
+from typing import Any
 from uuid import uuid4
 
 from azurewrapper.rfp.rawdocs_handler import RfpRawBlobHander
@@ -10,10 +11,10 @@ from django_rq import enqueue
 
 from privateuploads.doc_parser import RawDocParser
 
-from rfp_utils.raw_doc_parser import execute_rfp_parse
+from rfp_utils.raw_doc_parser import execute_doc_parse
 
 from .forms import FileUploadForm
-from .models import DocumentCluster, RawUpload, DocumentFile
+from .models import DocumentCluster, RawUpload, DocumentFile, DocumentClusterRoleChoices
 
 from mltrack.models import PromptResponse
 
@@ -21,6 +22,13 @@ from mltrack.models import PromptResponse
 class FileUploadView(FormView):
     form_class = FileUploadForm  # Define your custom form class
     template_name = 'privateuploads/upload_file.html'  # Template for the form
+
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        doc_type = self.request.GET.get('type', 'rfp')
+        context['expected_type'] = doc_type
+        context['all_types'] = DocumentClusterRoleChoices
+        return context
 
     def form_valid(self, form):
         """
@@ -39,7 +47,7 @@ class FileUploadView(FormView):
         # Create object.
         doc_cluster = DocumentCluster(
             owner=self.request.user,
-            upload_source='RFP'
+            document_role=form.cleaned_data['form_type']
         )
         doc_cluster.save()
 
@@ -55,7 +63,7 @@ class FileUploadView(FormView):
 
         # start a queued work item.
         for doc in docs:
-            result = enqueue(execute_rfp_parse, doc.id)
+            result = enqueue(execute_doc_parse, doc.id)
             doc.last_jobid = result.id
             doc.save()
 
@@ -78,7 +86,7 @@ class RFPClusterListView(ListView):
 
     def get_queryset(self):
         # Filter the objects to include only those marked as "active"
-        return self.model.objects.filter(active=True).filter(upload_source='RFP')
+        return self.model.objects.filter(active=True).filter(document_role='rfp')
 
 
 class DocumentClusterDetailView(DetailView):
@@ -124,7 +132,7 @@ class DocumentClusterReprocessView(View):
     def post(self, request, pk):
         objs = DocumentFile.objects.filter(active=True).filter(document__id=pk)
         for doc in objs:
-            result = enqueue(execute_rfp_parse, doc.id)
+            result = enqueue(execute_doc_parse, doc.id)
             doc.last_jobid = result.id
             doc.save()
         return JsonResponse({'message': f'Reprocessing {len(objs)} documents.'})

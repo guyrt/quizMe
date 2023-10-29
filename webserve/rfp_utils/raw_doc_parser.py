@@ -50,6 +50,6 @@ class RFPDocumentExtract:
 
 
 @job
-def execute_rfp_parse(raw_doc_id : int):
+def execute_doc_parse(raw_doc_id : int):
     """This is our queued request."""
     RFPDocumentExtract().parse(raw_doc_id)

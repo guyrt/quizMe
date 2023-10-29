@@ -1,10 +1,9 @@
 import json
 from azurewrapper.rfp.extractedtext_handler import RfpExtractedTextBlobHander
-from django_rq import job
 from dataclasses import asdict, replace
 from mltrack.models import PromptResponse
 
-from privateuploads.models import DocumentExtract, DocumentFile
+from privateuploads.models import DocumentExtract
 
 from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.prompt_types import fill_prompt, Prompt, PromptCell
@@ -129,22 +128,3 @@ class RFPPromptRunner:
             messages.append(asdict(PromptCell(role='assistant', content=raw_response_d['response'])))
 
         return raw_responses
-
-
-@job
-def gpt_extract(raw_docextracts : List[int], doc_file_id):
-    doc_file = DocumentFile.objects.get(id=doc_file_id)
-    doc_file.processing_status = 'active'
-    doc_file.save()
-
-    try:
-        pr = RFPPromptRunner()
-        for raw_docextract in raw_docextracts:
-            pr.execute(raw_docextract)
-    except:
-        doc_file.processing_status = 'error'
-        doc_file.save()
-    else:
-        doc_file = DocumentFile.objects.get(id=doc_file_id)
-        doc_file.processing_status = 'done'
-        doc_file.save()
