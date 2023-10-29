@@ -20,7 +20,7 @@ from mltrack.models import PromptResponse
 
 class FileUploadView(FormView):
     form_class = FileUploadForm  # Define your custom form class
-    template_name = 'privateuploads/upload_rfp.html'  # Template for the form
+    template_name = 'privateuploads/upload_file.html'  # Template for the form
 
     def form_valid(self, form):
         """
@@ -70,7 +70,7 @@ class FileUploadView(FormView):
         raise ValueError(f"Unexpected type {raw_type}")
 
 
-class DocumentClusterListView(ListView):
+class RFPClusterListView(ListView):
     """todo - list all docs uploaded with 'analyze' buttons"""
     model = DocumentCluster  # Specify the model
     template_name = 'privateuploads/rfp_list.html'
@@ -78,17 +78,17 @@ class DocumentClusterListView(ListView):
 
     def get_queryset(self):
         # Filter the objects to include only those marked as "active"
-        return self.model.objects.filter(active=True)
+        return self.model.objects.filter(active=True).filter(upload_source='RFP')
 
 
 class DocumentClusterDetailView(DetailView):
     """todo - list a single doc. show either 'processing' or show latest results"""
     model = DocumentCluster  # Specify the model
-    template_name = 'privateuploads/rfp_detail.html'  # Specify the template for rendering
+    template_name = 'privateuploads/rfp_detail.html' # make this depend on type.
     context_object_name = 'doc_cluster'
 
     def get_queryset(self):
-        # Filter the objects to include only those marked as "active"
+        # Filter the objects to include only those marked as "active" to prevent pulling others.
         return self.model.objects.filter(active=True)
 
     def get_context_data(self, **kwargs):

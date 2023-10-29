@@ -18,10 +18,12 @@ from django.contrib import admin
 from django.urls import path, include
 
 from users.views import LandingPageView
+from privateuploads.views import FileUploadView
 
 urlpatterns = [
     path('', LandingPageView.as_view(), name='landing_page'),
     path("admin/", admin.site.urls),
+    path('upload', FileUploadView.as_view(), name='upload_file'),
     path('accounts/', include('django.contrib.auth.urls')),  # Include the authentication URLs
-    path('rfp/', include('privateuploads.urls')),
+    path('rfp/', include('privateuploads.rfp_urls')),
 ]
