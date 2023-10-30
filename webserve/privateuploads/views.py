@@ -86,9 +86,8 @@ class RFPClusterListView(ListView):
     context_object_name = 'doc_cluster_list'
 
     def get_queryset(self):
-        # Filter the objects to include only those marked as "active"
-        # use self.request.path to filter
-        return self.model.objects.filter(active=True).filter(document_role='rfp')
+        doc_type = self.request.path.split('/')[-1]
+        return self.model.objects.filter(active=True).filter(document_role=doc_type)
 
 
 class DocumentClusterDetailView(DetailView):
@@ -126,6 +125,8 @@ class DocumentClusterDetailView(DetailView):
 class DocumentClusterDeleteView(DeleteView):
     model = DocumentCluster  # Specify the model
     template_name = 'privateuploads/documentcluster_confirm_delete.html'  # Specify the template for confirmation
+    
+    # todo - fix
     success_url = reverse_lazy('doc_cluster_list')  # Redirect after deletion
 
     def delete(self, request, *args, **kwargs):
