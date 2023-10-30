@@ -67,6 +67,7 @@ class FileUploadView(FormView):
             doc.last_jobid = result.id
             doc.save()
 
+        # todo - on type
         success_url = reverse('doc_cluster_detail', kwargs={'pk': doc_cluster.pk})
         
         return HttpResponseRedirect(success_url)
@@ -86,14 +87,21 @@ class RFPClusterListView(ListView):
 
     def get_queryset(self):
         # Filter the objects to include only those marked as "active"
+        # use self.request.path to filter
         return self.model.objects.filter(active=True).filter(document_role='rfp')
 
 
 class DocumentClusterDetailView(DetailView):
     """todo - list a single doc. show either 'processing' or show latest results"""
     model = DocumentCluster  # Specify the model
-    template_name = 'privateuploads/rfp_detail.html' # make this depend on type.
     context_object_name = 'doc_cluster'
+
+    def get_template_names(self) -> list[str]:
+        if self.object.document_role == 'rfp':
+            return ['privateuploads/rfp_detail.html']
+        if self.object.document_role == 'proposal':
+            return ['privateuploads/proposal_detail.html']
+        raise NotImplementedError(f"Need to do {self.object.document_role}")
 
     def get_queryset(self):
         # Filter the objects to include only those marked as "active" to prevent pulling others.
@@ -101,7 +109,6 @@ class DocumentClusterDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        import pdb; pdb.set_trace()
 
         # get all your prompts.
         prompts = list(PromptResponse.objects.filter(document_inputs__docfile__document=self.object).filter(document_inputs__active=1))
@@ -112,8 +119,7 @@ class DocumentClusterDetailView(DetailView):
             for p in prompts
         }
 
-        print(prompts)
-        
+        context['prompts'] = prompts
         return context
 
 

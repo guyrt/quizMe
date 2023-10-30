@@ -25,5 +25,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path('upload', FileUploadView.as_view(), name='upload_file'),
     path('accounts/', include('django.contrib.auth.urls')),  # Include the authentication URLs
-    path('rfp/', include('privateuploads.rfp_urls')),
+    path('docs/', include('privateuploads.urls')),
 ]

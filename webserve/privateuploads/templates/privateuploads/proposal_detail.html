@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}
+{{ doc_cluster.get_title }}
+{% endblock %}
+
+{% block customjs %}
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const reprocessButton = document.getElementById("js-reprocess");
+    
+        reprocessButton.addEventListener("click", function() {
+            // Make an AJAX request to the reprocess URL
+            fetch("{% url 'doc_cluster_reprocess' doc_cluster.id %}", {
+                method: "POST", 
+                body: JSON.stringify({}),
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+            })
+            .then(data => {
+                location.reload();
+            })
+            .catch(error => {
+                // Handle errors, if necessary
+            });
+        });
+    });
+
+    function getCookie(name) {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) {
+            return parts.pop().split(";").shift();
+        }
+    }
+</script>
+{% endblock %}
+
+{% block maincontent %}
+    <header>
+        <h1>{{ doc_cluster.get_title }}</h1>
+    </header>
+    <main>
+        <div class="content">
+        <h2>List of Documents:</h2>
+        {% for extract in doc_cluster.documentfile_set.all %}
+            <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
+
+            {% if 'longsummary' in prompts %}
+                <p>Longer Summary:</p>
+                <p>{{ prompts.longsummary.as_html | safe }}</p>
+            {% else %}
+                <p>Processing....</p>
+            {% endif %}
+
+            {% if 'peoplesummary' in prompts %}
+                <p>People:</p>
+                <p>{{ prompts.peoplesummary.as_html | safe }}</p>
+            {% else %}
+                <p>People Processing....</p>
+            {% endif %}
+
+        {% empty %}
+            <p>No extracts available</p>
+        {% endfor %}
+        <button id="js-reprocess">Reprocess everything</button>
+    </div>
+    </main>
+{% endblock %}
