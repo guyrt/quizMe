@@ -26,13 +26,14 @@ class BasePromptRunner:
     def __init__(self) -> None:
         self._oai = OpenAIClient(engine='GPT-4-32K-0314', temp=0.9)  # todo make this a setting....
         self._splitter = LargeDocSplitter(self._oai)
+        logger.info("BasePromptRunner init")
         self._gate = Gate(1)
 
     def execute(self, doc_extract_id : int):
         doc = DocumentExtract.objects.get(id=doc_extract_id)
         raw_content = KMExtractedTextBlobHander(doc.location_container).get_path(doc.location_path)
         content = self._get_doc_content(raw_content)
-        content_chunks : List[str] = self._splitter.split(content, 20000)
+        content_chunks : List[str] = self._splitter.split(content, 8000)
 
         logger.info(f"run intelligence on doc %s with %s chunks.", doc_extract_id, len(content_chunks))
 
@@ -73,7 +74,7 @@ class BasePromptRunner:
         pr = raw_results[0]
         new_role = pr.output_role.replace(self.partial_suffix, '')
 
-        logger.info("Merging %s chunks for prompt %s@%s", len(raw_results), prompt.name, prompt.version)
+        logger.info("Merging %s chunks for prompt %s@%s role %s", len(raw_results), prompt.name, prompt.version, new_role)
 
         if len(raw_results) == 1:
             pr = raw_results[0]

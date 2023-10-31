@@ -7,6 +7,9 @@ from azurewrapper.gate import Gate
 from dotenv import load_dotenv
 load_dotenv()
 
+import logging
+logger = logging.getLogger('rqwork')
+
 
 class OpenAIClient:
 
@@ -20,25 +23,34 @@ class OpenAIClient:
         self._encoding = encoding
         self.max_doc_tokens = 12000  # 16824 total for gpt16k
         if gate is None:
-            self.gate = Gate(1)  # 1 call/sec
+            self.gate = Gate(5)  # 0.2 call/sec
         else:
             self.gate = gate
 
     def call(self, messages, temp=None) -> str:
         self.gate.gate()
-        response = openai.ChatCompletion.create(
-            engine=self._engine,
-            messages=messages,
-            temperature=temp or self._temp,
-            
-            top_p=0.95,
-            frequency_penalty=0,
-            presence_penalty=0,
-            stop=None)
-        return {
-            'response': response.choices[0].message.content,
-            'tokens': response.usage
-        }
+        sleep_amt = 60
+        while sleep_amt <= 240:
+            try:
+                response = openai.ChatCompletion.create(
+                    engine=self._engine,
+                    messages=messages,
+                    temperature=temp or self._temp,
+                    
+                    top_p=0.95,
+                    frequency_penalty=0,
+                    presence_penalty=0,
+                    stop=None)
+            except openai.error.RateLimitError as e:
+                logger.error("Rate limit for OAI. Sleep for %s seconds" % sleep_amt)
+                import time
+                time.sleep(sleep_amt)
+                sleep_amt *= 2
+            else:
+                return {
+                    'response': response.choices[0].message.content,
+                    'tokens': response.usage
+                }
 
     def num_tokens_from_string(self, string: str) -> int:
         """Returns the number of tokens in a text string."""
