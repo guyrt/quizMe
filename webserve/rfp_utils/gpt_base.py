@@ -16,7 +16,7 @@ from .large_doc_splitter import LargeDocSplitter
 from typing import List
 
 import logging
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('rqwork')
 
 
 class BasePromptRunner:
@@ -38,12 +38,14 @@ class BasePromptRunner:
 
         for prompt in self._build_prompts():
             filtered_chunks = self._filter_chunks(prompt, content_chunks)
-            raw_results = []
+            raw_result_list = []
             for chunk in filtered_chunks:
                 raw_results = self._run_prompt_on_chunk(prompt, chunk)  # run on chunk no side effect
                 raw_parsed_results = self._process_single_result(doc, prompt, raw_results)  # save sub prompts
-                raw_results.extend(raw_parsed_results)  
-            self._merge_chunks(prompt, doc, raw_results)  # merge and save
+                raw_result_list.extend(raw_parsed_results)
+            chunk_groups = self._group_chunks(raw_result_list)
+            for g in chunk_groups.values():
+                self._merge_chunks(prompt, doc, g)  # merge and save
 
     def _filter_chunks(self, prompt : Prompt, content_chunks : List[str]) -> List[str]:
         """Filter chunk list. Example override is to only care about first chunk."""
@@ -58,10 +60,20 @@ class BasePromptRunner:
             return ' '.join(payload['content'])
         raise ValueError(f"Unepected doc format {format}")
 
+    def _group_chunks(self, raw_results : List[PromptResponse]):
+        ret_d = {}
+        for r in raw_results:
+            out_role = r.output_role
+            if out_role not in ret_d:
+                ret_d[out_role] = []
+            ret_d[out_role].append(r)
+        return ret_d
+
     def _merge_chunks(self, prompt : Prompt, doc : DocumentExtract, raw_results : List[PromptResponse]):
-        
         pr = raw_results[0]
         new_role = pr.output_role.replace(self.partial_suffix, '')
+
+        logger.info("Merging %s chunks for prompt %s@%s", len(raw_results), prompt.name, prompt.version)
 
         if len(raw_results) == 1:
             pr = raw_results[0]
@@ -69,7 +81,7 @@ class BasePromptRunner:
             pr.save()
             return
         else:
-            raw_response = OutputMergeUtility(self._oai).run([r.result for r in raw_results])
+            raw_response = OutputMergeUtility(gate=self._oai.gate).run([r.result for r in raw_results])
             
             r = PromptResponse(
                 template_name=prompt.name,

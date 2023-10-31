@@ -9,6 +9,8 @@ from rfp_utils.rfp_research.prompts import build_prompts
 
 from typing import List
 
+import logging
+logger = logging.getLogger('rqwork')
 
 
 class RFPPromptRunner(BasePromptRunner):
@@ -19,6 +21,8 @@ class RFPPromptRunner(BasePromptRunner):
     def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
         suffix = self.partial_suffix if len(results) > 1 else ''
         
+        logger.info("Processing chunk for %s@%s", prompt.name, prompt.version)
+
         if prompt.name == "RFPSummarizeAsk" and prompt.version >= 2:
             r = PromptResponse(
                 template_name=prompt.name,

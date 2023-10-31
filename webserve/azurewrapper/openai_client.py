@@ -10,7 +10,7 @@ load_dotenv()
 
 class OpenAIClient:
 
-    def __init__(self, temp=0.7, engine="chatGPT_GPT35-turbo-0301", encoding='cl100k_base') -> None:
+    def __init__(self, temp=0.7, engine="chatGPT_GPT35-turbo-0301", encoding='cl100k_base', gate=None) -> None:
         openai.api_type = "azure"
         openai.api_base = os.getenv("OPENAI_BASE")
         openai.api_version = os.getenv("OPENAI_API_APIVERSION")
@@ -19,7 +19,10 @@ class OpenAIClient:
         self._temp = temp
         self._encoding = encoding
         self.max_doc_tokens = 12000  # 16824 total for gpt16k
-        self.gate = Gate(1)  # 1 call/sec
+        if gate is None:
+            self.gate = Gate(1)  # 1 call/sec
+        else:
+            self.gate = gate
 
     def call(self, messages, temp=None) -> str:
         self.gate.gate()

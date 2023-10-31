@@ -18,8 +18,8 @@ It is more important to return all information in all inputs than to rephrase or
 
 class OutputMergeUtility:
 
-    def __init__(self) -> None:
-        self._oai = OpenAIClient() # todo make this default to turbo
+    def __init__(self, gate) -> None:
+        self._oai = OpenAIClient(gate=gate) # todo make this default to turbo
 
     def run(self, inputs : List[str]) -> Dict:
         """

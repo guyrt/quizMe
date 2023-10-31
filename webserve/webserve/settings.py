@@ -50,14 +50,9 @@ LOGGING = {
         },
     },
     'loggers': {
-        'django': {
+        'rqwork': {
             'handlers': ['file'],
             'level': 'DEBUG',
-            'propagate': True,
-        },
-        'django': {
-            'handlers': ['file', 'console'],
-            'level': 'WARNING',
             'propagate': True,
         },
     },
