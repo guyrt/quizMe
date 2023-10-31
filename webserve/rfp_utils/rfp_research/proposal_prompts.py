@@ -29,7 +29,11 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
         name='ProposalKeyPeople',
         content=[
             PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""This proposal lists key people who will work on the contract if the bid is successful. List each person. Your response should have exactly two lines. The first line should be the name and nothing else. The second line should list the person's role in the project and key skills.""")
+            PromptCell(role='user', content="""This proposal lists key people who will work on the contract if the bid is successful. 
+List each person. Your response should have exactly two lines. The first line should be the name and nothing else. 
+The second line should list the person's role in the project and key skills. 
+All people who work on this contract including vendors should be listed.
+                       """.strip())
         ],
         version=1
     )

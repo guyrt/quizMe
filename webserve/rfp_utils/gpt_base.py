@@ -7,28 +7,47 @@ from privateuploads.models import DocumentExtract
 from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.prompt_types import fill_prompt, Prompt, PromptCell
 from azurewrapper.gate import Gate
+from mltrack.models import PromptResponse
+from rfp_utils.rfp_research.output_merge import OutputMergeUtility
+
+from .large_doc_splitter import LargeDocSplitter
 
 
 from typing import List
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class BasePromptRunner:
 
+    partial_suffix = '_partial'
+
     def __init__(self) -> None:
         self._oai = OpenAIClient(engine='GPT-4-32K-0314', temp=0.9)  # todo make this a setting....
+        self._splitter = LargeDocSplitter(self._oai)
         self._gate = Gate(1)
 
     def execute(self, doc_extract_id : int):
         doc = DocumentExtract.objects.get(id=doc_extract_id)
         raw_content = KMExtractedTextBlobHander(doc.location_container).get_path(doc.location_path)
         content = self._get_doc_content(raw_content)
+        content_chunks : List[str] = self._splitter.split(content, 20000)
 
-        # temp
-        content = content[:60000]
+        logger.info(f"run intelligence on doc %s with %s chunks.", doc_extract_id, len(content_chunks))
 
         for prompt in self._build_prompts():
-            results = self._run_prompt(prompt, content)
-            self._process_results(doc, prompt, results)
+            filtered_chunks = self._filter_chunks(prompt, content_chunks)
+            raw_results = []
+            for chunk in filtered_chunks:
+                raw_results = self._run_prompt_on_chunk(prompt, chunk)  # run on chunk no side effect
+                raw_parsed_results = self._process_single_result(doc, prompt, raw_results)  # save sub prompts
+                raw_results.extend(raw_parsed_results)  
+            self._merge_chunks(prompt, doc, raw_results)  # merge and save
+
+    def _filter_chunks(self, prompt : Prompt, content_chunks : List[str]) -> List[str]:
+        """Filter chunk list. Example override is to only care about first chunk."""
+        return content_chunks
 
     def _get_doc_content(self, payload_s : str):
         payload = json.loads(payload_s)
@@ -39,20 +58,42 @@ class BasePromptRunner:
             return ' '.join(payload['content'])
         raise ValueError(f"Unepected doc format {format}")
 
-    def _process_results(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
-        """Handle results - rely on versions to differentiate logic where necessary"""
+    def _merge_chunks(self, prompt : Prompt, doc : DocumentExtract, raw_results : List[PromptResponse]):
+        
+        pr = raw_results[0]
+        new_role = pr.output_role.replace(self.partial_suffix, '')
+
+        if len(raw_results) == 1:
+            pr = raw_results[0]
+            pr.output_role = new_role
+            pr.save()
+            return
+        else:
+            raw_response = OutputMergeUtility(self._oai).run([r.result for r in raw_results])
+            
+            r = PromptResponse(
+                template_name=prompt.name,
+                template_version=prompt.version,
+                output_role=new_role,
+                result=raw_response['response'],
+                prompt_tokens=raw_response['prompt_tokens'],
+                completion_tokens=raw_response['completion_tokens']
+            )
+            r.save()
+            r.document_inputs.add(doc)
+            r.save()
+
+    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
+        """Handle results - rely on versions to differentiate logic where necessary.
+        
+        These shoul
+        """
         raise NotImplementedError()
 
     def _build_prompts(self):
         raise NotImplementedError()
 
-    def _deepdive_extract(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
-        """Parse results, get more details, and produce a link from main table to the subset.
-        
-        Each detail section is a PromptResponse of new type."""
-        pass
-
-    def _run_prompt(self, prompt : Prompt, doc) -> List[str]:
+    def _run_prompt_on_chunk(self, prompt : Prompt, doc : str) -> List[dict]:
         prompt = replace(prompt)
         raw_responses = []
         current = fill_prompt(prompt, {'doc_content': doc})

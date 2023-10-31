@@ -16,13 +16,14 @@ class RFPPromptRunner(BasePromptRunner):
     def _build_prompts(self):
         return build_prompts()
 
-    def _process_results(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
-        """Handle results - rely on versions to differentiate logic where necessary"""
+    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
+        suffix = self.partial_suffix if len(results) > 1 else ''
+        
         if prompt.name == "RFPSummarizeAsk" and prompt.version >= 2:
             r = PromptResponse(
                 template_name=prompt.name,
                 template_version=prompt.version,
-                output_role='longsummary',
+                output_role='longsummary' + suffix,
                 result=results[0]['response'],
                 prompt_tokens=results[0]['prompt_tokens'],
                 completion_tokens=results[0]['completion_tokens']
@@ -31,23 +32,23 @@ class RFPPromptRunner(BasePromptRunner):
             r.document_inputs.add(doc)
             r.save()
 
-            r = PromptResponse(
+            r2 = PromptResponse(
                 template_name=prompt.name,
                 template_version=prompt.version,
-                output_role='shortsummary',
+                output_role='shortsummary' + suffix,
                 result=results[1]['response'],
                 prompt_tokens=results[1]['prompt_tokens'],
                 completion_tokens=results[1]['completion_tokens']
             )
-            r.save()
-            r.document_inputs.add(doc)
-            r.save()
+            r2.save()
+            r2.document_inputs.add(doc)
+            r2.save()
+            return [r, r2]
         elif prompt.name == 'RFPExtractDetails':
-            self._deepdive_extract(doc, prompt, results)
+            return self._deepdive_extract(doc, prompt, results, suffix)
         else:
             # we'll have to break this apart as we get more special cases.
             role = {
-                'RFPExtractDetails': 'req_details',
                 'RFPSpecificDates': 'specific_dates',
                 'RFPLegal': 'legal_notes',
                 'RFPCertifications': 'certifications',
@@ -59,7 +60,7 @@ class RFPPromptRunner(BasePromptRunner):
             r = PromptResponse(
                 template_name=prompt.name,
                 template_version=prompt.version,
-                output_role=role,
+                output_role=role + suffix,
                 result=results[-1]['response'],
                 prompt_tokens=results[-1]['prompt_tokens'],
                 completion_tokens=results[-1]['completion_tokens']
@@ -67,9 +68,29 @@ class RFPPromptRunner(BasePromptRunner):
             r.save()
             r.document_inputs.add(doc)
             r.save()
+            return [r]
 
-    def _deepdive_extract(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
-        """Parse results, get more details, and produce a link from main table to the subset.
+    def _filter_chunks(self, prompt: Prompt, content_chunks: List[str]) -> List[str]:
+        if prompt.name == "RFPSummarizeAsk":
+            return content_chunks[:1]
+        return super()._filter_chunks(prompt, content_chunks)
+
+    def _deepdive_extract(self, doc : DocumentExtract, prompt : Prompt, results : List[str], suffix):
+        """
+        TODO: Parse results, get more details, and produce a link from main table to the subset.
         
         Each detail section is a PromptResponse of new type."""
-        pass
+
+        # for now, do boring thing.
+        r = PromptResponse(
+            template_name=prompt.name,
+            template_version=prompt.version,
+            output_role='req_details' + suffix,
+            result=results[-1]['response'],
+            prompt_tokens=results[-1]['prompt_tokens'],
+            completion_tokens=results[-1]['completion_tokens']
+        )
+        r.save()
+        r.document_inputs.add(doc)
+        r.save()
+        return [r]

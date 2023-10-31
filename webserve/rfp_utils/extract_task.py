@@ -7,6 +7,9 @@ from .gpt_extract_proposal import ProposalPromptRunner
 
 from typing import List
 
+import logging
+logger = logging.getLogger(__name__)
+
 @job
 def gpt_extract(raw_docextracts : List[int], doc_file_id):
     doc_file = DocumentFile.objects.get(id=doc_file_id)
@@ -25,7 +28,8 @@ def gpt_extract(raw_docextracts : List[int], doc_file_id):
     try:
         for raw_docextract in raw_docextracts:
             prompt_runner.execute(raw_docextract)
-    except:
+    except Exception as e:
+        logger.error(f"Error in gpt_extract: {e}")
         doc_file.processing_status = 'error'
         doc_file.save()
     else:

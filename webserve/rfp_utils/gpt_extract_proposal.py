@@ -14,8 +14,46 @@ class ProposalPromptRunner(BasePromptRunner):
     def _build_prompts(self):
         return build_prompts()
 
+    def _filter_chunks(self, prompt: Prompt, content_chunks: List[str]) -> List[str]:
+        if prompt.name == "ProposalSummarizeAsk":
+            return content_chunks[:1]
+        return super()._filter_chunks(prompt, content_chunks)
+
+    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
+        suffix = self.partial_suffix if len(results) > 1 else ''
+
+        if prompt.name == "ProposalSummarizeAsk":
+            r = PromptResponse(
+                template_name=prompt.name,
+                template_version=prompt.version,
+                output_role='longsummary' + suffix,
+                result=results[0]['response'],
+                prompt_tokens=results[0]['prompt_tokens'],
+                completion_tokens=results[0]['completion_tokens']
+            )
+            r.save()
+            r.document_inputs.add(doc)
+            r.save()
+            return [r]
+
+        elif prompt.name == 'ProposalKeyPeople':
+            r = PromptResponse(
+                template_name=prompt.name,
+                template_version=prompt.version,
+                output_role='peoplesummary' + suffix,
+                result=results[0]['response'],
+                prompt_tokens=results[0]['prompt_tokens'],
+                completion_tokens=results[0]['completion_tokens']
+            )
+            r.save()
+            r.document_inputs.add(doc)
+            r.save()
+            return [r]
+        else:
+            raise NotImplementedError(f"Unknown prompt {prompt.name}:{prompt.version}")
+
     def _process_results(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
-        if prompt.name == "ProposalSummarizeAsk" and prompt.version >= 2:
+        if prompt.name == "ProposalSummarizeAsk":
             r = PromptResponse(
                 template_name=prompt.name,
                 template_version=prompt.version,
@@ -42,3 +80,6 @@ class ProposalPromptRunner(BasePromptRunner):
             r.save()
             r.document_inputs.add(doc)
             r.save()
+
+        else:
+            raise NotImplementedError(f"Unknown prompt {prompt.name}:{prompt.version}")
