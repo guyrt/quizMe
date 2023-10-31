@@ -1,10 +1,14 @@
 from django.db import models
+import json
+import markdown
 from users.models import User
 from webserve.mixins import ModelBaseMixin
 
 from typing import Literal, Tuple, List
 
 from privateuploads.types import DocFormat
+
+from azurewrapper.rfp.extractedtext_handler import KMExtractedTextBlobHander
 
 
 ProjectTypes = Literal['RFP', 'PublicSEC']
@@ -93,3 +97,9 @@ class DocumentExtract(ModelBaseMixin):
     location_container = models.CharField(max_length=64)
     location_path = models.CharField(max_length=256)
 
+    def get_content(self) -> str:
+        raw_content = json.loads(KMExtractedTextBlobHander(self.location_container).get_path(self.location_path))
+        return " ".join(raw_content['content'])
+
+    def as_html(self):
+        return markdown.markdown(self.get_content(), extensions=['extra'])

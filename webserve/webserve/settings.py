@@ -55,6 +55,11 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'webstack': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
     },
 }
 

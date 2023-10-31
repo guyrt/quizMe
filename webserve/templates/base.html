@@ -17,10 +17,18 @@
         <div class="flex-shrink-0 p-3 bg-light h-100">
             <ul class="nav nav-pills flex-column mb-auto h-100">
                 <li class="nav-item">
-                    <a class="nav-link active" href="{% url 'rfp_list' %}">RFPs</a>
+                    <a class="nav-link
+                    {% if expected_type == 'rfp' %}
+                    active
+                    {% endif %}
+                    " 
+                    href="{% url 'rfp_list' %}">RFPs</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'proposal_list' %}">Responses</a>
+                    <a class="nav-link
+                    {% if expected_type == 'proposal' %}
+                    active
+                    {% endif %}" href="{% url 'proposal_list' %}">Responses</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="#">People</a>

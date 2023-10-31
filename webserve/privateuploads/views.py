@@ -3,7 +3,7 @@ from uuid import uuid4
 
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, View
 from django.views.generic.edit import FormView
@@ -17,6 +17,9 @@ from .forms import FileUploadForm
 from .models import DocumentCluster, RawUpload, DocumentFile, DocumentClusterRoleChoices
 
 from mltrack.models import PromptResponse
+
+import logging
+logger = logging.getLogger('webstack')
 
 
 class FileUploadView(FormView):
@@ -85,6 +88,15 @@ class RFPClusterListView(ListView):
     template_name = 'privateuploads/rfp_list.html'
     context_object_name = 'doc_cluster_list'
 
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
+        context = super().get_context_data(**kwargs)
+        doc_type = self.request.path.split('/')[-1]
+
+        logger.debug("Loading list from %s", doc_type)
+
+        context['expected_type'] = doc_type
+        return context
+
     def get_queryset(self):
         doc_type = self.request.path.split('/')[-1]
         return self.model.objects.filter(active=True).filter(document_role=doc_type)
@@ -145,3 +157,22 @@ class DocumentClusterReprocessView(View):
             doc.last_jobid = result.id
             doc.save()
         return JsonResponse({'message': f'Reprocessing {len(objs)} documents.'})
+
+
+class DocumentClusterRawView(DetailView):
+
+    model = DocumentCluster
+
+    def render_to_response(self, context, **response_kwargs):
+        my_object = self.get_object()
+        doc_file = my_object.documentfile_set.get()
+        extract = doc_file.documentextract_set.filter(active=1).get()
+        raw_text = extract.get_content()
+        response = self.get_response(raw_text, **response_kwargs)
+
+        return response
+
+    def get_response(self, raw_text, **response_kwargs):
+        response = HttpResponse(raw_text, content_type='text/plain')
+        response.status_code = 200
+        return response

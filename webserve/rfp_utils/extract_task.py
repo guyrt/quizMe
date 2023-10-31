@@ -29,7 +29,7 @@ def gpt_extract(raw_docextracts : List[int], doc_file_id):
         for raw_docextract in raw_docextracts:
             prompt_runner.execute(raw_docextract)
     except Exception as e:
-        logger.error("Error in gpt_extract: %s", e)
+        logger.error("Error in gpt_extract: %s", str(e))
         doc_file.processing_status = 'error'
         doc_file.save()
     else:

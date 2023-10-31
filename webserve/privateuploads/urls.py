@@ -8,4 +8,5 @@ urlpatterns = [
     path('<int:pk>', views.DocumentClusterDetailView.as_view(), name='doc_cluster_detail'),
     path('<int:pk>/delete', views.DocumentClusterDeleteView.as_view(), name='doc_cluster_delete'),
     path('<int:pk>/reprocess', views.DocumentClusterReprocessView.as_view(), name='doc_cluster_reprocess'),
+    path('<int:pk>/raw', views.DocumentClusterRawView.as_view(), name='doc_cluster_raw'),
 ]
