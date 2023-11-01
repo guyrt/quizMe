@@ -49,6 +49,19 @@ class ProposalPromptRunner(BasePromptRunner):
             r.document_inputs.add(doc)
             r.save()
             return [r]
+        elif prompt.name == 'ProposalQuestions':
+            r = PromptResponse(
+                template_name=prompt.name,
+                template_version=prompt.version,
+                output_role='proposalquestions' + suffix,
+                result=results[0]['response'],
+                prompt_tokens=results[0]['prompt_tokens'],
+                completion_tokens=results[0]['completion_tokens']
+            )
+            r.save()
+            r.document_inputs.add(doc)
+            r.save()
+            return [r]
         else:
             raise NotImplementedError(f"Unknown prompt {prompt.name}:{prompt.version}")
 
@@ -80,6 +93,18 @@ class ProposalPromptRunner(BasePromptRunner):
             r.save()
             r.document_inputs.add(doc)
             r.save()
-
+        elif prompt.name == 'ProposalQuestions':
+            r = PromptResponse(
+                template_name=prompt.name,
+                template_version=prompt.version,
+                output_role='proposalquestions',
+                result=results[0]['response'],
+                prompt_tokens=results[0]['prompt_tokens'],
+                completion_tokens=results[0]['completion_tokens']
+            )
+            r.save()
+            r.document_inputs.add(doc)
+            r.save()
+            return [r]
         else:
             raise NotImplementedError(f"Unknown prompt {prompt.name}:{prompt.version}")

@@ -167,7 +167,7 @@ class DocumentClusterRawView(DetailView):
         my_object = self.get_object()
         doc_file = my_object.documentfile_set.get()
         extract = doc_file.documentextract_set.filter(active=1).get()
-        raw_text = extract.get_content()
+        raw_text = extract.get_clean_content()
         response = self.get_response(raw_text, **response_kwargs)
 
         return response

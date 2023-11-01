@@ -9,9 +9,9 @@ _base_prompt = """User input is a set of outputs from some other system. They al
 Inputs will start wtih a line that says [newinput]. Unique inputs will be separated by a line that says [newinput]
 
 Your job is to create a single output that contains *all* of the content from *all* of the inputs.
-If there is redundant information in the inputs, merge the content. You should retain all information.
-Where possible, prefer to copy content verbatim from the input rather than rephrase. The exception is if you
-are merging reundant information.
+This is how you should perform your task:
+You can decide to copy a line or merge two lines IF the lines come from different files and cover the exact same content.
+You must coyp all lines from all inputs to the output UNLESS you opted to merge the lines.
 It is more important to return all information in all inputs than to rephrase or merge inputs.
 """
 

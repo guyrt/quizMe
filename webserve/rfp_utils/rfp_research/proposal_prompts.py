@@ -29,10 +29,21 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
         name='ProposalKeyPeople',
         content=[
             PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""This proposal lists key people who will work on the contract if the bid is successful. 
-List each person. Your response should have exactly two lines. The first line should be the name and nothing else. 
-The second line should list the person's role in the project and key skills. 
+            PromptCell(role='user', content="""This proposal lists people who will or who might work on the contract if the bid is successful. 
+List each person on a new line. Your response should have exactly two lines per person. The first line should be the name and nothing else. 
+The second line should list the person's role in the project and key skills.
 All people who work on this contract including vendors should be listed.
+                       """.strip())
+        ],
+        version=1
+    )
+
+    _extract_questions = Prompt(
+        name='ProposalQuestions',
+        content=[
+            PromptCell(role='system', content=_default_system_instruction),
+            PromptCell(role='user', content="""This proposal lists many questions with their answers. Extract all questions and print one question on each line.
+Do not make up questions: you should only quote every question from the document. Be sure to list every question that is asked AND ANSWERED in the doc.
                        """.strip())
         ],
         version=1
@@ -40,5 +51,6 @@ All people who work on this contract including vendors should be listed.
 
     return [
         _summarize_ask,
-        _extract_people
+        _extract_people,
+        _extract_questions
     ]

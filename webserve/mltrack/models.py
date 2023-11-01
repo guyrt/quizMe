@@ -15,7 +15,8 @@ ModelOutputRoles = [
     ('expertise', 'expertise'),
     ('vendors', 'vendors'),
     ('suggested_questions', 'suggested_questions'),
-    ('peoplesummary', 'peoplesummary')
+    ('peoplesummary', 'peoplesummary'),
+    ('proposalquestions', 'proposalquestions')
 ]
 
 # Create your models here.

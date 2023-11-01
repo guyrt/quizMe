@@ -64,10 +64,19 @@
                 <p>People Processing....</p>
             {% endif %}
 
+            {% if 'proposalquestions' in prompts %}
+                <p>People:</p>
+                <p>{{ prompts.proposalquestions.as_html | safe }}</p>
+            {% else %}
+                <p>Questions Processing....</p>
+            {% endif %}
+            
+
+
         {% empty %}
             <p>No extracts available</p>
         {% endfor %}
-        <button id="js-reprocess">Reprocess everything</button>
+        <button id="js-reprocess" class="btn btn-primary">Reprocess everything</button>
     </div>
     </main>
 {% endblock %}

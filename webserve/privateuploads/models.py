@@ -98,7 +98,10 @@ class DocumentExtract(ModelBaseMixin):
     location_path = models.CharField(max_length=256)
 
     def get_content(self) -> str:
-        raw_content = json.loads(KMExtractedTextBlobHander(self.location_container).get_path(self.location_path))
+        return KMExtractedTextBlobHander(self.location_container).get_path(self.location_path)
+        
+    def get_clean_content(self):
+        raw_content = json.loads(self.get_content())
         return " ".join(raw_content['content'])
 
     def as_html(self):
