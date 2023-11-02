@@ -1,6 +1,9 @@
-import pypdf
+from io import StringIO
+from bs4 import BeautifulSoup
 
-from typing import List
+import pypdf
+from pdfminer.high_level import extract_text
+
 
 class PdfParser:
 
@@ -12,3 +15,24 @@ class PdfParser:
             'content': text,
             'format': 'list_str'
         }
+
+
+class PdfHtmlParser:
+
+    def extract_text(self, file_like):
+        output = StringIO()
+        extract_text(file_like, output, output_type='html')
+        output.seek(0)
+
+        return {
+            'content': output.read(),
+            'format': 'html'
+        }
+
+    def parse_to_dom(self, pdf_text : str) -> BeautifulSoup:
+        return BeautifulSoup(pdf_text, 'xml')
+    
+    def clean_xml(self, dom : BeautifulSoup) -> str:
+        """run a visitor to clean the dom."""
+        pass
+    

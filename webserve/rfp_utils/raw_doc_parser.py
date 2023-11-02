@@ -4,11 +4,11 @@ from django_rq import job, enqueue
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
 from azurewrapper.rfp.extractedtext_handler import KMExtractedTextBlobHander
 from privateuploads.models import DocumentFile, DocumentExtract
-from rfp_utils.pdf_parser import PdfParser
+from rfp_utils.pdf_parser import PdfHtmlParser
 from rfp_utils.extract_task import gpt_extract
 
 
-class RFPDocumentExtract:
+class KBDocumentExtract:
 
     def __init__(self) -> None:
         pass
@@ -36,7 +36,7 @@ class RFPDocumentExtract:
 
     def _extract_pdf(self, raw_obj : DocumentFile) -> DocumentExtract:
         content = KMRawBlobHander().get_path_pdf(raw_obj.location_path) # note this may need to change for other types.
-        text_content = PdfParser().extract_text(content)
+        text_content = PdfHtmlParser().extract_text(content)
         raw_content = json.dumps(text_content)
         upload_path = f"{raw_obj.location_path}.extract.txt"
         container, blob_path = KMExtractedTextBlobHander().upload(raw_content, upload_path)
@@ -52,4 +52,4 @@ class RFPDocumentExtract:
 @job
 def execute_doc_parse(raw_doc_id : int):
     """This is our queued request."""
-    RFPDocumentExtract().parse(raw_doc_id)
+    KBDocumentExtract().parse(raw_doc_id)
