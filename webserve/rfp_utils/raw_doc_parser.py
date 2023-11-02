@@ -36,9 +36,11 @@ class KBDocumentExtract:
 
     def _extract_pdf(self, raw_obj : DocumentFile) -> DocumentExtract:
         content = KMRawBlobHander().get_path_pdf(raw_obj.location_path) # note this may need to change for other types.
-        text_content = PdfHtmlParser().extract_text(content)
+        parser = PdfHtmlParser()
+        text_content = parser.extract_text(content)
+
         raw_content = json.dumps(text_content)
-        upload_path = f"{raw_obj.location_path}.extract.txt"
+        upload_path = f"{raw_obj.location_path}.extract.html"
         container, blob_path = KMExtractedTextBlobHander().upload(raw_content, upload_path)
 
         d = DocumentExtract(

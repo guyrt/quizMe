@@ -28,5 +28,8 @@ rq
 django-rq
 django-cors-headers
 
+markdown
+pdfminer.six
+
 # debugging
 ipdb

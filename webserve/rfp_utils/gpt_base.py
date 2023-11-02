@@ -1,4 +1,5 @@
 import json
+from bs4 import BeautifulSoup
 from dataclasses import asdict, replace
 
 from privateuploads.models import DocumentExtract
@@ -58,6 +59,10 @@ class BasePromptRunner:
         format = payload.get('format')
         if format == 'list_str':
             return ' '.join(payload['content'])
+        if format == 'html':
+            dom = BeautifulSoup(payload['content'], 'xml')
+            return dom.get_text()  # for now... need a proper parser upstream.
+
         raise ValueError(f"Unepected doc format {format}")
 
     def _group_chunks(self, raw_results : List[PromptResponse]):
