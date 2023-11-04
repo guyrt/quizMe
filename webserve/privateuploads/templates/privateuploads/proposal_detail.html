@@ -44,7 +44,7 @@
     </header>
     <main>
         <div class="content">
-            <a href="#">Original document</a>
+            <a href="#">Original document</a> <!-- use https://github.com/coolwanglu/pdf2htmlEX -->
             <a href="{% url 'doc_cluster_raw' doc_cluster.id %}">Text Extraction details</a>
         <h2>List of Documents:</h2>
         {% for extract in doc_cluster.documentfile_set.all %}
@@ -65,7 +65,7 @@
             {% endif %}
 
             {% if 'proposalquestions' in prompts %}
-                <p>People:</p>
+                <p>Questions:</p>
                 <p>{{ prompts.proposalquestions.as_html | safe }}</p>
             {% else %}
                 <p>Questions Processing....</p>

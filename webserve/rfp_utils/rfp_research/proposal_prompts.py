@@ -43,8 +43,7 @@ All people who work on this contract including vendors should be listed.
         content=[
             PromptCell(role='system', content=_default_system_instruction),
             PromptCell(role='user', content="""This proposal lists many questions with their answers. Extract all questions and print one question on each line.
-Do not make up questions: you should only quote every question from the document. Be sure to list every question that is asked AND ANSWERED in the doc.
-                       """.strip())
+Do not make up questions: you should only quote every question from the document. Be sure to list every question that is asked AND ANSWERED in the doc.""".strip())
         ],
         version=1
     )

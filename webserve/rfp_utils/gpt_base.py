@@ -2,6 +2,8 @@ import json
 from bs4 import BeautifulSoup
 from dataclasses import asdict, replace
 
+import markdown
+
 from privateuploads.models import DocumentExtract
 
 from azurewrapper.openai_client import OpenAIClient
@@ -21,13 +23,12 @@ logger = logging.getLogger('rqwork')
 
 class BasePromptRunner:
 
-    partial_suffix = '_partial'
-
     def __init__(self) -> None:
         self._oai = OpenAIClient(engine='GPT-4-32K-0314', temp=0.9)  # todo make this a setting....
         self._splitter = LargeDocSplitter(self._oai)
         logger.info("BasePromptRunner init")
         self._gate = Gate(1)
+        self.partial_suffix = '_partial'
 
     def execute(self, doc_extract_id : int):
         doc = DocumentExtract.objects.get(id=doc_extract_id)
@@ -58,7 +59,7 @@ class BasePromptRunner:
             return " ".join(payload)
         format = payload.get('format')
         if format == 'list_str':
-            return ' '.join(payload['content'])
+            return markdown.markdown(''.join(payload['content']), extensions=['extra'])
         if format == 'html':
             dom = BeautifulSoup(payload['content'], 'xml')
             return dom.get_text()  # for now... need a proper parser upstream.

@@ -32,13 +32,18 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
         name='RFPExtractDetails',
         content=[
             PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""The RFP describes many requirements in my submission to show that I am able to take this business. I am planning to bid on this RFP. List all requirements I need to fill in the document. Use a table with two columns. First column is a requirement. Second column is an attribution. Attributions should list document sections. Be thorough and list all requirements.""")
+            PromptCell(role='user', content="""The RFP describes many requirements and questions in my submission to show that I am able to take this business.
+I am planning to bid on this RFP. List all requirements I need to fill in the document. Also list all of the questions that I need to answer. Use a table with two columns:
+First column is a requirement. 
+Second column is an attribution section in the document.
+                       
+Attributions should list document sections. Be thorough and list all requirements and all questions.""")
         ],
         continuations=[
-            PromptCell(role='user', content="Are there any more? Don't repeat previous answers. Use the same format."),
-            PromptCell(role='user', content="Are there any more? Don't repeat previous answers. Use the same format."),
-            PromptCell(role='user', content="Are there any more? Don't repeat previous answers. Use the same format."),
-            PromptCell(role='user', content="Create a single table from all of your answers so far. Combine any duplicted requirements. Sometimes, previous answers may not be accurate requirements. In that case, you should remove them.")
+            PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
+            PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
+            PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
+            PromptCell(role='user', content="Create a single table from all of your answers so far. Combine any duplicted requirements or questions. Sometimes, previous answers may not be accurate requirements. In that case, you should remove them.")
         ],
         version=1
     )

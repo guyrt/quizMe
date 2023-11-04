@@ -167,12 +167,12 @@ class DocumentClusterRawView(DetailView):
         my_object = self.get_object()
         doc_file = my_object.documentfile_set.get()
         extract = doc_file.documentextract_set.filter(active=1).get()
-        raw_text = extract.get_clean_content()
+        raw_text = extract.as_html()
         response = self.get_response(raw_text, **response_kwargs)
 
         return response
 
     def get_response(self, raw_text, **response_kwargs):
-        response = HttpResponse(raw_text, content_type='text/plain')
+        response = HttpResponse(raw_text, content_type='text/html')
         response.status_code = 200
         return response

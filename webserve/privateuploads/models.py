@@ -102,7 +102,10 @@ class DocumentExtract(ModelBaseMixin):
         
     def get_clean_content(self):
         raw_content = json.loads(self.get_content())
-        return " ".join(raw_content['content'])
+        return raw_content['content']
 
     def as_html(self):
-        return markdown.markdown(self.get_content(), extensions=['extra'])
+        c = json.loads(self.get_content())
+        if c['format'] == 'html':
+            return c['content']
+        return markdown.markdown(''.join(c['content']), extensions=['extra'])

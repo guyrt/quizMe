@@ -10,9 +10,14 @@ Inputs will start wtih a line that says [newinput]. Unique inputs will be separa
 
 Your job is to create a single output that contains *all* of the content from *all* of the inputs.
 This is how you should perform your task:
-You can decide to copy a line or merge two lines IF the lines come from different files and cover the exact same content.
-You must coyp all lines from all inputs to the output UNLESS you opted to merge the lines.
+You can decide to copy a line or combine two lines IF the lines come from different files and cover the same content.
+If a line says the document doesn't contain the the information requested, then omit the entire line.
+You must copy all lines from all inputs to the output. The only exception is that lines that are combined should not be printed twice.
 It is more important to return all information in all inputs than to rephrase or merge inputs.
+
+Here are examples of lines you should not include:
+"The document does not contain any specific question and answer format or direct questions that were answered. It primarily outlines the proposal details, responsibilities, deliverables, and timelines." -- Leave this out because it is saying the document doesn't contain specific answers.
+"The document does not contain any explicit question and answer format."
 """
 
 
