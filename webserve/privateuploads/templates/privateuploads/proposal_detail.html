@@ -51,32 +51,40 @@
             <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
 
             {% if 'longsummary' in prompts %}
-                <p>Longer Summary:</p>
+                <h3>Longer Summary:</h3>
                 <p>{{ prompts.longsummary.as_html | safe }}</p>
             {% else %}
                 <p>Processing....</p>
             {% endif %}
 
             {% if 'peoplesummary' in prompts %}
-                <p>People:</p>
+                <h3>People:</h3>
                 <p>{{ prompts.peoplesummary.as_html | safe }}</p>
             {% else %}
                 <p>People Processing....</p>
             {% endif %}
 
             {% if 'proposalquestions' in prompts %}
-                <p>Questions:</p>
+                <h3>Questions:</h3>
                 <p>{{ prompts.proposalquestions.as_html | safe }}</p>
             {% else %}
                 <p>Questions Processing....</p>
             {% endif %}
-            
-
 
         {% empty %}
             <p>No extracts available</p>
         {% endfor %}
+
+        <div>All Values:</div>
+
         <button id="js-reprocess" class="btn btn-primary">Reprocess everything</button>
+
+        {% for prompt in all_prompts %}
+            <h3>{{ prompt.output_role }}</h3>
+            <p>ID: {{ prompt.id }}</p>
+            <p>{{ prompt.as_html | safe }}</p>
+        {% endfor %}
+
     </div>
     </main>
 {% endblock %}

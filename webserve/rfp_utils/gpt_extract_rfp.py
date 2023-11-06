@@ -18,8 +18,8 @@ class RFPPromptRunner(BasePromptRunner):
     def _build_prompts(self):
         return build_prompts()
 
-    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
-        suffix = self.partial_suffix if len(results) > 1 else ''
+    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str], num_chunks : int):
+        suffix = self.partial_suffix if num_chunks > 1 else ''
         
         logger.info("Processing chunk for %s@%s", prompt.name, prompt.version)
 
