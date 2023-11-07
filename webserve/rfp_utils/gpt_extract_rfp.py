@@ -61,13 +61,16 @@ class RFPPromptRunner(BasePromptRunner):
                 'RFPQA': 'suggested_questions'
             }[prompt.name]
 
+            total_prompt_tokens = sum([int(d['prompt_tokens']) for d in results])
+            total_completion_tokens = sum([int(d['completion_tokens']) for d in results])
+
             r = PromptResponse(
                 template_name=prompt.name,
                 template_version=prompt.version,
                 output_role=role + suffix,
                 result=results[-1]['response'],
-                prompt_tokens=results[-1]['prompt_tokens'],
-                completion_tokens=results[-1]['completion_tokens']
+                prompt_tokens=total_prompt_tokens,
+                completion_tokens=total_completion_tokens
             )
             r.save()
             r.document_inputs.add(doc)
@@ -85,14 +88,17 @@ class RFPPromptRunner(BasePromptRunner):
         
         Each detail section is a PromptResponse of new type."""
 
+        total_prompt_tokens = sum([int(d['prompt_tokens']) for d in results])
+        total_completion_tokens = sum([int(d['completion_tokens']) for d in results])
+
         # for now, do boring thing.
         r = PromptResponse(
             template_name=prompt.name,
             template_version=prompt.version,
             output_role='req_details' + suffix,
             result=results[-1]['response'],
-            prompt_tokens=results[-1]['prompt_tokens'],
-            completion_tokens=results[-1]['completion_tokens']
+            prompt_tokens=total_prompt_tokens,
+            completion_tokens=total_completion_tokens
         )
         r.save()
         r.document_inputs.add(doc)
