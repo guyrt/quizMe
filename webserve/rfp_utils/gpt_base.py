@@ -43,7 +43,11 @@ class BasePromptRunner:
             raw_result_list = []
             for chunk in filtered_chunks:
                 raw_results = self._run_prompt_on_chunk(prompt, chunk)  # run on chunk no side effect
-                raw_parsed_results = self._process_single_result(doc, prompt, raw_results)  # save sub prompts
+                raw_parsed_results = self._process_single_result(doc, prompt, raw_results, len(content_chunks))  # save sub prompts
+
+                for rpr in raw_parsed_results:
+                    logger.info(f"Created PromptResponse {rpr.id} from {rpr.template_name}@{rpr.template_version} on DocumentExtract {rpr.document_inputs.all()[0].id}")
+
                 raw_result_list.extend(raw_parsed_results)
             chunk_groups = self._group_chunks(raw_result_list)
             for g in chunk_groups.values():
@@ -101,7 +105,7 @@ class BasePromptRunner:
             r.document_inputs.add(doc)
             r.save()
 
-    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
+    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str], num_chunks : int):
         """Handle results - rely on versions to differentiate logic where necessary.
         
         These shoul

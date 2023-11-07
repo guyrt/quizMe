@@ -125,12 +125,13 @@ class DocumentClusterDetailView(DetailView):
         prompts = list(PromptResponse.objects.filter(document_inputs__docfile__document=self.object).filter(document_inputs__active=1))
 
         # Add additional context data
-        prompts = {
+        prompts_d = {
             p.output_role: p
             for p in prompts
         }
 
-        context['prompts'] = prompts
+        context['prompts'] = prompts_d
+        context['all_prompts'] = prompts
         return context
 
 

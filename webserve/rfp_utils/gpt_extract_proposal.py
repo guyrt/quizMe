@@ -19,8 +19,8 @@ class ProposalPromptRunner(BasePromptRunner):
             return content_chunks[:1]
         return super()._filter_chunks(prompt, content_chunks)
 
-    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str]):
-        suffix = self.partial_suffix if len(results) > 1 else ''
+    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str], num_chunks : int):
+        suffix = self.partial_suffix if num_chunks > 1 else ''
 
         if prompt.name == "ProposalSummarizeAsk":
             r = PromptResponse(

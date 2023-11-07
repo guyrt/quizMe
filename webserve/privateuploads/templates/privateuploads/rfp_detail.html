@@ -89,6 +89,12 @@
             <p>No extracts available</p>
         {% endfor %}
         <button id="js-reprocess" class="btn btn-primary">Reprocess everything</button>
+
+
+        {% for key, value in prompts.items %}
+        <p>{{ key }}</p>
+        <p>{{ value }}</p>
+        {% endfor %}
     </div>
     </main>
 {% endblock %}
