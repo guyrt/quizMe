@@ -34,5 +34,8 @@ class PromptResponse(ModelBaseMixin):
     prompt_tokens = models.IntegerField(default=0)
     completion_tokens = models.IntegerField(default=0)
 
+    model_service = models.TextField()
+    model_name = models.TextField()
+
     def as_html(self):
         return markdown.markdown(self.result, extensions=['extra'])

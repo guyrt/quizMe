@@ -30,7 +30,9 @@ class RFPPromptRunner(BasePromptRunner):
                 output_role='longsummary' + suffix,
                 result=results[0]['response'],
                 prompt_tokens=results[0]['prompt_tokens'],
-                completion_tokens=results[0]['completion_tokens']
+                completion_tokens=results[0]['completion_tokens'],
+                model_service=self._oai.api_type,
+                model_name=self._oai.engine
             )
             r.save()
             r.document_inputs.add(doc)
@@ -42,7 +44,9 @@ class RFPPromptRunner(BasePromptRunner):
                 output_role='shortsummary' + suffix,
                 result=results[1]['response'],
                 prompt_tokens=results[1]['prompt_tokens'],
-                completion_tokens=results[1]['completion_tokens']
+                completion_tokens=results[1]['completion_tokens'],
+                model_service=self._oai.api_type,
+                model_name=self._oai.engine
             )
             r2.save()
             r2.document_inputs.add(doc)
@@ -70,7 +74,9 @@ class RFPPromptRunner(BasePromptRunner):
                 output_role=role + suffix,
                 result=results[-1]['response'],
                 prompt_tokens=total_prompt_tokens,
-                completion_tokens=total_completion_tokens
+                completion_tokens=total_completion_tokens,
+                model_service=self._oai.api_type,
+                model_name=self._oai.engine
             )
             r.save()
             r.document_inputs.add(doc)
@@ -98,7 +104,9 @@ class RFPPromptRunner(BasePromptRunner):
             output_role='req_details' + suffix,
             result=results[-1]['response'],
             prompt_tokens=total_prompt_tokens,
-            completion_tokens=total_completion_tokens
+            completion_tokens=total_completion_tokens,
+            model_service=self._oai.api_type,
+            model_name=self._oai.engine
         )
         r.save()
         r.document_inputs.add(doc)

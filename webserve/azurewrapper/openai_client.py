@@ -14,11 +14,13 @@ logger = logging.getLogger('rqwork')
 class OpenAIClient:
 
     def __init__(self, temp=0.7, engine="chatGPT_GPT35-turbo-0301", encoding='cl100k_base', gate=None) -> None:
-        openai.api_type = "azure"
+        self.api_type = "azure"
+        self.engine = engine
+
+        openai.api_type = self.api_type
         openai.api_base = os.getenv("OPENAI_BASE")
         openai.api_version = os.getenv("OPENAI_API_APIVERSION")
         openai.api_key = os.getenv("OPENAI_API_KEY")
-        self._engine = engine
         self._temp = temp
         self._encoding = encoding
         self.max_doc_tokens = 12000  # 16824 total for gpt16k
@@ -33,7 +35,7 @@ class OpenAIClient:
         while sleep_amt <= 240:
             try:
                 response = openai.ChatCompletion.create(
-                    engine=self._engine,
+                    engine=self.engine,
                     messages=messages,
                     temperature=temp or self._temp,
                     

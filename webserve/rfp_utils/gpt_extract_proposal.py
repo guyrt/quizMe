@@ -29,7 +29,9 @@ class ProposalPromptRunner(BasePromptRunner):
                 output_role='longsummary' + suffix,
                 result=results[0]['response'],
                 prompt_tokens=results[0]['prompt_tokens'],
-                completion_tokens=results[0]['completion_tokens']
+                completion_tokens=results[0]['completion_tokens'],
+                model_service=self._oai.api_type,
+                model_name=self._oai.engine
             )
             r.save()
             r.document_inputs.add(doc)
@@ -43,7 +45,9 @@ class ProposalPromptRunner(BasePromptRunner):
                 output_role='peoplesummary' + suffix,
                 result=results[0]['response'],
                 prompt_tokens=results[0]['prompt_tokens'],
-                completion_tokens=results[0]['completion_tokens']
+                completion_tokens=results[0]['completion_tokens'],
+                model_service=self._oai.api_type,
+                model_name=self._oai.engine
             )
             r.save()
             r.document_inputs.add(doc)
@@ -56,7 +60,9 @@ class ProposalPromptRunner(BasePromptRunner):
                 output_role='proposalquestions' + suffix,
                 result=results[0]['response'],
                 prompt_tokens=results[0]['prompt_tokens'],
-                completion_tokens=results[0]['completion_tokens']
+                completion_tokens=results[0]['completion_tokens'],
+                model_service=self._oai.api_type,
+                model_name=self._oai.engine
             )
             r.save()
             r.document_inputs.add(doc)

@@ -99,7 +99,9 @@ class BasePromptRunner:
                 output_role=new_role,
                 result=raw_response['response'],
                 prompt_tokens=raw_response['prompt_tokens'],
-                completion_tokens=raw_response['completion_tokens']
+                completion_tokens=raw_response['completion_tokens'],
+                model_service=self._oai.api_type,
+                model_name=self._oai.engine
             )
             r.save()
             r.document_inputs.add(doc)
