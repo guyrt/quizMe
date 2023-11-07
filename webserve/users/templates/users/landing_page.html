@@ -1,47 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>You are about to save a fortune.</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
-            text-align: center;
-        }
-        .container {
-            max-width: 400px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #fff;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
-            color: #007bff;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-        }
-        input[type="text"],
-        input[type="password"] {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-        }
-        .alert {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 10px;
-            border: 1px solid #f5c6cb;
-            border-radius: 5px;
-        }
-    </style>
-</head>
+{% extends "base.html" %}
+
+{% block title %}
+You are about to save a fortune.
+{% endblock %}
+
+{% block maincontent %}
 <body>
     <div class="container">
         {% if user.is_authenticated %}
@@ -80,4 +43,5 @@
         {% endif %}
     </div>
 </body>
-</html>
+{% endblock %}
+

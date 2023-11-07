@@ -1,28 +1,29 @@
+import logging
 from typing import Any
 from uuid import uuid4
 
+from django.db import models
+
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.http import HttpResponseRedirect, HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, View
 from django.views.generic.edit import FormView
 from django_rq import enqueue
-
+from mltrack.models import PromptResponse
 from privateuploads.doc_parser import RawDocParser
-
 from rfp_utils.raw_doc_parser import execute_doc_parse
 
 from .forms import FileUploadForm
-from .models import DocumentCluster, RawUpload, DocumentFile, DocumentClusterRoleChoices
+from .models import (DocumentCluster, DocumentClusterRoleChoices, DocumentFile,
+                     RawUpload)
 
-from mltrack.models import PromptResponse
-
-import logging
 logger = logging.getLogger('webstack')
 
 
-class FileUploadView(FormView):
+class FileUploadView(LoginRequiredMixin, FormView):
     form_class = FileUploadForm  # Define your custom form class
     template_name = 'privateuploads/upload_file.html'  # Template for the form
 
@@ -82,7 +83,7 @@ class FileUploadView(FormView):
         raise ValueError(f"Unexpected type {raw_type}")
 
 
-class RFPClusterListView(ListView):
+class RFPClusterListView(LoginRequiredMixin, ListView):
     """todo - list all docs uploaded with 'analyze' buttons"""
     model = DocumentCluster  # Specify the model
     template_name = 'privateuploads/rfp_list.html'
@@ -99,10 +100,10 @@ class RFPClusterListView(ListView):
 
     def get_queryset(self):
         doc_type = self.request.path.split('/')[-1]
-        return self.model.objects.filter(active=True).filter(document_role=doc_type)
+        return self.model.objects.filter(owner=self.request.user).filter(active=True).filter(document_role=doc_type)
 
 
-class DocumentClusterDetailView(DetailView):
+class DocumentClusterDetailView(LoginRequiredMixin, DetailView):
     """todo - list a single doc. show either 'processing' or show latest results"""
     model = DocumentCluster  # Specify the model
     context_object_name = 'doc_cluster'
@@ -116,7 +117,7 @@ class DocumentClusterDetailView(DetailView):
 
     def get_queryset(self):
         # Filter the objects to include only those marked as "active" to prevent pulling others.
-        return self.model.objects.filter(active=True)
+        return super().get_queryset().filter(owner=self.request.user).filter(active=True)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -135,12 +136,15 @@ class DocumentClusterDetailView(DetailView):
         return context
 
 
-class DocumentClusterDeleteView(DeleteView):
+class DocumentClusterDeleteView(LoginRequiredMixin, DeleteView):
     model = DocumentCluster  # Specify the model
     template_name = 'privateuploads/documentcluster_confirm_delete.html'  # Specify the template for confirmation
     
     # todo - fix
     success_url = reverse_lazy('doc_cluster_list')  # Redirect after deletion
+
+    def get_queryset(self):
+        super().get_queryset().filter(owner=self.request.user)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
@@ -149,7 +153,7 @@ class DocumentClusterDeleteView(DeleteView):
         return super(DocumentClusterDeleteView, self).delete(request, *args, **kwargs)
 
 
-class DocumentClusterReprocessView(View):
+class DocumentClusterReprocessView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
         objs = DocumentFile.objects.filter(active=True).filter(document__id=pk)
@@ -160,7 +164,7 @@ class DocumentClusterReprocessView(View):
         return JsonResponse({'message': f'Reprocessing {len(objs)} documents.'})
 
 
-class DocumentClusterRawView(DetailView):
+class DocumentClusterRawView(LoginRequiredMixin, DetailView):
 
     model = DocumentCluster
 

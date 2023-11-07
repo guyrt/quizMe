@@ -16,32 +16,34 @@
         <!-- Left Navigation Panel -->
         <div class="flex-shrink-0 p-3 bg-light h-100">
             <ul class="nav nav-pills flex-column mb-auto h-100">
-                <li class="nav-item">
-                    <a class="nav-link
-                    {% if expected_type == 'rfp' %}
-                    active
-                    {% endif %}
-                    " 
-                    href="{% url 'rfp_list' %}">RFPs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link
-                    {% if expected_type == 'proposal' %}
-                    active
-                    {% endif %}" href="{% url 'proposal_list' %}">Responses</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">People</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Response Templates</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Content Templates</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Customer Intelligence</a>
-                </li>
+                {% block leftnavcontent %}
+                    <li class="nav-item">
+                        <a class="nav-link
+                        {% if expected_type == 'rfp' %}
+                        active
+                        {% endif %}
+                        " 
+                        href="{% url 'rfp_list' %}">RFPs</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link
+                        {% if expected_type == 'proposal' %}
+                        active
+                        {% endif %}" href="{% url 'proposal_list' %}">Proposals</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">People</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Response Templates</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Content Templates</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Customer Intelligence</a>
+                    </li>
+                {% endblock %}
             </ul>
         </div>
         <!-- Main Content Section -->

@@ -38,6 +38,13 @@
 </script>
 {% endblock %}
 
+{% block leftnavcontent %}
+<li class="nav-item">
+    <a class="nav-link active" 
+    href="{% url 'rfp_list' %}">RFPs</a>
+</li>
+{% endblock %}
+
 {% block maincontent %}
     <header>
         <h1>{{ doc_cluster.get_title }}</h1>
