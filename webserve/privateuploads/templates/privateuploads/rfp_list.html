@@ -9,7 +9,7 @@ Your RFPs
     <h1>Your {{ expected_type }}</h1>
 </header>
 <main>
-    <div><a href="{% url 'upload_file' %}">Upload a new document</a></div>
+    <div><a href="{% url 'upload_file' %}?type={{expected_type}}">Upload a new document</a></div>
     <hr/>
 
     <ul>

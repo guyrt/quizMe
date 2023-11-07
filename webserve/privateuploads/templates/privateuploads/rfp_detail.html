@@ -51,38 +51,30 @@
             <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
 
             {% if 'shortsummary' in prompts %}
-                <p>Summary:</p>
+                <h3>Summary:</h3>
                 <p>{{ prompts.shortsummary.as_html | safe }}</p>
             {% else %}
                 <p>Processing....</p>
             {% endif %}
 
             {% if 'longsummary' in prompts %}
-                <p>Longer Summary:</p>
+                <h3>Longer Summary:</h3>
                 <p>{{ prompts.longsummary.as_html | safe }}</p>
-            {% else %}
-                <p>Processing....</p>
             {% endif %}
 
             {% if 'specific_dates' in prompts %}
-                <p>Specific Dates:</p>
+                <h3>Specific Dates:</h3>
                 <p>{{ prompts.specific_dates.as_html | safe }}</p>
-            {% else %}
-                <p>Processing....</p>
             {% endif %}
 
             {% if 'expertise' in prompts %}
-                <p>Expertise required:</p>
+                <h3>Expertise required:</h3>
                 {{ prompts.expertise.as_html | safe }}
-            {% else %}
-                <p>Processing....</p>
             {% endif %}
 
             {% if 'req_details' in prompts %}
-                <p>Key Requirements:</p>
+                <h3>Key Requirements:</h3>
                 {{ prompts.req_details.as_html | safe }}
-            {% else %}
-                <p>Processing....</p>
             {% endif %}
 
         {% empty %}
@@ -90,10 +82,10 @@
         {% endfor %}
         <button id="js-reprocess" class="btn btn-primary">Reprocess everything</button>
 
-
-        {% for key, value in prompts.items %}
-        <p>{{ key }}</p>
-        <p>{{ value }}</p>
+        {% for prompt in all_prompts %}
+            <h3>{{ prompt.output_role }}</h3>
+            <p>ID: {{ prompt.id }}</p>
+            <p>{{ prompt.as_html | safe }}</p>
         {% endfor %}
     </div>
     </main>
