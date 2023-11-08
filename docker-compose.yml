@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  web:
+    build: .
+    working_dir: /app/webserve
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
+  worker:
+    build: .
+    working_dir: /app/webserve
+    command: python manage.py rqworker
+    volumes:
+      - .:/app
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
