@@ -51,12 +51,12 @@ LOGGING = {
     },
     'loggers': {
         'rqwork': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },
         'webstack': {
-            'handlers': ['file'],
+            'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },
