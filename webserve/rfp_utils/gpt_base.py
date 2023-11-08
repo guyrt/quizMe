@@ -24,7 +24,7 @@ logger = logging.getLogger('rqwork')
 class BasePromptRunner:
 
     def __init__(self) -> None:
-        self._oai = OpenAIClient(engine='GPT-4-32K-0314', temp=0.9)  # todo make this a setting....
+        self._oai = OpenAIClient(model='gpt4', temp=0.9)  # todo make this a setting....
         self._splitter = LargeDocSplitter(self._oai)
         logger.info("BasePromptRunner init")
         self._gate = Gate(1)
@@ -128,8 +128,8 @@ class BasePromptRunner:
 
         raw_response = {
             'response': raw_response_d['response'],
-            'prompt_tokens': raw_response_d['tokens']['prompt_tokens'],
-            'completion_tokens': raw_response_d['tokens']['completion_tokens']
+            'prompt_tokens': raw_response_d['tokens'].prompt_tokens,
+            'completion_tokens': raw_response_d['tokens'].completion_tokens
         }
         messages.append(asdict(PromptCell(role='assistant', content=raw_response_d['response'])))
 
@@ -142,8 +142,8 @@ class BasePromptRunner:
 
             raw_response = {
                 'response': raw_response_d['response'],
-                'prompt_tokens': raw_response_d['tokens']['prompt_tokens'],
-                'completion_tokens': raw_response_d['tokens']['completion_tokens']
+                'prompt_tokens': raw_response_d['tokens'].prompt_tokens,
+                'completion_tokens': raw_response_d['tokens'].completion_tokens
             }
             raw_responses.append(raw_response)
             messages.append(asdict(PromptCell(role='assistant', content=raw_response_d['response'])))

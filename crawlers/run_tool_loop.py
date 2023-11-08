@@ -1,7 +1,7 @@
 from writer.tool_loop import ToolLoop
 from azurewrapper.openai_client import OpenAIClient
 
-oai = OpenAIClient(engine='GPT-4-0314')
+oai = OpenAIClient(engine='gpt4')
 p = ToolLoop(oai)
 p.loop("What is the size of the retail industry that Costco operates in?")
 

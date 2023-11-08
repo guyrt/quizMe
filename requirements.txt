@@ -13,7 +13,7 @@ azure-storage-queue
 azure-cosmos
 
 # openai tools
-openai
+openai>=1.1.1
 tiktoken
 
 # embeddings

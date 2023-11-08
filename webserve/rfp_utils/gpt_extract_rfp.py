@@ -88,7 +88,7 @@ class RFPPromptRunner(BasePromptRunner):
             return content_chunks[:1]
         return super()._filter_chunks(prompt, content_chunks)
 
-    def _deepdive_extract(self, doc : DocumentExtract, prompt : Prompt, results : List[str], suffix):
+    def _deepdive_extract(self, doc : DocumentExtract, prompt : Prompt, results : List[any], suffix):
         """
         TODO: Parse results, get more details, and produce a link from main table to the subset.
         

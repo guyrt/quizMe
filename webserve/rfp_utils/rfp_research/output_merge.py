@@ -44,8 +44,8 @@ class OutputMergeUtility:
 
         return {
             'response': raw_response['response'],
-            'prompt_tokens': raw_response['tokens']['prompt_tokens'],
-            'completion_tokens': raw_response['tokens']['completion_tokens']
+            'prompt_tokens': raw_response['tokens'].prompt_tokens,
+            'completion_tokens': raw_response['tokens'].completion_tokens
         }
 
     def get_base_with_few_shot(self):

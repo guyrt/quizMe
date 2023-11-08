@@ -11,21 +11,53 @@ import logging
 logger = logging.getLogger('rqwork')
 
 
+# Todo:
+# Engine becomes model == 3.5 or 4
+# Encoding becomes internal lookup.
+
+def get_encoding(model='35turbo'):
+    return 'cl100k_base'
+
+
+def get_engine(model, api_type):
+    if api_type == 'azure':
+        if model == '35turbo':
+            return "chatGPT_GPT35-turbo-0301"
+        elif model == 'gpt4':
+            return 'GPT-4-32K-0314'
+    else:
+        if model == '35turbo':
+            return "gpt-3.5-turbo-16k"
+        elif model == 'gpt4':
+            return "gpt-4-1106-preview"
+
+
+
 class OpenAIClient:
 
-    def __init__(self, temp=0.7, engine="chatGPT_GPT35-turbo-0301", encoding='cl100k_base', gate=None) -> None:
-        self.api_type = "azure"
-        self.engine = engine
+    def __init__(self, temp=0.7, model='35turbo', gate=None) -> None:
+        self.api_type = os.getenv("OPENAI_SOURCE")
+        self.engine = get_engine(model, self.api_type)
 
         openai.api_type = self.api_type
-        openai.api_base = os.getenv("OPENAI_BASE")
-        openai.api_version = os.getenv("OPENAI_API_APIVERSION")
-        openai.api_key = os.getenv("OPENAI_API_KEY")
+
+        default_gate = 0.2  # 5 calls/sec
+
+        if self.api_type == "azure":
+            default_gate = 5  # 0.2 call/sec
+            self._internal_client = openai.AzureOpenAI(
+                azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
+                api_key=os.getenv("AZURE_OPENAI_KEY"),  
+                api_version=os.getenv("AZURE_OPENAI_API_APIVERSION")
+            )
+        else:
+            self._internal_client = openai.OpenAI()
+
         self._temp = temp
-        self._encoding = encoding
+        self._encoding = get_encoding(model)
         self.max_doc_tokens = 12000  # 16824 total for gpt16k
         if gate is None:
-            self.gate = Gate(5)  # 0.2 call/sec
+            self.gate = Gate(default_gate)
         else:
             self.gate = gate
 
@@ -34,8 +66,8 @@ class OpenAIClient:
         sleep_amt = 60
         while sleep_amt <= 240:
             try:
-                response = openai.ChatCompletion.create(
-                    engine=self.engine,
+                response = self._internal_client.chat.completions.create(
+                    model=self.engine,
                     messages=messages,
                     temperature=temp or self._temp,
                     
@@ -43,7 +75,7 @@ class OpenAIClient:
                     frequency_penalty=0,
                     presence_penalty=0,
                     stop=None)
-            except openai.error.RateLimitError as e:
+            except openai.RateLimitError as e:
                 logger.error("Rate limit for OAI. Sleep for %s seconds" % sleep_amt)
                 import time
                 time.sleep(sleep_amt)
