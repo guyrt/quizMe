@@ -11,6 +11,7 @@ import os
 
 from django.core.asgi import get_asgi_application
 
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "webserve.settings")
+settings_module = 'webserve.production_settings' if 'RUNNING_IN_PRODUCTION' in os.environ else 'webserve.dev_settings'
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', settings_module)
 
 application = get_asgi_application()
