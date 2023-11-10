@@ -19,7 +19,7 @@ DATABASES = {
 
 RQ_QUEUES = {
     'default': {
-        'URL': "rediss://:Jld4uAaUpjXaZkEXdoZS8ibUliC0CkjNkAzCaK1JvN8=@docintel.redis.cache.windows.net:6380/0",
+        'URL': os.environ['rqhost'],
         'DB': 0,
         'DEFAULT_TIMEOUT': 3600,
     },

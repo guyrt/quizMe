@@ -27,8 +27,7 @@ DATABASES = {
 
 RQ_QUEUES = {
     'default': {
-        'HOST': os.environ['rqhost'],  # Redis server host
-        'PORT': 6380,         # Redis server port
+        'URL': os.environ['rqhost'],  # Redis server host
         'DB': 1,
         'DEFAULT_TIMEOUT': 3600,
     },
