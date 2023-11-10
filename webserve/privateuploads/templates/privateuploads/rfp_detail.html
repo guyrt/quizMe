@@ -50,9 +50,8 @@
         <h1>{{ doc_cluster.get_title }}</h1>
     </header>
     <main>
-        <div class="content">
-            <a href="#">Original document</a>
-            <a href="{% url 'doc_cluster_raw' doc_cluster.id %}">Text Extraction details</a>
+        <a href="#">Original document</a>
+        <a href="{% url 'doc_cluster_raw' doc_cluster.id %}">Text Extraction details</a>
         <h2>List of Documents:</h2>
         {% for extract in doc_cluster.documentfile_set.all %}
             <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
@@ -76,6 +75,22 @@
                 </div>
 
                 <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingThree">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
+                            Specific Dates
+                        </button>
+                    </h2>
+                    <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% if 'specific_dates' in prompts %}
+                                <h3>Specific Dates:</h3>
+                                <p>{{ prompts.specific_dates.as_html | safe }}</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="true" aria-controls="collapseTwo">
                             Longer Summary
@@ -85,22 +100,6 @@
                         <div class="accordion-body">
                             {% if 'longsummary' in prompts %}
                                 <p>{{ prompts.longsummary.as_html | safe }}</p>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="true" aria-controls="collapseThree">
-                            Questions Answered
-                        </button>
-                    </h2>
-                    <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            {% if 'specific_dates' in prompts %}
-                                <h3>Specific Dates:</h3>
-                                <p>{{ prompts.specific_dates.as_html | safe }}</p>
                             {% endif %}
                         </div>
                     </div>
@@ -160,6 +159,6 @@
                     </div>
                 </div>
             </div>
-    </div>
+        </div>
     </main>
 {% endblock %}

@@ -19,8 +19,7 @@ DATABASES = {
 
 RQ_QUEUES = {
     'default': {
-        'HOST': os.environ['rqhost'],  # Redis server host
-        'PORT': 6379,         # Redis server port
+        'URL': "rediss://:Jld4uAaUpjXaZkEXdoZS8ibUliC0CkjNkAzCaK1JvN8=@docintel.redis.cache.windows.net:6380/0",
         'DB': 0,
         'DEFAULT_TIMEOUT': 3600,
     },
