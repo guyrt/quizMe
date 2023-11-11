@@ -5,6 +5,7 @@ services:
     build: .
     image: flexindex.azurecr.io/web
     working_dir: /app/webserve
+    command: python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:

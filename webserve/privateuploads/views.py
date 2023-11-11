@@ -141,10 +141,10 @@ class DocumentClusterDeleteView(LoginRequiredMixin, DeleteView):
     template_name = 'privateuploads/documentcluster_confirm_delete.html'  # Specify the template for confirmation
     
     # todo - fix
-    success_url = reverse_lazy('doc_cluster_list')  # Redirect after deletion
+    success_url = reverse_lazy('rfp_list')  # Redirect after deletion
 
     def get_queryset(self):
-        super().get_queryset().filter(owner=self.request.user)
+        return super().get_queryset().filter(owner=self.request.user)
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()

@@ -87,7 +87,7 @@ class DocumentFile(ModelBaseMixin):
 
     # Tell us current process state.
     processing_status = models.CharField(max_length=16, choices=ProcessingChoices)
-    last_jobid = models.CharField(max_length=32, default='')
+    last_jobid = models.CharField(max_length=128, default='')
 
 
 class DocumentExtract(ModelBaseMixin):
