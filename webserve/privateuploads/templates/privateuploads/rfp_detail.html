@@ -26,6 +26,36 @@
                 // Handle errors, if necessary
             });
         });
+
+        /** Set up share link */
+        
+        document.getElementById('create-share-link').addEventListener('click', function() {
+            fetch("{% url 'doc_cluster_share' doc_cluster.id %}", {
+                method: 'POST', // or 'GET', depending on your server setup
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": getCookie("csrftoken")
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Display the share URL
+                document.getElementById('shareUrl').textContent = data.share;
+                document.getElementById('shareLink').style.display = 'block';
+                document.getElementById('copyButton').style.display = 'inline-block';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        });
+
+        document.getElementById('copyButton').addEventListener('click', function() {
+            const shareUrl = document.getElementById('shareUrl').textContent;
+            navigator.clipboard.writeText(shareUrl).then(() => {
+                alert('URL copied to clipboard!');  // todo swap btn to a thumbs up
+            });
+        });
+
     });
 
     function getCookie(name) {
@@ -35,6 +65,7 @@
             return parts.pop().split(";").shift();
         }
     }
+
 </script>
 {% endblock %}
 
@@ -50,6 +81,10 @@
         <h1>{{ doc_cluster.get_title }}</h1>
     </header>
     <main>
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
+            Create Share Link
+        </button>          
+        <br/>
         <a href="#">Original document</a>
         <a href="{% url 'doc_cluster_raw' doc_cluster.id %}">Text Extraction details</a>
         <h2>List of Documents:</h2>
@@ -160,5 +195,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Create Share Link</h5>
+                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id='share-modal-body' class="modal-body">
+                    <p id="shareMessage">Click create to make a unique link. Anyone who clicks it will have read-only access to this page.</p>
+                    <p id="shareLink" style="display:none;">Link: <span id="shareUrl"></span> <button id="copyButton" style="display:none;" class="btn btn-primary">Click to Copy</button></p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondar" data-bs-dismiss="modal">Close</button>
+                  <button id='create-share-link' type="button" class="btn btn-primary">Create</button>
+                </div>
+              </div>
+            </div>
+          </div>
     </main>
 {% endblock %}

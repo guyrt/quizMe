@@ -181,3 +181,10 @@ class DocumentClusterRawView(LoginRequiredMixin, DetailView):
         response = HttpResponse(raw_text, content_type='text/html')
         response.status_code = 200
         return response
+    
+
+class DocumentClusterCreateShareView(LoginRequiredMixin, View):
+
+    def post(self, request, pk):
+        objs = DocumentFile.objects.filter(active=True).filter(document__id=pk)
+        return JsonResponse({'share': f'https://www.google.com'})
