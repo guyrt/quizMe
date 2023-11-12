@@ -2,19 +2,21 @@ import logging
 from typing import Any
 from uuid import uuid4
 
-from django.db import models
+from django.shortcuts import get_object_or_404
 
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, View
 from django.views.generic.edit import FormView
 from django_rq import enqueue
+
 from mltrack.models import PromptResponse
 from privateuploads.doc_parser import RawDocParser
 from rfp_utils.raw_doc_parser import execute_doc_parse
+from sharing.models import ShareRequest
 
 from .forms import FileUploadForm
 from .models import (DocumentCluster, DocumentClusterRoleChoices, DocumentFile,
@@ -116,7 +118,6 @@ class DocumentClusterDetailView(LoginRequiredMixin, DetailView):
         raise NotImplementedError(f"Need to do {self.object.document_role}")
 
     def get_queryset(self):
-        # Filter the objects to include only those marked as "active" to prevent pulling others.
         return super().get_queryset().filter(owner=self.request.user).filter(active=True)
 
     def get_context_data(self, **kwargs):
@@ -125,7 +126,6 @@ class DocumentClusterDetailView(LoginRequiredMixin, DetailView):
         # get all your prompts.
         prompts = list(PromptResponse.objects.filter(document_inputs__docfile__document=self.object).filter(document_inputs__active=1))
 
-        # Add additional context data
         prompts_d = {
             p.output_role: p
             for p in prompts
@@ -186,5 +186,28 @@ class DocumentClusterRawView(LoginRequiredMixin, DetailView):
 class DocumentClusterCreateShareView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
-        objs = DocumentFile.objects.filter(active=True).filter(document__id=pk)
-        return JsonResponse({'share': f'https://www.google.com'})
+        obj = get_object_or_404(DocumentCluster, active=True, owner=self.request.user, id=pk)
+        
+        share_guid = f"{uuid4()}__{uuid4()}"
+        ShareRequest.objects.create(
+            owner=self.request.user,
+            shared_object='privateuploads.models.DocumentCluster',
+            shared_pk=obj.pk,
+            share_link=share_guid
+        )
+
+        return JsonResponse({'share': reverse("share_landing", share_guid)})
+
+
+class DocumentClusterFeedbackView(View):
+
+    def get(self, request, guid, *args, **kwargs):
+        """
+        Get the prompts.
+
+        Render template.
+
+        404 if not an RFP for now.
+        """
+        share_obj = get_object_or_404(ShareRequest, share_link=guid, active=1, shared_object='privateuploads.models.DocumentCluster')
+        dc = get_object_or_404(DocumentCluster, id=share_obj.shared_pk, active=1)

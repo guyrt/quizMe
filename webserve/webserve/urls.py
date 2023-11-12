@@ -19,6 +19,7 @@ from django.urls import path, include
 
 from users.views import LandingPageView
 from privateuploads.views import FileUploadView
+from sharing.views import ShareLandingRedirectView
 
 urlpatterns = [
     path('', LandingPageView.as_view(), name='landing_page'),
@@ -26,4 +27,5 @@ urlpatterns = [
     path('upload', FileUploadView.as_view(), name='upload_file'),
     path('accounts/', include('django.contrib.auth.urls')),  # Include the authentication URLs
     path('docs/', include('privateuploads.urls')),
+    path('share/<str:guid>/', ShareLandingRedirectView.as_view(), name='share_landing'),
 ]
