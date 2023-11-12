@@ -72,7 +72,8 @@ INSTALLED_APPS = [
     'corsheaders',
     "users",
     "privateuploads",
-    "mltrack"
+    "mltrack",
+    "sharing"
 ]
 
 MIDDLEWARE = [
