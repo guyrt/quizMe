@@ -9,22 +9,22 @@ DEBUG = True
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
-    }
-}
-
 # DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': os.environ['AZURE_POSTGRESQL_DATABASE'],
-#         'HOST': os.environ['AZURE_POSTGRESQL_HOST'],
-#         'USER': os.environ['AZURE_POSTGRESQL_USERNAME'],
-#         'PASSWORD': os.environ['AZURE_POSTGRESQL_PASSWORD'], 
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": BASE_DIR / "db.sqlite3",
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ['AZURE_POSTGRESQL_DATABASE'],
+        'HOST': os.environ['AZURE_POSTGRESQL_HOST'],
+        'USER': os.environ['AZURE_POSTGRESQL_USERNAME'],
+        'PASSWORD': os.environ['AZURE_POSTGRESQL_PASSWORD'], 
+    }
+}
 
 
 

@@ -27,6 +27,7 @@ django
 rq
 django-rq
 django-cors-headers
+sentry_sdk
 
 psycopg2-binary
 gunicorn

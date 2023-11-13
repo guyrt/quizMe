@@ -32,3 +32,23 @@ RQ_QUEUES = {
         'DEFAULT_TIMEOUT': 3600,
     },
 }
+
+
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
+sentry_sdk.init(
+    dsn="https://931324180c44ee2efa394b4c9c825cc9@o4505712588161024.ingest.sentry.io/4505712589340672",
+    integrations=[DjangoIntegration()],
+    # If you wish to associate users to errors (assuming you are using
+    # django.contrib.auth) you may enable sending PII data.
+    send_default_pii=False,
+    # Set traces_sample_rate to 1.0 to capture 100%
+    # of transactions for performance monitoring.
+    # We recommend adjusting this value in production.
+    traces_sample_rate=1.0,
+    # To set a uniform sample rate
+    # Set profiles_sample_rate to 1.0 to profile 100%
+    # of sampled transactions.
+    # We recommend adjusting this value in production,
+    profiles_sample_rate=1.0,
+)
