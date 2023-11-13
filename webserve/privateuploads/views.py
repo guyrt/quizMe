@@ -1,6 +1,7 @@
 import logging
 from typing import Any
 from uuid import uuid4
+from django.db import models
 
 from django.shortcuts import get_object_or_404
 
@@ -105,7 +106,7 @@ class RFPClusterListView(LoginRequiredMixin, ListView):
         return self.model.objects.filter(owner=self.request.user).filter(active=True).filter(document_role=doc_type)
 
 
-class DocumentClusterDetailView(LoginRequiredMixin, DetailView):
+class DocumentClusterDetailViewBase(DetailView):
     """todo - list a single doc. show either 'processing' or show latest results"""
     model = DocumentCluster  # Specify the model
     context_object_name = 'doc_cluster'
@@ -134,6 +135,27 @@ class DocumentClusterDetailView(LoginRequiredMixin, DetailView):
         context['prompts'] = prompts_d
         context['all_prompts'] = prompts
         return context
+
+
+class DocumentClusterDetailView(LoginRequiredMixin, DocumentClusterDetailViewBase):
+    """Main view - thick base used for share views too."""
+    pass
+
+
+class DocumentClusterFeedbackView(DocumentClusterDetailViewBase):
+
+    def get_object(self, queryset=None) -> DocumentCluster:
+        guid = self.kwargs['guid']
+        share_obj = get_object_or_404(ShareRequest, share_link=guid, active=1, shared_object='privateuploads.models.DocumentCluster')
+        dc = get_object_or_404(DocumentCluster, id=share_obj.shared_pk, active=1)
+        if dc.document_role != 'rfp':
+            raise Http404()
+        return dc
+
+    def get_context_data(self, **kwargs):
+        c = super().get_context_data(**kwargs)
+        c['feedback'] = True
+        return c        
 
 
 class DocumentClusterDeleteView(LoginRequiredMixin, DeleteView):
@@ -196,18 +218,5 @@ class DocumentClusterCreateShareView(LoginRequiredMixin, View):
             share_link=share_guid
         )
 
-        return JsonResponse({'share': reverse("share_landing", share_guid)})
-
-
-class DocumentClusterFeedbackView(View):
-
-    def get(self, request, guid, *args, **kwargs):
-        """
-        Get the prompts.
-
-        Render template.
-
-        404 if not an RFP for now.
-        """
-        share_obj = get_object_or_404(ShareRequest, share_link=guid, active=1, shared_object='privateuploads.models.DocumentCluster')
-        dc = get_object_or_404(DocumentCluster, id=share_obj.shared_pk, active=1)
+        full_share_url = request.build_absolute_uri(reverse("share_landing", kwargs={'guid': share_guid}))
+        return JsonResponse({'share': full_share_url})

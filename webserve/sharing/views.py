@@ -15,6 +15,6 @@ class ShareLandingRedirectView(RedirectView):
             raise Http404()
         
         if obj.shared_object == 'privateuploads.models.DocumentCluster':
-            return reverse('doc_cluster_feedback', guid)
+            return reverse('doc_cluster_feedback', kwargs={'guid': obj.share_link})
 
         raise Http404()

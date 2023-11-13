@@ -52,7 +52,7 @@
         document.getElementById('copyButton').addEventListener('click', function() {
             const shareUrl = document.getElementById('shareUrl').textContent;
             navigator.clipboard.writeText(shareUrl).then(() => {
-                alert('URL copied to clipboard!');  // todo swap btn to a thumbs up
+                // todo swap btn to a thumbs up
             });
         });
 
@@ -81,13 +81,19 @@
         <h1>{{ doc_cluster.get_title }}</h1>
     </header>
     <main>
-        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
-            Create Share Link
-        </button>          
-        <br/>
-        <a href="#">Original document</a>
-        <a href="{% url 'doc_cluster_raw' doc_cluster.id %}">Text Extraction details</a>
-        <h2>List of Documents:</h2>
+        {% if feedback %}
+            
+        {% else %}
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
+                Create Share Link
+            </button> 
+        
+            <br/>
+            <a href="#">Original document</a>
+            <a href="{% url 'doc_cluster_raw' doc_cluster.id %}">Text Extraction details</a>
+            
+        {% endif %}
+        <h2>Here's what we know:</h2>
         {% for extract in doc_cluster.documentfile_set.all %}
             <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
 
@@ -175,44 +181,62 @@
             <p>No extracts available</p>
         {% endfor %}
 
-        <button id="js-reprocess" class="btn btn-primary">Reprocess everything</button>
+        {% if not feedback %}
+            <button id="js-reprocess" class="btn btn-primary">Reprocess everything</button>
 
-        <div class="accordion">
-            <div class="accordion-item">
-                <h2 class="accordion-header" id="headingBottom">
-                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBottom" aria-expanded="false" aria-controls="collapseBottom">
-                        Raw Prompt Responses
-                    </button>
-                </h2>
-                <div id="collapseBottom" class="accordion-collapse collapse" aria-labelledby="headingBottom" data-bs-parent="#accordionExample">
-                    <div class="accordion-body">
-                        {% for prompt in all_prompts %}
-                            <h3>{{ prompt.output_role }}</h3>
-                            <p>ID: {{ prompt.id }}</p>
-                            <p>{{ prompt.as_html | safe }}</p>
-                        {% endfor %}
+            <div class="accordion">
+                <div class="accordion-item">
+                    <h2 class="accordion-header" id="headingBottom">
+                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseBottom" aria-expanded="false" aria-controls="collapseBottom">
+                            Raw Prompt Responses
+                        </button>
+                    </h2>
+                    <div id="collapseBottom" class="accordion-collapse collapse" aria-labelledby="headingBottom" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            {% for prompt in all_prompts %}
+                                <h3>{{ prompt.output_role }}</h3>
+                                <p>ID: {{ prompt.id }}</p>
+                                <p>{{ prompt.as_html | safe }}</p>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
 
-        <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabel">Create Share Link</h5>
-                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Create Share Link</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id='share-modal-body' class="modal-body">
+                        <p id="shareMessage">Click create to make a unique link. Anyone who clicks it will have read-only access to this page.</p>
+                        <div id="shareLink" style="display:none;">
+                            Link: 
+                            <div id="shareUrl" class="truncate-textbox">
+                                <!-- Your dynamic text goes here -->
+                            </div>
+                            <button id="copyButton" style="display:none;" class="btn btn-primary">Click to Copy</button>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                    <button type="button" class="btn btn-secondar" data-bs-dismiss="modal">Close</button>
+                    <button id='create-share-link' type="button" class="btn btn-primary">Create</button>
+                    </div>
                 </div>
-                <div id='share-modal-body' class="modal-body">
-                    <p id="shareMessage">Click create to make a unique link. Anyone who clicks it will have read-only access to this page.</p>
-                    <p id="shareLink" style="display:none;">Link: <span id="shareUrl"></span> <button id="copyButton" style="display:none;" class="btn btn-primary">Click to Copy</button></p>
                 </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-secondar" data-bs-dismiss="modal">Close</button>
-                  <button id='create-share-link' type="button" class="btn btn-primary">Create</button>
-                </div>
-              </div>
             </div>
-          </div>
+        {% endif %}
     </main>
+
+
+    <style>
+        .truncate-textbox {
+            max-width: 80%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    </style>
 {% endblock %}
