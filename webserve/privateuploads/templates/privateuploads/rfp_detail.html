@@ -82,7 +82,7 @@
     </header>
     <main>
         {% if feedback %}
-            
+            {% include "privateuploads/_feedback_form.html" %}
         {% else %}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
                 Create Share Link
@@ -94,6 +94,7 @@
             
         {% endif %}
         <h2>Here's what we know:</h2>
+
         {% for extract in doc_cluster.documentfile_set.all %}
             <p>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</p>
 
@@ -181,7 +182,9 @@
             <p>No extracts available</p>
         {% endfor %}
 
-        {% if not feedback %}
+        {% if feedback %}
+            {% include "privateuploads/_feedback_form.html" %}
+        {% else %}
             <button id="js-reprocess" class="btn btn-primary">Reprocess everything</button>
 
             <div class="accordion">

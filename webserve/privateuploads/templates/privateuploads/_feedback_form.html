@@ -1,0 +1,13 @@
+<form id="feedback-form" method="post">
+    {% csrf_token %}
+    <div class="form-group">
+        <label for="{{ form.feedback_text.id_for_label }}">
+            <p>Feel free to share your thoughts here or by email.</p>
+            <p>The most important thing for me to understand is value: is this something that helps? What's great? What's missing the mark?</p>
+        </label>
+
+        <textarea class="form-control" id="{{ form.feedback_text.id_for_label }}" name="{{ form.feedback_text.name }}" rows="4">{{ form.feedback_text.value }}</textarea>
+    </div>
+    <!-- Add any additional fields and customization as needed -->
+    <button type="submit" class="btn btn-primary">Submit Feedback</button>
+</form>
