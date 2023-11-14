@@ -187,14 +187,12 @@ class DocumentClusterReprocessView(LoginRequiredMixin, View):
         return JsonResponse({'message': f'Reprocessing {len(objs)} documents.'})
 
 
-class DocumentClusterRawView(LoginRequiredMixin, DetailView):
+class DocumentFileRawView(LoginRequiredMixin, DetailView):
 
-    model = DocumentCluster
+    model = DocumentFile
 
     def render_to_response(self, context, **response_kwargs):
-        my_object = self.get_object()
-        doc_file = my_object.documentfile_set.get()
-        extract = doc_file.documentextract_set.filter(active=1).get()
+        extract = self.get_object()
         raw_text = extract.as_html()
         response = self.get_response(raw_text, **response_kwargs)
 
