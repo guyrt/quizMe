@@ -37,7 +37,7 @@ RQ_QUEUES = {
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
 sentry_sdk.init(
-    dsn="https://931324180c44ee2efa394b4c9c825cc9@o4505712588161024.ingest.sentry.io/4505712589340672",
+    dsn=os.environ['sentry'],
     integrations=[DjangoIntegration()],
     # If you wish to associate users to errors (assuming you are using
     # django.contrib.auth) you may enable sending PII data.

@@ -18,3 +18,12 @@ class ShareRequest(ModelBaseMixin):
 
     # GUID to redirect to.
     share_link = models.CharField(max_length=512)
+
+
+class Feedback(ModelBaseMixin):
+
+    share_link = models.CharField(max_length=512)  # soft FK to ShareRequest
+
+    name = models.CharField(max_length=512)  # name of person giving feedback
+
+    feedback = models.TextField(max_length=2048)

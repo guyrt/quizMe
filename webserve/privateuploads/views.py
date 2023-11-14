@@ -155,6 +155,7 @@ class DocumentClusterFeedbackView(DocumentClusterDetailViewBase):
     def get_context_data(self, **kwargs):
         c = super().get_context_data(**kwargs)
         c['feedback'] = True
+        c['share_link'] = self.kwargs['guid']
         return c        
 
 
