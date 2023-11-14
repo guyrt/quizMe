@@ -28,7 +28,7 @@ class KMRawBlobHander:
         inmem_file.seek(0)
         return self.container_name, filename
 
-    def get_path_pdf(self, remote_path) -> BytesIO:
+    def get_path_to_bytes(self, remote_path) -> BytesIO:
         try:
             blob_stream = self.container_client.download_blob(remote_path)
         except ResourceNotFoundError:

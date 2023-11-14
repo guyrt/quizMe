@@ -12,12 +12,38 @@
 
     </div>
     <!-- Add any additional fields and customization as needed -->
-    <button type="submit" class="btn btn-primary" onclick="feedbackFormSubmit()">Submit Feedback</button>
+    <button id="feedback-submit" type="button" class="btn btn-primary" onclick="feedbackFormSubmit()">Submit Feedback</button>
 </form>
 
 <script>
     function feedbackFormSubmit() {
-        
-        alert("submit")
+        const feedback = document.getElementById("form-feedback").value;
+        const name = document.getElementById("form-name").value;
+        const shareLink = document.getElementById("form-share").value;
+
+        const formData = new FormData();
+        formData.append("feedback", feedback);
+        formData.append("name", name);
+        formData.append("share_link", shareLink);
+
+        fetch("{% url 'feedback_submit' %}", {
+            method: "POST",
+            body: formData,
+            headers: {
+                "X-CSRFToken": getCookie("csrftoken")
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                // You can redirect or perform other actions here if needed
+                const feedbackSubmitButton = document.getElementById("feedback-submit");
+                feedbackSubmitButton.innerText = "Thanks!"
+            } else {
+                //alert("Failed to submit feedback. Please try again.");
+            }
+        })
+        .catch(error => {
+            //alert("An error occurred while submitting feedback.");
+        });
     }
 </script>

@@ -12,4 +12,5 @@ urlpatterns = [
     path('<int:pk>/reprocess', views.DocumentClusterReprocessView.as_view(), name='doc_cluster_reprocess'),
     path('<int:pk>/share', views.DocumentClusterCreateShareView.as_view(), name='doc_cluster_share'),
     path('<int:pk>/raw', views.DocumentFileRawView.as_view(), name='doc_file_raw'),
+    path('<int:pk>/original', views.DocumentFileOriginalView.as_view(), name='doc_file_original'),
 ]

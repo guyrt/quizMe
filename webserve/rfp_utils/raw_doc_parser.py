@@ -35,7 +35,7 @@ class KBDocumentExtract:
         doc_file.save()
 
     def _extract_pdf(self, raw_obj : DocumentFile) -> DocumentExtract:
-        content = KMRawBlobHander().get_path_pdf(raw_obj.location_path) # note this may need to change for other types.
+        content = KMRawBlobHander().get_path_to_bytes(raw_obj.location_path) # note this may need to change for other types.
         parser = PdfParser()
         text_content = parser.extract_text(content)
 

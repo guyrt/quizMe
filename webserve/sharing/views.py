@@ -1,7 +1,8 @@
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.views.generic import RedirectView
 from django.urls import reverse
 
+from .forms import FeedbackForm
 from .models import ShareRequest
 
 class ShareLandingRedirectView(RedirectView):
@@ -18,3 +19,15 @@ class ShareLandingRedirectView(RedirectView):
             return reverse('doc_cluster_feedback', kwargs={'guid': obj.share_link})
 
         raise Http404()
+
+
+def feedback_submit(request):
+    if request.method == 'POST':
+        form = FeedbackForm(request.POST)
+        if form.is_valid():
+            form.save()  # Save the feedback to the database
+            return JsonResponse({'message': 'Feedback submitted successfully'})
+        else:
+            return JsonResponse({'errors': form.errors}, status=400)
+    else:
+        return JsonResponse({'message': 'Invalid request method'}, status=405)

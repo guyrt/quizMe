@@ -1,21 +1,23 @@
+from io import BytesIO
 import logging
 from typing import Any
 from uuid import uuid4
-from django.db import models
-
-from django.shortcuts import get_object_or_404
 
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
+from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
+from django.db import models
+from django.http import (Http404, HttpResponse, HttpResponseRedirect,
+                         JsonResponse)
+from django.shortcuts import get_object_or_404
 from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, View
 from django.views.generic.edit import FormView
 from django_rq import enqueue
-
 from mltrack.models import PromptResponse
 from privateuploads.doc_parser import RawDocParser
+from privateuploads.types import docformat_to_contenttype
 from rfp_utils.raw_doc_parser import execute_doc_parse
 from sharing.models import ShareRequest
 
@@ -187,23 +189,6 @@ class DocumentClusterReprocessView(LoginRequiredMixin, View):
         return JsonResponse({'message': f'Reprocessing {len(objs)} documents.'})
 
 
-class DocumentFileRawView(LoginRequiredMixin, DetailView):
-
-    model = DocumentFile
-
-    def render_to_response(self, context, **response_kwargs):
-        extract = self.get_object()
-        raw_text = extract.as_html()
-        response = self.get_response(raw_text, **response_kwargs)
-
-        return response
-
-    def get_response(self, raw_text, **response_kwargs):
-        response = HttpResponse(raw_text, content_type='text/html')
-        response.status_code = 200
-        return response
-    
-
 class DocumentClusterCreateShareView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
@@ -219,3 +204,39 @@ class DocumentClusterCreateShareView(LoginRequiredMixin, View):
 
         full_share_url = request.build_absolute_uri(reverse("share_landing", kwargs={'guid': share_guid}))
         return JsonResponse({'share': full_share_url})
+
+
+class DocumentFileRawView(LoginRequiredMixin, DetailView):
+
+    model = DocumentFile
+
+    def render_to_response(self, context, **response_kwargs):
+        doc_file = self.get_object()
+        extract = doc_file.documentextract_set.filter(active=1).get()
+        raw_text = extract.as_html()
+        response = self.get_response(raw_text, **response_kwargs)
+        return response
+
+    def get_response(self, raw_text, **response_kwargs):
+        response = HttpResponse(raw_text, content_type='text/html')
+        response.status_code = 200
+        return response
+    
+
+class DocumentFileOriginalView(LoginRequiredMixin, DetailView):
+
+    model = DocumentFile
+
+    def render_to_response(self, context: dict[str, Any], **response_kwargs: Any) -> HttpResponse:
+        doc_file : DocumentFile = self.get_object()
+        blob_handler = KMRawBlobHander(container_name=doc_file.location_container)
+        blob_bytes : BytesIO = blob_handler.get_path_to_bytes(doc_file.location_path)
+        blob_bytes.seek(0)
+        response = self.get_response(blob_bytes.read(), doc_file.doc_format, **response_kwargs)
+        return response
+
+    def get_response(self, raw_text, doc_format, **response_kwargs):
+        content_type = docformat_to_contenttype(doc_format)
+        response = HttpResponse(raw_text, content_type=content_type)
+        response.status_code = 200
+        return response

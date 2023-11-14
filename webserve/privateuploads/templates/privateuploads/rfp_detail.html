@@ -85,18 +85,23 @@
         {% if not feedback %}
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#shareModal">
                 Create Share Link
-            </button> 
+            </button>
         {% endif %}
 
         {% for extract in doc_cluster.documentfile_set.all %}
             <br/>
             <span>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</span>
-
+            <a href="{% url 'doc_file_original' extract.id %}">Original document</a>
             {% if not feedback %}      
-                <a href="#">Original document</a>
                 <a href="{% url 'doc_file_raw' extract.id %}">Text Extraction details</a>
             {% endif %}
         {% endfor %}
+
+        {% if not feedback %}
+            <p>
+                <a href="#">Upload another doc for this RFP</a>
+            </p>
+        {% endif %}
 
         <hr>
 
