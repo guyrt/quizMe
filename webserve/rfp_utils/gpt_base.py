@@ -14,7 +14,7 @@ from rfp_utils.rfp_research.output_merge import OutputMergeUtility
 
 from .large_doc_splitter import LargeDocSplitter
 
-
+from collections.abc import Iterator
 from typing import List
 
 import logging
@@ -30,7 +30,7 @@ class BasePromptRunner:
         self._gate = Gate(1)
         self.partial_suffix = '_partial'
 
-    def execute(self, doc_extract_id : int):
+    def execute(self, doc_extract_id : int) -> Iterator[PromptResponse]:
         doc = DocumentExtract.objects.get(id=doc_extract_id)
         raw_content = doc.get_content()
         content = self._get_doc_content(raw_content)
@@ -40,19 +40,15 @@ class BasePromptRunner:
 
         for prompt in self._build_prompts():
             filtered_chunks = self._filter_chunks(prompt, content_chunks)
-            raw_result_list = []
+            
             for chunk in filtered_chunks:
                 raw_results = self._run_prompt_on_chunk(prompt, chunk)  # run on chunk no side effect
                 raw_parsed_results = self._process_single_result(doc, prompt, raw_results, len(content_chunks))  # save sub prompts
 
                 for rpr in raw_parsed_results:
                     logger.info(f"Created PromptResponse {rpr.id} from {rpr.template_name}@{rpr.template_version} on DocumentExtract {rpr.document_inputs.all()[0].id}")
-
-                raw_result_list.extend(raw_parsed_results)
-            chunk_groups = self._group_chunks(raw_result_list)
-            for g in chunk_groups.values():
-                self._merge_chunks(prompt, doc, g)  # merge and save
-
+                    yield rpr                
+            
     def _filter_chunks(self, prompt : Prompt, content_chunks : List[str]) -> List[str]:
         """Filter chunk list. Example override is to only care about first chunk."""
         return content_chunks
@@ -69,15 +65,6 @@ class BasePromptRunner:
             return dom.get_text()  # for now... need a proper parser upstream.
 
         raise ValueError(f"Unepected doc format {format}")
-
-    def _group_chunks(self, raw_results : List[PromptResponse]):
-        ret_d = {}
-        for r in raw_results:
-            out_role = r.output_role
-            if out_role not in ret_d:
-                ret_d[out_role] = []
-            ret_d[out_role].append(r)
-        return ret_d
 
     def _merge_chunks(self, prompt : Prompt, doc : DocumentExtract, raw_results : List[PromptResponse]):
         pr = raw_results[0]
@@ -107,10 +94,8 @@ class BasePromptRunner:
             r.document_inputs.add(doc)
             r.save()
 
-    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str], num_chunks : int):
-        """Handle results - rely on versions to differentiate logic where necessary.
-        
-        These shoul
+    def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str], num_chunks : int) -> List[PromptResponse]:
+        """Handle results - rely on versions to differentiate logic where necessary.        
         """
         raise NotImplementedError()
 

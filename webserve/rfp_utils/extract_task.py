@@ -1,13 +1,14 @@
-from django_rq import job
-
-from privateuploads.models import DocumentFile
-
-from .gpt_extract_rfp import RFPPromptRunner
-from .gpt_extract_proposal import ProposalPromptRunner
-
+import logging
 from typing import List
 
-import logging
+from django_rq import job
+from mltrack.models import PromptResponse
+from privateuploads.models import DocumentFile
+
+from .gpt_extract_proposal import ProposalPromptRunner
+from .gpt_extract_rfp import RFPPromptRunner
+from .known_fact_extract import KnownFactExtractor
+
 logger = logging.getLogger('rqwork')
 
 @job
@@ -26,8 +27,13 @@ def gpt_extract(raw_docextracts : List[int], doc_file_id):
         raise NotImplementedError(f"Need to support doc type {doc_role}")
 
     try:
-        for raw_docextract in raw_docextracts:
-            prompt_runner.execute(raw_docextract)
+        all_prompt_responses : List[PromptResponse] = []
+        for raw_docextract in raw_docextracts:  # todo - consider a change here. You'll need to regroup prompts.
+            for response in prompt_runner.execute(raw_docextract):
+                all_prompt_responses.append(response)
+
+        KnownFactExtractor().parse(all_prompt_responses)
+        
     except Exception as e:
         logger.error("Error in gpt_extract: %s", str(e), exc_info=True)
         doc_file.processing_status = 'error'

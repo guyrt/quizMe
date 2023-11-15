@@ -5,7 +5,7 @@ from privateuploads.models import DocumentExtract
 from webserve.mixins import ModelBaseMixin
 
 
-ModelOutputRoles = [
+ModelOutputRoles = [  # if you modify this, also modify KnownFactExtractor!
     ('longsummary', 'longsummary'),
     ('shortsummary', 'shortsummary'),
     ('req_details', 'req_details'),

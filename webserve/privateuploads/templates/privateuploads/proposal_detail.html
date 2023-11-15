@@ -61,9 +61,9 @@
             {% for extract in doc_cluster.documentfile_set.all %}
                 <br/>
                 <span>{{ extract.file_role }}: {{ extract.doc_name }} - Processing status is {{ extract.processing_status }}</span>
-                <a href="{% url 'doc_file_original' extract.id %}">Original document</a>
+                <a href="{% url 'doc_file_original' extract.id %}" target="_blank" rel="noopener noreferrer">Original document</a>
                 {% if not feedback %}      
-                    <a href="{% url 'doc_file_raw' extract.id %}">Text Extraction details</a>
+                    <a href="{% url 'doc_file_raw' extract.id %}" target="_blank" rel="noopener noreferrer">Text Extraction details</a>
                 {% endif %}
             {% endfor %}
 
