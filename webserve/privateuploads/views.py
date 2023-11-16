@@ -4,10 +4,8 @@ from typing import Any
 from uuid import uuid4
 
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
-from django import http
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.files.uploadedfile import InMemoryUploadedFile
-from django.db import models
 from django.http import (Http404, HttpResponse, HttpResponseRedirect,
                          JsonResponse)
 from django.shortcuts import get_object_or_404

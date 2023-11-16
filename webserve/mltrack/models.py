@@ -1,7 +1,7 @@
 from django.db import models
 import markdown
 
-from privateuploads.models import DocumentExtract
+from privateuploads.models import DocumentCluster, DocumentExtract
 from webserve.mixins import ModelBaseMixin
 
 
@@ -39,3 +39,18 @@ class PromptResponse(ModelBaseMixin):
 
     def as_html(self):
         return markdown.markdown(self.result, extensions=['extra'])
+
+
+class ExtractedFact(ModelBaseMixin):
+
+    # Assume this is JSON
+    fact_contents = models.TextField()
+    output_role = models.CharField(max_length=64, choices=ModelOutputRoles)
+
+    doc_context = models.ForeignKey(DocumentCluster)
+    
+    sort_order = models.IntegerField(default=0)
+
+    def as_html(self):
+        """TODO: parse based on what's in the contents and the output_role."""
+        return self.output_role

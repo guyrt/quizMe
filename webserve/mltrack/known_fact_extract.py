@@ -1,6 +1,8 @@
 import bs4
 from typing import Dict, List
+import json
 
+from .dates_extraction_strategy_tools import merge_tables_of_dates
 from mltrack.models import PromptResponse
 
 
@@ -11,9 +13,9 @@ class KnownFactExtractor:
         grouped_responses = self._group_chunks(prompt_responses)
         for role, responses in grouped_responses.items():
             role_type = role.replace('_partial', '')  # strip suffix
-            if role in ('longsummary', 'shortsummary'):
+            if role_type in ('longsummary', 'shortsummary'):
                 self._single_per_doc_strategy(responses)
-            elif role in ('specific_dates'):
+            elif role_type in ('specific_dates'):
                 self._extracted_dates_strategy(responses)
             else:
                 # defaults
@@ -37,10 +39,15 @@ class KnownFactExtractor:
         for result in raw_results:
             all_date_tables.extend(self._extract_tables(result))
 
+        merged_dates = merge_tables_of_dates(all_date_tables)
+        
+
     def _merge_many_results(self, raw_results : List[PromptResponse]):
         """Merge many results
         
         TODO split to table structures vs not.
+        for tables you want to merge the table parts grouped by something.
+        for strings you want to use ML merge.
         """
         pass
 
@@ -55,4 +62,4 @@ class KnownFactExtractor:
     
     def _extract_tables(self, prompt_response : PromptResponse):
         html_text = prompt_response.as_html()
-        b = bs4.BeautifulSoup(html_text).find_all('table')
+        return bs4.BeautifulSoup(html_text).find_all('table')

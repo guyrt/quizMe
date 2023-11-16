@@ -7,7 +7,7 @@ from privateuploads.models import DocumentFile
 
 from .gpt_extract_proposal import ProposalPromptRunner
 from .gpt_extract_rfp import RFPPromptRunner
-from .known_fact_extract import KnownFactExtractor
+from mltrack.known_fact_extract import KnownFactExtractor
 
 logger = logging.getLogger('rqwork')
 

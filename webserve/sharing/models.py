@@ -27,3 +27,4 @@ class Feedback(ModelBaseMixin):
     name = models.CharField(max_length=512)  # name of person giving feedback
 
     feedback = models.TextField(max_length=2048)
+
