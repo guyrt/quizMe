@@ -3,7 +3,7 @@ from typing import List
 
 from django_rq import job
 from mltrack.models import PromptResponse
-from privateuploads.models import DocumentFile
+from privateuploads.models import DocumentFile, DocumentCluster
 
 from .gpt_extract_proposal import ProposalPromptRunner
 from .gpt_extract_rfp import RFPPromptRunner
@@ -32,6 +32,7 @@ def gpt_extract(raw_docextracts : List[int], doc_file_id):
             for response in prompt_runner.execute(raw_docextract):
                 all_prompt_responses.append(response)
 
+        # Directly parse.
         KnownFactExtractor().parse(all_prompt_responses)
         
     except Exception as e:
@@ -42,3 +43,10 @@ def gpt_extract(raw_docextracts : List[int], doc_file_id):
         doc_file = DocumentFile.objects.get(id=doc_file_id)
         doc_file.processing_status = 'done'
         doc_file.save()
+
+
+@job
+def create_known_facts_from_cluster(doc_cluster_id : int):
+    doc_cluster = DocumentCluster.objects.get(id=doc_cluster_id)
+    prompts = list(PromptResponse.objects.filter(document_inputs__docfile__document=doc_cluster).filter(document_inputs__active=1))
+    KnownFactExtractor().parse(prompts)

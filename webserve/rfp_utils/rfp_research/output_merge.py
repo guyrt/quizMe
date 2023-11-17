@@ -1,4 +1,5 @@
 
+from azurewrapper.gate import Gate
 from azurewrapper.openai_client import OpenAIClient
 
 
@@ -23,8 +24,10 @@ Here are examples of lines you should not include:
 
 class OutputMergeUtility:
 
-    def __init__(self, gate) -> None:
-        self._oai = OpenAIClient(gate=gate) # todo make this default to turbo
+    def __init__(self, gate=None) -> None:
+        if gate is None:
+            gate = Gate()
+        self._oai = OpenAIClient(gate=gate, model='35turbo')
 
     def run(self, inputs : List[str]) -> Dict:
         """

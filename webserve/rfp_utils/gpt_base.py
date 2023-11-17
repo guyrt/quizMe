@@ -10,7 +10,6 @@ from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.prompt_types import fill_prompt, Prompt, PromptCell
 from azurewrapper.gate import Gate
 from mltrack.models import PromptResponse
-from rfp_utils.rfp_research.output_merge import OutputMergeUtility
 
 from .large_doc_splitter import LargeDocSplitter
 
@@ -65,34 +64,6 @@ class BasePromptRunner:
             return dom.get_text()  # for now... need a proper parser upstream.
 
         raise ValueError(f"Unepected doc format {format}")
-
-    def _merge_chunks(self, prompt : Prompt, doc : DocumentExtract, raw_results : List[PromptResponse]):
-        pr = raw_results[0]
-        new_role = pr.output_role.replace(self.partial_suffix, '')
-
-        logger.info("Merging %s chunks for prompt %s@%s role %s", len(raw_results), prompt.name, prompt.version, new_role)
-
-        if len(raw_results) == 1:
-            pr = raw_results[0]
-            pr.output_role = new_role
-            pr.save()
-            return
-        else:
-            raw_response = OutputMergeUtility(gate=self._oai.gate).run([r.result for r in raw_results])
-            
-            r = PromptResponse(
-                template_name=prompt.name,
-                template_version=prompt.version,
-                output_role=new_role,
-                result=raw_response['response'],
-                prompt_tokens=raw_response['prompt_tokens'],
-                completion_tokens=raw_response['completion_tokens'],
-                model_service=self._oai.api_type,
-                model_name=self._oai.engine
-            )
-            r.save()
-            r.document_inputs.add(doc)
-            r.save()
 
     def _process_single_result(self, doc : DocumentExtract, prompt : Prompt, results : List[str], num_chunks : int) -> List[PromptResponse]:
         """Handle results - rely on versions to differentiate logic where necessary.        

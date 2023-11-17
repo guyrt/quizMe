@@ -28,6 +28,7 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
         version=2
     )
 
+    # This is a temporary solution. Too token expensive tbh.
     _extract_details = Prompt(
         name='RFPExtractDetails',
         content=[
@@ -39,12 +40,12 @@ Second column is an attribution section in the document.
                        
 Attributions should list document sections. Be thorough and list all requirements and all questions.""")
         ],
-        continuations=[
-            PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
-            PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
-            PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
-            PromptCell(role='user', content="Create a single table from all of your answers so far. Combine any duplicted requirements or questions. Sometimes, previous answers may not be accurate requirements. In that case, you should remove them.")
-        ],
+        # continuations=[
+        #     PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
+        #     PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
+        #     PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
+        #     PromptCell(role='user', content="Create a single table from all of your answers so far. Combine any duplicted requirements or questions. Sometimes, previous answers may not be accurate requirements. In that case, you should remove them.")
+        # ],
         version=1
     )
 
