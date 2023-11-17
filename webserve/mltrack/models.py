@@ -47,8 +47,9 @@ class ExtractedFact(ModelBaseMixin):
     fact_contents = models.TextField()
     output_role = models.CharField(max_length=64, choices=ModelOutputRoles)
 
-    doc_context = models.ForeignKey(DocumentCluster)
+    doc_context = models.ForeignKey(DocumentCluster, on_delete=models.CASCADE)
     
+    """sort_order is within output_role."""
     sort_order = models.IntegerField(default=0)
 
     def as_html(self):

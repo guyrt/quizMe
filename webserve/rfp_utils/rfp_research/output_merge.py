@@ -33,7 +33,7 @@ class OutputMergeUtility:
         Run merge logic. 
         """
         base = self.get_base_with_few_shot()
-        user_input = "[newinput]" + "\n[newinput]\n".join(inputs)
+        user_input = "\n".join(inputs)
 
         raw_response = self._oai.call(
             [

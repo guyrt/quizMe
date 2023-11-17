@@ -83,24 +83,6 @@ Attributions should list document sections. Be thorough and list all requirement
         ],
         version=1
     )
-    
-    _vendors = Prompt(
-        name='RFPVendors',
-        content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""For any technology requirements, list popular vendors that provide that kind of software.""")
-        ],
-        version=1
-    )
-
-    _qa = Prompt(
-        name='RFPQA',
-        content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""I am sending a list of questions to the RFP author to help me write a winning proposal. What questions should I ask to clarify requirements or understand their needs in more detail? Do not ask questions that can be answered by the document itself.""")
-        ],
-        version=1
-    )
 
     return [
         _summarize_ask,
@@ -109,6 +91,4 @@ Attributions should list document sections. Be thorough and list all requirement
         _legal,
         _certs,
         _expertise,
-        _vendors,
-        _qa
     ]

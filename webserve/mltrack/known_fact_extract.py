@@ -1,9 +1,11 @@
-import bs4
-from typing import Dict, List
 import json
+from typing import Dict, List
+
+import bs4
+from mltrack.models import ExtractedFact, PromptResponse
 
 from .dates_extraction_strategy_tools import merge_tables_of_dates
-from mltrack.models import PromptResponse
+from .requirement_details_extraction_strategy_tools import merge_tables_of_requirements
 
 
 class KnownFactExtractor:
@@ -14,20 +16,46 @@ class KnownFactExtractor:
         for role, responses in grouped_responses.items():
             role_type = role.replace('_partial', '')  # strip suffix
             if role_type in ('longsummary', 'shortsummary'):
-                self._single_per_doc_strategy(responses)
-            elif role_type in ('specific_dates'):
+                self._single_per_doc_text_strategy(responses)
+            elif role_type in ('specific_dates', ):
                 self._extracted_dates_strategy(responses)
+            elif role_type in ('req_details'):
+                self._extracted_details_strategy(responses)
             else:
                 # defaults
                 if len(responses) == 1:
-                    self._single_per_doc_strategy(responses)
+                    self._single_per_doc_text_strategy(responses)
                 else:
                     self._merge_many_results(responses)
 
-    def _single_per_doc_strategy(self, raw_results : List[PromptResponse]):
+    def _single_per_doc_text_strategy(self, raw_results : List[PromptResponse]):
         """Create a KnownFact assuming a single raw_result."""
         if len(raw_results) > 1:
             raise ValueError(f"Unsupported assumption: {raw_results[0].role} has {len(raw_results)} entries but expected one.")
+        content = {
+            'text': raw_results[0].result
+        }
+        ExtractedFact.objects.create(
+            fact_contents=json.dumps(content),
+            output_role='specific_dates',
+            doc_context=raw_results[0].document_inputs.first().docfile.document,
+            sort_order=0
+        )
+
+    def _extracted_details_strategy(self, raw_results : List[PromptResponse]):
+        """Create a fact for request details type. This is a two col table
+        of requirement and section."""
+        all_tables = []
+        for result in raw_results:
+            all_tables.extend(self._extract_tables(result))
+        
+        merged_requirements = merge_tables_of_requirements(all_tables)
+        ExtractedFact.objects.create(
+            fact_contents=json.dumps(merged_requirements),
+            output_role='req_details',
+            doc_context=raw_results[0].document_inputs.first().docfile.document,
+            sort_order=0
+        )
 
     def _extracted_dates_strategy(self, raw_results : List[PromptResponse]):
         """Create a fact with structured info about dates and their meaning.
@@ -40,13 +68,16 @@ class KnownFactExtractor:
             all_date_tables.extend(self._extract_tables(result))
 
         merged_dates = merge_tables_of_dates(all_date_tables)
-        
+        ExtractedFact.objects.create(
+            fact_contents=json.dumps(merged_dates),
+            output_role='specific_dates',
+            doc_context=raw_results[0].document_inputs.first().docfile.document,
+            sort_order=0
+        )
 
     def _merge_many_results(self, raw_results : List[PromptResponse]):
         """Merge many results
         
-        TODO split to table structures vs not.
-        for tables you want to merge the table parts grouped by something.
         for strings you want to use ML merge.
         """
         pass
