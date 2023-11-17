@@ -18,13 +18,13 @@ def merge_tables_of_requirements(tables : List[bs4.BeautifulSoup]):
     for table in tables:
         all_rows.extend(table.find('tbody').find_all('tr'))
     
-    all_rows : List = []
+    return_rows = []
 
     for row in all_rows:
         contents = [r for r in row.text.split('\n') if r]
         req = contents[0]
         section = contents[1]
 
-        all_rows.extend({'requirement': req, 'section': section})
+        return_rows.append({'req': req, 'section': section})
 
-    return all_rows
+    return return_rows

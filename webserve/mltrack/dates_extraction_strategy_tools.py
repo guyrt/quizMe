@@ -31,6 +31,7 @@ def merge_tables_of_dates(tables : List[bs4.BeautifulSoup]):
         all_dates[clean_date].append(meaning)
 
     # TODO - merge comments if they are near overlaps.
+    all_dates = {k: '\n'.join(v) for k, v in all_dates.items()}
     return all_dates
 
 

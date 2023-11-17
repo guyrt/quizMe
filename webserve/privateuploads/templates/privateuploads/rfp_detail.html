@@ -132,8 +132,23 @@
                 <div id="collapseThree" class="accordion-collapse collapse show" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         {% if 'specific_dates' in prompts %}
-                            <h3>Specific Dates:</h3>
-                            <p>{{ prompts.specific_dates.as_html | safe }}</p>
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in prompts.specific_dates.as_object %}
+                                        <tr>
+                                            <td>{{ item.0 }}</td>
+                                            <td>{{ item.1 }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        
                         {% endif %}
                     </div>
                 </div>
@@ -163,7 +178,6 @@
                 <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         {% if 'expertise' in prompts %}
-                            <h3>Expertise required:</h3>
                             {{ prompts.expertise.as_html | safe }}
                         {% endif %}
                     </div>
@@ -179,7 +193,22 @@
                 <div id="collapseFive" class="accordion-collapse collapse" aria-labelledby="headingFive" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
                         {% if 'req_details' in prompts %}
-                            {{ prompts.req_details.as_html | safe }}
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Requirement</th>
+                                    <th>Source</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for item in prompts.req_details.as_object %}
+                                    <tr>
+                                        <td>{{ item.req }}</td>
+                                        <td>{{ item.section }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
                         {% endif %}
                     </div>
                 </div>

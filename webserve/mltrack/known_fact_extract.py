@@ -62,16 +62,16 @@ class KnownFactExtractor:
         all_tables = []
         for result in raw_results:
             extracted_tables = self._extract_tables(result)
-            logger.info("Extract tables from %s PromptRespons found %s total tables.", result.id, len(extracted_tables))
-            
-            all_tables.extend()
+            logger.info("Extract tables from PromptResponse %s found %s total tables.", result.id, len(extracted_tables))
+            all_tables.extend(extracted_tables)
         
+        logger.info("Extract req_details merged %s tables.", len(all_tables))
         merged_requirements = merge_tables_of_requirements(all_tables)
 
-        logger.info("Extract details strategy merged %s PromptResponses to find %s total rows.", len(raw_results), len(merged_requirements))
+        logger.info("Extract req_details strategy merged %s PromptResponses to find %s total rows.", len(raw_results), len(merged_requirements))
 
         ExtractedFact.objects.create(
-            fact_contents=json.dumps(merged_requirements),
+            fact_contents=json.dumps({'requirements': merged_requirements}),
             output_role='req_details',
             doc_context=doc_cluster,
             sort_order=0

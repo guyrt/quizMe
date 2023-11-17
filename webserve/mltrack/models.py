@@ -2,6 +2,8 @@ import json
 from django.db import models
 import markdown
 
+from .known_fact_formatters import format_specific_date_to_object, format_requirements
+
 from privateuploads.models import DocumentCluster, DocumentExtract
 from webserve.mixins import ModelBaseMixin
 
@@ -54,9 +56,16 @@ class ExtractedFact(ModelBaseMixin):
     sort_order = models.IntegerField(default=0)
 
     def as_html(self):
-        """TODO: parse based on what's in the contents and the output_role."""
         content = json.loads(self.fact_contents)
         if 'text' in content:
             return markdown.markdown(content['text'], extensions=['extra'])
         
-        return self.fact_contents
+        return markdown.markdown(f"```\n{json.dumps(self.fact_contents, indent=4)}\n```")
+
+    def as_object(self):
+        if self.output_role == 'specific_dates':
+            return format_specific_date_to_object(self.fact_contents)
+        elif self.output_role == 'req_details':
+            return format_requirements(self.fact_contents)
+        else:
+            return self.as_html()
