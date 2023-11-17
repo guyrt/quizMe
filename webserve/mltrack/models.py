@@ -1,3 +1,4 @@
+import json
 from django.db import models
 import markdown
 
@@ -54,4 +55,8 @@ class ExtractedFact(ModelBaseMixin):
 
     def as_html(self):
         """TODO: parse based on what's in the contents and the output_role."""
-        return self.output_role
+        content = json.loads(self.fact_contents)
+        if 'text' in content:
+            return markdown.markdown(content['text'], extensions=['extra'])
+        
+        return self.fact_contents

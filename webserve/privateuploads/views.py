@@ -13,7 +13,7 @@ from django.urls import reverse, reverse_lazy
 from django.views.generic import DeleteView, DetailView, ListView, View
 from django.views.generic.edit import FormView
 from django_rq import enqueue
-from mltrack.models import PromptResponse
+from mltrack.models import ExtractedFact
 from privateuploads.doc_parser import RawDocParser
 from privateuploads.types import docformat_to_contenttype
 from rfp_utils.raw_doc_parser import execute_doc_parse
@@ -125,7 +125,7 @@ class DocumentClusterDetailViewBase(DetailView):
         context = super().get_context_data(**kwargs)
 
         # get all your prompts.
-        prompts = list(PromptResponse.objects.filter(document_inputs__docfile__document=self.object).filter(document_inputs__active=1))
+        prompts = (list(ExtractedFact.objects.filter(doc_context=self.object).filter(active=1)))
 
         prompts_d = {
             p.output_role: p
