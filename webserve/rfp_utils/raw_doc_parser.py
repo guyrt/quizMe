@@ -56,6 +56,6 @@ def execute_doc_parse(doc_cluster_id : int):
     objs = DocumentFile.objects.filter(active=True).filter(document__id=doc_cluster_id)
     all_extracted_files = []
     for obj in objs:
-        all_extracted_files.expend(KBDocumentExtract().parse(obj.id))
+        all_extracted_files.extend(KBDocumentExtract().parse(obj.id))
 
     enqueue(gpt_extract, all_extracted_files, doc_cluster_id)

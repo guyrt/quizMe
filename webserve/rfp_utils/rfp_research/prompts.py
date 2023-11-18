@@ -9,7 +9,7 @@ def build_prompts() -> List[Prompt]:
 The contents of an RFP are listed below after the [startdocument] tag.
 The content is a request for proposal. It contains a mix of important details for this project, requirements for response,
 and boilerplate that appears in every RFP.
-Your answers should ALWAYS be thorough. Be concise. Be specific in your responses.
+Be concise. Be specific in your responses.
 
 [startdocument]
 {doc_content}
@@ -66,7 +66,7 @@ Be thorough and list all requirements and all questions.""")
         name='RFPCertifications',
         content=[
             PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""List all certifications or other specific requisites for responders. 
+            PromptCell(role='user', content="""List all certifications or other specific requirements for responders. 
 
 Example prerequisites include:
 - Required ISO or other accreditations.
@@ -74,13 +74,25 @@ Example prerequisites include:
 - Board certifications like Medical licenses, Legal license (passed bar), or CPA. Only include if you can find a specific license requirement.
 - Legal jurisdictions that apply to the contract.
 
-Only include prerequisites if they are specific.
+ONLY include prerequisites if they are specific.
+DO NOT INCLUDE 
 
 Respond in a table with two columns:
 First column is a requirement. 
 Second column is an source for the requirement. This should be a section header from the document.
 
 Source should use document section headers. Use a consistent format for all section headers.
+                       
+Here are some example requirements:
+"Demonstration of team members' experience in an Agile framework such as SAFe, Scrum, Kanban, or Lean" -- this mentions specific frameworks.
+"ISO-6467 required"  -- this mentions an ISO certification.
+"SOC-2 compliance required" -- this is a specific compliance requirement.
+                      
+Here are some examples that you should NEVER return:
+"Submission of pricing information following the guidelines provided" -- this is a requirement for the submission document, not for the contracted work. 
+"Description of how changes to this project will be managed" -- this is a requirement for the submission document.
+"A copy of each team member’s resume" -- this is a requirement about the submission document.
+Only return requirements from the actual document!
 """)
         ],
         version=1

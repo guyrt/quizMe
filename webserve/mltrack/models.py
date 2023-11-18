@@ -65,7 +65,7 @@ class ExtractedFact(ModelBaseMixin):
     def as_object(self):
         if self.output_role == 'specific_dates':
             return format_specific_date_to_object(self.fact_contents)
-        elif self.output_role == 'req_details':
+        elif self.output_role in ('req_details', 'certifications'):
             return format_requirements(self.fact_contents)
         else:
             return self.as_html()

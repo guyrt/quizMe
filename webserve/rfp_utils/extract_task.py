@@ -16,7 +16,6 @@ def gpt_extract(raw_docextracts : List[int], doc_cluster_id):
     all_prompt_responses : List[PromptResponse] = []
 
     for doc_file in DocumentFile.objects.filter(active=1).filter(document__pk=doc_cluster_id):
-        doc_file = DocumentFile.objects.get()
         doc_file.processing_status = 'active'
         doc_file.save()
 
