@@ -1,5 +1,3 @@
-
-from azurewrapper.gate import Gate
 from azurewrapper.openai_client import OpenAIClient
 
 
@@ -7,13 +5,8 @@ from typing import Dict, List
 
 
 _base_prompt = """User input is a set of outputs from some other system. They all have roughly the same format. They may have some overlap.
-Inputs will start wtih a line that says [newinput]. Unique inputs will be separated by a line that says [newinput]
 
 Your job is to create a single output that contains *all* of the content from *all* of the inputs.
-This is how you should perform your task:
-You can decide to copy a line or combine two lines IF the lines come from different files and cover the same content.
-If a line says the document doesn't contain the the information requested, then omit the entire line.
-You must copy all lines from all inputs to the output. The only exception is that lines that are combined should not be printed twice.
 It is more important to return all information in all inputs than to rephrase or merge inputs.
 
 Here are examples of lines you should not include:
@@ -25,8 +18,6 @@ Here are examples of lines you should not include:
 class OutputMergeUtility:
 
     def __init__(self, gate=None) -> None:
-        if gate is None:
-            gate = Gate()
         self._oai = OpenAIClient(gate=gate, model='35turbo')
 
     def run(self, inputs : List[str]) -> Dict:

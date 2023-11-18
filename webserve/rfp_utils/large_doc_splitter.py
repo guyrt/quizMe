@@ -8,7 +8,7 @@ class LargeDocSplitter:
     def __init__(self, token_counter : OpenAIClient) -> None:
         self._token_counter = token_counter
 
-    def split(self, content : str, max_tokens : float, min_size : float=0.9, overlap : float=1/5) -> List[str]:
+    def split(self, content : str, max_tokens : float, min_size : float=0.9, overlap : float=1/10) -> List[str]:
         """Split string on newline. 
         
         For each section, count tokens.

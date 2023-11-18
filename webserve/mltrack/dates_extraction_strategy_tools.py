@@ -26,14 +26,15 @@ def merge_tables_of_dates(tables : List[bs4.BeautifulSoup]):
         date_part = contents[0]
         meaning = contents[1]
         clean_date = format_date(date_part)
+        if clean_date is None:
+            continue
         if clean_date not in all_dates:
             all_dates[clean_date] = []
         all_dates[clean_date].append(meaning)
 
     # TODO - merge comments if they are near overlaps.
-    all_dates = {k: '\n'.join(v) for k, v in all_dates.items()}
-    return all_dates
-
+    all_dates_final = {k: '\n'.join(v) for k, v in all_dates.items()}
+    return all_dates_final
 
 
 # Define regex patterns for the three cases

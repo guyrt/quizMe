@@ -4,8 +4,10 @@ from django_rq import job, enqueue
 from azurewrapper.rfp.rawdocs_handler import KMRawBlobHander
 from azurewrapper.rfp.extractedtext_handler import KMExtractedTextBlobHander
 from privateuploads.models import DocumentFile, DocumentExtract
-from rfp_utils.pdf_parser import PdfHtmlParser, PdfParser
+from rfp_utils.pdf_parser import PdfParser
 from rfp_utils.extract_task import gpt_extract
+
+from typing import List
 
 
 class KBDocumentExtract:
@@ -13,8 +15,8 @@ class KBDocumentExtract:
     def __init__(self) -> None:
         pass
 
-    def parse(self, doc_id : int):
-        doc_file = DocumentFile.objects.get(id=doc_id)
+    def parse(self, doc_file_id : int) -> List[int]:
+        doc_file = DocumentFile.objects.get(id=doc_file_id)
 
         extracted_files = []
 
@@ -25,14 +27,11 @@ class KBDocumentExtract:
             raise NotImplementedError(f"RawUpload {doc_file.pk}: {doc_file.doc_format}")
 
         # remove existing and save
-        DocumentExtract.objects.filter(docfile=doc_id).update(active=0)
+        DocumentExtract.objects.filter(docfile=doc_file_id).update(active=0)
         for de in extracted_files:
             de.save()
 
-        # Step 2: queue up GPT parse
-        result = enqueue(gpt_extract, [d.id for d in extracted_files], doc_file.id)
-        doc_file.last_jobid = result.id
-        doc_file.save()
+        return [de.pk for de in extracted_files]
 
     def _extract_pdf(self, raw_obj : DocumentFile) -> DocumentExtract:
         content = KMRawBlobHander().get_path_to_bytes(raw_obj.location_path) # note this may need to change for other types.
@@ -52,6 +51,11 @@ class KBDocumentExtract:
 
 
 @job
-def execute_doc_parse(raw_doc_id : int):
+def execute_doc_parse(doc_cluster_id : int):
     """This is our queued request."""
-    KBDocumentExtract().parse(raw_doc_id)
+    objs = DocumentFile.objects.filter(active=True).filter(document__id=doc_cluster_id)
+    all_extracted_files = []
+    for obj in objs:
+        all_extracted_files.expend(KBDocumentExtract().parse(obj.id))
+
+    enqueue(gpt_extract, all_extracted_files, doc_cluster_id)

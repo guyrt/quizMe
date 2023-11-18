@@ -34,11 +34,15 @@ Your answers should ALWAYS be thorough. Be concise. Be specific in your response
         content=[
             PromptCell(role='system', content=_default_system_instruction),
             PromptCell(role='user', content="""The RFP describes many requirements and questions in my submission to show that I am able to take this business.
-I am planning to bid on this RFP. List all requirements I need to fill in the document. Also list all of the questions that I need to answer. Use a table with two columns:
+I am planning to bid on this RFP. List all requirements I need to fill in the document. Also list all of the questions that I need to answer. 
+
+Respond in a table with two columns:
 First column is a requirement. 
-Second column is an attribution section in the document.
-                       
-Attributions should list document sections. Be thorough and list all requirements and all questions.""")
+Second column is an source for the requirement. This should be a section header from the document.
+
+Source should use document section headers. Use a consistent format for all section headers.
+
+Be thorough and list all requirements and all questions.""")
         ],
         # continuations=[
         #     PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
@@ -58,20 +62,26 @@ Attributions should list document sections. Be thorough and list all requirement
         version=1
     )
 
-    _legal = Prompt(
-        name='RFPLegal',
-        content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""What legal jurisdictions apply to this RFP?""")
-        ],
-        version=1
-    )
-
     _certs = Prompt(
         name='RFPCertifications',
         content=[
             PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""Are there any required certifications or prerequisites for responders to this RFP?""")
+            PromptCell(role='user', content="""List all certifications or other specific requisites for responders. 
+
+Example prerequisites include:
+- Required ISO or other accreditations.
+- Specific experience expressed as a number of years like "5 years AWS" or "7+ years managing a kitchen with at least 15 staff"
+- Board certifications like Medical licenses, Legal license (passed bar), or CPA. Only include if you can find a specific license requirement.
+- Legal jurisdictions that apply to the contract.
+
+Only include prerequisites if they are specific.
+
+Respond in a table with two columns:
+First column is a requirement. 
+Second column is an source for the requirement. This should be a section header from the document.
+
+Source should use document section headers. Use a consistent format for all section headers.
+""")
         ],
         version=1
     )
@@ -87,9 +97,8 @@ Attributions should list document sections. Be thorough and list all requirement
 
     return [
         _summarize_ask,
-        _extract_details,
         _specific_dates,
-        _legal,
         _certs,
         _expertise,
+        _extract_details,
     ]

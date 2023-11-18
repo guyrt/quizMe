@@ -70,7 +70,7 @@ class FileUploadView(LoginRequiredMixin, FormView):
 
         # start a queued work item.
         for doc in docs:
-            result = enqueue(execute_doc_parse, doc.id)
+            result = enqueue(execute_doc_parse, doc.pk)
             doc.last_jobid = result.id
             doc.save()
 
@@ -112,11 +112,12 @@ class DocumentClusterDetailViewBase(DetailView):
     context_object_name = 'doc_cluster'
 
     def get_template_names(self) -> list[str]:
-        if self.object.document_role == 'rfp':
+        obj : DocumentCluster = self.get_object() # type: ignore
+        if obj.document_role == 'rfp':
             return ['privateuploads/rfp_detail.html']
-        if self.object.document_role == 'proposal':
+        if obj.document_role == 'proposal':
             return ['privateuploads/proposal_detail.html']
-        raise NotImplementedError(f"Need to do {self.object.document_role}")
+        raise NotImplementedError(f"Need to do {obj.document_role}")
 
     def get_queryset(self):
         return super().get_queryset().filter(owner=self.request.user).filter(active=True)
@@ -125,7 +126,7 @@ class DocumentClusterDetailViewBase(DetailView):
         context = super().get_context_data(**kwargs)
 
         # get all your prompts.
-        prompts = (list(ExtractedFact.objects.filter(doc_context=self.object).filter(active=1)))
+        prompts = (list(ExtractedFact.objects.filter(doc_context=self.object).filter(active=1))) # type: ignore
 
         prompts_d = {
             p.output_role: p
@@ -171,7 +172,7 @@ class DocumentClusterDeleteView(LoginRequiredMixin, DeleteView):
 
     def delete(self, request, *args, **kwargs):
         self.object = self.get_object()
-        self.object.is_active = False  # Set the object as inactive
+        self.object.is_active = False  # type: ignore # Set the object as inactive
         self.object.save()
         return super(DocumentClusterDeleteView, self).delete(request, *args, **kwargs)
 
@@ -179,12 +180,10 @@ class DocumentClusterDeleteView(LoginRequiredMixin, DeleteView):
 class DocumentClusterReprocessView(LoginRequiredMixin, View):
 
     def post(self, request, pk):
-        objs = DocumentFile.objects.filter(active=True).filter(document__id=pk)
-        for doc in objs:
-            result = enqueue(execute_doc_parse, doc.id)
-            doc.last_jobid = result.id
-            doc.save()
-        return JsonResponse({'message': f'Reprocessing {len(objs)} documents.'})
+        # from rfp_utils.extract_task import create_known_facts_from_cluster
+        # enqueue(create_known_facts_from_cluster, pk)
+        result = enqueue(execute_doc_parse, pk)
+        return JsonResponse({'message': f'Reprocessing'})
 
 
 class DocumentClusterCreateShareView(LoginRequiredMixin, View):
@@ -209,8 +208,8 @@ class DocumentFileRawView(LoginRequiredMixin, DetailView):
     model = DocumentFile
 
     def render_to_response(self, context, **response_kwargs):
-        doc_file = self.get_object()
-        extract = doc_file.documentextract_set.filter(active=1).get()
+        doc_file : DocumentFile = self.get_object() # type: ignore
+        extract = doc_file.documentextract_set.filter(active=1).get() # type: ignore
         raw_text = extract.as_html()
         response = self.get_response(raw_text, **response_kwargs)
         return response
@@ -226,7 +225,7 @@ class DocumentFileOriginalView(LoginRequiredMixin, DetailView):
     model = DocumentFile
 
     def render_to_response(self, context: dict[str, Any], **response_kwargs: Any) -> HttpResponse:
-        doc_file : DocumentFile = self.get_object()
+        doc_file : DocumentFile = self.get_object() # type: ignore
         blob_handler = KMRawBlobHander(container_name=doc_file.location_container)
         blob_bytes : BytesIO = blob_handler.get_path_to_bytes(doc_file.location_path)
         blob_bytes.seek(0)
