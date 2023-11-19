@@ -66,16 +66,15 @@ Be thorough and list all requirements and all questions.""")
         name='RFPCertifications',
         content=[
             PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""List all certifications or other specific requirements for responders. 
+            PromptCell(role='user', content="""List all certifications and specific requirements in this RFP. 
 
-Example prerequisites include:
+Examples include:
 - Required ISO or other accreditations.
-- Specific experience expressed as a number of years like "5 years AWS" or "7+ years managing a kitchen with at least 15 staff"
+- Specific experience expressed as a number of years like "5 years experience with AWS" or "7+ years managing a kitchen with at least 15 staff"
 - Board certifications like Medical licenses, Legal license (passed bar), or CPA. Only include if you can find a specific license requirement.
 - Legal jurisdictions that apply to the contract.
 
 ONLY include prerequisites if they are specific.
-DO NOT INCLUDE 
 
 Respond in a table with two columns:
 First column is a requirement. 
@@ -92,6 +91,8 @@ Here are some examples that you should NEVER return:
 "Submission of pricing information following the guidelines provided" -- this is a requirement for the submission document, not for the contracted work. 
 "Description of how changes to this project will be managed" -- this is a requirement for the submission document.
 "A copy of each team member’s resume" -- this is a requirement about the submission document.
+"Pricing must cover all aspects of the project, including delivery, installation, start-up, and any required equipment or software licenses"
+"Each proposal must be submitted in Microsoft Word or Excel, or PDF" -- this is about the submission document.
 Only return requirements from the actual document!
 """)
         ],

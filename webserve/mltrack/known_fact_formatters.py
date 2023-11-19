@@ -12,6 +12,8 @@ def format_specific_date_to_object(raw_content : str) -> List:
 
 def format_requirements(raw_content : str) -> List:
     req_contents = json.loads(raw_content)
-    rows = req_contents['requirements']
+    rows = req_contents.get('requirements')
+    if not rows:
+        return []
     rows = sorted(rows, key=lambda x: x['section'])
     return rows
