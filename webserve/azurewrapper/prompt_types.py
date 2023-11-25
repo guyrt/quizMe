@@ -31,7 +31,7 @@ class Prompt:
     # If not empty, expectation is that we chain these after last system response.
     continuations : List[PromptCell] = field(default_factory=list)
 
-    temp : float = 0.9
+    temp : float = 0.0
 
 
 @dataclass

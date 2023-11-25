@@ -45,7 +45,8 @@ class KBDocumentExtract:
         d = DocumentExtract(
             docfile=raw_obj,
             location_container=container,
-            location_path=blob_path
+            location_path=blob_path,
+            structure='rawtext'
         )
         return d
 

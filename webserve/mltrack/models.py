@@ -19,7 +19,8 @@ ModelOutputRoles = [  # if you modify this, also modify KnownFactExtractor!
     ('vendors', 'vendors'),
     ('suggested_questions', 'suggested_questions'),
     ('peoplesummary', 'peoplesummary'),
-    ('proposalquestions', 'proposalquestions')
+    ('proposalquestions', 'proposalquestions'),
+    ('tocextract', 'tocextract')
 ]
 
 # Create your models here.

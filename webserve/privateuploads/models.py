@@ -49,6 +49,12 @@ FileRolesChoices = [
     ('unknown', 'None')
 ]
 
+StructureChoices = [
+    ('rawtext', 'rawtext'), # pure text
+    ('html', 'html'),
+    ('sectionsv1', 'sectionsv1')
+]
+
 
 class DocumentCluster(ModelBaseMixin):
     """A document cluster is a set of related docs. Example would be a single SEC filing
@@ -96,6 +102,8 @@ class DocumentExtract(ModelBaseMixin):
 
     location_container = models.CharField(max_length=64)
     location_path = models.CharField(max_length=256)
+
+    structure = models.CharField(max_length=64, choices=StructureChoices)
 
     def get_content(self) -> str:
         return KMExtractedTextBlobHander(self.location_container).get_path(self.location_path)
