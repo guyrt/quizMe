@@ -14,30 +14,30 @@ DO NOT reword text other than correcting formatting errors as described above.
 
 Sometimes, the table of contents will have more than one layer, so you can see a parent/child relationship. Here's an example:
 
-Section 1   My childhood
-Section 1.1 - My preschool years
-1.1.1 - my friends
-Section 1.1.2 - my hobbies
-Section 1.2 - grade school
-Section 2. colle ge
-Section 3. my jobs
-Section 3.1 something
+Section 1   My childhood     - 1
+Section 1.1 - My preschool years - 4
+1.1.1 - my friends   - 6
+Section 1.1.2 - my hobbies - 6
+Section 1.2 - grade school  - 12
+Section 2. colle ge  - 15
+Section 3. my jobs  - 31
+Section 3.1 something  - 34
 
-APPENDIX A
+APPENDIX A  - 51
 
 Return the table of contents in JSON structure. Here's the expected format, using the example above:
 
 ```
 [
-   {{"number": "1", "title": "My childhood", "parent": "none"}},
-   {{"number": "1.1", "title": "My preschool years", "parent": "1"}},
-   {{"number": "1.1.1", "title": "my friends", "parent": "1.1"}},
-   {{"number": "1.1.2", "title": "my hobbies", "parent": "1.1"}},
-   {{"number": "1.2", "title": "Grade school", "parent": "1"}},
-   {{"number": "2", "title": "college", "parent": "none"}},
-   {{"number": "3", "title": "my jobs", "parent": "none"}},
-   {{"number": "3.1", "title": "something", "parent": "3"}},
-   {{"number": "A", "title": "APPENDIX A", "parent": "none", "is_appendix": "true"}},
+   {{"number": "1", "title": "My childhood", "parent": "none", "page": "1"}},
+   {{"number": "1.1", "title": "My preschool years", "parent": "1", "page": "4"}},
+   {{"number": "1.1.1", "title": "my friends", "parent": "1.1", "page": "6"}},
+   {{"number": "1.1.2", "title": "my hobbies", "parent": "1.1", "page": "6"}},
+   {{"number": "1.2", "title": "Grade school", "parent": "1", "page": "12"}},
+   {{"number": "2", "title": "college", "parent": "none", "page": "15"}},
+   {{"number": "3", "title": "my jobs", "parent": "none", "page": "31"}},
+   {{"number": "3.1", "title": "something", "parent": "3", "page": "34"}},
+   {{"number": "A", "title": "APPENDIX A", "parent": "none", "is_appendix": "true", "page": "51"}},
 ]
 ```
 

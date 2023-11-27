@@ -1,4 +1,3 @@
-import json_repair
 from dataclasses import asdict
 from typing import List, Tuple
 
@@ -13,6 +12,7 @@ from rfp_utils.extract_task import gpt_extract
 from rfp_utils.large_doc_splitter import LargeDocSplitter
 from rfp_utils.pdf_parser import PdfParser
 from rfp_utils.rfp_research.toc import table_of_contents_extract_prompt
+from rfp_utils.json_utils import parse_json
 
 
 class StructuredExtraction:
@@ -47,7 +47,7 @@ class StructuredExtraction:
         raw_text = "\n".join(text_content)
 
         toc, structure = self._extract_structure(raw_text)
-        structure_str = json.dumps(structure)
+        structure_str = parse_json(structure)
 
         upload_path = f"{raw_obj.location_path}.extract.txt"
         container, blob_path = KMExtractedTextBlobHander().upload(structure_str, upload_path)
@@ -68,7 +68,7 @@ class StructuredExtraction:
 
     def _extract_structure(self, raw_text : str) -> Tuple[PromptResponse, PromptResponse]:
         toc_response, parsed_toc = self._extract_table_of_contents(raw_text)
-        sections_response = self._extract_sections_with_toc(toc_response.result, raw_text)
+        sections_response = self._extract_sections_with_toc(parsed_toc, raw_text)
         return toc_response, sections_response
     
     def _extract_table_of_contents(self, raw_text) -> PromptResponse:
@@ -80,7 +80,8 @@ class StructuredExtraction:
         messages = [asdict(c) for c in current.content]
 
         response = self._oai.call(messages, temp=prompt.temp)
-        parsed_response = json_repair.loads(response['response'])
+        import ipdb; ipdb.set_trace()
+        parsed_response = parse_json(response['response'])
 
         pr = PromptResponse.objects.create(
             template_name=prompt.name,
