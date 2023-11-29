@@ -21,9 +21,12 @@ from users.views import LandingPageView
 from privateuploads.views import FileUploadView
 from sharing.views import feedback_submit, ShareLandingRedirectView
 
+from .api import api
+
 urlpatterns = [
     path('', LandingPageView.as_view(), name='landing_page'),
     path("admin/", admin.site.urls),
+    path("api/", api.urls),
     path('upload', FileUploadView.as_view(), name='upload_file'),
     path('accounts/', include('django.contrib.auth.urls')),  # Include the authentication URLs
     path('docs/', include('privateuploads.urls')),

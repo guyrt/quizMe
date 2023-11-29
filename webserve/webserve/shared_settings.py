@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django_rq",
     'corsheaders',
+    'extensionapis',
     "users",
     "privateuploads",
     "mltrack",

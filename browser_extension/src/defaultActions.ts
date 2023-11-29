@@ -1,3 +1,5 @@
+import { DomShape } from "./interfaces";
+
 chrome.runtime.sendMessage({action: 'fa_pageLoaded'})
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -5,6 +7,10 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log(request.action);
-    sendResponse({uri: document.documentURI, body: document.body.innerHTML});
+    const data : DomShape = {
+        dom: document.body.innerHTML.toString(),
+        url: document.location,
+        recordTime: new Date().getTime()
+    }
+    sendResponse(data);
 })
