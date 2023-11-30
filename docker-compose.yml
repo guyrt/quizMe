@@ -18,3 +18,4 @@ services:
     command: python manage.py rqworker
     volumes:
       - .:/app
+
