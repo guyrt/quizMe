@@ -4,6 +4,8 @@ from django.db import models
 from datetime import datetime
 import uuid
 
+from webserve.mixins import ModelBaseMixin
+
 
 class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
@@ -37,3 +39,10 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class UserKeys(ModelBaseMixin):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=128)
+    

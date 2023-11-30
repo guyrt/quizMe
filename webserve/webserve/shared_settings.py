@@ -55,6 +55,9 @@ LOGGING = {
             'level': 'DEBUG',
             'propagate': True,
         },
+        'encrypt': {
+
+        }
     },
 }
 
@@ -158,10 +161,21 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 AZURE = {
     'KM_RAW_BLOB': {
         'CONTAINER': os.environ['KMRawBlobContainer'],
-        "CONNECTION": os.environ['KMRawBlobConnectionString']
+        "CONNECTION": os.environ['DocumentBlobConnectionString']
     },
     'KM_EXTRACTEDTEXT': {
         'CONTAINER': os.environ['KMExtractedTextContainer'],
-        "CONNECTION": os.environ['KMExtractedTextConnectionString']
+        "CONNECTION": os.environ['DocumentBlobConnectionString']
+    },
+    'FA_RAWDOCS': {
+        'CONTAINER': os.environ['FARawDocsContainer'],
+        "CONNECTION": os.environ['DocumentBlobConnectionString']
+    },
+    'FA_PROCESSEDDOCS': {
+        'CONTAINER': os.environ['FAProcessedDocsContainer'],
+        "CONNECTION": os.environ['DocumentBlobConnectionString']
     }
 }
+
+
+AZURE_KEYVAULT_URL = os.environ["AZURE_KEYVAULT_URL"]

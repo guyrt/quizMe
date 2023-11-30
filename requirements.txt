@@ -11,6 +11,8 @@ python-dotenv
 azure-storage-blob>=12.9.0
 azure-storage-queue
 azure-cosmos
+azure-keyvault
+azure-identity
 
 # openai tools
 openai>=1.1.1
@@ -39,5 +41,3 @@ pdfminer.six
 
 # debugging
 ipdb
-
-
