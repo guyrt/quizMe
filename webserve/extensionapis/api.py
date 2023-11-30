@@ -20,7 +20,6 @@ def write_dom(request):
     body = loads(request.body)
     user = request.auth
     logging.debug("Receive request for %s", user.pk)
-    import ipdb; ipdb.set_trace()
     # Save a Raw File Save and upload.
     # Assume on server side we need to save (maybe relax later)
     handler = RawDocCaptureHander()

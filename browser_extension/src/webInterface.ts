@@ -6,7 +6,7 @@ export function sendPayload(payload : DomShape) {
     const data = JSON.stringify(payload);
 
     const domainBlockList = [
-        'microsoft-my.sharepoint.com'
+        'microsoft-my.sharepoint.com',
     ];
 
     if (payload.url.host in domainBlockList){

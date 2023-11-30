@@ -18,7 +18,6 @@ class _EncryptionKeyManager:
         self._client = SecretClient(settings.AZURE_KEYVAULT_URL, self._credentials)
 
     def get_key(self, user : User) -> str:
-        import ipdb; ipdb.set_trace()
         if user.pk in self._keys:
             return self._keys[user.pk]
         
