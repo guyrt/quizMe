@@ -18,6 +18,7 @@ class _EncryptionKeyManager:
         self._client = SecretClient(settings.AZURE_KEYVAULT_URL, self._credentials)
 
     def get_key(self, user : User) -> str:
+        import ipdb; ipdb.set_trace()
         if user.pk in self._keys:
             return self._keys[user.pk]
         
@@ -33,7 +34,7 @@ class _EncryptionKeyManager:
     def _create_key(self, user : User) -> str:
         # create a key, save it, then create a username.
         logger.info("Creating key for %s", user.pk)
-        key_name = f"key_{user.pk}"
+        key_name = f"fa-{user.pk}"
         key = EncryptionWrapper.get_key()
         self._write_to_kv(key_name, key)
         UserKeys.objects.create(
@@ -66,7 +67,7 @@ class EncryptionWrapper:
     
     @classmethod
     def get_key(cls) -> bytes:
-        return Fernet.generate_key()
+        return Fernet.generate_key().decode()
 
 
 # we want a singleton

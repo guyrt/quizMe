@@ -14,7 +14,7 @@ class EncryptedDocHandlerBase:
         self.blob_service_client = BlobServiceClient.from_connection_string(self.connection_string)
         self.container_client = self.blob_service_client.get_container_client(self.container_name)
 
-        self._encryption_wrapper = EncryptionWrapper
+        self._encryption_wrapper = EncryptionWrapper()
 
     def upload(self, user : User, input : str, timestamp : str, filename : str):
         full_filename = f"{user.pk}/{timestamp}/{filename}"

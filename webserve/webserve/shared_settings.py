@@ -56,7 +56,9 @@ LOGGING = {
             'propagate': True,
         },
         'encrypt': {
-
+            'handlers': ['file', 'console'],
+            'level': 'DEBUG',
+            'propagate': True,
         }
     },
 }
