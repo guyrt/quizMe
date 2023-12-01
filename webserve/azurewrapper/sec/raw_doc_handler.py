@@ -2,7 +2,7 @@ import os
 from datetime import datetime
 from typing import Dict
 
-from sec_utils.indexgen.localtypes import SecDocRssEntry, serialize_doc_entry
+from parser_utils.indexgen.localtypes import SecDocRssEntry, serialize_doc_entry
 from ..doc_handler_base import AzureBlobHandlerBase
 
 class AzureSECRawDocsBlobHandler(AzureBlobHandlerBase):

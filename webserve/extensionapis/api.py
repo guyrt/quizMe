@@ -13,6 +13,8 @@ from .auth import ApiKey
 from .models import RawDocCapture
 from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
 
+from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
+
 logger = logging.getLogger("webstack")
 
 router = Router(auth=ApiKey())
@@ -50,8 +52,7 @@ def get_raw_doc_list(request):
 def get_raw_doc(request, item_id : int):
     raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
 
-    handler = RawDocCaptureHander(container_name=raw_doc_capture.location_container)
-    content = handler.download(request.auth, raw_doc_capture.location_path)
+    content = raw_doc_capture.get_content()
 
     return RawDocCaptureWithContentSchema(
         user=str(request.auth.pk),
@@ -59,3 +60,11 @@ def get_raw_doc(request, item_id : int):
         title=raw_doc_capture.title,
         content=content
     )
+
+
+@router.post("/rawdoccaptures/{item_id}/parse")
+def parse_raw_doc(request, item_id : int):
+    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
+    driver = WebParserDriver()
+    driver.process_impression(raw_doc_capture)
+    return {'message': 'ok'}

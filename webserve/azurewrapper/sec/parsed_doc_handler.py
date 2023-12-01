@@ -1,7 +1,7 @@
 from azure.storage.blob import BlobPrefix
 
 from ..doc_handler_base import AzureBlobHandlerBase
-from sec_utils.docparsers.docparsertypes import ParsedDoc, serialized_parsed_doc
+from parser_utils.docparsers.docparsertypes import ParsedDoc, serialized_parsed_doc
 
 class AzureParsedDocsBlobHandler(AzureBlobHandlerBase):
 

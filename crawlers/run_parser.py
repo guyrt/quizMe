@@ -1,10 +1,10 @@
-from azurewrapper.cosmos_sec_facts import CosmosDbSecFactsHander
-from azurewrapper.raw_doc_handler import AzureSECRawDocsBlobHandler
-from azurewrapper.raw_doc_queue import ProcessRawDocQueue, UnderstandDocQueue
-from azurewrapper.parsed_doc_handler import AzureParsedDocsBlobHandler
+from webserve.azurewrapper.sec.cosmos_sec_facts import CosmosDbSecFactsHander
+from webserve.azurewrapper.sec.raw_doc_handler import AzureSECRawDocsBlobHandler
+from webserve.azurewrapper.sec.raw_doc_queue import ProcessRawDocQueue, UnderstandDocQueue
+from webserve.azurewrapper.sec.parsed_doc_handler import AzureParsedDocsBlobHandler
 
-from docparsers.driver import ParserDriver
-from docparsers.structured_data_upload import StructuredDataHandler
+from webserve.parser_utils.docparsers.driver import ParserDriver
+from webserve.parser_utils.docparsers.structured_data_upload import StructuredDataHandler
 
 from dotenv import load_dotenv
 

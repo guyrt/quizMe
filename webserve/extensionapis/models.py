@@ -1,4 +1,5 @@
 from django.db import models
+from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 
 from users.models import User
 
@@ -14,7 +15,18 @@ class AuthTokens(models.Model):
     name = models.CharField(max_length=64)
 
 
+class SingleUrl(ModelBaseMixin):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    url = models.CharField(max_length=2048)
+    host = models.CharField(max_length=512)
+
+    class Meta:
+        unique_together = ('user', 'url')
+
+
 class RawDocCapture(ModelBaseMixin):
+    """Single impression."""
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     url =  models.CharField(max_length=2048)
@@ -23,11 +35,34 @@ class RawDocCapture(ModelBaseMixin):
     location_container = models.CharField(max_length=64)
     location_path = models.CharField(max_length=256)
 
+    url_model = models.ForeignKey(SingleUrl, on_delete=models.CASCADE, null=True)
 
-class ParsedDocCapture(ModelBaseMixin):
+    def get_content(self):
+        handler = RawDocCaptureHander(container_name=self.location_container)
+        content = handler.download(self.user, self.location_path)
+        return content
+
+
+class SingleUrlFact(ModelBaseMixin):
+
+    base_url = models.ForeignKey(SingleUrl, on_delete=models.CASCADE)
+
+    fact_key = models.CharField(max_length=64)
+    fact_value = models.CharField(max_length=512)
+
+    class Meta:
+        unique_together = ('base_url', 'fact_key')
+
+
+class ObservedLink(ModelBaseMixin):
+    """Track an observed link."""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    from_str = models.CharField(max_length=2028)
+    from_obj = models.ForeignKey(SingleUrl, on_delete=models.SET_NULL, null=True, related_name='source')
 
-    raw_doc = models.ForeignKey(RawDocCapture, on_delete=models.CASCADE)
+    to_str = models.CharField(max_length=2048)
+    to_obj = models.ForeignKey(SingleUrl, on_delete=models.SET_NULL, null=True, related_name='target')
 
-    # Todo more stuff
+    class Meta:
+        unique_together = ('user', 'from_str', 'to_str')
