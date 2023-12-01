@@ -7,6 +7,7 @@ export function sendPayload(payload : DomShape) {
 
     const domainBlockList = [
         'microsoft-my.sharepoint.com',
+        'statics.teams.cdn.office.net'
     ];
 
     if (payload.url.host in domainBlockList){

@@ -21,7 +21,7 @@ class EncryptedDocHandlerBase:
         blob_client = self.container_client.get_blob_client(full_filename)
         encrypted_content = self._encryption_wrapper.encrypt(user, input)
         blob_client.upload_blob(encrypted_content, overwrite=True)  # todo return and store etags
-        return self.container_name, filename
+        return self.container_name, full_filename
 
     def download(self, user : User, remote_path):
         try:

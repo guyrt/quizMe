@@ -1,15 +1,18 @@
-from ninja import Router
-from json import loads
+import logging
 import uuid
 from datetime import datetime
+from json import loads
+from typing import List
+
+from django.shortcuts import get_object_or_404
 
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
+from ninja import Router, pagination
 
 from .auth import ApiKey
-
 from .models import RawDocCapture
+from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
 
-import logging
 logger = logging.getLogger("webstack")
 
 router = Router(auth=ApiKey())
@@ -29,7 +32,30 @@ def write_dom(request):
     RawDocCapture.objects.create(
         user=user,
         location_container=container,
-        location_path=filename
+        location_path=filename,
+        url=body['url']['href'][:2048],
+        title=body.get('title', '')[:1024],
     )
 
     return {'message': 'ok'}
+
+
+@router.get("/rawdoccaptures/", response=List[RawDocCaptureSchema])
+@pagination.paginate()
+def get_raw_doc_list(request):
+    return RawDocCapture.objects.filter(user=request.auth, active=1)
+
+
+@router.get("/rawdoccaptures/{item_id}", response=RawDocCaptureWithContentSchema)
+def get_raw_doc(request, item_id : int):
+    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
+
+    handler = RawDocCaptureHander(container_name=raw_doc_capture.location_container)
+    content = handler.download(request.auth, raw_doc_capture.location_path)
+
+    return RawDocCaptureWithContentSchema(
+        user=str(request.auth.pk),
+        url=raw_doc_capture.url,
+        title=raw_doc_capture.title,
+        content=content
+    )

@@ -17,6 +17,8 @@ class AuthTokens(models.Model):
 class RawDocCapture(ModelBaseMixin):
     
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    url =  models.CharField(max_length=2048)
+    title = models.CharField(max_length=1024)
 
     location_container = models.CharField(max_length=64)
     location_path = models.CharField(max_length=256)

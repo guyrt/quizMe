@@ -10,7 +10,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     const data : DomShape = {
         dom: document.body.innerHTML.toString(),
         url: document.location,
-        recordTime: new Date().getTime()
+        recordTime: new Date().getTime(),
+        title: document.title
     }
     sendResponse(data);
 })
