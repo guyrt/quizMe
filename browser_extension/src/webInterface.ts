@@ -12,7 +12,13 @@ export function sendPayload(payload : DomShape) {
         'statics.teams.cdn.office.net'
     ];
 
+    const filterSend = true; // only send filtered article content if true.
+
     if (payload.url.host in domainBlockList){
+        return;
+    }
+
+    if (filterSend && !isArticle()) {
         return;
     }
 
@@ -31,4 +37,9 @@ export function sendPayload(payload : DomShape) {
     .catch(error => {
         console.error('Error calling API: ', error);
     });
+}
+
+
+function isArticle() : boolean {
+    return document.querySelector('article') !== null;
 }
