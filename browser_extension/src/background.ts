@@ -1,5 +1,5 @@
 import { DomShape } from "./interfaces";
-import {sendPayload} from "./webInterface";
+import {sendDomPayload} from "./webInterface";
 
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.action === "fa_pageLoaded") {
@@ -14,5 +14,5 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
 function handleFAAccessDOMMessage(response : DomShape) {
     console.log(response.url);
-    sendPayload(response);
+    sendDomPayload(response);
 }

@@ -1,7 +1,7 @@
 import { DomShape } from "./interfaces";
 
 
-export function sendPayload(payload : DomShape) {
+export function sendDomPayload(payload : DomShape) {
     const t = "fa0_FE4lwLEoJ89lVnHQfVMHfNqYia_-nl5qizo";
     const data = JSON.stringify(payload);
 

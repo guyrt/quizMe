@@ -4,16 +4,14 @@ from datetime import datetime
 from json import loads
 from typing import List
 
-from django.shortcuts import get_object_or_404
-
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
+from django.shortcuts import get_object_or_404
 from ninja import Router, pagination
+from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 
 from .auth import ApiKey
 from .models import RawDocCapture
 from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
-
-from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 
 logger = logging.getLogger("webstack")
 
@@ -31,7 +29,7 @@ def write_dom(request):
     container, filename = handler.upload(user, body['dom'], datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
 
     # fire a task to parse
-    RawDocCapture.objects.create(
+    record = RawDocCapture.objects.create(
         user=user,
         location_container=container,
         location_path=filename,
@@ -39,7 +37,7 @@ def write_dom(request):
         title=body.get('title', '')[:1024],
     )
 
-    return {'message': 'ok'}
+    return {'record': record.pk}
 
 
 @router.get("/rawdoccaptures/", response=List[RawDocCaptureSchema])

@@ -4,7 +4,6 @@ from urllib.parse import urlparse
 from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
 from ..utilities import parse_contents
 
-from typing import Tuple
 
 class WebParserDriver:
     """Main parser driver for our web content"""
