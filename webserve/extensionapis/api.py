@@ -3,6 +3,8 @@ import uuid
 from datetime import datetime
 from json import loads
 from typing import List
+from urllib.parse import urlparse
+
 
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
@@ -10,7 +12,7 @@ from ninja import Router, pagination
 from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 
 from .auth import ApiKey
-from .models import RawDocCapture
+from .models import RawDocCapture, SingleUrl
 from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
 
 logger = logging.getLogger("webstack")
@@ -28,16 +30,27 @@ def write_dom(request):
     handler = RawDocCaptureHander()
     container, filename = handler.upload(user, body['dom'], datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
 
-    # fire a task to parse
+    url = body['url']['href'][:2048]
+
+    # create a SingleURL and return that id.
+    obj, created = SingleUrl.objects.get_or_create(
+        user=user,
+        url=url
+    )
+    if created:
+        obj.host = urlparse(url).netloc
+        obj.save()
+
     record = RawDocCapture.objects.create(
         user=user,
         location_container=container,
         location_path=filename,
-        url=body['url']['href'][:2048],
+        url=url,
         title=body.get('title', '')[:1024],
+        url_model=obj
     )
 
-    return {'record': record.pk}
+    return {'raw_doc': record.pk, 'url_obj': obj.pk}
 
 
 @router.get("/rawdoccaptures/", response=List[RawDocCaptureSchema])
@@ -66,3 +79,4 @@ def parse_raw_doc(request, item_id : int):
     driver = WebParserDriver()
     driver.process_impression(raw_doc_capture)
     return {'message': 'ok'}
+

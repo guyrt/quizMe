@@ -1,45 +1,37 @@
-import { DomShape } from "./interfaces";
+import { DomShape, Quiz, UploadedDom } from "./interfaces";
+
+const domain = "http://localhost:8000";
 
 
-export function sendDomPayload(payload : DomShape) {
-    const t = "fa0_FE4lwLEoJ89lVnHQfVMHfNqYia_-nl5qizo";
-    const data = JSON.stringify(payload);
+export function sendDomPayload(token : string, payload : DomShape) : Promise<UploadedDom> {
+    const url = `${domain}/api/browser/writehtml`;
 
-    const domainBlockList = [
-        'microsoft-my.sharepoint.com',
-        'microsoft.sharepoint.com',
-        'localhost',
-        'statics.teams.cdn.office.net'
-    ];
+    return callFetch(token, url, payload);
+}
 
-    const filterSend = true; // only send filtered article content if true.
+/// Request a quiz
+export function getAQuiz(token : string, payload : UploadedDom) : Promise<Quiz> {
+    const url = `${domain}/api/browser/getquiz`;
 
-    if (payload.url.host in domainBlockList){
-        return;
-    }
+    return callFetch(token, url, payload);
+}
 
-    if (filterSend && !isArticle()) {
-        return;
-    }
 
-    const url = "http://localhost:8000/api/browser/writehtml";
+function callFetch<InT, OutT>(token : string, url : string, payload : InT, method = "POST") : Promise<OutT> {
     const headers = {
-        'X-API-KEY': t,
+        'X-API-KEY': token,
         'Content-Type': 'application/json'
     };
 
-    fetch(url, {
-        method: "POST",
+    const p = fetch(url, {
+        method: method,
         headers: headers,
-        body: data
+        body: JSON.stringify(payload)
     })
     .then(response => response.json())
     .catch(error => {
         console.error('Error calling API: ', error);
     });
-}
 
-
-function isArticle() : boolean {
-    return document.querySelector('article') !== null;
+    return p
 }

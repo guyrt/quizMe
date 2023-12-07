@@ -1,5 +1,4 @@
 from bs4 import BeautifulSoup
-from urllib.parse import urlparse
 
 from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
 from ..utilities import parse_contents
@@ -14,20 +13,10 @@ class WebParserDriver:
     def process_impression(self, impression : RawDocCapture):
         # you could group these two statements in async.
         raw_dom = parse_contents(impression.get_content())
-        single_url = self._attach_to_url(impression)
+        single_url = impression.url_model
 
         # these can run in parallel
         self._classify_article(single_url, raw_dom)
-
-    def _attach_to_url(self, impression : RawDocCapture) -> SingleUrl:
-        obj, created = SingleUrl.objects.get_or_create(
-            user=impression.user,
-            url=impression.url
-        )
-        if created:
-            obj.host = urlparse(impression.url).netloc
-            obj.save()
-        return obj
 
     def _extract_and_create_links(self, raw_dom : BeautifulSoup):
         pass
