@@ -19,7 +19,7 @@ logger = logging.getLogger("webstack")
 class QuizGenerator:
 
     def __init__(self) -> None:
-        self._oai = OpenAIClient(model='gpt4', temp=0.9)
+        self._oai = OpenAIClient(model='gpt4', temp=0.7)
 
 
     def create_quiz(self, raw_doc : RawDocCapture) -> Optional[SimpleQuiz]:
@@ -54,7 +54,7 @@ class QuizGenerator:
             owner=raw_doc.user,
             content=dumps(raw_quiz_content),
             reasoning=preamble,
-            url=raw_doc.url_model.pk
+            url=raw_doc.url_model
         )
 
         # return it.

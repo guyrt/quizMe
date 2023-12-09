@@ -70,7 +70,7 @@ class OpenAIClient:
                     model=self.engine,
                     messages=messages,
                     temperature=temp or self._temp,
-                    
+                    max_tokens=self.max_doc_tokens,
                     top_p=0.95,
                     frequency_penalty=0,
                     presence_penalty=0,

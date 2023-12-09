@@ -15,7 +15,7 @@ logger = logging.getLogger("webstack")
 router = Router(auth=ApiKey())
 
 
-@router.post("makequiz", response=SimpleQuizeSchema | str)
+@router.post("makequiz", response=SimpleQuizeSchema)
 def make_quiz(request, body : MakeQuizIdSchemas):
     """
     If a quiz exists for this URL, return it. (Maybe later have a force recreate as a sign it's bad.)
@@ -27,7 +27,7 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     except SimpleQuiz.DoesNotExist:
         pass
     else:
-        return SimpleQuizeSchema(existing_quiz)
+        return existing_quiz
 
     raw_doc = get_object_or_404(RawDocCapture, id=body.raw_doc, user=user, active=1)
 
@@ -37,5 +37,5 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     # quiz gen is simple prompt + store PromptResponse + return content in JSON format.
     quiz = QuizGenerator().create_quiz(raw_doc)
     if quiz:
-        return SimpleQuizeSchema(quiz)
+        return quiz
     return ""
