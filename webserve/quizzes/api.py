@@ -10,7 +10,7 @@ from .models import SimpleQuiz
 from .schemas import SimpleQuizeSchema, MakeQuizIdSchemas
 from .quiz_gen import QuizGenerator
 
-logger = logging.getLogger("webstack")
+logger = logging.getLogger("default")
 
 router = Router(auth=ApiKey())
 

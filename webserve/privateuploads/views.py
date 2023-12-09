@@ -23,7 +23,7 @@ from .forms import FileUploadForm
 from .models import (DocumentCluster, DocumentClusterRoleChoices, DocumentFile,
                      RawUpload)
 
-logger = logging.getLogger('webstack')
+logger = logging.getLogger('default')
 
 
 class FileUploadView(LoginRequiredMixin, FormView):

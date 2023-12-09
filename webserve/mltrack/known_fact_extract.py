@@ -10,7 +10,7 @@ from .requirement_details_extraction_strategy_tools import merge_tables_of_requi
 from rfp_utils.rfp_research.output_merge import OutputMergeUtility
 
 import logging
-logger = logging.getLogger('rqwork')
+logger = logging.getLogger('default')
 
 
 class KnownFactExtractor:

@@ -10,7 +10,7 @@ from rfp_utils.rfp_research.prompts import build_prompts
 from typing import List
 
 import logging
-logger = logging.getLogger('rqwork')
+logger = logging.getLogger('default')
 
 
 class RFPPromptRunner(BasePromptRunner):

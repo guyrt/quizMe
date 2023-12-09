@@ -9,7 +9,7 @@ from .gpt_extract_proposal import ProposalPromptRunner
 from .gpt_extract_rfp import RFPPromptRunner
 from mltrack.known_fact_extract import KnownFactExtractor
 
-logger = logging.getLogger('rqwork')
+logger = logging.getLogger('default')
 
 @job
 def gpt_extract(raw_docextracts : List[int], doc_cluster_id):

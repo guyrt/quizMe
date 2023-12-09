@@ -13,7 +13,7 @@ from rfp_utils.json_utils import find_json
 from .models import SimpleQuiz
 from .quiz_prompts import quiz_gen
 
-logger = logging.getLogger("webstack")
+logger = logging.getLogger("default")
 
 
 class QuizGenerator:

@@ -17,7 +17,7 @@ from collections.abc import Iterator
 from typing import List
 
 import logging
-logger = logging.getLogger('rqwork')
+logger = logging.getLogger('default')
 
 
 class BasePromptRunner:
