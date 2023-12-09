@@ -13,6 +13,5 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
 
 function handleFAAccessDOMMessage(response : DomShape) {
-    console.log(response.url);
     state.uploadPage(response);
 }

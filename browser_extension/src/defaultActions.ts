@@ -7,11 +7,13 @@ document.addEventListener('DOMContentLoaded', () => {
 })
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    const data : DomShape = {
-        dom: document.body.innerHTML.toString(),
-        url: document.location,
-        recordTime: new Date().getTime(),
-        title: document.title
+    if (request.action == 'fa_accessDOM') {
+        const data : DomShape = {
+            dom: document.body.innerHTML.toString(),
+            url: document.location,
+            recordTime: new Date().getTime(),
+            title: document.title
+        }
+        sendResponse(data);
     }
-    sendResponse(data);
 })

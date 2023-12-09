@@ -7,6 +7,7 @@ class Main {
 
     init() {
         document.addEventListener('DOMContentLoaded', async () => {
+            console.log("Start main.js setup.")
             this.resetQuizTable();
             this.hideErrorMessage();
             this.setQuizStart()
@@ -39,8 +40,10 @@ class Main {
     }
     
     setQuizStart() {
-        const createButton = document.getElementById('btn-create-quiz');
+        const btnid = 'faextension__btn-create-quiz';
+        const createButton = document.getElementById(btnid);
         if (createButton == null) {
+            console.log(`Warning: btn ${btnid} not found.`)
             return
         }
         

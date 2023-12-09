@@ -1,6 +1,8 @@
 import { DomShape, UploadedDom } from "./interfaces";
 import { sendDomPayload, getAQuiz } from "./webInterface";
 
+type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
+
 class ApplicationState {
 
     private t = "fa0_FE4lwLEoJ89lVnHQfVMHfNqYia_-nl5qizo";
@@ -18,28 +20,24 @@ class ApplicationState {
 
     private uploadRecord : (UploadedDom | null) = null;
 
-    private uploadPromise : Promise<UploadedDom> | undefined;
+    private uploadState : UploadState = 'notstarted';
 
     public uploadPage(response : DomShape) {
-        if (this.uploadPromise != undefined) {
+        if (this.uploadState != 'notstarted' && this.uploadState != 'error') {
             return;
         }
 
         const p = sendDomPayload(this.t, response);
-        this.uploadPromise = p?.then( x=> this.uploadRecord = x);
+        const c = p?.then( x=> {this.uploadRecord = x; return x});
     }
 
-    public getQuiz() {
-        if (this.uploadPromise == undefined) {
-            return Promise.resolve(undefined);
+    public async getQuiz() {
+        if (this.uploadRecord == null) {
+            return undefined;
         }
-        return this.uploadPromise.then(() => {
-            if (this.uploadRecord == null) {
-                return Promise.resolve(undefined);
-            }
-            const quiz = getAQuiz(this.t, this.uploadRecord);
-            return quiz;
-        });
+    
+        const quiz = getAQuiz(this.t, this.uploadRecord);
+        return quiz;
     }
 
     public shouldOperateOnPage(host : string) : boolean {
