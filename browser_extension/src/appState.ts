@@ -30,12 +30,15 @@ class ApplicationState {
     }
 
     public getQuiz() {
-        this.uploadPromise?.then(() => {
+        if (this.uploadPromise == undefined) {
+            return Promise.resolve(undefined);
+        }
+        return this.uploadPromise.then(() => {
             if (this.uploadRecord == null) {
-                return;
+                return Promise.resolve(undefined);
             }
             const quiz = getAQuiz(this.t, this.uploadRecord);
-            
+            return quiz;
         });
     }
 
@@ -58,5 +61,5 @@ class ApplicationState {
 
 }
 
-
+// treat this as a singleton.
 export const state = new ApplicationState();

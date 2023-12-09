@@ -1,3 +1,5 @@
+import {state} from "./appState";
+
 class Main {
     constructor() {
         this.init();
@@ -18,7 +20,6 @@ class Main {
             errorMsgElement.classList.add('olive-extension-hidding');
             errorMsgElement.innerHTML = '';
         }
-        
     }
 
     showErrorMessage(text : string) {
@@ -47,6 +48,9 @@ class Main {
             this.hideErrorMessage();
             
             // start api call
+            const p = state.getQuiz();
+            p.then(x => x?.document);
+
 
             // set to loading
         })
