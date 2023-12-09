@@ -61,7 +61,7 @@ class OpenAIClient:
         else:
             self.gate = gate
 
-    def call(self, messages, temp=None) -> str:
+    def call(self, messages, temp=None) -> dict:
         self.gate.gate()
         sleep_amt = 60
         while sleep_amt <= 240:

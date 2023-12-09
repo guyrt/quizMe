@@ -9,7 +9,9 @@ class ApplicationState {
         'microsoft-my.sharepoint.com',
         'microsoft.sharepoint.com',
         'localhost',
-        'statics.teams.cdn.office.net'
+        'statics.teams.cdn.office.net',
+        'google.com',
+        'bing.com'
     ];
 
     private filterSend = true; // only send filtered article content if true.

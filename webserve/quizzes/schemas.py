@@ -1,10 +1,16 @@
-from ninja import ModelSchema
+from ninja import ModelSchema, Schema
 
 
 from .models import SimpleQuiz
 
 
+class MakeQuizIdSchemas(Schema):
+
+    url_obj : int
+    raw_doc : int
+
+
 class SimpleQuizeSchema(ModelSchema):
     class Meta:
         model = SimpleQuiz
-        fields = ['user', 'content', 'pk']
+        fields = ['owner', 'content', 'id']

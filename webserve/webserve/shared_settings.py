@@ -79,6 +79,7 @@ INSTALLED_APPS = [
     "users",
     "privateuploads",
     "mltrack",
+    "quizzes",
     "sharing"
 ]
 

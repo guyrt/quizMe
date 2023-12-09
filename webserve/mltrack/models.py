@@ -23,8 +23,10 @@ ModelOutputRoles = [  # if you modify this, also modify KnownFactExtractor!
     ('tocextract', 'tocextract')
 ]
 
-# Create your models here.
 class PromptResponse(ModelBaseMixin):
+    """
+    This is only used in structured document problems like RFPs. DO NOT use for consumer project.
+    """
 
     template_name = models.CharField(max_length=64)
     template_version = models.SmallIntegerField()
