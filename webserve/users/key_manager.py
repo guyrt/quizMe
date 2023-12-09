@@ -7,7 +7,7 @@ from .models import User, UserKeys
 from django.conf import settings
 
 import logging
-logger = logging.getLogger('encryption')
+logger = logging.getLogger('default')
 
 
 class _EncryptionKeyManager:

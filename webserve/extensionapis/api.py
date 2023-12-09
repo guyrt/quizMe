@@ -15,7 +15,7 @@ from .auth import ApiKey
 from .models import RawDocCapture, SingleUrl
 from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
 
-logger = logging.getLogger("webstack")
+logger = logging.getLogger("default")
 
 router = Router(auth=ApiKey())
 

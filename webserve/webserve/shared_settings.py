@@ -45,16 +45,11 @@ LOGGING = {
         },
     },
     'loggers': {
-        '': {
+        'default': {
             'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
-        },
-        'django': {
-            'handlers': ['console', 'file'],
-            'level': 'WARNING',
-            'propagate': False
-        },
+        }
     },
 }
 

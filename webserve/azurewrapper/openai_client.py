@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 import logging
-logger = logging.getLogger('rqwork')
+logger = logging.getLogger('default')
 
 
 # Todo:
