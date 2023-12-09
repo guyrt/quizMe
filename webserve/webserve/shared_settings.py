@@ -37,7 +37,7 @@ LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': '/tmp/django.log',
+            'filename': '/tmp/django.log'
         },
         'console': {
             'level': 'DEBUG',
@@ -45,21 +45,16 @@ LOGGING = {
         },
     },
     'loggers': {
-        'rqwork': {
+        '': {
             'handlers': ['file', 'console'],
             'level': 'DEBUG',
             'propagate': True,
         },
-        'webstack': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
+        'django': {
+            'handlers': ['console', 'file'],
+            'level': 'WARNING',
+            'propagate': False
         },
-        'encrypt': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        }
     },
 }
 

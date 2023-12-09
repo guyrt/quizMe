@@ -22,9 +22,9 @@ def get_encoding(model='35turbo'):
 def get_engine(model, api_type):
     if api_type == 'azure':
         if model == '35turbo':
-            return "chatGPT_GPT35-turbo-0301"
+            return "gpt-35-turbo-16k"
         elif model == 'gpt4':
-            return 'GPT-4-32K-0314'
+            return 'gpt-4-32k'
     else:
         if model == '35turbo':
             return "gpt-3.5-turbo-16k"

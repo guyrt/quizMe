@@ -15,7 +15,7 @@ logger = logging.getLogger("webstack")
 router = Router(auth=ApiKey())
 
 
-@router.post("makequiz", response=SimpleQuizeSchema)
+@router.post("makequiz", response=SimpleQuizeSchema | str)
 def make_quiz(request, body : MakeQuizIdSchemas):
     """
     If a quiz exists for this URL, return it. (Maybe later have a force recreate as a sign it's bad.)
@@ -29,11 +29,13 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     else:
         return SimpleQuizeSchema(existing_quiz)
 
-    raw_doc = get_object_or_404(RawDocCapture, id=body.raw_doc, owner=user, active=1)
+    raw_doc = get_object_or_404(RawDocCapture, id=body.raw_doc, user=user, active=1)
 
     # try to get an extract.
     # if none (there won't be one now) then assume someone is making one. don't wait.
     #     just extract from DOM and send to the quiz gen logic.
     # quiz gen is simple prompt + store PromptResponse + return content in JSON format.
     quiz = QuizGenerator().create_quiz(raw_doc)
-    return SimpleQuizeSchema(quiz)
+    if quiz:
+        return SimpleQuizeSchema(quiz)
+    return ""

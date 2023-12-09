@@ -33,7 +33,7 @@ class QuizGenerator:
         if not quiz_content:
             return None
 
-        preamble, raw_quiz_content = self._extract_quiz_json(quiz_content['results'])
+        preamble, raw_quiz_content = self._extract_quiz_json(quiz_content['response'])
 
         # Generate PromptResponse
         # TODO - new model.
@@ -43,8 +43,8 @@ class QuizGenerator:
             template_version=quiz_gen.version,
             source_type='RawDocCapture',
             source_id=str(raw_doc.pk),
-            prompt_tokens=quiz_content['prompt_tokens'],
-            completion_tokens=quiz_content['completion_tokens'],
+            prompt_tokens=quiz_content['tokens'].prompt_tokens,
+            completion_tokens=quiz_content['tokens'].completion_tokens,
             model_service=self._oai.api_type,
             model_name=self._oai.engine
         )
@@ -52,7 +52,9 @@ class QuizGenerator:
         # Generate Quiz
         quiz = SimpleQuiz.objects.create(
             owner=raw_doc.user,
-            content=dumps(raw_quiz_content)
+            content=dumps(raw_quiz_content),
+            reasoning=preamble,
+            url=raw_doc.url_model.pk
         )
 
         # return it.
