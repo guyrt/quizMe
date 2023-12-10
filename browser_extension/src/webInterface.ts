@@ -11,7 +11,7 @@ export function sendDomPayload(token : string, payload : DomShape) : Promise<Upl
 
 /// Request a quiz
 export function getAQuiz(token : string, payload : UploadedDom) : Promise<Quiz> {
-    const url = `${domain}/api/browser/getquiz`;
+    const url = `${domain}/api/quiz/makequiz`;
 
     return callFetch(token, url, payload);
 }
