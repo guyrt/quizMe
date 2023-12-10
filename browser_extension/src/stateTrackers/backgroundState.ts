@@ -13,28 +13,28 @@ type SinglePageDetails = {
     url : Location
     uploadState : UploadState
     uploadedDom? : UploadedDom,
-    key : string
+    key : number
 }
 
 type PageDetailsMap = {
-    [key: string]: SinglePageDetails
+    [key: number]: SinglePageDetails
 }
 
 class BackgroundState {
     
     private pageDetails : PageDetailsMap = {}
 
-    private quizzes : {[key: string]: Quiz} = {}
+    private quizzes : {[key: number]: Quiz} = {}
 
-    private uploadPromises : {[key: string]: Promise<UploadedDom>} = {}
+    private uploadPromises : {[key: number]: Promise<UploadedDom>} = {}
 
-    public async uploadPage(response : DomShape) {
+    public async uploadPage(tabId : number, response : DomShape) {
 
         if (!await this.shouldOperateOnPage(response)) {
             return;
         }
 
-        const record = this.getOrCreatePageDetails(response);
+        const record = this.getOrCreatePageDetails(tabId, response);
         
         if (record.uploadState != 'notstarted' && record.uploadState != 'error') {
             return;
@@ -54,7 +54,7 @@ class BackgroundState {
         });
     }
 
-    public async getOrCreateAQuiz(key : string) : Promise<Quiz | undefined> {
+    public async getOrCreateAQuiz(key : number) : Promise<Quiz | undefined> {
         if (key in this.quizzes) {
             return this.quizzes[key];
         }
@@ -92,8 +92,7 @@ class BackgroundState {
         return true;
     }
 
-    private getOrCreatePageDetails(response : DomShape) : SinglePageDetails {
-        const key = response.url.href;
+    private getOrCreatePageDetails(key : number, response : DomShape) : SinglePageDetails {
         if (!(key in this.pageDetails)) {
             this.pageDetails[key] = {
                 clientIsArticle: response.clientIsArticle,
