@@ -15,3 +15,12 @@ export type Quiz = {
     quizPk : string,
     question : string
 }
+
+
+export type ChromeMessageType = "domupload" | "fa_pageLoaded"
+
+
+export type ChromeMessage = {
+    type : ChromeMessageType,
+    payload : any
+}

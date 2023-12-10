@@ -9,13 +9,19 @@
 
 <body>
     <div class="olive-extension">
-        <button type="button" class="olive-extension__btn" id="faextension__btn-create-quiz">
+        <button type="button" class="olive-extension-hidding olive-extension__btn" id="faextension__btn-create-quiz">
             Quiz me!
         </button>
 
+        <div id="faextension__p-loading">
+            Analyzing...
+        </div>
+
+        <div id="faextension__p-not-available" class="olive-extension-hidding">
+            Sorry! We only work on articles.
+        </div>
         <div class="olive-extension__email-table" id="faextension__quiz"></div>
 
-        <h3 class="olive-extension__error-msg" id="olive-extension__error-msg"></h3>
     </div>
 </body>
 

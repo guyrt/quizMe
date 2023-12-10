@@ -1,5 +1,5 @@
 import { DomShape } from "./interfaces";
-import {state} from "./stateTrackers/appState";
+import {backgroundState} from "./stateTrackers/backgroundState";
 
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.action === "fa_pageLoaded") {
@@ -13,5 +13,5 @@ chrome.runtime.onMessage.addListener((message, sender) => {
 
 
 function handleFAAccessDOMMessage(response : DomShape) {
-    state.uploadPage(response);
+    backgroundState.uploadPage(response);
 }
