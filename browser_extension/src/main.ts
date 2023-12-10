@@ -1,4 +1,4 @@
-import {state} from "./appState";
+import {state} from "./stateTrackers/appState";
 
 class Main {
     constructor() {

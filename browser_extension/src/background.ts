@@ -1,5 +1,5 @@
 import { DomShape } from "./interfaces";
-import {state} from "./appState";
+import {state} from "./stateTrackers/appState";
 
 chrome.runtime.onMessage.addListener((message, sender) => {
     if (message.action === "fa_pageLoaded") {

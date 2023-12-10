@@ -1,5 +1,5 @@
-import { DomShape, UploadedDom } from "./interfaces";
-import { sendDomPayload, getAQuiz } from "./webInterface";
+import { DomShape, UploadedDom } from "../interfaces";
+import { sendDomPayload, getAQuiz } from "../webInterface";
 
 type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
 
