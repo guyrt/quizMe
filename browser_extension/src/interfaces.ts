@@ -2,7 +2,9 @@ export type DomShape = {
     dom : string,
     url : Location,
     recordTime : number,
-    title : string
+    title : string,
+
+    requestId : string // way to track which request was used.
 }
 
 export type UploadedDom = {
@@ -21,6 +23,7 @@ export type ChromeMessageType = "domupload" | "fa_pageLoaded"
 
 
 export type ChromeMessage = {
-    type : ChromeMessageType,
+    action : ChromeMessageType,
+    requestId : string,
     payload : any
 }

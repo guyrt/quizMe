@@ -3,6 +3,10 @@ import { ChromeMessage, DomShape } from "./interfaces";
 
 
 class Main {
+
+    /// Tracker for dom upload requests
+    public localRequestId : string = "";
+
     constructor() {
         this.init();
     }
@@ -13,9 +17,14 @@ class Main {
             this.handleIsArticle();
             this.setQuizStart()
         });
-
+ 
         chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-            if (message.type == 'domupload') {
+            console.log(`Got message ${message.action}`);
+            if (message.requestId != this.localRequestId) {
+                return;
+            }
+
+            if (message.action == 'domupload') {
                 state.uploadRecord = message.payload.domupload;
                 state.isArticle = message.payload.isarticle;
             }
@@ -75,7 +84,7 @@ class Main {
     }
 }
 
-new Main();
+const m = new Main();
 
 /// Startup scripts to load and send DOM. NOTE! this may run too early. So far so good I think
 /// but if it happens then you'll need a deferral mechanism. Or give up and just send the DOM when
@@ -88,8 +97,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             dom: document.body.innerHTML.toString(),
             url: document.location,
             recordTime: new Date().getTime(),
-            title: document.title
+            title: document.title,
+            requestId : request.requestId
         }
+        m.localRequestId = request.requestId;
         sendResponse(data);
     }
 })

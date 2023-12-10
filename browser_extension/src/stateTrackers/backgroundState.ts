@@ -26,7 +26,8 @@ class BackgroundState {
             this.uploadState = 'completed';
 
             chrome.runtime.sendMessage({
-                'type': 'domupload',
+                'action': 'domupload',
+                'requestId': response.requestId,
                 'payload': {
                     'uploadeddom': x,
                     'isarticle': this.getIsArticle()
