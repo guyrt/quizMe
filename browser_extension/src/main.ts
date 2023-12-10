@@ -1,11 +1,6 @@
-import {state} from "./stateTrackers/appState";
-import { ChromeMessage, DomShape } from "./interfaces";
-
+import { Quiz } from "./interfaces";
 
 class Main {
-
-    /// Tracker for dom upload requests
-    public localRequestId : string = "";
 
     constructor() {
         this.init();
@@ -17,23 +12,10 @@ class Main {
             this.handleIsArticle();
             this.setQuizStart()
         });
- 
-        chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-            console.log(`Got message ${message.action}`);
-            if (message.requestId != this.localRequestId) {
-                return;
-            }
-
-            if (message.action == 'domupload') {
-                state.uploadRecord = message.payload.domupload;
-                state.isArticle = message.payload.isarticle;
-            }
-        });
-
     }
 
     handleIsArticle() {
-        const isArticle = state.isArticle;
+        const isArticle = true;
         const onlyArticles = document.getElementById('faextension__p-not-available');
         const createButton = document.getElementById('faextension__btn-create-quiz');
         const analyzing = document.getElementById('faextension__p-loading')
@@ -76,31 +58,19 @@ class Main {
         
         createButton.addEventListener('click',async () => {
             // start api call
-            const quiz = await state.getQuiz();
-
-            console.log(quiz);
-            // set to loading
+            chrome.runtime.sendMessage(
+                {action: "fa_makequiz", payload: {}},
+                this.handleQuiz
+            )
         })
     }
+
+    handleQuiz(quiz : Quiz) {
+        console.log("!!!");
+        console.log(quiz);
+    }
+
 }
 
 const m = new Main();
 
-/// Startup scripts to load and send DOM. NOTE! this may run too early. So far so good I think
-/// but if it happens then you'll need a deferral mechanism. Or give up and just send the DOM when
-/// you make your quiz?
-chrome.runtime.sendMessage({action: 'fa_pageLoaded'})
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    if (request.action == 'fa_accessDOM') {
-        const data : DomShape = {
-            dom: document.body.innerHTML.toString(),
-            url: document.location,
-            recordTime: new Date().getTime(),
-            title: document.title,
-            requestId : request.requestId
-        }
-        m.localRequestId = request.requestId;
-        sendResponse(data);
-    }
-})

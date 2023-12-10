@@ -22,7 +22,6 @@ class SharedState {
 
     private filterSend = true; // only send filtered article content if true.
 
-
     public async getApiToken() : Promise<string> {
         return Promise.resolve(this.t);
     }
