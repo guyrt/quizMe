@@ -26,11 +26,13 @@ class QuizGenerator:
         raw_dom = parse_contents(raw_doc.get_content())
         article_content = get_rough_article_content(raw_dom)
         if article_content == "":
+            logger.error("No article content for %s", raw_doc.id)
             return None
 
         # Generate response
         quiz_content = self._run_openai(article_content)
         if not quiz_content:
+            logger.error("No content from openai for %s", raw_doc.id)
             return None
 
         preamble, raw_quiz_content = self._extract_quiz_json(quiz_content['response'])

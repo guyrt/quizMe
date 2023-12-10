@@ -2,12 +2,13 @@ from json import loads
 from urllib import response
 from django.shortcuts import get_object_or_404
 from ninja import Router
+from ninja.errors import HttpError
 import logging
 
 from extensionapis.auth import ApiKey
 from extensionapis.models import RawDocCapture
 from .models import SimpleQuiz
-from .schemas import SimpleQuizeSchema, MakeQuizIdSchemas
+from .schemas import SimpleQuizSchema, MakeQuizIdSchemas
 from .quiz_gen import QuizGenerator
 
 logger = logging.getLogger("default")
@@ -15,7 +16,7 @@ logger = logging.getLogger("default")
 router = Router(auth=ApiKey())
 
 
-@router.post("makequiz", response=SimpleQuizeSchema)
+@router.post("makequiz", response=SimpleQuizSchema)
 def make_quiz(request, body : MakeQuizIdSchemas):
     """
     If a quiz exists for this URL, return it. (Maybe later have a force recreate as a sign it's bad.)
@@ -38,4 +39,5 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     quiz = QuizGenerator().create_quiz(raw_doc)
     if quiz:
         return quiz
-    return ""
+    
+    raise HttpError(424, "Unable to create quiz")

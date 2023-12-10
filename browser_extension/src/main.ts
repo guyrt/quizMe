@@ -65,9 +65,13 @@ class Main {
         })
     }
 
-    handleQuiz(quiz : Quiz) {
-        console.log("!!!");
-        console.log(quiz);
+    handleQuiz(params : {success : boolean, quiz : Quiz | undefined}) {
+        if (params?.success == true) {
+            console.log("!!!");
+            console.log(params.quiz);
+        } else {
+            console.log("failed quiz");
+        }
     }
 
 }

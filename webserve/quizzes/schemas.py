@@ -10,7 +10,7 @@ class MakeQuizIdSchemas(Schema):
     raw_doc : int
 
 
-class SimpleQuizeSchema(ModelSchema):
+class SimpleQuizSchema(ModelSchema):
     class Meta:
         model = SimpleQuiz
-        fields = ['owner', 'content', 'id']
+        fields = ['owner', 'content', 'id', 'reasoning']

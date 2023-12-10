@@ -75,7 +75,9 @@ class BackgroundState {
         }
     
         const quiz = await getAQuiz(await sharedState.getApiToken(), record.uploadedDom);
-        this.quizzes[key] = quiz;
+        if (quiz != undefined) {
+//            this.quizzes[key] = quiz;
+        }
         return quiz;
     }
 
