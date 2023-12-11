@@ -1,12 +1,11 @@
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const Dotenv = require('dotenv-webpack');
 
 const path = require('path');
 const outputPath = 'dist';
 const entryPoints = {
     main: [
-        path.resolve(__dirname, 'src', 'main.ts'),
+        path.resolve(__dirname, 'src', 'main.tsx'),
         path.resolve(__dirname, 'scss', 'main.scss')
     ],
     background: path.resolve(__dirname, 'src', 'background.ts'),
@@ -50,6 +49,5 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].css',
         }),
-        new Dotenv(),
     ]
 };
