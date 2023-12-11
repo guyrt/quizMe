@@ -7,7 +7,7 @@ console.log("Background ran");
 
 var fa_lastActiveTab = 0;
 
-chrome.runtime.onMessage.addListener(async (message : ChromeMessage, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_pageLoaded") {
         // Perform action on page load
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -20,47 +20,51 @@ chrome.runtime.onMessage.addListener(async (message : ChromeMessage, sender, sen
                 (x) => handleFAAccessDOMMessage(tId, x))
         });
     } else if (message.action === "fa_makequiz") {
-        chrome.tabs.query({ active: true, lastFocusedWindow: true }, async function(tabs) {
+        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
-            let activeTabId = 0;
+                const activeTabId = getActiveTabId(tabs);
 
-            let noTabId = false;
-
-            if (tabs.length == 0) {
-                if (fa_lastActiveTab > 0) {
-                    activeTabId = fa_lastActiveTab;
-                    noTabId = false;
-                } else {
-                    noTabId = true;
+                if (activeTabId !== undefined) {
+                    backgroundState.getOrCreateAQuiz(activeTabId)
+                    .then(quiz => {
+                        console.log("returning a quiz");
+                        sendResponse({
+                            success: true,
+                            quiz: quiz
+                        });    
+                    })
+                    return true;  // indicate sending async response.
                 }
-            } else {
-                const t = tabs[0].id;
-                if (t === undefined) {
-                    noTabId = true;
-                } else {
-                    activeTabId = t;
-                    fa_lastActiveTab = t;
+                else {
+                    sendResponse({
+                        success: false
+                    });
                 }
-            }
-
-            if (!noTabId) {
-                const quiz = await backgroundState.getOrCreateAQuiz(activeTabId);
-                sendResponse({
-                    success: true,
-                    quiz: quiz
-                });
-            }
-            else {
-                sendResponse({
-                    success: false,
-                    quiz: undefined
-                });
-            }
-        });
-
+            });
+        })();
+        return true;
     }
 });
 
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
     backgroundState.uploadPage(tabId, response);
+}
+
+function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{
+    let activeTabId = 0;
+
+    if (tabs.length == 0) {
+        if (fa_lastActiveTab > 0) {
+            activeTabId = fa_lastActiveTab;
+            return activeTabId;
+        }
+    } else {
+        const t = tabs[0].id;
+        if (t !== undefined) {
+            activeTabId = t;
+            fa_lastActiveTab = t;
+            return activeTabId;
+        }
+    }
+    
 }

@@ -3,7 +3,7 @@ from urllib.parse import urlparse
 
 
 def parse_contents(content : str) -> bs4.BeautifulSoup:
-    return bs4.BeautifulSoup(content, 'html')
+    return bs4.BeautifulSoup(content, 'lxml')
 
 
 def parse_file(local_path : str) -> bs4.BeautifulSoup:

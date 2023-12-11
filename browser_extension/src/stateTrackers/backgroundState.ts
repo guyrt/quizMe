@@ -56,27 +56,28 @@ class BackgroundState {
 
     public async getOrCreateAQuiz(key : number) : Promise<Quiz | undefined> {
         if (key in this.quizzes) {
-            return this.quizzes[key];
+            return Promise.resolve(this.quizzes[key]);
         }
 
         if (!(key in this.pageDetails)) {
-            return;
+            return Promise.resolve(undefined);
         }
 
         const record = this.pageDetails[key];
         
         if (!record.clientIsArticle) {
-            return;
+            return Promise.resolve(undefined);
         }
 
         if (record.uploadState == 'inprogress' || record.uploadedDom == null) {
             console.log("Waiting on an upload record");
-            return;
+            return Promise.resolve(undefined);
         }
     
-        const quiz = await getAQuiz(await sharedState.getApiToken(), record.uploadedDom);
+        const quiz = getAQuiz(await sharedState.getApiToken(), record.uploadedDom);
         if (quiz != undefined) {
-//            this.quizzes[key] = quiz;
+// todo only if it's a valid quiz.            this.quizzes[key] = quiz;
+// needs a then.
         }
         return quiz;
     }

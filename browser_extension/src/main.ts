@@ -60,7 +60,7 @@ class Main {
             // start api call
             chrome.runtime.sendMessage(
                 {action: "fa_makequiz", payload: {}},
-                this.handleQuiz
+                (x) => this.handleQuiz(x)
             )
         })
     }
