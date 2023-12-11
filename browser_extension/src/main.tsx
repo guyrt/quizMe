@@ -39,7 +39,7 @@ function MainApp() {
 }
 
 // Render your React component instead
-const a = document.getElementById('app');
+const a = document.getElementById('fa-app');
 if (a != null) {
     const root = createRoot(a);
     root.render(<MainApp />);
