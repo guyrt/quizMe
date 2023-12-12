@@ -13,7 +13,11 @@ export function sendDomPayload(token : string, payload : DomShape) : Promise<Upl
 export async function getAQuiz(token : string, payload : UploadedDom) : Promise<Quiz> {
     const url = `${domain}/api/quiz/makequiz`;
 
-    return callFetch(token, url, payload);
+    // The model has a JSON string that we want to parse and return.
+    return callFetch(token, url, payload).then((q : any) => {
+        q.content = JSON.parse(q.content);
+        return q as Quiz;
+    });
 }
 
 

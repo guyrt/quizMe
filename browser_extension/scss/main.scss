@@ -5,66 +5,32 @@ body {
     font-family: "Roboto";
     margin: 0;
     padding: 1rem;
-    .olive-extension {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        &__email-table {
-            table {
-                border: 1px solid #e3e3e3;
-                thead {
-                    tr {
-                        th {
-                            font-size: 0.8rem;
-                            text-align: center;
-                            border-bottom: none;
-                            padding: 0.3rem;
-                            background: #dcdcdc;
-                        }
-                    }
-                }
-                tbody {
-                    tr {
-                        td {
-                            font-size: 0.8rem;
-                            text-align: center;
-                            padding: 0.6rem;
-                        }
-                    }
-                }
-            }
+    .quizQuestion {
+        border: 2px solid #000; // Box around the quiz question
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #f8f8f8; // Optional: background color for the box
+    
+        p {
+            margin-bottom: 10px; // Space between question and answers
         }
-        h3 {
-            &.olive-extension__error-msg {
-                margin: 0.2rem 0;
-                padding: 0;
-                font-size: 0.8rem;
-                font-weight: 200;
-                text-align: center;
-                color: red;
+    
+        .quizAnswer {
+            border: 1px solid #ccc; // Border for each answer
+            padding: 10px;
+            margin-bottom: 5px; // Space between each answer
+            cursor: pointer; // Change cursor to indicate clickable
+            transition: background-color 0.3s; // Smooth transition for background color
+    
+            &:hover {
+                background-color: #e8e8e8; // Optional: change background on hover
             }
-        }
-        button {
-            font-size: 0.8rem;
-            margin-bottom: 1rem;
-            width: 50%;
-            border: none;
-            color: #fff;
-            height: 2rem;
-            border-radius: 5px;
-            cursor: pointer;
-            &.olive-extension__btn {
-                background: #007bff;
+    
+            &.selected {
+                background-color: red; // Highlight for selected answer
+                color: #fff; // Change text color for better readability
             }
         }
     }
-}
-
-.olive-extension-hidding {
-    display: none !important;
-}
-
-.olive-extension-showing {
-    display: block !important;
+    
 }

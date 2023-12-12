@@ -28,10 +28,11 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                     backgroundState.getOrCreateAQuiz(activeTabId)
                     .then(quiz => {
                         console.log("returning a quiz");
+                        console.log(quiz);
                         sendResponse({
                             success: true,
                             quiz: quiz
-                        });    
+                        });
                     })
                     return true;  // indicate sending async response.
                 }

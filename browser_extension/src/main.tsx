@@ -14,7 +14,9 @@ const fakeQuiz = {
 function MainApp() {
     const [isArticle, setIsArticle] = useState<boolean|undefined>(true);
 
-    const [quiz, setQuiz] = useState<Quiz | undefined>(fakeQuiz);
+    const [quiz, setQuiz] = useState<Quiz | undefined>();
+
+    const [status, setStatus] = useState<"landing" | "loading" | "error" | "showQuiz">("landing");
 
     function makeQuizClick() {
         chrome.runtime.sendMessage(
@@ -22,30 +24,39 @@ function MainApp() {
             (x) => handleQuiz(x)
         )
 
-        // make the "loading" screen.
+        setStatus("loading");
     }
 
     function handleQuiz(params : {success : boolean, quiz : Quiz | undefined}) {
         if (params?.success == true) {
-            console.log("!!!");
-            console.log(params.quiz);
+            console.log("Showing quiz");
+            setQuiz(params.quiz);
+            setStatus("showQuiz");
         } else {
-            console.log("failed quiz");
+            console.log("Setting error");
+            setStatus("error");
         }
     }
 
     return (
         <>
             <div>App Name</div>
-            { quiz != undefined && <QuizView quiz={quiz} /> }
-            { isArticle && quiz == undefined &&
-                <button onClick={makeQuizClick}>Make a quiz</button>
-            }
-            { isArticle == undefined &&
-                <p>Loading...</p>
-            }
+            {status === "landing" ? (
+                isArticle ? (
+                    <button onClick={makeQuizClick}>Make a quiz</button>
+                ) : (
+                    <p>This is where we should put your stats? Not an article. Also include a "yes it is" button.</p>
+                )
+            ) : status === "loading" ? (
+                <p>Loading! Be patient...</p>
+            ) : status === "showQuiz" && quiz !== undefined ? (
+                <QuizView quiz={quiz} />
+            ) : (
+                <p>Something went wrong :( </p>
+            )}
         </>
-    )
+    );
+    
 }
 
 // Render your React component instead
