@@ -43,7 +43,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
     );
 };
 
-
+// Single question including the question and answers.
 const QuizQuestion: React.FC<{
     question: QuizQuestion;
     questionState: QuizQuestionState;

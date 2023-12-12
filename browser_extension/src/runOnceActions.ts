@@ -4,6 +4,7 @@
 
 import { DomShape } from "./interfaces";
 
+// Fires only when a new page is loaded.
 chrome.runtime.sendMessage({action: 'fa_pageLoaded'})
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
