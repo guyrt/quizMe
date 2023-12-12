@@ -13,11 +13,21 @@ export type UploadedDom = {
 }
 
 export type Quiz = {
-    document : string,
-    quizPk : string,
-    question : string
+    owner : string,
+    content : QuizQuestion[],
+    id : string,
+    reasoning : string
 }
 
+export type QuizQuestion = {
+    question : string,
+    answers : QuizAnswer[]
+}
+
+export type QuizAnswer = {
+    answer : string,
+    correct? : number
+}
 
 export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz"
 
