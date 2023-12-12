@@ -7,6 +7,15 @@ console.log("Background ran");
 
 var fa_lastActiveTab = 0;
 
+chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
+    // Check if the URL has changed
+    if (changeInfo.url) {
+        console.log(`URL changed to: ${changeInfo.url} for tab ${tabId}`);
+        
+        chrome.tabs.sendMessage(tabId, {action: "fa_accessDOM"}, (x) => handleFAAccessDOMMessage(tabId, x));
+    }
+});
+
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_pageLoaded") {
         // Perform action on page load
