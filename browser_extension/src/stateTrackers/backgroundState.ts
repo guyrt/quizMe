@@ -96,7 +96,9 @@ class BackgroundState {
     }
 
     private getOrCreatePageDetails(key : number, response : DomShape) : SinglePageDetails {
-        if (!(key in this.pageDetails)) {
+        if (!(key in this.pageDetails) || (this.pageDetails[key].url.href != response.url.href)) {
+            // If this is a new page OR this is a change of site in same tab.
+            console.log(`Writing new page ${response.url.href} for tab ${key}`);
             this.pageDetails[key] = {
                 clientIsArticle: response.clientIsArticle,
                 uploadState: 'notstarted',
@@ -104,6 +106,7 @@ class BackgroundState {
                 key: key
             }
         }
+
         return this.pageDetails[key];
     }
 
