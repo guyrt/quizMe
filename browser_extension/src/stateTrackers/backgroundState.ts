@@ -1,5 +1,6 @@
 /// State object for the background
 import { DomShape, Quiz, UploadedDom } from "../interfaces";
+import { log } from "../utils/logger";
 import { getAQuiz, sendDomPayload } from "../webInterface";
 import { sharedState } from "./sharedState";
 
@@ -28,13 +29,18 @@ class BackgroundState {
 
     private uploadPromises : {[key: number]: Promise<UploadedDom>} = {}
 
+    public getPageDetails(tabId : number) : SinglePageDetails | undefined {
+        return this.pageDetails[tabId];
+    }
+
     public async uploadPage(tabId : number, response : DomShape) {
 
-        if (!await this.shouldOperateOnPage(response)) {
+        const record = this.getOrCreatePageDetails(tabId, response);
+
+        if (!await this.shouldOperateOnPage(record)) {
+            log(`Upload abandoned ${tabId} url ${response.url}`);
             return;
         }
-
-        const record = this.getOrCreatePageDetails(tabId, response);
         
         if (record.uploadState != 'notstarted' && record.uploadState != 'error') {
             return;
@@ -48,6 +54,7 @@ class BackgroundState {
         this.uploadPromises[record.key].then((x) => {
             record.uploadState = 'completed';
             record.uploadedDom = x;
+            log(`Upload complete for tab ${tabId} url ${response.url.href}`);
         })
         .catch(() => {
             record.uploadState = 'error';
@@ -82,7 +89,7 @@ class BackgroundState {
         return quiz;
     }
 
-    private async shouldOperateOnPage(response : DomShape) : Promise<boolean> {
+    private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
         if (response.url.host in await sharedState.getDomainBlockList()){
             return false;
@@ -96,9 +103,16 @@ class BackgroundState {
     }
 
     private getOrCreatePageDetails(key : number, response : DomShape) : SinglePageDetails {
-        if (!(key in this.pageDetails) || (this.pageDetails[key].url.href != response.url.href)) {
+        const missingKey = !(key in this.pageDetails);
+        missingKey && log(`tabId ${key} missing from pageDetails`);
+
+        const urlMismatch = this.pageDetails[key]?.url?.href != response.url.href;
+        urlMismatch && log(`url mismatch: stored ${this.pageDetails[key]?.url?.href} but need ${response.url.href}`);
+
+        if (missingKey || urlMismatch) {
             // If this is a new page OR this is a change of site in same tab.
             console.log(`Writing new page ${response.url.href} for tab ${key}.`);
+            console.log(`Is article: ${response.clientIsArticle}`);
             this.pageDetails[key] = {
                 clientIsArticle: response.clientIsArticle,
                 uploadState: 'notstarted',

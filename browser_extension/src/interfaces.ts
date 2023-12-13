@@ -29,7 +29,7 @@ export type QuizAnswer = {
     correct? : number
 }
 
-export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz"
+export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_checkIsArticle"
 
 
 export type ChromeMessage = {

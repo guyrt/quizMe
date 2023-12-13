@@ -1,7 +1,6 @@
 import { ChromeMessage, DomShape } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundState";
-
-var cntr = 0;
+import { log } from "./utils/logger";
 
 console.log("Background ran");
 
@@ -10,13 +9,38 @@ var fa_lastActiveTab = 0;
 chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     // Check if the URL has changed
     if (changeInfo.url) {
-        console.log(`URL changed to: ${changeInfo.url} for tab ${tabId}`);
+        log(`URL changed to: ${changeInfo.url} for tab ${tabId}`);
         
         chrome.tabs.sendMessage(tabId, {action: "fa_accessDOM"}, (x) => handleFAAccessDOMMessage(tabId, x));
     }
 });
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
+    if (message.action === "fa_checkIsArticle") {
+        // check if the active tab is an article.
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            if (tabs[0] === undefined) {
+                console.log("Unable to get active tab");
+                sendResponse(false);
+                return true;
+            }
+            const activeTabId = getActiveTabId(tabs);
+            if (activeTabId == undefined) {
+                console.log(`No active tab info found for tab ${activeTabId}`);
+                sendResponse(false);
+                return true;
+            }
+            const d = backgroundState.getPageDetails(activeTabId);
+            console.log(`Reporting tab ${activeTabId} article status ${d?.clientIsArticle}`);
+            sendResponse(d);
+            return true
+        });
+        return true;
+    }
+});
+
+chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
+    log(`Background message received: ${message.action}`);
     if (message.action === "fa_pageLoaded") {
         // Perform action on page load
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -56,7 +80,10 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
     }
 });
 
+
+
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
+    log(`Background recieved dom. TabId: ${tabId}, Url: ${response.url.href}`);
     backgroundState.uploadPage(tabId, response);
 }
 
