@@ -1,7 +1,7 @@
 import logging
 from dataclasses import asdict
 from json import dumps
-from typing import Dict, Optional
+from typing import Optional
 
 from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.prompt_types import fill_prompt

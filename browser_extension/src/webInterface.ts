@@ -10,13 +10,17 @@ export function sendDomPayload(token : string, payload : DomShape) : Promise<Upl
 }
 
 /// Request a quiz
-export async function getAQuiz(token : string, payload : UploadedDom) : Promise<Quiz> {
+export async function getAQuiz(token : string, payload : UploadedDom) : Promise<Quiz | undefined> {
     const url = `${domain}/api/quiz/makequiz`;
 
     // The model has a JSON string that we want to parse and return.
     return callFetch(token, url, payload).then((q : any) => {
-        q.content = JSON.parse(q.content);
-        return q as Quiz;
+        if (q) {
+            q.content = JSON.parse(q.content);
+            return q as Quiz;
+        } else {
+            return undefined;
+        }
     });
 }
 
@@ -32,7 +36,12 @@ function callFetch<InT, OutT>(token : string, url : string, payload : InT, metho
         headers: headers,
         body: JSON.stringify(payload)
     })
-    .then(response => response.json())
+    .then(response => {
+        if (response.status == 200) {
+            return response.json();
+        }
+        return undefined;
+    })
     .catch(error => {
         console.error('Error calling API: ', error);
     });

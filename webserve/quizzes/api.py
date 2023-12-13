@@ -47,4 +47,4 @@ def make_quiz(request, body : MakeQuizIdSchemas):
 
     logger.info("Quiz did not build in %s seconds", total_time)
     
-    raise HttpError(424, "Unable to create quiz")
+    raise HttpError(424, "{}")

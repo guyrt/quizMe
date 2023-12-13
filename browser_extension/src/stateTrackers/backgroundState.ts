@@ -63,21 +63,25 @@ class BackgroundState {
 
     public async getOrCreateAQuiz(key : number) : Promise<Quiz | undefined> {
         if (key in this.quizzes) {
+            log(`Outputting cached quiz for key ${key}`);
             return Promise.resolve(this.quizzes[key]);
         }
 
         if (!(key in this.pageDetails)) {
+            log(`Key ${key} not in page details. Returning no quiz.`)
             return Promise.resolve(undefined);
         }
 
         const record = this.pageDetails[key];
         
         if (!record.clientIsArticle) {
+            log(`Key ${key} is not an article. Returning no quiz.`);
             return Promise.resolve(undefined);
         }
 
         if (record.uploadState == 'inprogress' || record.uploadedDom == null) {
             console.log("Waiting on an upload record");
+            // todo - link here!
             return Promise.resolve(undefined);
         }
     
@@ -119,6 +123,9 @@ class BackgroundState {
                 url: response.url,
                 key: key,
                 uploadedDom: undefined
+            }
+            if (key in this.quizzes) {
+                delete this.quizzes[key];
             }
         }
 

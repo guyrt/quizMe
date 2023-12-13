@@ -63,7 +63,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                         console.log("returning a quiz");
                         console.log(quiz);
                         sendResponse({
-                            success: true,
+                            success: quiz != undefined,
                             quiz: quiz
                         });
                     })
