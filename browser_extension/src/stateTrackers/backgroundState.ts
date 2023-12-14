@@ -79,17 +79,24 @@ class BackgroundState {
             return Promise.resolve(undefined);
         }
 
+        const apiToken = await sharedState.getApiToken();
+
         if (record.uploadState == 'inprogress' || record.uploadedDom == null) {
             console.log("Waiting on an upload record");
-            // todo - link here!
-            return Promise.resolve(undefined);
+            if (key in this.uploadPromises) {
+                const upstream = this.uploadPromises[key];
+                return upstream.then(() => {
+                    if (record.uploadedDom) {
+                        const quiz = getAQuiz(apiToken, record.uploadedDom);
+                    }
+                    return quiz;
+                })
+            } else {
+                return Promise.resolve(undefined);
+            }
         }
     
-        const quiz = getAQuiz(await sharedState.getApiToken(), record.uploadedDom);
-        if (quiz != undefined) {
-// todo only if it's a valid quiz.            this.quizzes[key] = quiz;
-// needs a then.
-        }
+        const quiz = getAQuiz(apiToken, record.uploadedDom);
         return quiz;
     }
 

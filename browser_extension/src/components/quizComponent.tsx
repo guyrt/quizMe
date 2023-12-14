@@ -8,6 +8,8 @@ type QuizViewProps = {
 
 type QuizState = {
     questions : QuizQuestionState[];
+
+    status : "inprogress" | "scored";
 }
 
 type QuizQuestionState = {
@@ -16,7 +18,8 @@ type QuizQuestionState = {
 
 const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
     const [quizState, setQuizState] = useState<QuizState>({
-        questions: quiz.content.map(() => ({ selected: -1 }))
+        questions: quiz.content.map(() => ({ selected: -1 })),
+        status: "inprogress"
     });
 
     const handleAnswerClick = (questionIndex: number, answerIndex: number) => {
@@ -25,22 +28,59 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
                 idx === questionIndex ? { ...q, selected: answerIndex } : q
             );
 
-            return { questions: newQuestions };
+            return { questions: newQuestions, status: prevState.status };
         });
     };
+
+    // on quiz submit
+    // build an "answered" component that you use.
+    const quizSubmit = () => {
+
+    }
 
     return (
         <div>
             <p>Here's your quiz!</p>
-            {quiz.content.map((quizQuestion, i) => (
+            {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
                 <QuizQuestion 
                     question={quizQuestion} 
                     questionState={quizState.questions[i]}
                     onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
                 />
             ))}
+            {quizState.status == 'scored' && quiz.content.map((quizQuestion, i) => (
+                <QuizGradedQuestion 
+                question={quizQuestion}
+                questionState={quizState.questions[i]}
+            />
+            ))}
+            <button onClick={quizSubmit}>How did I do ?!</button>
         </div>
     );
+};
+
+const QuizGradedQuestion : React.FC<{
+    question: QuizQuestion;
+    questionState: QuizQuestionState;
+}> = ({question, questionState}) => {
+
+    // clicked answer but not correct... red
+    // not clicked but correct ... yellow
+    // clicked nad correct ... green.
+
+    return (
+        <div className="quizQuestion">
+            <p>{question.question}</p>
+            {question.answers.map((answer, i) => (
+                <p
+                    className={`quizAnswer ${questionState.selected === i ? "selected" : ""}`}
+                >
+                    {answer.answer}
+                </p>
+            ))}
+        </div>
+    )
+
 };
 
 // Single question including the question and answers.

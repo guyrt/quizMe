@@ -17,6 +17,12 @@ export async function getAQuiz(token : string, payload : UploadedDom) : Promise<
     return callFetch(token, url, payload).then((q : any) => {
         if (q) {
             q.content = JSON.parse(q.content);
+
+//            if (q != undefined) {
+                // todo only if it's a valid quiz.            this.quizzes[key] = quiz;
+                // needs a then.
+  //          }
+
             return q as Quiz;
         } else {
             return undefined;

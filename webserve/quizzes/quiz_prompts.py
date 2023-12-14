@@ -1,6 +1,6 @@
 from azurewrapper.prompt_types import Prompt, PromptCell
 
-system = """I'm trying to retain the information from this blog post. Please help me by coming up with five multiple choice questions about the content. Write questions that make me understand the point about the article, not easy facts like the author. The ideal question requires me to synthesize the thesis of the author. 
+system = """I'm trying to retain the information from this blog post. Please help me by coming up with {num_questions} multiple choice questions about the content. Write questions that make me understand the point about the article, not easy facts like the author. The ideal question requires me to synthesize the thesis of the author. 
 
 Always answer by first showing your reasoning. Restate the major thesis and the most important points in the article. 
 
