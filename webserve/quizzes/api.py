@@ -7,7 +7,7 @@ from extensionapis.models import RawDocCapture
 from ninja import Router
 from ninja.errors import HttpError
 
-from .models import SimpleQuiz
+from .models import SimpleQuiz, repair_quizzes
 from .quiz_gen import QuizGenerator
 from .schemas import MakeQuizIdSchemas, SimpleQuizSchema
 
@@ -26,6 +26,8 @@ def make_quiz(request, body : MakeQuizIdSchemas):
 
     try:
         existing_quiz = SimpleQuiz.objects.get(url__pk=body.url_obj, owner=user, active=1)
+    except SimpleQuiz.MultipleObjectsReturned:
+        existing_quiz = repair_quizzes(body.url_obj, user)
     except SimpleQuiz.DoesNotExist:
         pass
     else:

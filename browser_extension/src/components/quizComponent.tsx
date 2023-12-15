@@ -28,19 +28,34 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
                 idx === questionIndex ? { ...q, selected: answerIndex } : q
             );
 
-            return { questions: newQuestions, status: prevState.status };
+            return { ...prevState, questions: newQuestions };
         });
     };
 
     // on quiz submit
     // build an "answered" component that you use.
     const quizSubmit = () => {
+        console.log("Quiz submit!");
+        setQuizState(prevState => {
+            return { ...prevState, status: 'scored' };
+        })
+    }
 
+    const gradeQuiz = () => {
+        let totalRight = 0;
+        for (let i = 0; i < quiz.content.length; i++) {
+            const c = quiz.content[i];
+            const s = quizState.questions[i];
+            if (c.answers[s.selected].correct) {
+                totalRight++;
+            }
+        }
+        return totalRight;
     }
 
     return (
         <div>
-            <p>Here's your quiz!</p>
+            {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
             {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
                 <QuizQuestion 
                     question={quizQuestion} 
@@ -48,13 +63,14 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
                     onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
                 />
             ))}
+            {quizState.status == 'scored' && <div>{gradeQuiz()} / {quiz.content.length} correct</div>}
             {quizState.status == 'scored' && quiz.content.map((quizQuestion, i) => (
                 <QuizGradedQuestion 
                 question={quizQuestion}
                 questionState={quizState.questions[i]}
             />
             ))}
-            <button onClick={quizSubmit}>How did I do ?!</button>
+            {quizState.status == 'inprogress' && <button onClick={quizSubmit}>How did I do ?!</button>}
         </div>
     );
 };
@@ -65,15 +81,14 @@ const QuizGradedQuestion : React.FC<{
 }> = ({question, questionState}) => {
 
     // clicked answer but not correct... red
-    // not clicked but correct ... yellow
-    // clicked nad correct ... green.
+    // correct ... green.
 
     return (
         <div className="quizQuestion">
             <p>{question.question}</p>
             {question.answers.map((answer, i) => (
                 <p
-                    className={`quizAnswer ${questionState.selected === i ? "selected" : ""}`}
+                    className={`quizAnswer ${questionState.selected === i ? (question.answers[i]?.correct ? "selected-correct" : "selected-incorrect") : ""}`}
                 >
                     {answer.answer}
                 </p>

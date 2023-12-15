@@ -2,7 +2,7 @@ body {
     background: #fff;
     width: 300px;
     height: auto;
-    font-family: "Roboto";
+    font-family: "Montserrat";
     margin: 0;
     padding: 1rem;
     .quizQuestion {
@@ -29,6 +29,15 @@ body {
             &.selected {
                 background-color: red; // Highlight for selected answer
                 color: #fff; // Change text color for better readability
+            }
+
+            &.selected-correct {
+                background-color: green;
+            }
+
+            &.selected-incorrect {
+                background-color: red;
+                color: #fff;
             }
         }
     }

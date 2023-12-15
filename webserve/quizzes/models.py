@@ -7,6 +7,10 @@ from extensionapis.models import SingleUrl
 
 from webserve.mixins import ModelBaseMixin
 
+import logging
+logger = logging.getLogger("default")
+
+
 
 class SimpleQuiz(ModelBaseMixin):
     """Starter model - just stores a JSON blob."""
@@ -18,3 +22,18 @@ class SimpleQuiz(ModelBaseMixin):
     reasoning = models.TextField(max_length=10000)  # the natural language reasoning.
 
     url = models.ForeignKey(SingleUrl, on_delete=models.CASCADE)
+
+
+def repair_quizzes(url_pk : int, user : User):
+    # repair if more than one quiz. Just keep latest.
+    # not optimized - should be rare.
+    all_quizzes = SimpleQuiz.objects.filter(url__pk=url_pk, owner=user, active=1)
+    if len(all_quizzes) == 0:
+        raise SimpleQuiz.DoesNotExist()
+    all_quizzes = list(all_quizzes)
+    old_quizzes = all_quizzes[:-1]
+    for q in old_quizzes:
+        logger.warn("Removing %s duplicate quizzes for url %s", len(old_quizzes), url_pk)
+        q.active = False
+        q.save()
+    return all_quizzes[-1]
