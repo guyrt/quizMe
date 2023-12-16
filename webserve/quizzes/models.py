@@ -24,6 +24,15 @@ class SimpleQuiz(ModelBaseMixin):
     url = models.ForeignKey(SingleUrl, on_delete=models.CASCADE)
 
 
+class SimpleQuizResults(ModelBaseMixin):
+
+    quiz = models.ForeignKey(SimpleQuiz, on_delete=models.CASCADE)
+    
+    # Stores results as a JSON list of ints.
+    # -1 means no selection.
+    results = models.TextField(max_length=64)
+
+
 def repair_quizzes(url_pk : int, user : User):
     # repair if more than one quiz. Just keep latest.
     # not optimized - should be rare.

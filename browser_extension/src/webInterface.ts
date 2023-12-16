@@ -1,6 +1,15 @@
-import { DomShape, Quiz, UploadedDom } from "./interfaces";
+import { DomShape, Quiz, UploadedDom, QuizResponse } from "./interfaces";
+import { sharedState } from "./stateTrackers/sharedState";
+
 
 const domain = "http://localhost:8000";
+
+
+export async function uploadQuizResults(payload : QuizResponse) : Promise<undefined> {
+    const url = `${domain}/api/quiz/uploadresults`;
+    const token = await sharedState.getApiToken();
+    return callFetch(token, url, payload);
+}
 
 
 export function sendDomPayload(token : string, payload : DomShape) : Promise<UploadedDom> {
@@ -10,11 +19,11 @@ export function sendDomPayload(token : string, payload : DomShape) : Promise<Upl
 }
 
 /// Request a quiz
-export async function getAQuiz(token : string, payload : UploadedDom) : Promise<Quiz | undefined> {
+export async function getAQuiz(payload : UploadedDom) : Promise<Quiz | undefined> {
     const url = `${domain}/api/quiz/makequiz`;
-
-    // The model has a JSON string that we want to parse and return.
-    return callFetch(token, url, payload).then((q : any) => {
+    const apiToken = await sharedState.getApiToken();
+    
+    return callFetch(apiToken, url, payload).then((q : any) => {
         if (q) {
             q.content = JSON.parse(q.content);
 

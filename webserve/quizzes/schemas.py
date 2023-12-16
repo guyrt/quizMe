@@ -1,5 +1,5 @@
 from ninja import ModelSchema, Schema
-
+from typing import List
 
 from .models import SimpleQuiz
 
@@ -14,3 +14,9 @@ class SimpleQuizSchema(ModelSchema):
     class Meta:
         model = SimpleQuiz
         fields = ['owner', 'content', 'id', 'reasoning']
+
+
+class UploadQuizResultsSchema(Schema):
+
+    quiz_id : int
+    selection : List[int]

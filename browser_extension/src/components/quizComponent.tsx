@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { Quiz, QuizQuestion } from "../interfaces";
+import { Quiz, QuizQuestion, QuizResponse } from "../interfaces";
 
 // Component Props type
 type QuizViewProps = {
@@ -39,6 +39,8 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
         setQuizState(prevState => {
             return { ...prevState, status: 'scored' };
         })
+
+        uploadQuiz();
     }
 
     const gradeQuiz = () => {
@@ -51,6 +53,14 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
             }
         }
         return totalRight;
+    }
+
+    const uploadQuiz = () => {
+        const payload : QuizResponse = {
+            quiz_id: quiz.id,
+            selection : quizState.questions.map(x => x.selected)
+        }
+        chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload})
     }
 
     return (

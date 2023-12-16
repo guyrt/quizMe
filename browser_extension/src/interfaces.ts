@@ -29,10 +29,20 @@ export type QuizAnswer = {
     correct? : number
 }
 
-export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_checkIsArticle"
+export type QuizResponse = {
+    quiz_id : string,
+    selection : number[]
+}
+
+export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_checkIsArticle" | "fa_uploadQuizResult"
 
 
 export type ChromeMessage = {
     action : ChromeMessageType,
     payload : any
+}
+
+export type QuizResponseMessage = {
+    action : "fa_uploadQuizResult"
+    payload : QuizResponse
 }

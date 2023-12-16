@@ -1,6 +1,7 @@
-import { ChromeMessage, DomShape } from "./interfaces";
+import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundState";
 import { log } from "./utils/logger";
+import { uploadQuizResults } from "./webInterface";
 
 console.log("Background ran");
 
@@ -38,6 +39,14 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         return true;
     }
 });
+
+chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
+    if (message.action === "fa_uploadQuizResult") {
+        log("Upload quiz response to server");
+        uploadQuizResults(message.payload);
+    }
+});
+
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     log(`Background message received: ${message.action}`);

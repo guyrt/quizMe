@@ -1,3 +1,4 @@
+from json import dumps
 import logging
 import time
 
@@ -7,9 +8,9 @@ from extensionapis.models import RawDocCapture
 from ninja import Router
 from ninja.errors import HttpError
 
-from .models import SimpleQuiz, repair_quizzes
+from .models import SimpleQuiz, repair_quizzes, SimpleQuizResults
 from .quiz_gen import QuizGenerator
-from .schemas import MakeQuizIdSchemas, SimpleQuizSchema
+from .schemas import MakeQuizIdSchemas, SimpleQuizSchema, UploadQuizResultsSchema
 
 logger = logging.getLogger("default")
 
@@ -52,3 +53,16 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     logger.info("Quiz did not build in %s seconds", total_time)
     
     raise HttpError(424, "{}")
+
+
+@router.post("uploadresults")
+def upload_quiz(request, body : UploadQuizResultsSchema):
+    
+    sq = get_object_or_404(SimpleQuiz, id=body.quiz_id, owner=request.auth)
+        
+    SimpleQuizResults.objects.create(
+        quiz=sq,
+        results=dumps(body.selection)
+    )
+
+    return {}
