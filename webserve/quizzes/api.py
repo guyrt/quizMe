@@ -28,6 +28,8 @@ def make_quiz(request, body : MakeQuizIdSchemas):
         existing_quiz = SimpleQuiz.objects.get(url__pk=body.url_obj, owner=user, active=1)
     except SimpleQuiz.MultipleObjectsReturned:
         existing_quiz = repair_quizzes(body.url_obj, user)
+        logger.info("Returning existing quiz")
+        return existing_quiz
     except SimpleQuiz.DoesNotExist:
         pass
     else:
