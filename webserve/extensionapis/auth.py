@@ -1,9 +1,10 @@
 from typing import Any
 from django.http import HttpRequest
-from django.shortcuts import render
+import secrets
 from ninja.security import APIKeyHeader
 
 from .models import AuthTokens
+from users.models import User
 
 
 class ApiKey(APIKeyHeader):
@@ -16,3 +17,10 @@ class ApiKey(APIKeyHeader):
             pass
 
 
+def create_token(user : User, name : str) -> AuthTokens:
+    token_content = f"fa0_{secrets.token_urlsafe(35)}"
+    return AuthTokens.objects.create(
+        key=token_content,
+        user=user,
+        name=str
+    )

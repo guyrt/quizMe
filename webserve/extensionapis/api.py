@@ -1,23 +1,37 @@
 import logging
+from django.contrib.auth import authenticate
 import uuid
 from datetime import datetime
 from json import loads
 from typing import List
 from urllib.parse import urlparse
 
-
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
-from ninja import Router, pagination
+from ninja import Form, Router, pagination
+from ninja.errors import AuthenticationError
 from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 
-from .auth import ApiKey
+from .auth import ApiKey, create_token
 from .models import RawDocCapture, SingleUrl
-from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
+from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema, AuthTokenSchema
 
 logger = logging.getLogger("default")
 
-router = Router(auth=ApiKey())
+router = Router(auth=[ApiKey()])
+#unauth_router = Router(auth=BasicAuth())
+
+
+@router.post("/token", auth=None, response=AuthTokenSchema)  # < overriding global auth
+def get_token(request, username: str = Form(...), password: str = Form(...)):
+    user = authenticate(request, username=username, password=password)
+    if user is not None:
+        token = create_token(user, "key")
+        return AuthTokenSchema(
+            user=user.email,
+            key=token.key
+        )
+    raise AuthenticationError()
 
 
 @router.post("/writehtml")
