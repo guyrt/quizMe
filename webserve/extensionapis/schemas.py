@@ -1,6 +1,6 @@
 from ninja import ModelSchema, Schema
 
-from .models import RawDocCapture, AuthTokens
+from .models import RawDocCapture
 
 class RawDocCaptureSchema(ModelSchema):
     class Meta:
@@ -14,8 +14,3 @@ class RawDocCaptureWithContentSchema(Schema):
     url : str
     title : str
     content : str
-    
-
-class AuthTokenSchema(Schema):
-    user : str
-    key : str

@@ -9,7 +9,7 @@
 /// be updated via message passing.
 class SharedState {
 
-    private t = "fa0_FE4lwLEoJ89lVnHQfVMHfNqYia_-nl5qizo";
+    private t = "fa0_MBWOmORGwgl2zJO2lxuoQtixZF-Q6l1u6OcARBqfBQuxfyU";
 
     private domainBlockList = [
         'microsoft-my.sharepoint.com',

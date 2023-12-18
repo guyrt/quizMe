@@ -8,30 +8,16 @@ from urllib.parse import urlparse
 
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
-from ninja import Form, Router, pagination
-from ninja.errors import AuthenticationError
+from ninja import Router, pagination
 from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 
-from .auth import ApiKey, create_token
+from users.apiauth import ApiKey
 from .models import RawDocCapture, SingleUrl
-from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema, AuthTokenSchema
+from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
 
 logger = logging.getLogger("default")
 
-router = Router(auth=[ApiKey()])
-#unauth_router = Router(auth=BasicAuth())
-
-
-@router.post("/token", auth=None, response=AuthTokenSchema)  # < overriding global auth
-def get_token(request, username: str = Form(...), password: str = Form(...)):
-    user = authenticate(request, username=username, password=password)
-    if user is not None:
-        token = create_token(user, "key")
-        return AuthTokenSchema(
-            user=user.email,
-            key=token.key
-        )
-    raise AuthenticationError()
+router = Router(auth=[ApiKey()], tags=['pages'])
 
 
 @router.post("/writehtml")

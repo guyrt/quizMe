@@ -42,7 +42,18 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 
 class UserKeys(ModelBaseMixin):
+    """Encryption key manager."""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # Name of an encyrption key in Azure Key Vault.
     name = models.CharField(max_length=128)
     
+
+class AuthToken(models.Model):
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    key = models.CharField(max_length=128)
+
+    name = models.CharField(max_length=64)

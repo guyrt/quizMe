@@ -3,7 +3,7 @@ import logging
 import time
 
 from django.shortcuts import get_object_or_404
-from extensionapis.auth import ApiKey
+from users.apiauth import ApiKey
 from extensionapis.models import RawDocCapture
 from ninja import Router
 from ninja.errors import HttpError
@@ -14,7 +14,7 @@ from .schemas import MakeQuizIdSchemas, SimpleQuizSchema, UploadQuizResultsSchem
 
 logger = logging.getLogger("default")
 
-router = Router(auth=ApiKey())
+router = Router(auth=ApiKey(), tags=['quizzes'])
 
 
 @router.post("makequiz", response=SimpleQuizSchema)

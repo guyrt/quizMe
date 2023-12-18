@@ -3,8 +3,7 @@ from django.http import HttpRequest
 import secrets
 from ninja.security import APIKeyHeader
 
-from .models import AuthTokens
-from users.models import User
+from users.models import AuthToken, User
 
 
 class ApiKey(APIKeyHeader):
@@ -12,15 +11,15 @@ class ApiKey(APIKeyHeader):
 
     def authenticate(self, request: HttpRequest, key: str | None) -> Any | None:
         try:
-            return AuthTokens.objects.get(key=key).user
-        except AuthTokens.DoesNotExist:
+            return AuthToken.objects.get(key=key).user
+        except AuthToken.DoesNotExist:
             pass
 
 
-def create_token(user : User, name : str) -> AuthTokens:
+def create_new_token(user : User, name : str) -> AuthToken:
     token_content = f"fa0_{secrets.token_urlsafe(35)}"
-    return AuthTokens.objects.create(
+    return AuthToken.objects.create(
         key=token_content,
         user=user,
-        name=str
+        name="name"
     )
