@@ -1,0 +1,61 @@
+import { UploadedDom } from "../interfaces";
+import { log } from "../utils/logger";
+
+type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
+
+
+/// store information about a single uploaded article.
+/// long term likely needs to be in storage.
+export type SinglePageDetails = {
+    clientIsArticle : boolean
+    url : Location
+    uploadState : UploadState
+    uploadedDom? : UploadedDom,
+    key : number
+}
+
+type PageDetailsMap = {
+    [key: number]: SinglePageDetails
+}
+
+
+/// Storage that wraps a local cache and chrome storage of SinglePageDetails.
+class PageDetailsStore {
+    private pageDetails : PageDetailsMap = {}
+
+    public async getPageDetails(tabId : number) : Promise<SinglePageDetails | undefined> {
+        if (tabId in this.pageDetails) {
+            log(`Get ${tabId} from local storage.`);
+            return Promise.resolve(this.pageDetails[tabId]);
+        }
+
+        // try to return from storage
+        const storageKey = this.makeKey(tabId);
+        const storeResults = await chrome.storage.sync.get(storageKey);
+        const v = storeResults[storageKey];
+        if (v != undefined) {
+            log(`Got ${tabId} from remote storage.`);
+            this.pageDetails[tabId] = v;
+        } else {
+            log(`Tab ${tabId} not found.`)
+        }
+
+        return Promise.resolve(v);
+    }
+
+    public setPageDetails(tabId : number, page : SinglePageDetails) {
+        const storageKey = this.makeKey(tabId);
+        chrome.storage.sync.set({[storageKey]: page}, () => {
+            log(`Set ${page.url} to ${storageKey}`);
+        });
+        this.pageDetails[tabId] = page;
+    }
+
+    private makeKey(tabId : number) : string {
+        return `singlepagedetails.${tabId}`;
+    }
+
+}
+
+
+export const pageDetailsStore = new PageDetailsStore();

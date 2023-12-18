@@ -4,38 +4,19 @@ import { log } from "../utils/logger";
 import { getAQuiz, sendDomPayload } from "../webInterface";
 import { sharedState } from "./sharedState";
 
-type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
+import { pageDetailsStore, SinglePageDetails } from "./pageDetailsStore";
 
-
-/// store information about a single uploaded article.
-/// long term likely needs to be in storage.
-type SinglePageDetails = {
-    clientIsArticle : boolean
-    url : Location
-    uploadState : UploadState
-    uploadedDom? : UploadedDom,
-    key : number
-}
-
-type PageDetailsMap = {
-    [key: number]: SinglePageDetails
-}
 
 class BackgroundState {
     
-    private pageDetails : PageDetailsMap = {}
 
     private quizzes : {[key: number]: Quiz} = {}
 
     private uploadPromises : {[key: number]: Promise<UploadedDom>} = {}
 
-    public getPageDetails(tabId : number) : SinglePageDetails | undefined {
-        return this.pageDetails[tabId];
-    }
-
     public async uploadPage(tabId : number, response : DomShape) {
 
-        const record = this.getOrCreatePageDetails(tabId, response);
+        const record = await this.getOrCreatePageDetails(tabId, response);
 
         if (!await this.shouldOperateOnPage(record)) {
             log(`Upload abandoned ${tabId} url ${response.url}`);
@@ -67,12 +48,12 @@ class BackgroundState {
             return Promise.resolve(this.quizzes[key]);
         }
 
-        if (!(key in this.pageDetails)) {
+        const record = await pageDetailsStore.getPageDetails(key);
+
+        if (record == undefined) {
             log(`Key ${key} not in page details. Returning no quiz.`)
             return Promise.resolve(undefined);
         }
-
-        const record = this.pageDetails[key];
         
         if (!record.clientIsArticle) {
             log(`Key ${key} is not an article. Returning no quiz.`);
@@ -111,30 +92,33 @@ class BackgroundState {
         return true;
     }
 
-    private getOrCreatePageDetails(key : number, response : DomShape) : SinglePageDetails {
-        const missingKey = !(key in this.pageDetails);
+    private async getOrCreatePageDetails(key : number, response : DomShape) : Promise<SinglePageDetails> {
+        let pageDetail = await pageDetailsStore.getPageDetails(key);
+        const missingKey = pageDetail == undefined;
         missingKey && log(`tabId ${key} missing from pageDetails`);
 
-        const urlMismatch = this.pageDetails[key]?.url?.href != response.url.href;
-        urlMismatch && log(`url mismatch: stored ${this.pageDetails[key]?.url?.href} but need ${response.url.href}`);
+        const urlMismatch = pageDetail?.url?.href != response.url.href;
+        urlMismatch && log(`url mismatch: stored ${pageDetail?.url?.href} but need ${response.url.href}`);
 
         if (missingKey || urlMismatch) {
             // If this is a new page OR this is a change of site in same tab.
             console.log(`Writing new page ${response.url.href} for tab ${key}.`);
             console.log(`Is article: ${response.clientIsArticle}`);
-            this.pageDetails[key] = {
+            pageDetail =  {
                 clientIsArticle: response.clientIsArticle,
                 uploadState: 'notstarted',
                 url: response.url,
                 key: key,
                 uploadedDom: undefined
-            }
+            };
+            pageDetailsStore.setPageDetails(key, pageDetail);
+
             if (key in this.quizzes) {
                 delete this.quizzes[key];
             }
         }
 
-        return this.pageDetails[key];
+        return pageDetail as SinglePageDetails;
     }
 
 }

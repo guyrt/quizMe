@@ -1,5 +1,6 @@
 import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundState";
+import { pageDetailsStore } from "./stateTrackers/pageDetailsStore";
 import { log } from "./utils/logger";
 import { uploadQuizResults } from "./webInterface";
 
@@ -31,9 +32,10 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 sendResponse(false);
                 return true;
             }
-            const d = backgroundState.getPageDetails(activeTabId);
-            console.log(`Reporting tab ${activeTabId} article status ${d?.clientIsArticle}`);
-            sendResponse(d);
+            pageDetailsStore.getPageDetails(activeTabId).then(d => {
+                console.log(`Reporting tab ${activeTabId} article status ${d?.clientIsArticle}`);
+                sendResponse(d);
+            })
             return true
         });
         return true;
@@ -92,7 +94,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
 
 
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
-    log(`Background recieved dom. TabId: ${tabId}, Url: ${response.url.href}`);
+    log(`Background received dom. TabId: ${tabId}, Url: ${response?.url.href}`);
     backgroundState.uploadPage(tabId, response);
 }
 
