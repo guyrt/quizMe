@@ -10,6 +10,7 @@ import {
 import { Signin } from "./optionsManagement/signin";
 import { sharedState } from "./stateTrackers/sharedState";
 import { LoggedInUserSettings } from "./optionsManagement/loggedInUserSettings";
+import { SignUp } from "./optionsManagement/signup";
 
 const optionsRouter = createMemoryRouter([
     {
@@ -19,6 +20,10 @@ const optionsRouter = createMemoryRouter([
     {
         path: '/signin',
         element: <Signin />
+    },
+    {
+        path: '/signup',
+        element: <SignUp />
     },
     {
         path: '/user',

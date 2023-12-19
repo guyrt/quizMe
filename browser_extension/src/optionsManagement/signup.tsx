@@ -1,17 +1,23 @@
 import React, { useState } from "react";
 import { OptionsWebInterface } from "./optionsWebInterface";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export function Signin() {
+export function SignUp() {
+
     const navigate = useNavigate();
 
     const [username, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
+    const [password2, setPassword2] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
 
-    async function signIn() {
+    async function signUp() {
         
-        console.log("Signin in");
+        if (password != password2) {
+            setError("Make sure your passwords match.");
+            return;
+        }
+
         const status = await new OptionsWebInterface().loginAndSaveToken(username, password);
         if (status == "ok") {
             navigate("/user"); // off to user settings.
@@ -29,32 +35,36 @@ export function Signin() {
         setPassword(event.target.value);
     };
 
+    const handlePasswordChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
+        setPassword2(event.target.value);
+    };
+
     return (
         <>
-            <div>
-                Sign in!
-                <div>New here? 
-                    <Link to={'/signup'}>Sign up instead</Link>
-                </div>
-
+        Welcome!
+        <div>
                 <label htmlFor="username">Email Address</label>
-                <br/>
                 <input 
                     type="text" 
                     id="username" 
                     onChange={handleUsernameChange} 
                 />
-                <br/>
 
                 <label htmlFor="password">Password</label>
-                <br/>
                 <input 
                     type="password" 
                     id="password" 
                     onChange={handlePasswordChange} 
                 />
 
-                <button id="save" onClick={signIn}>Sign in!</button>
+                <label htmlFor="password2">Double check</label>
+                <input 
+                    type="password" 
+                    id="password2" 
+                    onChange={handlePasswordChange} 
+                />
+
+                <button id="save" onClick={signUp}>Sign in!</button>
 
                 {error && <div className="error">{error}</div>}
             </div>

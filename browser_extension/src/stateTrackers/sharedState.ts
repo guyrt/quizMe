@@ -30,6 +30,10 @@ class SharedState {
         });
     }
 
+    public deleteApiToken() {
+        chrome.storage.local.remove("secret.apikey");
+    }
+
     public async getDomainBlockList() : Promise<string[]> {
         return Promise.resolve(this.domainBlockList);
     }

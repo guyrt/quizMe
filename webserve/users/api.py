@@ -6,7 +6,7 @@ from ninja.errors import AuthenticationError
 
 from .models import AuthToken
 
-from .apiauth import ApiKey, create_new_token
+from .apiauth import ApiKey, BurnOnRead, create_new_token
 from .schemas import AuthTokenSchema, AuthTokenNonSecretSchema
 
 from typing import List
@@ -31,4 +31,9 @@ def create_token(request, username: str = Form(...), password: str = Form(...)):
 
 @router.post("/tokens/", response=List[AuthTokenNonSecretSchema])
 def get_all_tokens(request):
-    return [AuthTokenNonSecretSchema(a) for a in AuthToken.objects.filter(user=request.user)]
+    return AuthToken.objects.filter(user=request.auth)
+
+
+@router.delete("/tokens/delete", auth=BurnOnRead())
+def delete_token(request):
+    return {}

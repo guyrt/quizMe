@@ -2,7 +2,7 @@ import { domain } from "../globalSettings";
 import { sharedState } from "../stateTrackers/sharedState";
 
 export class OptionsWebInterface {
-    public async LoginAndSaveToken(username : string, password : string) : Promise<string> {
+    public async loginAndSaveToken(username : string, password : string) : Promise<string> {
         const url = `${domain}/api/user/tokens/create`;
 
         const formData = new FormData();
@@ -30,5 +30,16 @@ export class OptionsWebInterface {
             return Promise.resolve(`${error}`);
         }
         
+    }
+
+    public async logoutThisDevice() : Promise<boolean> {
+        // drop locally.
+        sharedState.deleteApiToken();
+
+        // delete the token.
+        const url = `${domain}/api/users/tokens/delete`;
+        return fetch(url, {
+            method: "DELETE"
+        }).then(() => true);
     }
 }

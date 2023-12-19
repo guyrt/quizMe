@@ -18,5 +18,5 @@ class SimpleQuizSchema(ModelSchema):
 
 class UploadQuizResultsSchema(Schema):
 
-    quiz_id : int
+    quiz_id : str
     selection : List[int]
