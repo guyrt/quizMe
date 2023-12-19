@@ -98,7 +98,11 @@ const QuizGradedQuestion : React.FC<{
             <p>{question.question}</p>
             {question.answers.map((answer, i) => (
                 <p
-                    className={`quizAnswer ${questionState.selected === i ? (question.answers[i]?.correct ? "selected-correct" : "selected-incorrect") : ""}`}
+                    className={
+                        `quizAnswer 
+                        ${question.answers[i]?.correct ? "selected-correct" : (questionState.selected === i ? "selected-incorrect" : "")}
+                        `}
+
                 >
                     {answer.answer}
                 </p>

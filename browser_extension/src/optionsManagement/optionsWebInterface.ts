@@ -3,7 +3,7 @@ import { sharedState } from "../stateTrackers/sharedState";
 
 export class OptionsWebInterface {
     public async LoginAndSaveToken(username : string, password : string) : Promise<string> {
-        const url = `${domain}/api/users/tokens/create`;
+        const url = `${domain}/api/user/tokens/create`;
 
         const formData = new FormData();
         formData.append('username', username);

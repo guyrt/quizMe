@@ -17,7 +17,7 @@ export function Signin() {
             navigate("/user"); // off to user settings.
         } else {
             // show an error
-            setError("An error occurred while trying to sign in."); // Set error message for other errors
+            setError("Nah dawg, that ain't it. Try again maybe? Type slower?"); // Set error message for other errors
         }
     }
 
