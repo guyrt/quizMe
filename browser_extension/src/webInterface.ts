@@ -1,13 +1,10 @@
 import { DomShape, Quiz, UploadedDom, QuizResponse } from "./interfaces";
 import { sharedState } from "./stateTrackers/sharedState";
-
-
-const domain = "http://localhost:8000";
-
+import { domain } from "./globalSettings";
 
 export async function uploadQuizResults(payload : QuizResponse) : Promise<undefined> {
     const url = `${domain}/api/quiz/uploadresults`;
-    const token = await sharedState.getApiToken();
+    const token = await sharedState.getApiToken() ?? "todo";
     return callFetch(token, url, payload);
 }
 
@@ -21,7 +18,7 @@ export function sendDomPayload(token : string, payload : DomShape) : Promise<Upl
 /// Request a quiz
 export async function getAQuiz(payload : UploadedDom) : Promise<Quiz | undefined> {
     const url = `${domain}/api/quiz/makequiz`;
-    const apiToken = await sharedState.getApiToken();
+    const apiToken = await sharedState.getApiToken() ?? "todo";
     
     return callFetch(apiToken, url, payload).then((q : any) => {
         if (q) {

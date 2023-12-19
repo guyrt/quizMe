@@ -27,7 +27,7 @@ class BackgroundState {
             return;
         }
 
-        const t = await sharedState.getApiToken();
+        const t = await sharedState.getApiToken() ?? "todo";
 
         this.uploadPromises[record.key] = sendDomPayload(t, response);
         record.uploadState = 'inprogress';

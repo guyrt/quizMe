@@ -9,8 +9,6 @@
 /// be updated via message passing.
 class SharedState {
 
-    private t = "fa0_MBWOmORGwgl2zJO2lxuoQtixZF-Q6l1u6OcARBqfBQuxfyU";
-
     private domainBlockList = [
         'microsoft-my.sharepoint.com',
         'microsoft.sharepoint.com',
@@ -22,8 +20,14 @@ class SharedState {
 
     private filterSend = true; // only send filtered article content if true.
 
-    public async getApiToken() : Promise<string> {
-        return Promise.resolve(this.t);
+    public async getApiToken() : Promise<string | undefined> {
+        return (await chrome.storage.local.get("secret.apikey"))["secret.apikey"];
+    }
+
+    public setApiToken(newToken : string) {
+        chrome.storage.local.set({
+            "secret.apikey": newToken
+        });
     }
 
     public async getDomainBlockList() : Promise<string[]> {
