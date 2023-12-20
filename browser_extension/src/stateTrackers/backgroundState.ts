@@ -64,12 +64,13 @@ class BackgroundState {
             console.log("Waiting on an upload record");
             if (key in this.uploadPromises) {
                 const upstream = this.uploadPromises[key];
-                return upstream.then(() => {
+                return upstream.then(async () => {
                     if (record.uploadedDom) {
-                        const quiz = getAQuiz(record.uploadedDom);
+                        const quiz = await getAQuiz(record.uploadedDom);
+                        return quiz;
                     }
-                    return quiz;
-                })
+                    return undefined;
+                });
             } else {
                 return Promise.resolve(undefined);
             }
