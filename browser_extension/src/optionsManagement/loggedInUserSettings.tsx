@@ -1,5 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
+import { OptionsWebInterface } from "./optionsWebInterface";
 
 export function LoggedInUserSettings() {
     
@@ -7,6 +8,7 @@ export function LoggedInUserSettings() {
 
     async function logoutThisDevice() {
         // delete your auth token...
+        new OptionsWebInterface().logoutThisDevice();
 
         // then redirect to loading.
         navigate("/");
@@ -15,7 +17,7 @@ export function LoggedInUserSettings() {
     return (
         <div>
             User settings.
-
+            <br/>
             <button id='login' onClick={logoutThisDevice}>Log out</button>
         </div>
     )

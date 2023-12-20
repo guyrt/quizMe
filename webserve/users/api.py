@@ -2,14 +2,15 @@ import logging
 from django.contrib.auth import authenticate
 
 from ninja import Form, Router
-from ninja.errors import AuthenticationError
+from ninja.errors import AuthenticationError, HttpError
 
-from .models import AuthToken
+from .models import AuthToken, User
 
 from .apiauth import ApiKey, BurnOnRead, create_new_token
 from .schemas import AuthTokenSchema, AuthTokenNonSecretSchema
 
 from typing import List
+from datetime import datetime
 
 logger = logging.getLogger("default")
 
@@ -27,6 +28,30 @@ def create_token(request, username: str = Form(...), password: str = Form(...)):
             key=token.key
         )
     raise AuthenticationError()
+
+
+@router.post("/users/create", auth=None, response=AuthTokenSchema)
+def create_user(request, email : str = Form(...), password: str = Form(...)):
+    try:
+        user = User.objects.get(email=email)
+    except User.DoesNotExist:
+        # create the user - verified none exists.
+        user = User.objects.create(email=email, password=password)
+    else:
+        user2 = authenticate(request, username=email, password=password)
+        if user2 == user and not user.is_active:
+            # Then re-enable them!
+            user.is_active = True
+            user.save()
+        else:
+            raise HttpError(409, "Already exists")
+
+    # Fall through from except and one else path
+    token = create_new_token(user, f"Created at {datetime.now()}")
+    return AuthTokenSchema(
+        user=user.email,
+        key=token.key
+    )
 
 
 @router.post("/tokens/", response=List[AuthTokenNonSecretSchema])

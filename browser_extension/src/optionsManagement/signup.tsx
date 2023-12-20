@@ -49,6 +49,7 @@ export function SignUp() {
                     id="username" 
                     onChange={handleUsernameChange} 
                 />
+                <br/>
 
                 <label htmlFor="password">Password</label>
                 <input 
@@ -56,16 +57,17 @@ export function SignUp() {
                     id="password" 
                     onChange={handlePasswordChange} 
                 />
+                <br/>
 
                 <label htmlFor="password2">Double check</label>
                 <input 
                     type="password" 
-                    id="password2" 
-                    onChange={handlePasswordChange} 
+                    id="password2"
+                    onChange={handlePasswordChange2} 
                 />
-
+                <br/>
                 <button id="save" onClick={signUp}>Sign in!</button>
-
+                <br/>
                 {error && <div className="error">{error}</div>}
             </div>
         </>
