@@ -19,7 +19,7 @@ function MainApp() {
         chrome.runtime.sendMessage({action: "fa_checkIsArticle", payload: {}}, (_domFacts : DomShape) => {
             log("fa_checkIsArticle Returned with payload:");
             log(_domFacts);
-            setIsArticle(_domFacts?.clientIsArticle ?? false);
+            setIsArticle(_domFacts?.domClassification.classification == "article");
             setStatus("landing");
         });
 

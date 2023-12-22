@@ -2,6 +2,7 @@
 /// but if it happens then you'll need a deferral mechanism. Or give up and just send the DOM when
 /// you make your quiz?
 
+import { isArticle } from "./articleDetector";
 import { DomShape } from "./interfaces";
 
 // Fires only when a new page is loaded.
@@ -14,12 +15,8 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             url: document.location,
             recordTime: new Date().getTime(),
             title: document.title,
-            clientIsArticle: getIsArticle()
+            domClassification: isArticle(document.location)
         }
         sendResponse(data);
     }
 })
-
-function getIsArticle() : boolean {
-    return document.querySelector('article') !== null;
-}

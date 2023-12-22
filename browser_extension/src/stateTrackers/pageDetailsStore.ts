@@ -1,3 +1,4 @@
+import { DomClassification } from "../articleDetector";
 import { UploadedDom } from "../interfaces";
 import { log } from "../utils/logger";
 
@@ -7,7 +8,7 @@ type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
 /// store information about a single uploaded article.
 /// long term likely needs to be in storage.
 export type SinglePageDetails = {
-    clientIsArticle : boolean
+    domClassification : DomClassification
     url : Location
     uploadState : UploadState
     uploadedDom? : UploadedDom,

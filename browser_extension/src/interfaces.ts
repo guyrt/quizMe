@@ -1,10 +1,12 @@
+import { DomClassification } from "./articleDetector"
+
 export type DomShape = {
     dom : string,
     url : Location,
     recordTime : number,
     title : string,
 
-    clientIsArticle : boolean
+    domClassification : DomClassification
 }
 
 export type UploadedDom = {

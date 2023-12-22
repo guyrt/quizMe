@@ -55,7 +55,7 @@ class BackgroundState {
             return Promise.resolve(undefined);
         }
         
-        if (!record.clientIsArticle) {
+        if (record.domClassification.classification != "article") {
             log(`Key ${key} is not an article. Returning no quiz.`);
             return Promise.resolve(undefined);
         }
@@ -86,7 +86,7 @@ class BackgroundState {
             return false;
         }
     
-        if (!response.clientIsArticle) {
+        if (response.domClassification.classification != "article") {
             return false;
         }
 
@@ -104,9 +104,9 @@ class BackgroundState {
         if (missingKey || urlMismatch) {
             // If this is a new page OR this is a change of site in same tab.
             console.log(`Writing new page ${response.url.href} for tab ${key}.`);
-            console.log(`Is article: ${response.clientIsArticle}`);
+            console.log(`Is article: ${response.domClassification}`);
             pageDetail =  {
-                clientIsArticle: response.clientIsArticle,
+                domClassification: response.domClassification,
                 uploadState: 'notstarted',
                 url: response.url,
                 key: key,

@@ -30,13 +30,14 @@ def create_token(request, username: str = Form(...), password: str = Form(...)):
     raise AuthenticationError()
 
 
-@router.post("/users/create", auth=None, response=AuthTokenSchema)
+@router.post("/create", auth=None, response=AuthTokenSchema)
 def create_user(request, email : str = Form(...), password: str = Form(...)):
     try:
         user = User.objects.get(email=email)
     except User.DoesNotExist:
         # create the user - verified none exists.
         user = User.objects.create(email=email, password=password)
+        logger.info("Creating account for %s", email)
     else:
         user2 = authenticate(request, username=email, password=password)
         if user2 == user and not user.is_active:
@@ -44,6 +45,7 @@ def create_user(request, email : str = Form(...), password: str = Form(...)):
             user.is_active = True
             user.save()
         else:
+            logger.info("username already exists: %s", email)
             raise HttpError(409, "Already exists")
 
     # Fall through from except and one else path

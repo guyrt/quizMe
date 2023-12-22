@@ -18,12 +18,12 @@ export function SignUp() {
             return;
         }
 
-        const status = await new OptionsWebInterface().loginAndSaveToken(username, password);
+        const status = await new OptionsWebInterface().signUpAndSaveToken(username, password);
         if (status == "ok") {
             navigate("/user"); // off to user settings.
         } else {
             // show an error
-            setError("Nah dawg, that ain't it. Try again maybe? Type slower?"); // Set error message for other errors
+            setError("Something's gone horribly wrong? Try again later."); // Set error message for other errors
         }
     }
 
