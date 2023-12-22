@@ -1,5 +1,4 @@
 import logging
-from django.contrib.auth import authenticate
 import uuid
 from datetime import datetime
 from json import loads
@@ -8,12 +7,12 @@ from urllib.parse import urlparse
 
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
-from ninja import Router, pagination
+from ninja import Router, pagination, Body
 from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 
 from users.apiauth import ApiKey
 from .models import RawDocCapture, SingleUrl
-from .schemas import RawDocCaptureSchema, RawDocCaptureWithContentSchema
+from .schemas import DomSchema, RawDocCaptureSchema, RawDocCaptureWithContentSchema
 
 logger = logging.getLogger("default")
 
@@ -21,16 +20,15 @@ router = Router(auth=[ApiKey()], tags=['pages'])
 
 
 @router.post("/writehtml")
-def write_dom(request):
-    body = loads(request.body)
+def write_dom(request, data : DomSchema = Body(...)):
     user = request.auth
     logging.debug("Receive request for %s", user.pk)
     # Save a Raw File Save and upload.
     # Assume on server side we need to save (maybe relax later)
     handler = RawDocCaptureHander()
-    container, filename = handler.upload(user, body['dom'], datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
+    container, filename = handler.upload(user, data.dom, datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
 
-    url = body['url']['href'][:2048]
+    url = data.url['href'][:2048]
 
     # create a SingleURL and return that id.
     obj, created = SingleUrl.objects.get_or_create(
@@ -46,7 +44,7 @@ def write_dom(request):
         location_container=container,
         location_path=filename,
         url=url,
-        title=body.get('title', '')[:1024],
+        title=data.title[:1024],
         url_model=obj
     )
 

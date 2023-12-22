@@ -5,7 +5,7 @@ export type DomClassification = {
     
     // these are specific lookups that are likely candidates.
     idLookup? : string,
-    classlookup? : string
+    classLookup? : string
 }
 
 export function classifyPage(url : Location) : DomClassification {
