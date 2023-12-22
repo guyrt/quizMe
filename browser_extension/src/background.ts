@@ -33,7 +33,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 return true;
             }
             pageDetailsStore.getPageDetails(activeTabId).then(d => {
-                console.log(`Reporting tab ${activeTabId} article status ${d?.domClassification.classification}`);
+                console.log(`Reporting tab ${activeTabId} article status ${d?.domClassification?.classification}`);
                 sendResponse(d);
             })
             return true

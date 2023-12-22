@@ -1,10 +1,14 @@
 
 export type DomClassification = {
     classification : "article" | "unknown",
-    reason : "hasArticleTag" | "dashCount" | "textContent" | "postBody" | "blog-post" | "fallthrough"
+    reason : "hasArticleTag" | "dashCount" | "textContent" | "id" | "class" | "fallthrough",
+    
+    // these are specific lookups that are likely candidates.
+    idLookup? : string,
+    classlookup? : string
 }
 
-export function isArticle(url : Location) : DomClassification {
+export function classifyPage(url : Location) : DomClassification {
     if (document.querySelector('article') !== null) {
         return {
             classification : "article",
@@ -12,19 +16,28 @@ export function isArticle(url : Location) : DomClassification {
         };
     }
 
-    if (document.getElementById('postBody')) {
-        return {
-            classification : "article",
-            reason : "postBody"
+    const ids = ['postBody', 'blog-post'];
+    for (let i = 0; i < ids.length; i++) {
+        if (document.getElementById(ids[i])) {
+            return {
+                classification : "article",
+                reason : "id",
+                idLookup : ids[i]
+            }
         }
-    }
+    };
+    
 
-    if (document.getElementById('blog-post')) {
-        return {
-            classification : "article",
-            reason : "blog-post"
+    const classes = ['blog-content' /*huggingface*/, "single-post" /* substack */,];
+    for (let i = 0; i < classes.length; i++) {
+        if (document.getElementById(classes[i])) {
+            return {
+                classification : "article",
+                reason : "class",
+                idLookup : classes[i]
+            }
         }
-    }
+    };
 
     // many times articles have title with dashes.
     const dashCount = url.pathname.match(/\-/g)?.length || 0;
