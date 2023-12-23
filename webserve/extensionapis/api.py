@@ -11,7 +11,7 @@ from ninja import Router, pagination, Body
 from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 
 from users.apiauth import ApiKey
-from .models import RawDocCapture, SingleUrl
+from .models import RawDocCapture, SingleUrl, SingleUrlFact
 from .schemas import DomSchema, RawDocCaptureSchema, RawDocCaptureWithContentSchema
 
 logger = logging.getLogger("default")
@@ -28,7 +28,7 @@ def write_dom(request, data : DomSchema = Body(...)):
     handler = RawDocCaptureHander()
     container, filename = handler.upload(user, data.dom, datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
 
-    url = data.url['href'][:2048]
+    url = data.url.href[:2048]
 
     # create a SingleURL and return that id.
     obj, created = SingleUrl.objects.get_or_create(
@@ -38,6 +38,19 @@ def write_dom(request, data : DomSchema = Body(...)):
     if created:
         obj.host = urlparse(url).netloc
         obj.save()
+
+    for k, v in data.domClassification.dict().items():
+        if v is None:
+            continue
+
+        o, created = SingleUrlFact.objects.get_or_create(
+            base_url=obj,
+            fact_key=f"client_{k}",
+            defaults={'fact_value': v}
+        )
+        if not created and o.fact_value != v:
+            o.fact_value = v
+            o.save()
 
     record = RawDocCapture.objects.create(
         user=user,

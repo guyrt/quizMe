@@ -11,20 +11,24 @@ class DomClassificationSchema(Schema):
 
     reason : Literal["hasArticleTag", "dashCount", "textContent", "id", "class", "fallthrough"]
 
-    idLookup : str | None
+    idLookup : str = None
 
-    classLookup : str | None
+    classLookup : str = None
+
+
+class DomLocation(Schema):
+    """Subset of browser Location object."""
+    href : str
 
 
 class DomSchema(Schema):
 
     dom : str  # HTML representation of the page contents.
-    url : dict  # Location object.
+    url : DomLocation 
     title : str = ""
-    recordtime : int  # integer timestamp
+    recordTime : int  # integer timestamp
 
     domClassification : DomClassificationSchema
-
 
 
 class RawDocCaptureSchema(ModelSchema):

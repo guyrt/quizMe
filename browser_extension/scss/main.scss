@@ -6,7 +6,7 @@ body {
     margin: 0;
     padding: 1rem;
     .quizQuestion {
-        border: 2px solid #000; // Box around the quiz question
+        border: 2px solid #666565; // Box around the quiz question
         padding: 15px;
         margin-bottom: 20px;
         background-color: #f8f8f8; // Optional: background color for the box
@@ -27,17 +27,15 @@ body {
             }
     
             &.selected {
-                background-color: red; // Highlight for selected answer
-                color: #fff; // Change text color for better readability
+                background-color: #98FB98; // Soft green for selected answer
             }
 
             &.selected-correct {
-                background-color: green;
+                background-color: #98FB98; // Soft green for correct answer            
             }
 
             &.selected-incorrect {
-                background-color: red;
-                color: #fff;
+                background-color: #fd566f; // Light red for incorrect answer
             }
         }
     }

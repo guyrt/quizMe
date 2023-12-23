@@ -24,7 +24,7 @@ class QuizGenerator:
 
     def create_quiz(self, raw_doc : RawDocCapture) -> Optional[SimpleQuiz]:
         raw_dom = parse_contents(raw_doc.get_content())
-        article_content = get_rough_article_content(raw_dom)
+        article_content = get_rough_article_content(raw_doc, raw_dom)
         if article_content == "":
             logger.error("No article content for %s", raw_doc.id)
             return None

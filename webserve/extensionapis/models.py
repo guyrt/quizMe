@@ -35,6 +35,9 @@ class RawDocCapture(ModelBaseMixin):
 
 
 class SingleUrlFact(ModelBaseMixin):
+    """TODO: Right now, deleting a fact is not supported. Need to version or timestamp them.
+    
+    Consider adding a read timer and an offline process to clean up?"""
 
     base_url = models.ForeignKey(SingleUrl, on_delete=models.CASCADE)
 
@@ -46,7 +49,7 @@ class SingleUrlFact(ModelBaseMixin):
 
 
 class ObservedLink(ModelBaseMixin):
-    """Track an observed link."""
+    """Track an observed link between pages."""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     from_str = models.CharField(max_length=2028)
