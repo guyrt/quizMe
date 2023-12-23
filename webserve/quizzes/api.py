@@ -24,18 +24,22 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     """
     user = request.auth
     logger.info("Write quiz for %s for user %s", body.url_obj, user.pk)
+    was_created = True
 
-    try:
-        existing_quiz = SimpleQuiz.objects.get(url__pk=body.url_obj, owner=user, active=1)
-    except SimpleQuiz.MultipleObjectsReturned:
-        existing_quiz = repair_quizzes(body.url_obj, user)
-        logger.info("Returning existing quiz")
-        return existing_quiz
-    except SimpleQuiz.DoesNotExist:
+    if body.force_recreate:
         pass
     else:
-        logger.info("Returning existing quiz")
-        return existing_quiz
+        try:
+            existing_quiz = SimpleQuiz.objects.get(url__pk=body.url_obj, owner=user, active=1)
+        except SimpleQuiz.MultipleObjectsReturned:
+            existing_quiz = repair_quizzes(body.url_obj, user)
+            logger.info("Returning existing quiz")
+            return _create_output(existing_quiz, was_created)
+        except SimpleQuiz.DoesNotExist:
+            pass
+        else:
+            logger.info("Returning existing quiz")
+            return _create_output(existing_quiz, was_created)
 
     qs = RawDocCapture.objects.select_related("url_model").prefetch_related("url_model__singleurlfact_set")
     raw_doc = get_object_or_404(qs, id=body.raw_doc, user=user, active=1)
@@ -49,11 +53,17 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     total_time = time.time() - start_time
     if quiz:
         logger.info("Quiz built in %s", total_time)
-        return quiz
+        return _create_output(quiz, was_created)
 
     logger.info("Quiz did not build in %s seconds", total_time)
     
     raise HttpError(424, "{}")
+
+
+def _create_output(model : SimpleQuiz, was_created : bool) -> SimpleQuizSchema:
+    s = SimpleQuizSchema.from_orm(model)
+    s.was_created = was_created
+    return s 
 
 
 @router.post("uploadresults")

@@ -23,6 +23,9 @@ def find_json(input : str) -> Tuple[str, any, str]:
     
     groups = input.split("```")
     json_section = groups[1]
+    if json_section.startswith('json'):
+        json_section = json_section[4:]
+
     obj = json_repair.loads(json_section)
     return groups[0], obj, groups[1]
 

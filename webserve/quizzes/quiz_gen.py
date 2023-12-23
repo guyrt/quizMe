@@ -3,6 +3,8 @@ from dataclasses import asdict
 from json import dumps
 from typing import Optional
 
+from django.db import transaction
+
 from azurewrapper.openai_client import OpenAIClient
 from azurewrapper.prompt_types import fill_prompt
 from extensionapis.models import RawDocCapture
@@ -38,7 +40,6 @@ class QuizGenerator:
         preamble, raw_quiz_content = self._extract_quiz_json(quiz_content['response'])
 
         # Generate PromptResponse
-        # TODO - new model.
         pr = ConsumerPromptTrack.objects.create(
             user=raw_doc.user,
             template_name=quiz_gen.name,
@@ -52,12 +53,15 @@ class QuizGenerator:
         )
 
         # Generate Quiz
-        quiz = SimpleQuiz.objects.create(
-            owner=raw_doc.user,
-            content=dumps(raw_quiz_content),
-            reasoning=preamble,
-            url=raw_doc.url_model
-        )
+        # with transaction:
+        with transaction.atomic():
+            SimpleQuiz.objects.filter(url=raw_doc.url_model).update(active=False)
+            quiz = SimpleQuiz.objects.create(
+                owner=raw_doc.user,
+                content=dumps(raw_quiz_content),
+                reasoning=preamble,
+                url=raw_doc.url_model
+            )
 
         # return it.
         return quiz

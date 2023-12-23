@@ -8,9 +8,13 @@ class MakeQuizIdSchemas(Schema):
 
     url_obj : int
     raw_doc : int
+    force_recreate : bool = False
 
 
-class SimpleQuizSchema(ModelSchema):
+class SimpleQuizSchema(Schema):
+    
+    was_created : bool = True
+
     class Meta:
         model = SimpleQuiz
         fields = ['owner', 'content', 'id', 'reasoning']

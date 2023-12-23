@@ -92,6 +92,13 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
 });
 
 
+// @ts-ignore
+chrome.sidePanel
+  .setPanelBehavior({ openPanelOnActionClick: true })
+  .catch((error : any) => console.error(error));
+
+
+
 
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
     log(`Background received dom. TabId: ${tabId}, Url: ${response?.url.href}`);
