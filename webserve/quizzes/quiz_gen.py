@@ -25,6 +25,8 @@ class QuizGenerator:
 
 
     def create_quiz(self, raw_doc : RawDocCapture) -> Optional[SimpleQuiz]:
+        logger.error("Creating a quiz init for %s", raw_doc.id)
+
         raw_dom = parse_contents(raw_doc.get_content())
         article_content = get_rough_article_content(raw_doc, raw_dom)
         if article_content == "":

@@ -15,9 +15,13 @@ class SimpleQuizSchema(Schema):
     
     was_created : bool = True
 
-    class Meta:
-        model = SimpleQuiz
-        fields = ['owner', 'content', 'id', 'reasoning']
+    owner : str
+
+    content : str
+
+    id : str
+
+    reasoning : str
 
 
 class UploadQuizResultsSchema(Schema):
