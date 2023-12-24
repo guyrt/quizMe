@@ -1,4 +1,5 @@
-from ninja import ModelSchema, Schema
+import json
+from ninja import Schema
 from typing import List
 
 from .models import SimpleQuiz
@@ -11,16 +12,24 @@ class MakeQuizIdSchemas(Schema):
     force_recreate : bool = False
 
 
+class SimpleQuizContentAnswerSchema(Schema):
+
+    answer : str
+    correct : int = None
+
+
+class SimpleQuizContentSchema(Schema):
+
+    question : str
+    answers : List[SimpleQuizContentAnswerSchema]
+
+
 class SimpleQuizSchema(Schema):
     
     was_created : bool = True
-
     owner : str
-
-    content : str
-
+    content : SimpleQuizContentSchema
     id : str
-
     reasoning : str
 
 
@@ -28,3 +37,13 @@ class UploadQuizResultsSchema(Schema):
 
     quiz_id : str
     selection : List[int]
+
+
+def create_simple_quiz_schema(obj : SimpleQuiz, was_created : bool) -> SimpleQuizSchema:
+    return SimpleQuizSchema(
+        was_created=was_created,
+        owner=str(obj.owner.pk),
+        content=json.loads(obj.content),
+        reasoning=obj.reasoning,
+        id=str(obj.pk)
+    )

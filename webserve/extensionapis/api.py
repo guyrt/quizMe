@@ -7,19 +7,21 @@ from urllib.parse import urlparse
 
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
-from ninja import Router, pagination, Body
+from ninja import Body, Router, pagination
 from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
-
 from users.apiauth import ApiKey
+
+from .context_builder import build_context
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
-from .schemas import DomSchema, RawDocCaptureSchema, RawDocCaptureWithContentSchema
+from .schemas import (DomSchema, RawDocCaptureSchema,
+                      RawDocCaptureWithContentSchema, WriteDomReturnSchema)
 
 logger = logging.getLogger("default")
 
 router = Router(auth=[ApiKey()], tags=['pages'])
 
 
-@router.post("/writehtml")
+@router.post("/writehtml", response=WriteDomReturnSchema)
 def write_dom(request, data : DomSchema = Body(...)):
     user = request.auth
     logging.debug("Receive request for %s", user.pk)
@@ -27,6 +29,7 @@ def write_dom(request, data : DomSchema = Body(...)):
     # Assume on server side we need to save (maybe relax later)
     handler = RawDocCaptureHander()
     container, filename = handler.upload(user, data.dom, datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
+    context = None
 
     url = data.url.href[:2048]
 
@@ -38,6 +41,9 @@ def write_dom(request, data : DomSchema = Body(...)):
     if created:
         obj.host = urlparse(url).netloc
         obj.save()
+    else:
+        # if this was created, we need to create an augmentation dict of previous quizzes, ect.
+        context = build_context(obj)
 
     for k, v in data.domClassification.dict().items():
         if v is None:
@@ -61,7 +67,14 @@ def write_dom(request, data : DomSchema = Body(...)):
         url_model=obj
     )
 
-    return {'raw_doc': record.pk, 'url_obj': obj.pk}
+    d = {
+        'raw_doc': record.pk,
+        'url_obj': obj.pk
+    }
+    if context is not None:
+        d['url_context'] = context
+
+    return d
 
 
 @router.get("/rawdoccaptures/", response=List[RawDocCaptureSchema])

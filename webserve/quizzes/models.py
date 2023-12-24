@@ -33,6 +33,22 @@ class SimpleQuizResults(ModelBaseMixin):
     results = models.TextField(max_length=64)
 
 
+def get_simple_quiz(url_pk : str, user : User) -> SimpleQuiz | None:
+    try:
+        existing_quiz = SimpleQuiz.objects.get(url__pk=url_pk, owner=user, active=1)
+    except SimpleQuiz.MultipleObjectsReturned:
+        existing_quiz = repair_quizzes(body.url_obj, user)
+        logger.info("Returning existing quiz")
+        return existing_quiz
+    except SimpleQuiz.DoesNotExist:
+        pass
+    else:
+        logger.info("Returning existing quiz")
+        return existing_quiz
+
+    return None
+
+
 def repair_quizzes(url_pk : int, user : User):
     # repair if more than one quiz. Just keep latest.
     # not optimized - should be rare.
