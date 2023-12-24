@@ -52,6 +52,11 @@ class PageDetailsStore {
         this.pageDetails[tabId] = page;
     }
 
+    public async deletePageDetails(tabId : number) {
+        delete this.pageDetails[tabId];
+        await chrome.storage.sync.remove(this.makeKey(tabId));
+    }
+
     private makeKey(tabId : number) : string {
         return `singlepagedetails.${tabId}`;
     }

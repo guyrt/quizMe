@@ -9,7 +9,6 @@ import { pageDetailsStore, SinglePageDetails } from "./pageDetailsStore";
 
 class BackgroundState {
     
-
     private quizzes : {[key: number]: Quiz} = {}
 
     private uploadPromises : {[key: number]: Promise<UploadedDom>} = {}
@@ -42,8 +41,8 @@ class BackgroundState {
         });
     }
 
-    public async getOrCreateAQuiz(key : number) : Promise<Quiz | undefined> {
-        if (key in this.quizzes) {
+    public async getOrCreateAQuiz(key : number, forceReload : boolean) : Promise<Quiz | undefined> {
+        if (!forceReload && key in this.quizzes) {
             log(`Outputting cached quiz for key ${key}`);
             return Promise.resolve(this.quizzes[key]);
         }
@@ -66,7 +65,7 @@ class BackgroundState {
                 const upstream = this.uploadPromises[key];
                 return upstream.then(async () => {
                     if (record.uploadedDom) {
-                        const quiz = await getAQuiz(record.uploadedDom);
+                        const quiz = await getAQuiz(record.uploadedDom, forceReload);
                         return quiz;
                     }
                     return undefined;
@@ -76,7 +75,7 @@ class BackgroundState {
             }
         }
     
-        const quiz = getAQuiz(record.uploadedDom);
+        const quiz = getAQuiz(record.uploadedDom, forceReload);
         return quiz;
     }
 

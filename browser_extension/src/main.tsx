@@ -30,9 +30,9 @@ function MainApp() {
     }, []); // Empty dependency array ensures this runs once on mount
 
 
-    function makeQuizClick() {
+    function makeQuizClick(forceReload : boolean = false) {
         chrome.runtime.sendMessage(
-            {action: "fa_makequiz", payload: {}},
+            {action: "fa_makequiz", payload: {forceReload: forceReload}},
             (x) => handleQuiz(x)
         )
 
@@ -52,17 +52,19 @@ function MainApp() {
 
     return (
         <>
-            <div>App Name</div>
             {status === "landing" ? (
                 isArticle == true ? (
-                    <button onClick={makeQuizClick}>Make a quiz</button>
+                    <button onClick={() => makeQuizClick()}>Make a quiz</button>
                 ) : (
                     <p>This is where we should put your stats? Not an article. Also include a "yes it is" button.</p>
                 )
             ) : status === "loading" ? (
                 <p>Loading! Be patient...</p>
             ) : status === "showQuiz" && quiz !== undefined ? (
-                <QuizView quiz={quiz} />
+                <>
+                    <button onClick={() => makeQuizClick(true)}>Rebuild</button>
+                    <QuizView quiz={quiz} />
+                </>
             ) : (
                 <p>Something went wrong :( </p>
             )}

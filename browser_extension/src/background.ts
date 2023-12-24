@@ -12,8 +12,10 @@ chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
     // Check if the URL has changed
     if (changeInfo.url) {
         log(`URL changed to: ${changeInfo.url} for tab ${tabId}`);
-        // TODO: delete the key if it exists
-        chrome.tabs.sendMessage(tabId, {action: "fa_accessDOM"}, (x) => handleFAAccessDOMMessage(tabId, x));
+        
+        pageDetailsStore.deletePageDetails(tabId).then(() => {
+            chrome.tabs.sendMessage(tabId, {action: "fa_accessDOM"}, (x) => handleFAAccessDOMMessage(tabId, x))
+        });
     }
 });
 
@@ -69,7 +71,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 const activeTabId = getActiveTabId(tabs);
 
                 if (activeTabId !== undefined) {
-                    backgroundState.getOrCreateAQuiz(activeTabId)
+                    backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false)
                     .then(quiz => {
                         console.log("returning a quiz");
                         console.log(quiz);
