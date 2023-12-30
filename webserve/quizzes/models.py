@@ -37,7 +37,7 @@ def get_simple_quiz(url_pk : str, user : User) -> SimpleQuiz | None:
     try:
         existing_quiz = SimpleQuiz.objects.get(url__pk=url_pk, owner=user, active=1)
     except SimpleQuiz.MultipleObjectsReturned:
-        existing_quiz = repair_quizzes(body.url_obj, user)
+        existing_quiz = repair_quizzes(url_pk, user)
         logger.info("Returning existing quiz")
         return existing_quiz
     except SimpleQuiz.DoesNotExist:

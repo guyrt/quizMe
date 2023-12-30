@@ -15,7 +15,7 @@ class MakeQuizIdSchemas(Schema):
 class SimpleQuizContentAnswerSchema(Schema):
 
     answer : str
-    correct : int = None
+    correct : int | None = None
 
 
 class SimpleQuizContentSchema(Schema):
@@ -28,7 +28,7 @@ class SimpleQuizSchema(Schema):
     
     was_created : bool = True
     owner : str
-    content : SimpleQuizContentSchema
+    content : List[SimpleQuizContentSchema]
     id : str
     reasoning : str
 

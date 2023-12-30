@@ -1,4 +1,12 @@
-import { DomClassification } from "./articleDetector"
+export type DomClassification = {
+    classification : "article" | "unknown",
+    reason : "hasArticleTag" | "dashCount" | "textContent" | "id" | "class" | "fallthrough",
+    
+    // these are specific lookups that are likely candidates.
+    idLookup? : string,
+    classLookup? : string
+}
+
 
 export type DomShape = {
     dom : string,

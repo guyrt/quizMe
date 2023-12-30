@@ -29,7 +29,7 @@ def make_quiz(request, body : MakeQuizIdSchemas):
         pass
     else:
         existing_quiz = get_simple_quiz(body.url_obj, user)
-        if existing_quiz is None:
+        if existing_quiz is not None:
             logger.info("Returning existing quiz")
             return create_simple_quiz_schema(existing_quiz, was_created=False)
 

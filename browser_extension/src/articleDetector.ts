@@ -1,12 +1,4 @@
-
-export type DomClassification = {
-    classification : "article" | "unknown",
-    reason : "hasArticleTag" | "dashCount" | "textContent" | "id" | "class" | "fallthrough",
-    
-    // these are specific lookups that are likely candidates.
-    idLookup? : string,
-    classLookup? : string
-}
+import { DomClassification } from "./interfaces";
 
 export function classifyPage(url : Location) : DomClassification {
     if (document.querySelector('article') !== null) {

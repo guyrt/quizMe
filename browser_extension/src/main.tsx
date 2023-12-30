@@ -66,7 +66,10 @@ function MainApp() {
                     <QuizView quiz={quiz} />
                 </>
             ) : (
-                <p>Something went wrong :( </p>
+                <>
+                    <p>Something went wrong :( </p>
+                    <button onClick={() => makeQuizClick()}>Retry</button>
+                </>
             )}
         </>
     );

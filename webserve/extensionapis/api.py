@@ -24,14 +24,14 @@ router = Router(auth=[ApiKey()], tags=['pages'])
 @router.post("/writehtml", response=WriteDomReturnSchema)
 def write_dom(request, data : DomSchema = Body(...)):
     user = request.auth
-    logging.debug("Receive request for %s", user.pk)
+    url = data.url.href[:2048]
+
+    logging.info("Receive request for %s: %s", user.pk, url)
     # Save a Raw File Save and upload.
     # Assume on server side we need to save (maybe relax later)
     handler = RawDocCaptureHander()
     container, filename = handler.upload(user, data.dom, datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
     context = None
-
-    url = data.url.href[:2048]
 
     # create a SingleURL and return that id.
     obj, created = SingleUrl.objects.get_or_create(
@@ -71,8 +71,11 @@ def write_dom(request, data : DomSchema = Body(...)):
         'raw_doc': record.pk,
         'url_obj': obj.pk
     }
-    if context is not None:
-        d['url_context'] = context
+    if context is not None and context.quiz_obj is not None:
+        d['url_context'] = {
+            'previous_quiz': context.quiz_obj,
+            'latest_results': context.quiz_last_result
+        }
 
     return d
 

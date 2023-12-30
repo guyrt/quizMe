@@ -1,5 +1,4 @@
-import { DomClassification } from "../articleDetector";
-import { UploadedDom } from "../interfaces";
+import { DomClassification, UploadedDom } from "../interfaces";
 import { log } from "../utils/logger";
 
 type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
