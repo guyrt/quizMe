@@ -1,6 +1,7 @@
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { OptionsWebInterface } from "./optionsWebInterface";
+import { sharedState } from "../stateTrackers/sharedState";
 
 export function LoggedInUserSettings() {
     
@@ -21,9 +22,43 @@ export function LoggedInUserSettings() {
     return (
         <div>
             User settings.
-            <input type='checkbox' onChange={setFilterSend}></input>
+            <br/>
+            <Checkbox label="Track all pages" getter={sharedState.getFilterSend} setter={sharedState.setFilterSend} />
             <br/>
             <button id='logout' onClick={logoutThisDevice}>Log out</button>
         </div>
     )
+}
+
+type CheckboxProps = {
+    label: string;
+    getter: () => Promise<boolean>;
+    setter: (value: boolean) => void;
+};
+
+const Checkbox: React.FC<CheckboxProps> = ({ label, getter, setter }) => {
+
+    const [value, setValue] = useState(true);
+
+    useEffect(() => {
+        getter().then(x => setValue(x));
+    }, 
+        []
+    )
+
+    function setNewValue(e : ChangeEvent<HTMLInputElement>) {
+        const newValue = e.target.checked;
+        setValue(newValue);
+        setter(newValue);
+    }
+
+    return (
+        <label>
+            {label}
+            <input 
+                type='checkbox' 
+                checked={value}
+                onChange={setNewValue}></input>
+        </label>
+    );
 }
