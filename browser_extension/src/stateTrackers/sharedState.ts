@@ -18,8 +18,6 @@ class SharedState {
         'bing.com'
     ];
 
-    private filterSend = true; // only send filtered article content if true.
-
     public async getApiToken() : Promise<string | undefined> {
         return (await chrome.storage.local.get("secret.apikey"))["secret.apikey"];
     }
@@ -39,7 +37,15 @@ class SharedState {
     }
 
     public async getFilterSend() : Promise<boolean> {
-        return Promise.resolve(this.filterSend);
+        const stored = (await chrome.storage.sync.get("settings.filtersend"))['settings.filtersend'];
+        if (stored !== undefined) {
+            return stored;
+        }
+        return Promise.resolve(true);
+    }
+
+    public setFilterSend(newVal : boolean) {
+        chrome.storage.sync.set({"settings.filtersend": newVal});
     }
 
 }

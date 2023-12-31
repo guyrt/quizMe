@@ -85,6 +85,11 @@ class BackgroundState {
             return false;
         }
     
+        if (await sharedState.getFilterSend() == false) {
+            // If filtering is turned off and it's not in the block list, then send.
+            return true;
+        }
+
         if (response.domClassification.classification != "article") {
             return false;
         }
