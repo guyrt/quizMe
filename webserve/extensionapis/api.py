@@ -14,7 +14,7 @@ from users.apiauth import ApiKey
 from .context_builder import build_context
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
 from .schemas import (DomSchema, RawDocCaptureSchema,
-                      RawDocCaptureWithContentSchema, WriteDomReturnSchema)
+                      RawDocCaptureWithContentSchema, UrlContextSchema, WriteDomReturnSchema)
 
 logger = logging.getLogger("default")
 
