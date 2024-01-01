@@ -26,18 +26,24 @@ class BackgroundState {
             return;
         }
 
-        const t = await sharedState.getApiToken() ?? "todo";
+        const t = await sharedState.getApiToken();
+        if (t == undefined) {
+            log("Unable to find api token.");
+            chrome.runtime.sendMessage("fa_noAPIToken");
+            return;
+        }
 
         this.uploadPromises[record.key] = sendDomPayload(t, response);
-        record.uploadState = 'inprogress';
+        pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'inprogress'});
 
         this.uploadPromises[record.key].then((x) => {
-            record.uploadState = 'completed';
-            record.uploadedDom = x;
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x});
             log(`Upload complete for tab ${tabId} url ${response.url.href}`);
+            // update the FSM
         })
         .catch(() => {
-            record.uploadState = 'error';
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'});
+            // todo - figure out FSM.
         });
     }
 
@@ -123,7 +129,7 @@ class BackgroundState {
             }
         }
 
-        return pageDetail as SinglePageDetails;
+        return Promise.resolve(pageDetail as SinglePageDetails);
     }
 
 }

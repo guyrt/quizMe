@@ -48,10 +48,13 @@ function callFetch<InT, OutT>(token : string, url : string, payload : InT, metho
         body: JSON.stringify(payload)
     })
     .then(response => {
-        if (response.status == 200) {
+        if (response.ok) {
             return response.json();
+        } else if (response.status == 401) {
+            // unauthorized - fire generic signal.
+            chrome.runtime.sendMessage("fa_noAPIToken");
         }
-        return undefined;
+        throw new Error(`HTTP error! status: ${response.status}`);
     })
     .catch(error => {
         console.error('Error calling API: ', error);
