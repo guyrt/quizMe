@@ -39,11 +39,9 @@ class BackgroundState {
         this.uploadPromises[record.key].then((x) => {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x});
             log(`Upload complete for tab ${tabId} url ${response.url.href}`);
-            // update the FSM
         })
         .catch(() => {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'});
-            // todo - figure out FSM.
         });
     }
 
@@ -72,6 +70,15 @@ class BackgroundState {
                 return upstream.then(async () => {
                     if (record.uploadedDom) {
                         const quiz = await getAQuiz(record.uploadedDom, forceReload);
+                        if (quiz != undefined) {
+                            const uploadedDom = record.uploadedDom || {};
+                            if (uploadedDom['url_context']) {
+                                uploadedDom.url_context.previous_quiz = quiz;
+                            }
+
+                            // update the dom to include the quiz.
+                            pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: {...uploadedDom}})
+                        }
                         return quiz;
                     }
                     return undefined;

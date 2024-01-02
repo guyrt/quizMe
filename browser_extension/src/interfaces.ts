@@ -19,7 +19,22 @@ export type DomShape = {
 
 export type UploadedDom = {
     raw_doc : string,
-    url_obj : string
+    url_obj : string,
+    url_context? : {
+        previous_quiz : {
+            owner : string // should be a guid
+            content : {
+                question : string,
+                answers: {
+                    answer : string,
+                    correct? : number
+                }[]
+            }[],
+            id : string,
+            reasoning : string
+        },
+        latest_results? : number[]
+    }
 }
 
 export type Quiz = {
