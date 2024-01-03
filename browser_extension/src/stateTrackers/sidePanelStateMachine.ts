@@ -6,10 +6,10 @@
  * Finite State Machine lives in the SidePanel context.
  */
 
-import { SinglePageDetailsChangeMessage, SinglePageDetails } from "../interfaces";
+import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from "../interfaces";
 
 
-export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "ActiveQuizShowing" | "ShowStats"
+export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "ActiveQuizShowing" | "ShowStats" | "UserLoggedOut"
 
 
 class SidePanelFiniteStateMachine {
@@ -53,6 +53,11 @@ class SidePanelFiniteStateMachine {
         });
     }
 
+    public handleUserLoggedOut() {
+        this.state = "UserLoggedOut";
+        this.listeners.forEach(listener => listener(this.state));
+    }
+
 }
 
 export const fsm = new SidePanelFiniteStateMachine();
@@ -61,5 +66,11 @@ export const fsm = new SidePanelFiniteStateMachine();
 chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, sender) => {
     if (message.action === "fa_activeSinglePageDetailsChange") {
         fsm.updateState(message.payload);
+    }
+});
+
+chrome.runtime.onMessage.addListener((message : ChromeMessage, sender) => {
+    if (message.action === "fa_noAPIToken") {
+        fsm.handleUserLoggedOut();
     }
 });

@@ -48,7 +48,7 @@ export type QuizResponse = {
     selection : number[]
 }
 
-export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_checkIsArticle" | "fa_uploadQuizResult" | "fa_activeSinglePageDetailsChange"
+export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_checkIsArticle" | "fa_uploadQuizResult" | "fa_noAPIToken"
 
 
 export type ChromeMessage = {

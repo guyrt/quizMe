@@ -6,13 +6,18 @@ import {log} from "./utils/logger";
 
 import QuizView from "./components/quizComponent";
 import { SidePanelState, fsm } from "./stateTrackers/sidePanelStateMachine";
+import { RouterProvider, createMemoryRouter, useNavigate } from "react-router-dom";
+
+const sidePanelRouter = createMemoryRouter([
+
+]);
 
 function MainApp() {
+    const navigate = useNavigate();
+
     const [isArticle, setIsArticle] = useState<boolean>(false);
 
     const [quiz, setQuiz] = useState<Quiz | undefined>();
-
-    const [status, setStatus] = useState<"landing" | "loading" | "error" | "showQuiz">("landing");
 
     // on mount Effects.
     useEffect(() => {
@@ -33,35 +38,34 @@ function MainApp() {
 
 
     function makeQuizClick(forceReload : boolean = false) {
-        chrome.runtime.sendMessage(
-            {action: "fa_makequiz", payload: {forceReload: forceReload}},
-            (x) => handleQuiz(x)
-        )
+        chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}})
+            .then((x) => handleQuiz(x));
 
-        setStatus("loading");
     }
 
     function handleQuiz(params : {success : boolean, quiz : Quiz | undefined}) {
         if (params?.success == true) {
             console.log("Showing quiz");
             setQuiz(params.quiz);
-            setStatus("showQuiz");
+            //setStatus("showQuiz");
         } else {
             console.log("Setting error");
-            setStatus("error");
+            //setStatus("error");
         }
     }
 
     return (
         <>
+        <React.StrictMode>
+            <RouterProvider router={sidePanelRouter} />
+        </React.StrictMode>
+
             {status === "landing" ? (
                 isArticle == true ? (
                     <button onClick={() => makeQuizClick()}>Make a quiz</button>
                 ) : (
                     <p>This is where we should put your stats? Not an article. Also include a "yes it is" button.</p>
                 )
-            ) : status === "loading" ? (
-                <p>Loading! Be patient...</p>
             ) : status === "showQuiz" && quiz !== undefined ? (
                 <>
                     <button onClick={() => makeQuizClick(true)}>Rebuild</button>

@@ -29,7 +29,7 @@ class BackgroundState {
         const t = await sharedState.getApiToken();
         if (t == undefined) {
             log("Unable to find api token.");
-            chrome.runtime.sendMessage("fa_noAPIToken");
+            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
             return;
         }
 

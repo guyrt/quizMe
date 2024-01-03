@@ -47,7 +47,7 @@ function callFetch<InT, OutT>(token : string, url : string, payload : InT, metho
             return response.json();
         } else if (response.status == 401) {
             // unauthorized - fire generic signal.
-            chrome.runtime.sendMessage("fa_noAPIToken");
+            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
         }
         throw new Error(`HTTP error! status: ${response.status}`);
     })
