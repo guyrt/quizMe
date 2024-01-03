@@ -5,23 +5,25 @@ import time
 from django.shortcuts import get_object_or_404
 from users.apiauth import ApiKey
 from extensionapis.models import RawDocCapture
+from extensionapis.schemas import WriteDomReturnSchema
 from ninja import Router
 from ninja.errors import HttpError
 
-from .models import SimpleQuiz, repair_quizzes, SimpleQuizResults, get_simple_quiz
+from .models import SimpleQuiz, SimpleQuizResults, get_simple_quiz
 from .quiz_gen import QuizGenerator
-from .schemas import create_simple_quiz_schema, MakeQuizIdSchemas, SimpleQuizSchema, UploadQuizResultsSchema
+from .schemas import create_simple_quiz_schema, MakeQuizIdSchemas, SimpleQuizSchema, UploadQuizResultsSchema, QuizContextSchema
 
 logger = logging.getLogger("default")
 
 router = Router(auth=ApiKey(), tags=['quizzes'])
 
 
-@router.post("makequiz", response=SimpleQuizSchema)
+@router.post("makequiz", response=WriteDomReturnSchema)
 def make_quiz(request, body : MakeQuizIdSchemas):
     """
     If a quiz exists for this URL, return it. (Maybe later have a force recreate as a sign it's bad.)
     """
+    
     user = request.auth
     logger.info("Write quiz for %s for user %s", body.url_obj, user.pk)
     
@@ -31,7 +33,7 @@ def make_quiz(request, body : MakeQuizIdSchemas):
         existing_quiz = get_simple_quiz(body.url_obj, user)
         if existing_quiz is not None:
             logger.info("Returning existing quiz")
-            return create_simple_quiz_schema(existing_quiz, was_created=False)
+            return _make_quiz_return_object(body, existing_quiz, False)
 
     qs = RawDocCapture.objects.select_related("url_model").prefetch_related("url_model__singleurlfact_set")
     raw_doc = get_object_or_404(qs, id=body.raw_doc, user=user, active=1)
@@ -45,11 +47,22 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     total_time = time.time() - start_time
     if quiz:
         logger.info("Quiz built in %s", total_time)
-        return create_simple_quiz_schema(quiz, True)
+        return _make_quiz_return_object(body, quiz, True)
 
     logger.info("Quiz did not build in %s seconds", total_time)
     
     raise HttpError(424, "{}")
+
+
+def _make_quiz_return_object(body : MakeQuizIdSchemas, quiz : SimpleQuiz, was_created : bool) -> WriteDomReturnSchema:
+    return WriteDomReturnSchema.model_validate({
+        'raw_doc' : body.raw_doc,
+        'url_obj': body.url_obj,
+        'quiz_context': {
+            'previous_quiz': create_simple_quiz_schema(quiz, was_created),
+            'latest_results': []
+        }
+    })
 
 
 @router.post("uploadresults")

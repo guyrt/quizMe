@@ -16,14 +16,14 @@ export function sendDomPayload(token : string, payload : DomShape) : Promise<Upl
 }
 
 /// Request a quiz
-export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<Quiz | undefined> {
+export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom | undefined> {
     const url = `${domain}/api/quiz/makequiz`;
     const apiToken = await sharedState.getApiToken() ?? "todo";
     const fullPayload = {...payload, force_recreate: forceReload};
 
     return callFetch(apiToken, url, fullPayload).then((q : any) => {
         if (q) {
-            return q as Quiz;
+            return q as UploadedDom;
         } else {
             return undefined;
         }

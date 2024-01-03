@@ -2,7 +2,7 @@ from ninja import ModelSchema, Schema
 
 from .models import RawDocCapture
 
-from quizzes.schemas import SimpleQuizSchema
+from quizzes.schemas import QuizContextSchema
 
 from typing import Literal, List
 
@@ -33,17 +33,11 @@ class DomSchema(Schema):
     domClassification : DomClassificationSchema
 
 
-class UrlContextSchema(Schema):
-
-    previous_quiz : SimpleQuizSchema
-    latest_results : List[int]
-
-
 class WriteDomReturnSchema(Schema):
 
     raw_doc : int
     url_obj : int
-    url_context : UrlContextSchema = None
+    quiz_context : QuizContextSchema = None
 
 
 class RawDocCaptureSchema(ModelSchema):

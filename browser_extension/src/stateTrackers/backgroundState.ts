@@ -69,27 +69,27 @@ class BackgroundState {
                 const upstream = this.uploadPromises[key];
                 return upstream.then(async () => {
                     if (record.uploadedDom) {
-                        const quiz = await getAQuiz(record.uploadedDom, forceReload);
-                        if (quiz != undefined) {
-                            const uploadedDom = record.uploadedDom || {};
-                            if (uploadedDom['url_context']) {
-                                uploadedDom.url_context.previous_quiz = quiz;
-                            }
+                        const uploadedDom = await getAQuiz(record.uploadedDom, forceReload);
 
-                            // update the dom to include the quiz.
-                            pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: {...uploadedDom}})
-                        }
-                        return quiz;
+                        return this.updatePayloadAndReturnQuiz(record, uploadedDom)
                     }
                     return undefined;
                 });
             } else {
-                return Promise.resolve(undefined);
+                return undefined;
             }
         }
     
-        const quiz = getAQuiz(record.uploadedDom, forceReload);
-        return quiz;
+        const quiz = await getAQuiz(record.uploadedDom, forceReload);
+        return this.updatePayloadAndReturnQuiz(record, quiz);
+    }
+
+    private updatePayloadAndReturnQuiz(record : SinglePageDetails | undefined, uploadedDom : UploadedDom | undefined) : (Quiz | undefined) {
+        if (record != undefined && uploadedDom != undefined) {
+            // update the dom to include the quiz.
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: uploadedDom})
+        }
+        return uploadedDom?.quiz_context?.previous_quiz
     }
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {

@@ -39,6 +39,12 @@ class UploadQuizResultsSchema(Schema):
     selection : List[int]
 
 
+class QuizContextSchema(Schema):
+
+    previous_quiz : SimpleQuizSchema
+    latest_results : List[int]
+
+
 def create_simple_quiz_schema(obj : SimpleQuiz, was_created : bool) -> SimpleQuizSchema:
     return SimpleQuizSchema(
         was_created=was_created,

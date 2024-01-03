@@ -14,7 +14,9 @@ from users.apiauth import ApiKey
 from .context_builder import build_context
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
 from .schemas import (DomSchema, RawDocCaptureSchema,
-                      RawDocCaptureWithContentSchema, UrlContextSchema, WriteDomReturnSchema)
+                      RawDocCaptureWithContentSchema, WriteDomReturnSchema)
+from quizzes.schemas import QuizContextSchema
+
 
 logger = logging.getLogger("default")
 
@@ -72,7 +74,7 @@ def write_dom(request, data : DomSchema = Body(...)):
         'url_obj': obj.pk
     }
     if context is not None and context.quiz_obj is not None:
-        d['url_context'] = {
+        d['quiz_context'] = {
             'previous_quiz': context.quiz_obj,
             'latest_results': context.quiz_last_result
         }
