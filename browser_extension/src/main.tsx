@@ -13,10 +13,11 @@ function MainApp() {
 
     const [status, setStatus] = useState<"landing" | "loading" | "error" | "showQuiz">("landing");
 
+    // on mount Effects.
     useEffect(() => {
         console.log('Main component initialized.');
 
-        chrome.runtime.sendMessage({action: "fa_checkIsArticle", payload: {}}, (_domFacts : DomShape) => {
+        chrome.runtime.sendMessage({action: "fa_checkIsArticle", payload: {}}).then((_domFacts : DomShape) => {
             log("fa_checkIsArticle Returned with payload:");
             log(_domFacts);
             setIsArticle(_domFacts?.domClassification.classification == "article");

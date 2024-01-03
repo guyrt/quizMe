@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', () => {
         root.render(
             <React.StrictMode>
                 <RouterProvider router={optionsRouter} />
-          </React.StrictMode>
+            </React.StrictMode>
         );
     }
 });
