@@ -1,18 +1,6 @@
-import { DomClassification, UploadedDom } from "../interfaces";
+import { DomClassification, UploadedDom, SinglePageDetails } from "../interfaces";
 import { log } from "../utils/logger";
 
-type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
-
-
-/// store information about a single uploaded article.
-/// long term likely needs to be in storage.
-export type SinglePageDetails = {
-    domClassification : DomClassification
-    url : Location
-    uploadState : UploadState
-    uploadedDom? : UploadedDom,
-    key : number
-}
 
 type PageDetailsMap = {
     [key: number]: SinglePageDetails

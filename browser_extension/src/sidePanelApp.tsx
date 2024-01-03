@@ -5,6 +5,7 @@ import { createRoot } from 'react-dom/client';
 import {log} from "./utils/logger";
 
 import QuizView from "./components/quizComponent";
+import { SidePanelState, fsm } from "./stateTrackers/sidePanelStateMachine";
 
 function MainApp() {
     const [isArticle, setIsArticle] = useState<boolean>(false);
@@ -16,17 +17,17 @@ function MainApp() {
     // on mount Effects.
     useEffect(() => {
         console.log('Main component initialized.');
+        const stateHandler = (state : SidePanelState) => {
+            // todo - navigate
+        };
 
-        chrome.runtime.sendMessage({action: "fa_checkIsArticle", payload: {}}).then((_domFacts : DomShape) => {
-            log("fa_checkIsArticle Returned with payload:");
-            log(_domFacts);
-            setIsArticle(_domFacts?.domClassification.classification == "article");
-            setStatus("landing");
-        });
+        fsm.subscribe(stateHandler);
+        fsm.triggerCheck();  // this will end up calling subscribe.
 
         // Optional cleanup function
         return () => {
             console.log('Main component will unmount');
+            fsm.unsubscribe(stateHandler);
         };
     }, []); // Empty dependency array ensures this runs once on mount
 

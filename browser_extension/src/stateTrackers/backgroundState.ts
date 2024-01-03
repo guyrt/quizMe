@@ -1,10 +1,10 @@
 /// State object for the background
-import { DomShape, Quiz, UploadedDom } from "../interfaces";
+import { DomShape, Quiz, SinglePageDetails, UploadedDom } from "../interfaces";
 import { log } from "../utils/logger";
 import { getAQuiz, sendDomPayload } from "../webInterface";
 import { sharedState } from "./sharedState";
 
-import { pageDetailsStore, SinglePageDetails } from "./pageDetailsStore";
+import { pageDetailsStore } from "./pageDetailsStore";
 
 
 class BackgroundState {

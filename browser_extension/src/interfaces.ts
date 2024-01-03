@@ -48,7 +48,7 @@ export type QuizResponse = {
     selection : number[]
 }
 
-export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_checkIsArticle" | "fa_uploadQuizResult"
+export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_checkIsArticle" | "fa_uploadQuizResult" | "fa_activeSinglePageDetailsChange"
 
 
 export type ChromeMessage = {
@@ -59,4 +59,23 @@ export type ChromeMessage = {
 export type QuizResponseMessage = {
     action : "fa_uploadQuizResult"
     payload : QuizResponse
+}
+
+export type SinglePageDetailsChangeMessage = {
+    action : "fa_activeSinglePageDetailsChange"
+    payload : SinglePageDetails
+}
+
+
+type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
+
+
+/// store information about a single uploaded article.
+/// long term likely needs to be in storage.
+export type SinglePageDetails = {
+    domClassification : DomClassification
+    url : Location
+    uploadState : UploadState
+    uploadedDom? : UploadedDom,
+    key : number
 }
