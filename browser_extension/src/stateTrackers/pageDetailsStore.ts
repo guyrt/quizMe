@@ -31,12 +31,22 @@ class PageDetailsStore {
         return Promise.resolve(v);
     }
 
-    public setPageDetails(tabId : number, page : SinglePageDetails) {
+    /**
+     * 
+     * @param tabId 
+     * @param page 
+     * @param broadcast Only set to true if you are the current active tab.
+     */
+    public setPageDetails(tabId : number, page : SinglePageDetails, broadcast : boolean = false) {
         const storageKey = this.makeKey(tabId);
         chrome.storage.sync.set({[storageKey]: page}, () => {
             log(`Set ${page.url.href} to ${storageKey}`);
         });
         this.pageDetails[tabId] = page;
+        if (broadcast) {
+            console.log(`Sending mesage activeSinglePageDetailsChange with ${page}`);
+            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: page});
+        }
     }
 
     public async deletePageDetails(tabId : number) {

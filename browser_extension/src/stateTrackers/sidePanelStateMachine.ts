@@ -90,10 +90,12 @@ chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, 
     if (message.action === "fa_activeSinglePageDetailsChange") {
         fsm.updateState(message.payload);
     }
+    return true;
 });
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender) => {
     if (message.action === "fa_noAPIToken") {
         fsm.handleUserLoggedOut();
     }
+    return true;
 });

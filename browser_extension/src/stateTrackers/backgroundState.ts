@@ -34,16 +34,14 @@ class BackgroundState {
         }
 
         this.uploadPromises[record.key] = sendDomPayload(t, response);
-        pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'inprogress'});
+        pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'inprogress'}, true);
 
         this.uploadPromises[record.key].then((x) => {
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x});
-            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: pageDetailsStore.getPageDetails(tabId)});
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
             console.log(`Upload complete for tab ${tabId} url ${response.url.href}`);
         })
         .catch(() => {
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'});
-            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: pageDetailsStore.getPageDetails(tabId)});
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'}, true);
         });
     }
 

@@ -33,4 +33,5 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
         sendResponse(data);
     }
+    return true;
 })
