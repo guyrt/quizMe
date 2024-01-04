@@ -1,4 +1,4 @@
-import { DomClassification, UploadedDom, SinglePageDetails } from "../interfaces";
+import { SinglePageDetails } from "../interfaces";
 import { log } from "../utils/logger";
 
 
@@ -13,7 +13,7 @@ class PageDetailsStore {
 
     public async getPageDetails(tabId : number) : Promise<SinglePageDetails | undefined> {
         if (tabId in this.pageDetails) {
-            log(`Get ${tabId} from local storage.`);
+            //log(`Get ${tabId} from local storage.`);
             return Promise.resolve(this.pageDetails[tabId]);
         }
 

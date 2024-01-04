@@ -8,16 +8,17 @@ console.log("Background ran");
 
 var fa_lastActiveTab = 0;
 
-chrome.tabs.onUpdated.addListener((tabId, changeInfo, tab) => {
-    // Check if the URL has changed
-    if (changeInfo.url) {
-        log(`URL changed to: ${changeInfo.url} for tab ${tabId}`);
-        
-        pageDetailsStore.deletePageDetails(tabId).then(() => {
-            chrome.tabs.sendMessage(tabId, {action: "fa_accessDOM"}, (x) => handleFAAccessDOMMessage(tabId, x))
-        });
-    }
+
+chrome.tabs.onActivated.addListener((activeInfo) => {
+    // get the active tag if it exists.
+    log(`Change tab to ${activeInfo.tabId}`);
+    pageDetailsStore.getPageDetails(activeInfo.tabId).then(x => {
+        if (x != undefined) {
+            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: x});
+        }
+    });
 });
+
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_checkIsArticle") {
@@ -105,6 +106,7 @@ chrome.sidePanel
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
     log(`Background received dom. TabId: ${tabId}, Url: ${response?.url.href}`);
     backgroundState.uploadPage(tabId, response);
+    return true;
 }
 
 function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{

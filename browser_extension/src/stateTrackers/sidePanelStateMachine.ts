@@ -7,6 +7,7 @@
  */
 
 import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from "../interfaces";
+import { log } from "../utils/logger";
 
 
 export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "QuizBeingDeveloped"
@@ -48,6 +49,7 @@ class SidePanelFiniteStateMachine {
     }
 
     public updateState(singlePage : SinglePageDetails) {
+        log(`Updating state ${singlePage.uploadState}`);
         const sameTab = singlePage.key == this.activeTabId;
         this.activeTabId = singlePage.key;
         this.activeDetails = singlePage;

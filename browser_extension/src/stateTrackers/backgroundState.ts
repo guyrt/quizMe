@@ -42,6 +42,8 @@ class BackgroundState {
         })
         .catch(() => {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'});
+        }).finally(() => {
+            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: pageDetailsStore.getPageDetails(tabId)});
         });
     }
 

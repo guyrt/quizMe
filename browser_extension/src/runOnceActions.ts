@@ -1,12 +1,26 @@
-/// Startup scripts to load and send DOM. NOTE! this may run too early. So far so good I think
-/// but if it happens then you'll need a deferral mechanism. Or give up and just send the DOM when
-/// you make your quiz?
-
 import { classifyPage } from "./articleDetector";
 import { DomShape } from "./interfaces";
 
-// Fires only when a new page is loaded.
-chrome.runtime.sendMessage({action: 'fa_pageLoaded'})
+function handleUrlChange() {
+    console.log("Url change detected");
+    chrome.runtime.sendMessage({action: 'fa_pageLoaded'})
+}
+
+handleUrlChange(); // on load
+
+const observer = new MutationObserver((mutations, obs) => {
+    if (window.location.href !== lastUrl) {
+        lastUrl = window.location.href;
+        handleUrlChange();
+    }
+});
+
+const config = { childList: true, subtree: true };
+const targetNode = document.body;
+
+let lastUrl = window.location.href;
+observer.observe(targetNode, config);
+
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action == 'fa_accessDOM') {
