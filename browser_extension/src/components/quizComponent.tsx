@@ -1,4 +1,5 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
+import { SidePanelState, fsm } from "../stateTrackers/sidePanelStateMachine";
 import { Quiz, QuizQuestion, QuizResponse } from "../interfaces";
 
 // Component Props type
@@ -71,10 +72,29 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
         chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload})
     }
 
+    const [quizLoading, setQuizLoading] = useState(fsm.getState() == "QuizBeingDeveloped");
+
+    useEffect(() => {
+        console.log('Main component initialized.');
+        const stateHandler = (state : SidePanelState) => {
+            if (state == "QuizBeingDeveloped") {
+                setQuizLoading(true);
+            } else {
+                setQuizLoading(false);
+            }
+        };
+
+        fsm.subscribe(stateHandler);
+
+        return () => {
+            fsm.unsubscribe(stateHandler);
+        };
+    }, []); // Empty dependency array ensures this runs once on mount
+
     function makeQuizClick(forceReload : boolean = false) {
         chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}})
             .then((x) => handleQuiz(x));
-
+        fsm.setQuizBeingBuilt();
     }
 
     function handleQuiz(params : {success : boolean, quiz : Quiz | undefined}) {
@@ -91,6 +111,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
             <button onClick={() => makeQuizClick(quiz != undefined)}>
                 {quiz != undefined ? "Rebuild (todo wire)" : "Quiz me!"}
             </button>
+            {quizLoading && <div>Building a quiz!</div>}
             {quiz && 
             <div>
                 {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}

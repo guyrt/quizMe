@@ -9,7 +9,7 @@
 import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from "../interfaces";
 
 
-export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut"
+export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "QuizBeingDeveloped"
 
 
 class SidePanelFiniteStateMachine {
@@ -36,6 +36,15 @@ class SidePanelFiniteStateMachine {
 
     public unsubscribe(listener: (state: SidePanelState) => void): void {
         this.listeners = this.listeners.filter(l => l !== listener);
+    }
+
+    /**
+     * Store quiz being built state. Note that this isn't persistant by design. Any change below will overwrite.
+     * Not sure this is good enough but let's try for now.
+     */
+    public setQuizBeingBuilt() {
+        this.state = "QuizBeingDeveloped";
+        this.listeners.forEach(listener => listener(this.state));
     }
 
     public updateState(singlePage : SinglePageDetails) {
