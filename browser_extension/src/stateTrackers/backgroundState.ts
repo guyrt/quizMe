@@ -38,11 +38,11 @@ class BackgroundState {
 
         this.uploadPromises[record.key].then((x) => {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x});
-            log(`Upload complete for tab ${tabId} url ${response.url.href}`);
+            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: pageDetailsStore.getPageDetails(tabId)});
+            console.log(`Upload complete for tab ${tabId} url ${response.url.href}`);
         })
         .catch(() => {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'});
-        }).finally(() => {
             chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: pageDetailsStore.getPageDetails(tabId)});
         });
     }

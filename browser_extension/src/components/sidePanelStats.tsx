@@ -8,7 +8,7 @@ export default function SidePanelStats() {
 
     const activeElement = fsm.getActiveDetails();
 
-    const [isArticle, setIsArticle] = useState(activeElement?.domClassification.classification == 'article');
+    const [isArticle, setIsArticle] = useState(activeElement?.domClassification?.classification == 'article');
 
     const [quiz, setQuiz] = useState<Quiz | undefined>(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
 
@@ -16,11 +16,10 @@ export default function SidePanelStats() {
 
     // todo - this needs to listen for changes to the state object.
     useEffect(() => {
-        console.log('Main component initialized.');
         const stateHandler = (state : SidePanelState) => {
             const activeElement = fsm.getActiveDetails();
             setHeader(activeElement?.url.href ?? "Unknown page");
-            setIsArticle(activeElement?.domClassification.classification == 'article');
+            setIsArticle(activeElement?.domClassification?.classification == 'article');
             setQuiz(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
         };
 
@@ -29,7 +28,6 @@ export default function SidePanelStats() {
 
         // Optional cleanup function
         return () => {
-            console.log('Main component will unmount');
             fsm.unsubscribe(stateHandler);
         };
     }, []);

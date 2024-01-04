@@ -49,13 +49,11 @@ class SidePanelFiniteStateMachine {
     }
 
     public updateState(singlePage : SinglePageDetails) {
-        log(`Updating state ${singlePage.uploadState}`);
-        const sameTab = singlePage.key == this.activeTabId;
+        log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
+
         this.activeTabId = singlePage.key;
         this.activeDetails = singlePage;
 
-        // todo figure out latest state.
-        const currentState = this.state;
         if (singlePage.uploadState == "inprogress" || singlePage.uploadState == "notstarted") {
             this.state = "PageNotUploaded";
         } else if (singlePage.uploadState == "error") {
@@ -66,10 +64,7 @@ class SidePanelFiniteStateMachine {
             Error(`Unexpected state ${singlePage.uploadState}`);
         }
 
-
-        if ((sameTab == false || currentState != this.state)) {
-            this.listeners.forEach(listener => listener(this.state));
-        }
+        this.listeners.forEach(listener => listener(this.state));
     }
 
     public triggerCheck() {
