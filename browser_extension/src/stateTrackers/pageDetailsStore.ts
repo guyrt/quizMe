@@ -34,7 +34,7 @@ class PageDetailsStore {
     public setPageDetails(tabId : number, page : SinglePageDetails) {
         const storageKey = this.makeKey(tabId);
         chrome.storage.sync.set({[storageKey]: page}, () => {
-            log(`Set ${page.url} to ${storageKey}`);
+            log(`Set ${page.url.href} to ${storageKey}`);
         });
         this.pageDetails[tabId] = page;
     }

@@ -3,7 +3,8 @@ import { Quiz, QuizQuestion, QuizResponse } from "../interfaces";
 
 // Component Props type
 type QuizViewProps = {
-    quiz: Quiz;
+    quiz: Quiz | undefined;
+    setQuiz: React.Dispatch<React.SetStateAction<Quiz | undefined>>
 }
 
 type QuizState = {
@@ -16,9 +17,10 @@ type QuizQuestionState = {
     selected : number
 }
 
-const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
+// todo - consider splitting this so inner quiz show has a quiz not quiz|undefined
+const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
     const [quizState, setQuizState] = useState<QuizState>({
-        questions: quiz.content.map(() => ({ selected: -1 })),
+        questions: quiz?.content.map(() => ({ selected: -1 })) ?? [],
         status: "inprogress"
     });
 
@@ -44,6 +46,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
     }
 
     const gradeQuiz = () => {
+        if (quiz == undefined) {
+            return;
+        }
         let totalRight = 0;
         for (let i = 0; i < quiz.content.length; i++) {
             const c = quiz.content[i];
@@ -56,6 +61,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
     }
 
     const uploadQuiz = () => {
+        if (quiz == undefined) {
+            return;
+        }
         const payload : QuizResponse = {
             quiz_id: quiz.id,
             selection : quizState.questions.map(x => x.selected)
@@ -63,9 +71,27 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
         chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload})
     }
 
+    function makeQuizClick(forceReload : boolean = false) {
+        chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}})
+            .then((x) => handleQuiz(x));
+
+    }
+
+    function handleQuiz(params : {success : boolean, quiz : Quiz | undefined}) {
+        if (params?.success == true) {
+            console.log("Showing quiz");
+            setQuiz(params.quiz);
+        } else {
+            console.log("Setting error");
+        }
+    }
+
     return (
         <div>
-            <button>Rebuild (todo wire)</button>
+            <button onClick={() => makeQuizClick(quiz != undefined)}>
+                {quiz != undefined ? "Rebuild (todo wire)" : "Quiz me!"}
+            </button>
+            {quiz && 
             <div>
                 {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
                 {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
@@ -84,6 +110,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
                 ))}
                 {quizState.status == 'inprogress' && <button onClick={quizSubmit}>How did I do ?!</button>}
             </div>
+            }
         </div>
     );
 };
@@ -92,9 +119,6 @@ const QuizGradedQuestion : React.FC<{
     question: QuizQuestion;
     questionState: QuizQuestionState;
 }> = ({question, questionState}) => {
-
-    // clicked answer but not correct... red
-    // correct ... green.
 
     return (
         <div className="quizQuestion">
