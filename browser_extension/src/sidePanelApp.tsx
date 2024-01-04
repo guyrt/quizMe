@@ -5,6 +5,7 @@ import SidePanelError from "./components/sidePanelError";
 import { SidePanelState, fsm } from "./stateTrackers/sidePanelStateMachine";
 import { RouterProvider, createMemoryRouter, useNavigate } from "react-router-dom";
 import { log } from "./utils/logger";
+import SidePanelStats from "./components/sidePanelStats";
 
 const sidePanelRouter = createMemoryRouter([
     {
@@ -20,6 +21,7 @@ const sidePanelRouter = createMemoryRouter([
     },
     {
         path: '/showStats',
+        element: <SidePanelStats />
     }
 ]);
 

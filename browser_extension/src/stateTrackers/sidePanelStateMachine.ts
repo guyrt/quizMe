@@ -45,6 +45,16 @@ class SidePanelFiniteStateMachine {
 
         // todo figure out latest state.
         const currentState = this.state;
+        if (singlePage.uploadState == "inprogress" || singlePage.uploadState == "notstarted") {
+            this.state = "PageNotUploaded";
+        } else if (singlePage.uploadState == "error") {
+            this.state = "UploadError";
+        } else if (singlePage.uploadState == "completed") {
+            this.state = "PageUploadedAndClassified";
+        } else {
+            Error(`Unexpected state ${singlePage.uploadState}`);
+        }
+
 
         if ((sameTab == false || currentState != this.state)) {
             this.listeners.forEach(listener => listener(this.state));
