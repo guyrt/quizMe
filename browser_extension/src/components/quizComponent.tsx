@@ -25,6 +25,8 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
         status: "inprogress"
     });
 
+    const [quizLoading, setQuizLoading] = useState(fsm.getState() == "QuizBeingDeveloped");
+
     const handleAnswerClick = (questionIndex: number, answerIndex: number) => {
         setQuizState(prevState => {
             const newQuestions = prevState.questions.map((q, idx) => 
@@ -71,8 +73,6 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
         }
         chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload})
     }
-
-    const [quizLoading, setQuizLoading] = useState(fsm.getState() == "QuizBeingDeveloped");
 
     useEffect(() => {
         console.log('Main component initialized.');

@@ -1,4 +1,4 @@
-import { DomShape, Quiz, UploadedDom, QuizResponse } from "./interfaces";
+import { DomShape, UploadedDom, QuizResponse } from "./interfaces";
 import { sharedState } from "./stateTrackers/sharedState";
 import { domain } from "./globalSettings";
 

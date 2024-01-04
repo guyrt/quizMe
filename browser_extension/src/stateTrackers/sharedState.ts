@@ -15,7 +15,8 @@ class SharedState {
         'localhost',
         'statics.teams.cdn.office.net',
         'google.com',
-        'bing.com'
+        'bing.com',
+        'ms.portal.azure.com'
     ];
 
     public async getApiToken() : Promise<string | undefined> {

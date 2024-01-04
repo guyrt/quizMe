@@ -21,7 +21,7 @@ const targetNode = document.body;
 let lastUrl = window.location.href;
 observer.observe(targetNode, config);
 
-
+// This is a separate call response rather than simply sending in fa_pageLoaded b/c error pathways will also trigger calls INTO this context.
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action == 'fa_accessDOM') {
         const data : DomShape = {

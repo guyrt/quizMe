@@ -19,7 +19,7 @@ class PageDetailsStore {
 
         // try to return from storage
         const storageKey = this.makeKey(tabId);
-        const storeResults = await chrome.storage.sync.get(storageKey);
+        const storeResults = await chrome.storage.local.get(storageKey);
         const v = storeResults[storageKey];
         if (v != undefined) {
             log(`Got ${tabId} from remote storage.`);
@@ -39,7 +39,7 @@ class PageDetailsStore {
      */
     public setPageDetails(tabId : number, page : SinglePageDetails, broadcast : boolean = false) {
         const storageKey = this.makeKey(tabId);
-        chrome.storage.sync.set({[storageKey]: page}, () => {
+        chrome.storage.local.set({[storageKey]: page}, () => {
             log(`Set ${page.url.href} to ${storageKey}`);
         });
         this.pageDetails[tabId] = page;
@@ -51,7 +51,7 @@ class PageDetailsStore {
 
     public async deletePageDetails(tabId : number) {
         delete this.pageDetails[tabId];
-        await chrome.storage.sync.remove(this.makeKey(tabId));
+        await chrome.storage.local.remove(this.makeKey(tabId));
     }
 
     private makeKey(tabId : number) : string {
