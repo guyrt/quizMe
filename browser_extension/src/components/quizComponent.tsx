@@ -65,22 +65,25 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz }) => {
 
     return (
         <div>
-            {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
-            {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
-                <QuizQuestion 
-                    question={quizQuestion} 
+            <button>Rebuild (todo wire)</button>
+            <div>
+                {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
+                {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
+                    <QuizQuestion 
+                        question={quizQuestion} 
+                        questionState={quizState.questions[i]}
+                        onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
+                    />
+                ))}
+                {quizState.status == 'scored' && <div>{gradeQuiz()} / {quiz.content.length} correct</div>}
+                {quizState.status == 'scored' && quiz.content.map((quizQuestion, i) => (
+                    <QuizGradedQuestion 
+                    question={quizQuestion}
                     questionState={quizState.questions[i]}
-                    onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
                 />
-            ))}
-            {quizState.status == 'scored' && <div>{gradeQuiz()} / {quiz.content.length} correct</div>}
-            {quizState.status == 'scored' && quiz.content.map((quizQuestion, i) => (
-                <QuizGradedQuestion 
-                question={quizQuestion}
-                questionState={quizState.questions[i]}
-            />
-            ))}
-            {quizState.status == 'inprogress' && <button onClick={quizSubmit}>How did I do ?!</button>}
+                ))}
+                {quizState.status == 'inprogress' && <button onClick={quizSubmit}>How did I do ?!</button>}
+            </div>
         </div>
     );
 };

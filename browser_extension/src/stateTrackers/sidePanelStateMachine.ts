@@ -9,12 +9,14 @@
 import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from "../interfaces";
 
 
-export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "ActiveQuizShowing" | "ShowStats" | "UserLoggedOut"
+export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut"
 
 
 class SidePanelFiniteStateMachine {
 
     private activeTabId : number = -1;
+
+    private activeDetails : SinglePageDetails | undefined = undefined;
 
     private state : SidePanelState = "PageNotUploaded"
 
@@ -22,6 +24,10 @@ class SidePanelFiniteStateMachine {
 
     public getState() : SidePanelState {
         return this.state;
+    }
+
+    public getActiveDetails() : SinglePageDetails | undefined {
+        return this.activeDetails;
     }
 
     public subscribe(listener: (state: SidePanelState) => void): void {
@@ -35,6 +41,7 @@ class SidePanelFiniteStateMachine {
     public updateState(singlePage : SinglePageDetails) {
         const sameTab = singlePage.key == this.activeTabId;
         this.activeTabId = singlePage.key;
+        this.activeDetails = singlePage;
 
         // todo figure out latest state.
         const currentState = this.state;
