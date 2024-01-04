@@ -13,12 +13,13 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
     // get the active tag if it exists.
     log(`Change tab to ${activeInfo.tabId}`);
     pageDetailsStore.getPageDetails(activeInfo.tabId).then(x => {
-        if (x != undefined) {
-            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: x});
-        }
+        chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: x});
     });
 });
 
+chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRemoveInfo) => {
+    pageDetailsStore.deletePageDetails(tabId);
+});
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_checkIsArticle") {

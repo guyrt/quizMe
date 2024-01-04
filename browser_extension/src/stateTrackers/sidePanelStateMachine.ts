@@ -49,22 +49,30 @@ class SidePanelFiniteStateMachine {
     }
 
     public updateState(singlePage : SinglePageDetails) {
-        log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
+        if (singlePage != undefined) {
+            log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
 
-        this.activeTabId = singlePage.key;
-        this.activeDetails = singlePage;
+            this.activeTabId = singlePage.key;
+            this.activeDetails = singlePage;
 
-        if (singlePage.uploadState == "inprogress" || singlePage.uploadState == "notstarted") {
-            this.state = "PageNotUploaded";
-        } else if (singlePage.uploadState == "error") {
-            this.state = "UploadError";
-        } else if (singlePage.uploadState == "completed") {
-            this.state = "PageUploadedAndClassified";
+            if (singlePage.uploadState == "inprogress" || singlePage.uploadState == "notstarted") {
+                this.state = "PageNotUploaded";
+            } else if (singlePage.uploadState == "error") {
+                this.state = "UploadError";
+            } else if (singlePage.uploadState == "completed") {
+                this.state = "PageUploadedAndClassified";
+            } else {
+                Error(`Unexpected state ${singlePage.uploadState}`);
+            }
         } else {
-            Error(`Unexpected state ${singlePage.uploadState}`);
+            console.log(`Updating state with empty page.`);
+            this.state = "UploadError";
         }
 
-        this.listeners.forEach(listener => listener(this.state));
+        this.listeners.forEach(listener => {
+            console.log("calling listener");
+            listener(this.state)
+        });
     }
 
     public triggerCheck() {
@@ -90,7 +98,6 @@ chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, 
     if (message.action === "fa_activeSinglePageDetailsChange") {
         fsm.updateState(message.payload);
     }
-    return true;
 });
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender) => {

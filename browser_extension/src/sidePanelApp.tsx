@@ -1,47 +1,19 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useState} from "react";
 import { createRoot } from 'react-dom/client';
 
 import SidePanelError from "./components/sidePanelError";
 import { SidePanelState, fsm } from "./stateTrackers/sidePanelStateMachine";
-import { RouterProvider, createMemoryRouter, useNavigate } from "react-router-dom";
-import { log } from "./utils/logger";
 import SidePanelStats from "./components/sidePanelStats";
 
-const sidePanelRouter = createMemoryRouter([
-    {
-        path: '/',
-        element: <MainApp />
-    },
-    {
-        path: "/error",
-        element: <SidePanelError />
-    },
-    {
-        path: '/takeQuiz',
-    },
-    {
-        path: '/showStats',
-        element: <SidePanelStats />
-    }
-]);
-
 function MainApp() {
-    const navigate = useNavigate();
+
+    const [state, setState] = useState<SidePanelState>("PageNotUploaded");
 
     // on mount Effects.
     useEffect(() => {
-        console.log('Main component initialized.');
         const stateHandler = (state : SidePanelState) => {
-            log(`Got state ${state}`);
-            if (state == 'UploadError') {
-                navigate("/error");
-            } else if (state == "PageNotUploaded") {
-                navigate("/");
-            } else if (state == "PageUploadedAndClassified") {
-                navigate("/showStats");
-            } else {
-                Error(`Unexpected state ${state}`);
-            }
+            console.log(`Got state ${state}`);
+            setState(state);
         };
 
         fsm.subscribe(stateHandler);
@@ -56,7 +28,9 @@ function MainApp() {
 
     return (
         <>
-            Loading! Hang tight...
+            {state == "PageNotUploaded" && <p>Loading! Hang tight...</p>}
+            {state == "UploadError" && <SidePanelError />}
+            {(state == "PageUploadedAndClassified" || state == "QuizBeingDeveloped") && <SidePanelStats />}
         </>
     );
     
@@ -69,9 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (a != null) {
         const root = createRoot(a);
         root.render(        
-            <React.StrictMode>
-                <RouterProvider router={sidePanelRouter} />
-            </React.StrictMode>
+            <MainApp />
         );
     }
 

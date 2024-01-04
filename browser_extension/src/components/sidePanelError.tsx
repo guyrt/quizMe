@@ -2,7 +2,7 @@ import React from "react";
 
 export default function SidePanelError() {
 
-    const retry = () => {
+    function retry() {
         // re-fire the event.
         chrome.runtime.sendMessage({action: 'fa_pageLoaded'})
     }
@@ -10,7 +10,7 @@ export default function SidePanelError() {
     return (
         <div>
             Uh oh! Something went wrong. Our bad. 
-            <input type='button' onClick={retry}>Try again?</input>
+            <button type='button' onClick={retry}>Try again?</button>
         </div>
     )
 }
