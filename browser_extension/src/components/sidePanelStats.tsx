@@ -1,6 +1,7 @@
 import React, {useState} from "react";
 import { Quiz } from "../interfaces";
 import { fsm } from "../stateTrackers/sidePanelStateMachine";
+import QuizView from "./quizComponent";
 
 
 export default function SidePanelStats() {
@@ -30,7 +31,8 @@ export default function SidePanelStats() {
     return (
         <div>
             <p>This is where we should put your stats. Not an article. Also include a "quiz me" button if not an article.</p>
-            isArticle == true && <button onClick={() => makeQuizClick()}>Make a quiz</button>
+            {isArticle == true && quiz == undefined && <button onClick={() => makeQuizClick()}>Make a quiz</button>}
+            {quiz != undefined && <QuizView quiz={quiz}/>}
         </div>
     )
 }
