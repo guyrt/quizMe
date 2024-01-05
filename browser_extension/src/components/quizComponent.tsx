@@ -37,6 +37,23 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
         });
     };
 
+    useEffect(() => {
+        console.log('Main component initialized.');
+        const stateHandler = (state : SidePanelState) => {
+            if (state == "QuizBeingDeveloped") {
+                setQuizLoading(true);
+            } else {
+                setQuizLoading(false);
+            }
+        };
+
+        fsm.subscribe(stateHandler);
+
+        return () => {
+            fsm.unsubscribe(stateHandler);
+        };
+    }, []); // Empty dependency array ensures this runs once on mount
+
     // on quiz submit
     // build an "answered" component that you use.
     const quizSubmit = () => {
@@ -74,23 +91,6 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
         chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload})
     }
 
-    useEffect(() => {
-        console.log('Main component initialized.');
-        const stateHandler = (state : SidePanelState) => {
-            if (state == "QuizBeingDeveloped") {
-                setQuizLoading(true);
-            } else {
-                setQuizLoading(false);
-            }
-        };
-
-        fsm.subscribe(stateHandler);
-
-        return () => {
-            fsm.unsubscribe(stateHandler);
-        };
-    }, []); // Empty dependency array ensures this runs once on mount
-
     function makeQuizClick(forceReload : boolean = false) {
         chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}})
             .then((x) => handleQuiz(x));
@@ -101,6 +101,12 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
         if (params?.success == true) {
             console.log("Showing quiz");
             setQuiz(params.quiz);
+            
+            // code smell.
+            setQuizState({
+                questions: quiz?.content.map(() => ({ selected: -1 })) ?? [],
+                status: "inprogress"
+            });
         } else {
             console.log("Setting error");
         }
@@ -116,7 +122,8 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
             <div>
                 {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
                 {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
-                    <QuizQuestion 
+                    <QuizQuestion
+                        key={`item_${i}`} 
                         question={quizQuestion} 
                         questionState={quizState.questions[i]}
                         onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
@@ -125,9 +132,10 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
                 {quizState.status == 'scored' && <div>{gradeQuiz()} / {quiz.content.length} correct</div>}
                 {quizState.status == 'scored' && quiz.content.map((quizQuestion, i) => (
                     <QuizGradedQuestion 
-                    question={quizQuestion}
-                    questionState={quizState.questions[i]}
-                />
+                        key={`item_${i}`}
+                        question={quizQuestion}
+                        questionState={quizState.questions[i]}
+                    />
                 ))}
                 {quizState.status == 'inprogress' && <button onClick={quizSubmit}>How did I do ?!</button>}
             </div>
@@ -146,6 +154,7 @@ const QuizGradedQuestion : React.FC<{
             <p>{question.question}</p>
             {question.answers.map((answer, i) => (
                 <p
+                    key={`item_${i}`}
                     className={
                         `quizAnswer 
                         ${question.answers[i]?.correct ? "selected-correct" : (questionState.selected === i ? "selected-incorrect" : "")}
@@ -171,7 +180,10 @@ const QuizQuestion: React.FC<{
         <div className="quizQuestion">
             <p>{question.question}</p>
             {question.answers.map((answer, i) => (
-                <p onClick={() => onAnswerClick(i)} data-index={i} 
+                <p 
+                    onClick={() => onAnswerClick(i)} 
+                    key={`item_${i}`}
+                    data-index={i} 
                     className={`quizAnswer ${questionState.selected === i ? "selected" : ""}`}
                 >
                     {answer.answer}
