@@ -23,7 +23,7 @@ export function LoggedInUserSettings() {
         <div>
             User settings.
             <br/>
-            <Checkbox label="Track all pages" getter={sharedState.getFilterSend} setter={sharedState.setFilterSend} />
+            <Checkbox label="Track all pages" getter={sharedState.getTrackAllPages} setter={sharedState.setFilterSend} />
             <br/>
             <button id='logout' onClick={logoutThisDevice}>Log out</button>
         </div>

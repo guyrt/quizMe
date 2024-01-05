@@ -37,7 +37,7 @@ class SharedState {
         return Promise.resolve(this.domainBlockList);
     }
 
-    public async getFilterSend() : Promise<boolean> {
+    public async getTrackAllPages() : Promise<boolean> {
         const stored = (await chrome.storage.sync.get("settings.filtersend"))['settings.filtersend'];
         if (stored !== undefined) {
             return stored;

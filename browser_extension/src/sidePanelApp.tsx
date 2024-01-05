@@ -31,6 +31,7 @@ function MainApp() {
             {state == "PageNotUploaded" && <p>Loading! Hang tight...</p>}
             {state == "UploadError" && <SidePanelError />}
             {(state == "PageUploadedAndClassified" || state == "QuizBeingDeveloped") && <SidePanelStats />}
+            {state == "NotUploaded" && <p>This page is blocked.</p>}
         </>
     );
     

@@ -40,22 +40,20 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 console.log(`Reporting tab ${activeTabId} article status ${d?.domClassification?.classification}`);
                 sendResponse(d);
             })
-            return true
         });
-        return true;
     }
 });
 
 chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
     if (message.action === "fa_uploadQuizResult") {
-        log("Upload quiz response to server");
+        console.log("Upload quiz response to server");
         uploadQuizResults(message.payload);
     }
 });
 
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-    log(`Background message received: ${message.action}`);
+    console.log(`Background message received: ${message.action}`);
     if (message.action === "fa_pageLoaded") {
         // Perform action on page load
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -74,24 +72,9 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
 
                 if (activeTabId !== undefined) {
                     backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false)
-                    .then(quiz => {
-                        console.log("returning a quiz");
-                        console.log(quiz);
-                        sendResponse({
-                            success: quiz != undefined,
-                            quiz: quiz
-                        });
-                    })
-                    return true;  // indicate sending async response.
-                }
-                else {
-                    sendResponse({
-                        success: false
-                    });
                 }
             });
         })();
-        return true;
     }
 });
 

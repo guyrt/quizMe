@@ -18,7 +18,8 @@ class BackgroundState {
         const record = await this.getOrCreatePageDetails(tabId, response);
 
         if (!await this.shouldOperateOnPage(record)) {
-            log(`Upload abandoned ${tabId} url ${response.url}`);
+            console.log(`Upload abandoned ${tabId} url ${response.url.href}`);
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'donotprocess'}, true);
             return;
         }
         
@@ -87,7 +88,7 @@ class BackgroundState {
     private updatePayloadAndReturnQuiz(record : SinglePageDetails | undefined, uploadedDom : UploadedDom | undefined) : (Quiz | undefined) {
         if (record != undefined && uploadedDom != undefined) {
             // update the dom to include the quiz.
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: uploadedDom})
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: uploadedDom}, true);
         }
         return uploadedDom?.quiz_context?.previous_quiz
     }
@@ -98,8 +99,7 @@ class BackgroundState {
             return false;
         }
     
-        if (await sharedState.getFilterSend() == false) {
-            // If filtering is turned off and it's not in the block list, then send.
+        if (await sharedState.getTrackAllPages() == true) {
             return true;
         }
 

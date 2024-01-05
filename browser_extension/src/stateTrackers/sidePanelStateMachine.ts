@@ -7,10 +7,9 @@
  */
 
 import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from "../interfaces";
-import { log } from "../utils/logger";
 
 
-export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "QuizBeingDeveloped"
+export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "QuizBeingDeveloped" | "NotUploaded";
 
 
 class SidePanelFiniteStateMachine {
@@ -50,7 +49,7 @@ class SidePanelFiniteStateMachine {
 
     public updateState(singlePage : SinglePageDetails) {
         if (singlePage != undefined) {
-            log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
+            console.log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
 
             this.activeTabId = singlePage.key;
             this.activeDetails = singlePage;
@@ -61,6 +60,8 @@ class SidePanelFiniteStateMachine {
                 this.state = "UploadError";
             } else if (singlePage.uploadState == "completed") {
                 this.state = "PageUploadedAndClassified";
+            } else if (singlePage.uploadState == "donotprocess") {
+                this.state = "NotUploaded";
             } else {
                 Error(`Unexpected state ${singlePage.uploadState}`);
             }

@@ -67,7 +67,7 @@ export type SinglePageDetailsChangeMessage = {
 }
 
 
-type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error';
+type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error' | 'donotprocess';
 
 
 /// store information about a single uploaded article.
