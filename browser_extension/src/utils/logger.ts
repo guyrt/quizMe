@@ -5,5 +5,5 @@ export function log(message : any) {
         return;
     }
     const t = new Date().toISOString();
-    console.trace(`[${t}] ${message}`);
+    console.log(`[${t}] ${message}`);
 }

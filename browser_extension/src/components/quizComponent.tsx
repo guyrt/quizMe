@@ -104,7 +104,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
             
             // code smell.
             setQuizState({
-                questions: quiz?.content.map(() => ({ selected: -1 })) ?? [],
+                questions: params.quiz?.content.map(() => ({ selected: -1 })) ?? [],
                 status: "inprogress"
             });
         } else {
@@ -114,11 +114,11 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
 
     return (
         <div>
-            <button onClick={() => makeQuizClick(quiz != undefined)}>
+            {quizLoading ? <div>Building a quiz!</div> : <button onClick={() => makeQuizClick(quiz != undefined)}>
                 {quiz != undefined ? "Rebuild (todo wire)" : "Quiz me!"}
             </button>
-            {quizLoading && <div>Building a quiz!</div>}
-            {quiz && 
+            }
+            {!quizLoading && quiz && 
             <div>
                 {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
                 {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
