@@ -107,7 +107,6 @@ chrome.sidePanel
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
     log(`Background received dom. TabId: ${tabId}, Url: ${response?.url.href}`);
     backgroundState.uploadPage(tabId, response);
-    return true;
 }
 
 function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{
