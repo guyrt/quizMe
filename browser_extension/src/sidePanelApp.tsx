@@ -32,6 +32,7 @@ function MainApp() {
             {state == "UploadError" && <SidePanelError />}
             {(state == "PageUploadedAndClassified" || state == "QuizBeingDeveloped") && <SidePanelStats />}
             {state == "NotUploaded" && <p>This page is blocked.</p>}
+            {state == "UserLoggedOut" && <div>You are logged out. <a href="javascript:void(0)" onClick={() => chrome.runtime.openOptionsPage()}>Click me</a></div>}
         </>
     );
     
