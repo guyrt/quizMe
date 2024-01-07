@@ -66,12 +66,11 @@ class SidePanelFiniteStateMachine {
                 Error(`Unexpected state ${singlePage.uploadState}`);
             }
         } else {
-            console.log(`Updating state with empty page.`);
-            this.state = "UploadError";
+            console.log(`FSM got empty page.`);
+            //this.state = "UploadError";
         }
 
         this.listeners.forEach(listener => {
-            console.log("calling listener");
             listener(this.state)
         });
     }
