@@ -14,7 +14,6 @@ export default function SidePanelStats() {
 
     const [header, setHeader] = useState<string>(activeElement?.url.href ?? "Unknown Page")
 
-    // todo - this needs to listen for changes to the state object.
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
             const activeElement = fsm.getActiveDetails();
@@ -26,7 +25,6 @@ export default function SidePanelStats() {
         fsm.subscribe(stateHandler);
         fsm.triggerCheck();  // this will end up calling subscribe.
 
-        // Optional cleanup function
         return () => {
             fsm.unsubscribe(stateHandler);
         };

@@ -11,9 +11,12 @@ var fa_lastActiveTab = 0;
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
     // get the active tag if it exists.
-    log(`Change tab to ${activeInfo.tabId}`);
+    console.log(`Change tab to ${activeInfo.tabId}`);
     pageDetailsStore.getPageDetails(activeInfo.tabId).then(x => {
-        chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: x});
+        chrome.runtime.sendMessage({
+            action: "fa_activeSinglePageDetailsChange",
+            payload: x ? x : {error: 'no page exists'}
+        });
     });
 });
 
@@ -22,26 +25,32 @@ chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRe
 });
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-    if (message.action === "fa_checkIsArticle") {
+    if (message.action === "fa_getCurrentPage") {
         // check if the active tab is an article.
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            if (tabs[0] === undefined) {
+        (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            log("start query");
+            if (!tabs.length) {
                 console.log("Unable to get active tab");
-                sendResponse(false);
+                sendResponse({error: "no active tab"});
                 return true;
             }
             const activeTabId = getActiveTabId(tabs);
             if (activeTabId == undefined) {
                 console.log(`No active tab info found for tab ${activeTabId}`);
-                sendResponse(false);
+                sendResponse({error: `No active tab info for tab ${activeTabId}`});
                 return true;
             }
             pageDetailsStore.getPageDetails(activeTabId).then(d => {
                 console.log(`Reporting tab ${activeTabId} article status ${d?.domClassification?.classification}`);
-                sendResponse(d);
-            })
-        });
+                sendResponse(d ? d : {error: "no details returned"});
+            }).catch(e => {
+                sendResponse({error: e.message});
+            });
+            return true;
+        })})();
+        return true;
     }
+    return false;
 });
 
 chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
@@ -53,10 +62,9 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-    console.log(`Background message received: ${message.action}`);
     if (message.action === "fa_pageLoaded") {
         // Perform action on page load
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (tabs[0] === undefined) {
                 return;
             }
@@ -64,7 +72,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             chrome.tabs.sendMessage(
                 tId, { action: "fa_accessDOM"},
                 (x) => handleFAAccessDOMMessage(tId, x))
-        });
+        })})();
     } else if (message.action === "fa_makequiz") {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
@@ -75,6 +83,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 }
             });
         })();
+        return true;
     }
 });
 
