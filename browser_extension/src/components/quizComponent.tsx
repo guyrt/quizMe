@@ -5,7 +5,7 @@ import { Quiz, QuizQuestion, QuizResponse } from "../interfaces";
 // Component Props type
 type QuizViewProps = {
     quiz: Quiz | undefined;
-    setQuiz: React.Dispatch<React.SetStateAction<Quiz | undefined>>
+    finiteState: SidePanelState
 }
 
 type QuizState = {
@@ -19,13 +19,19 @@ type QuizQuestionState = {
 }
 
 // todo - consider splitting this so inner quiz show has a quiz not quiz|undefined
-const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
+// todo - pass in whether quiz has been answered already.
+const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
     const [quizState, setQuizState] = useState<QuizState>({
         questions: quiz?.content.map(() => ({ selected: -1 })) ?? [],
         status: "inprogress"
     });
 
-    const [quizLoading, setQuizLoading] = useState(fsm.getState() == "QuizBeingDeveloped");
+    useEffect(() => {
+        setQuizState({
+            questions: quiz?.content.map(() => ({ selected: -1 })) ?? [],
+            status: "inprogress"
+        });
+    }, [quiz]); // Depend on quiz prop
 
     const handleAnswerClick = (questionIndex: number, answerIndex: number) => {
         setQuizState(prevState => {
@@ -36,23 +42,6 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
             return { ...prevState, questions: newQuestions };
         });
     };
-
-    useEffect(() => {
-        console.log('Main component initialized.');
-        const stateHandler = (state : SidePanelState) => {
-            if (state == "QuizBeingDeveloped") {
-                setQuizLoading(true);
-            } else {
-                setQuizLoading(false);
-            }
-        };
-
-        fsm.subscribe(stateHandler);
-
-        return () => {
-            fsm.unsubscribe(stateHandler);
-        };
-    }, []); // Empty dependency array ensures this runs once on mount
 
     // on quiz submit
     // build an "answered" component that you use.
@@ -96,28 +85,13 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, setQuiz}) => {
         fsm.setQuizBeingBuilt();
     }
 
-    function handleQuiz(params : {success : boolean, quiz : Quiz | undefined}) {
-        if (params?.success == true) {
-            console.log("Showing quiz");
-            setQuiz(params.quiz);
-            
-            // code smell.
-            setQuizState({
-                questions: params.quiz?.content.map(() => ({ selected: -1 })) ?? [],
-                status: "inprogress"
-            });
-        } else {
-            console.log("Setting error");
-        }
-    }
-
     return (
         <div>
-            {quizLoading ? <div>Building a quiz!</div> : <button onClick={() => makeQuizClick(quiz != undefined)}>
+            {finiteState == "QuizBeingDeveloped" ? <div>Building a quiz!</div> : <button onClick={() => makeQuizClick(quiz != undefined)}>
                 {quiz != undefined ? "Rebuild (todo wire)" : "Quiz me!"}
             </button>
             }
-            {!quizLoading && quiz && 
+            {finiteState != "QuizBeingDeveloped" && quiz != undefined && 
             <div>
                 {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
                 {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (

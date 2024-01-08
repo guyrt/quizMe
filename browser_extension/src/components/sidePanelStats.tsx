@@ -14,9 +14,12 @@ export default function SidePanelStats() {
 
     const [header, setHeader] = useState<string>(activeElement?.url.href ?? "Unknown Page")
 
+    const [finiteState, setFiniteState] = useState<SidePanelState>(fsm.getState());
+
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
             const activeElement = fsm.getActiveDetails();
+            setFiniteState(state);
             setHeader(activeElement?.url.href ?? "Unknown page");
             setIsArticle(activeElement?.domClassification?.classification == 'article');
             setQuiz(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
@@ -34,7 +37,7 @@ export default function SidePanelStats() {
         <div>
             <h3>{header}</h3>
             <p>This is where we should put your stats. Not an article. Also include a "quiz me" button if not an article.</p>
-            {isArticle == true && <QuizView quiz={quiz} setQuiz={setQuiz}/>}
+            {isArticle == true && <QuizView quiz={quiz} finiteState={finiteState}/>}
         </div>
     )
 }

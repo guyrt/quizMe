@@ -83,7 +83,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 }
             });
         })();
-        return true;
+        return false;
     }
 });
 
