@@ -1,6 +1,9 @@
 import React, {useState, useEffect} from "react";
 import { SidePanelState, fsm } from "../stateTrackers/sidePanelStateMachine";
-import { Quiz, QuizQuestion, QuizResponse } from "../interfaces";
+import { Quiz, QuizResponse } from "../interfaces";
+import { QuizQuestionState } from "./quizzes/quizInterfaces";
+import { QuizQuestionComponent } from "./quizzes/quizQuestion";
+import { QuizGradedQuestion } from "./quizzes/quizGradedQuestion";
 
 // Component Props type
 type QuizViewProps = {
@@ -12,10 +15,6 @@ type QuizState = {
     questions : QuizQuestionState[];
 
     status : "inprogress" | "scored";
-}
-
-type QuizQuestionState = {
-    selected : number
 }
 
 // todo - consider splitting this so inner quiz show has a quiz not quiz|undefined
@@ -88,14 +87,14 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
     return (
         <div>
             {finiteState == "QuizBeingDeveloped" ? <div>Building a quiz!</div> : <button onClick={() => makeQuizClick(quiz != undefined)}>
-                {quiz != undefined ? "Rebuild (todo wire)" : "Quiz me!"}
+                {quiz != undefined ? "Rebuild" : "Quiz me!"}
             </button>
             }
             {finiteState != "QuizBeingDeveloped" && quiz != undefined && 
             <div>
                 {quizState.status == 'inprogress' && <p>Here's your quiz!</p>}
                 {quizState.status == 'inprogress' && quiz.content.map((quizQuestion, i) => (
-                    <QuizQuestion
+                    <QuizQuestionComponent
                         key={`item_${i}`} 
                         question={quizQuestion} 
                         questionState={quizState.questions[i]}
@@ -117,53 +116,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
     );
 };
 
-const QuizGradedQuestion : React.FC<{
-    question: QuizQuestion;
-    questionState: QuizQuestionState;
-}> = ({question, questionState}) => {
 
-    return (
-        <div className="quizQuestion">
-            <p>{question.question}</p>
-            {question.answers.map((answer, i) => (
-                <p
-                    key={`item_${i}`}
-                    className={
-                        `quizAnswer 
-                        ${question.answers[i]?.correct ? "selected-correct" : (questionState.selected === i ? "selected-incorrect" : "")}
-                        `}
 
-                >
-                    {answer.answer}
-                </p>
-            ))}
-        </div>
-    )
-
-};
-
-// Single question including the question and answers.
-const QuizQuestion: React.FC<{
-    question: QuizQuestion;
-    questionState: QuizQuestionState;
-    onAnswerClick: (index: number) => void;
-}> = ({ question, questionState, onAnswerClick }) => {
-
-    return (
-        <div className="quizQuestion">
-            <p>{question.question}</p>
-            {question.answers.map((answer, i) => (
-                <p 
-                    onClick={() => onAnswerClick(i)} 
-                    key={`item_${i}`}
-                    data-index={i} 
-                    className={`quizAnswer ${questionState.selected === i ? "selected" : ""}`}
-                >
-                    {answer.answer}
-                </p>
-            ))}
-        </div>
-    );
-};
 
 export default QuizView;
