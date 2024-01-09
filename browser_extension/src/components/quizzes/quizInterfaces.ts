@@ -1,3 +1,1 @@
-export type QuizQuestionState = {
-    selected : number
-}
+export type QuizStatus = "inprogress" | "scored";

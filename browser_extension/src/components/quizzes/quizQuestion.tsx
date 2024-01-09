@@ -1,14 +1,58 @@
 // Single question including the question and answers.
 import React from "react";
-import { QuizQuestion } from "../../interfaces";
-import { QuizQuestionState } from "./quizInterfaces";
+import { Quiz, QuizQuestion, QuizResponse } from "../../interfaces";
+import { QuizStatus } from "./quizInterfaces";
+
+export const QuizInProgress: React.FC<{
+    quiz: Quiz,
+    setQuizState : React.Dispatch<React.SetStateAction<QuizStatus>>
+    quizAnswers : {[key : number]: number}
+    handleAnswerClick : (qIdx: number, aIdx: number) => void
+}> = ({quiz, setQuizState, quizAnswers, handleAnswerClick}) => {
+
+    function quizSubmit() {
+        setQuizState("scored");
+        uploadQuiz();
+    }
+
+    const uploadQuiz = () => {
+        if (quiz == undefined) {
+            return;
+        }
+
+        const denseArray = Array.from({length: quiz.content.length}, (_, index) => {
+            return index in quizAnswers ? quizAnswers[index] : -1;
+        });
+
+        const payload : QuizResponse = {
+            quiz_id: quiz.id,
+            selection : denseArray
+        }
+        chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload})
+    }
+
+    return (
+        <div>
+            <p>Here's your quiz!</p>
+            {quiz.content.map((quizQuestion, i) => (
+                <QuizQuestionComponent
+                    key={`item_${i}`} 
+                    question={quizQuestion} 
+                    selectedAnswer={quizAnswers[i]}
+                    onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
+                />
+            ))}
+            <button onClick={quizSubmit}>How did I do ?!</button>
+        </div>
+    )
+}
 
 
-export const QuizQuestionComponent: React.FC<{
+const QuizQuestionComponent: React.FC<{
     question: QuizQuestion;
-    questionState: QuizQuestionState;
+    selectedAnswer: number;
     onAnswerClick: (index: number) => void;
-}> = ({ question, questionState, onAnswerClick }) => {
+}> = ({ question, selectedAnswer, onAnswerClick }) => {
 
     return (
         <div className="quizQuestion">
@@ -18,7 +62,7 @@ export const QuizQuestionComponent: React.FC<{
                     onClick={() => onAnswerClick(i)} 
                     key={`item_${i}`}
                     data-index={i} 
-                    className={`quizAnswer ${questionState.selected === i ? "selected" : ""}`}
+                    className={`quizAnswer ${selectedAnswer === i ? "selected" : ""}`}
                 >
                     {answer.answer}
                 </p>
