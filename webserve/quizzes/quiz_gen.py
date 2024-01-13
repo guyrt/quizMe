@@ -24,8 +24,10 @@ class QuizGenerator:
         self._oai = OpenAIClient(model='gpt4', temp=0.7)
 
 
-    def create_quiz(self, raw_doc : RawDocCapture) -> Optional[SimpleQuiz]:
+    def create_quiz(self, raw_doc : RawDocCapture, quiz_id : int) -> Optional[SimpleQuiz]:
         logger.error("Creating a quiz init for %s", raw_doc.id)
+
+        SimpleQuiz.objects.filter(id=quiz_id).update(status=SimpleQuiz.QuizStatus.Building)
 
         raw_dom = parse_contents(raw_doc.get_content())
         article_content = get_rough_article_content(raw_doc, raw_dom)
@@ -57,16 +59,16 @@ class QuizGenerator:
         # Generate Quiz
         # with transaction:
         with transaction.atomic():
-            SimpleQuiz.objects.filter(url=raw_doc.url_model).update(active=False)
-            quiz = SimpleQuiz.objects.create(
-                owner=raw_doc.user,
-                content=dumps(raw_quiz_content),
-                reasoning=preamble,
-                url=raw_doc.url_model
-            )
+            # update any other quizzes
+            SimpleQuiz.objects.filter(url=raw_doc.url_model).filter(id__ne=quiz_id).update(active=False)
+            s = SimpleQuiz.objects.get(id=quiz_id)
+            s.content = dumps(raw_quiz_content)
+            s.reasoning = preamble
+            s.status = SimpleQuiz.QuizStatus.Completed
+            s.save()
 
         # return it.
-        return quiz
+        return s
 
     def _run_openai(self, article_content : str):
         current = fill_prompt(quiz_gen, {'doc_content': article_content, 'num_questions': 'three'})

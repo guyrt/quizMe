@@ -11,11 +11,18 @@ import logging
 logger = logging.getLogger("default")
 
 
-
 class SimpleQuiz(ModelBaseMixin):
     """Starter model - just stores a JSON blob."""
 
+    class QuizStatus(models.TextChoices):
+        NotStarted = "notstarted", "NotStarted"
+        Building = "building", "Building"
+        Completed = "completed", "Completed"
+        Error = "error", "Error"
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+
+    status = models.CharField(max_length=16, choices=QuizStatus, default=QuizStatus.Completed)  # todo change this default once you migrate.
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(max_length=10000)
@@ -33,20 +40,27 @@ class SimpleQuizResults(ModelBaseMixin):
     results = models.TextField(max_length=64)
 
 
-def get_simple_quiz(url_pk : str, user : User) -> SimpleQuiz | None:
-    try:
-        existing_quiz = SimpleQuiz.objects.get(url__pk=url_pk, owner=user, active=1)
-    except SimpleQuiz.MultipleObjectsReturned:
-        existing_quiz = repair_quizzes(url_pk, user)
-        logger.info("Returning existing quiz")
-        return existing_quiz
-    except SimpleQuiz.DoesNotExist:
-        pass
-    else:
-        logger.info("Returning existing quiz")
-        return existing_quiz
+def get_simple_quiz(url_pk : str, user : User, force_create=False) -> SimpleQuiz:
+    if not force_create:
+        try:
+            existing_quiz = SimpleQuiz.objects.get(url__pk=url_pk, owner=user, active=1)
+        except SimpleQuiz.MultipleObjectsReturned:
+            existing_quiz = repair_quizzes(url_pk, user)
+            logger.info("Returning existing quiz")
+            return existing_quiz
+        except SimpleQuiz.DoesNotExist:
+            pass
+        else:
+            logger.info("Returning existing quiz")
+            return existing_quiz
 
-    return None
+    return SimpleQuiz.objects.create(
+        owner=user,
+        content="",
+        reasoning="",
+        status=SimpleQuiz.QuizStatus.NotStarted,
+        url_pk=url_pk
+    )
 
 
 def repair_quizzes(url_pk : int, user : User):

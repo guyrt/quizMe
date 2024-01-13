@@ -27,13 +27,10 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     user = request.auth
     logger.info("Write quiz for %s for user %s", body.url_obj, user.pk)
     
-    if body.force_recreate:
-        pass
-    else:
-        existing_quiz = get_simple_quiz(body.url_obj, user)
-        if existing_quiz is not None:
-            logger.info("Returning existing quiz")
-            return _make_quiz_return_object(body, existing_quiz, False)
+    quiz = get_simple_quiz(body.url_obj, user, body.force_recreate)
+    if quiz.status != SimpleQuiz.QuizStatus.NotStarted:
+        # note that we return Error quizzes too. This should trigger "recreate" on the FE.
+        return _make_quiz_return_object(body, quiz, False)
 
     qs = RawDocCapture.objects.select_related("url_model").prefetch_related("url_model__singleurlfact_set")
     raw_doc = get_object_or_404(qs, id=body.raw_doc, user=user, active=1)
@@ -43,7 +40,7 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     #     just extract from DOM and send to the quiz gen logic.
     # quiz gen is simple prompt + store PromptResponse + return content in JSON format.
     start_time = time.time()
-    quiz = QuizGenerator().create_quiz(raw_doc)
+    quiz = QuizGenerator().create_quiz(raw_doc, quiz)
     total_time = time.time() - start_time
     if quiz:
         logger.info("Quiz built in %s", total_time)

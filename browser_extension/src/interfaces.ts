@@ -30,7 +30,8 @@ export type Quiz = {
     owner : string,
     content : QuizQuestion[],
     id : string,
-    reasoning : string
+    reasoning : string,
+    status : "notstarted" | "building" | "completed" | "error"
 }
 
 export type QuizQuestion = {
@@ -77,5 +78,6 @@ export type SinglePageDetails = {
     url : Location
     uploadState : UploadState
     uploadedDom? : UploadedDom,
-    key : number
+    key : number,
+    title : string,
 }

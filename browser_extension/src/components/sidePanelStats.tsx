@@ -19,8 +19,9 @@ export default function SidePanelStats() {
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
             const activeElement = fsm.getActiveDetails();
+
             setFiniteState(state);
-            setHeader(activeElement?.url.href ?? "Unknown page");
+            setHeader(activeElement?.title ?? "Unknown page");
             setIsArticle(activeElement?.domClassification?.classification == 'article');
             setQuiz(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
         };

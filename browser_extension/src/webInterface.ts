@@ -12,7 +12,7 @@ export async function uploadQuizResults(payload : QuizResponse) : Promise<undefi
 export function sendDomPayload(token : string, payload : DomShape) : Promise<UploadedDom> {
     const url = `${domain}/api/browser/writehtml`;
 
-    return callFetch(token, url, payload);
+    return callFetch(token, url, payload); // TODO - this could return undefined.
 }
 
 /// Request a quiz
@@ -27,7 +27,11 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
         } else {
             return undefined;
         }
-    });
+    })
+    .catch(error => {
+        console.error('Error calling API: ', error);
+        return undefined;
+    });;
 }
 
 
@@ -51,9 +55,6 @@ function callFetch<InT, OutT>(token : string, url : string, payload : InT, metho
         }
         throw new Error(`HTTP error! status: ${response.status}`);
     })
-    .catch(error => {
-        console.error('Error calling API: ', error);
-    });
 
     return p
 }

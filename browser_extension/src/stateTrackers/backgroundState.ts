@@ -120,14 +120,13 @@ class BackgroundState {
 
         if (missingKey || urlMismatch) {
             // If this is a new page OR this is a change of site in same tab.
-            console.log(`Writing new page ${response.url.href} for tab ${key}.`);
-            console.log(`Is article: ${response.domClassification}`);
             pageDetail =  {
                 domClassification: response.domClassification,
                 uploadState: 'notstarted',
                 url: response.url,
                 key: key,
-                uploadedDom: undefined
+                uploadedDom: undefined,
+                title: response.title
             };
             pageDetailsStore.setPageDetails(key, pageDetail);
 
