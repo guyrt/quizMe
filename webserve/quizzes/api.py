@@ -18,6 +18,28 @@ logger = logging.getLogger("default")
 router = Router(auth=ApiKey(), tags=['quizzes'])
 
 
+@router.post("stats")
+def quiz_stats(request):
+    """
+    Return all statistics that we know about quizzes.
+
+    # quizzes created
+        # Created this month
+    # total questions
+    # total correct questions (this should be added to the quiz object)
+
+    user has more quizzes.
+
+    This is used to gate access, so should include billing info.
+    """
+    user = request.auth
+
+    total_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).count()
+
+
+
+
+
 @router.post("makequiz", response=WriteDomReturnSchema)
 def make_quiz(request, body : MakeQuizIdSchemas):
     """

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 import { SidePanelState, fsm } from "../stateTrackers/sidePanelStateMachine";
-import { Quiz, QuizResponse } from "../interfaces";
+import { Quiz } from "../interfaces";
 import { QuizStatus } from "./quizzes/quizInterfaces";
 import { QuizInProgress } from "./quizzes/quizQuestion";
 import { QuizGraded } from "./quizzes/quizGradedQuestion";
@@ -37,9 +37,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
                 {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Quiz me!"}
             </button>
             }
+            {finiteState != "QuizBeingDeveloped" && quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
             {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == "inprogress" && <QuizInProgress quiz={quiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
             {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == 'scored' && <QuizGraded quiz={quiz} quizAnswers={quizAnswers} />}
-            {finiteState != "QuizBeingDeveloped" && quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
         </div>
     );
 };
