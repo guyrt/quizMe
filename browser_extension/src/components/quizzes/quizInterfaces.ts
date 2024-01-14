@@ -1,1 +1,1 @@
-export type QuizStatus = "inprogress" | "scored";
+export type QuizStatus = "inprogress" | "scored" | "error";

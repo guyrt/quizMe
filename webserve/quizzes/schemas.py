@@ -31,6 +31,7 @@ class SimpleQuizSchema(Schema):
     content : List[SimpleQuizContentSchema]
     id : str
     reasoning : str
+    status : str
 
 
 class UploadQuizResultsSchema(Schema):
@@ -51,5 +52,6 @@ def create_simple_quiz_schema(obj : SimpleQuiz, was_created : bool) -> SimpleQui
         owner=str(obj.owner.pk),
         content=json.loads(obj.content),
         reasoning=obj.reasoning,
-        id=str(obj.pk)
+        id=str(obj.pk),
+        status=obj.status
     )

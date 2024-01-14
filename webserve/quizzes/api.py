@@ -11,7 +11,7 @@ from ninja.errors import HttpError
 
 from .models import SimpleQuiz, SimpleQuizResults, get_simple_quiz
 from .quiz_gen import QuizGenerator
-from .schemas import create_simple_quiz_schema, MakeQuizIdSchemas, SimpleQuizSchema, UploadQuizResultsSchema, QuizContextSchema
+from .schemas import create_simple_quiz_schema, MakeQuizIdSchemas, UploadQuizResultsSchema
 
 logger = logging.getLogger("default")
 
@@ -27,7 +27,7 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     user = request.auth
     logger.info("Write quiz for %s for user %s", body.url_obj, user.pk)
     
-    quiz = get_simple_quiz(body.url_obj, user, body.force_recreate)
+    quiz = get_simple_quiz(body.url_obj, user, True, body.force_recreate)
     if quiz.status != SimpleQuiz.QuizStatus.NotStarted:
         # note that we return Error quizzes too. This should trigger "recreate" on the FE.
         return _make_quiz_return_object(body, quiz, False)
@@ -40,7 +40,7 @@ def make_quiz(request, body : MakeQuizIdSchemas):
     #     just extract from DOM and send to the quiz gen logic.
     # quiz gen is simple prompt + store PromptResponse + return content in JSON format.
     start_time = time.time()
-    quiz = QuizGenerator().create_quiz(raw_doc, quiz)
+    quiz = QuizGenerator().create_quiz(raw_doc, quiz.id)
     total_time = time.time() - start_time
     if quiz:
         logger.info("Quiz built in %s", total_time)

@@ -72,7 +72,7 @@ class BackgroundState {
                     if (record.uploadedDom) {
                         const uploadedDom = await getAQuiz(record.uploadedDom, forceReload);
 
-                        return this.updatePayloadAndReturnQuiz(record, uploadedDom)
+                        return this.updatePayloadAndReturnQuiz(record, uploadedDom);
                     }
                     return undefined;
                 });
@@ -81,8 +81,8 @@ class BackgroundState {
             }
         }
     
-        const quiz = await getAQuiz(record.uploadedDom, forceReload);
-        return this.updatePayloadAndReturnQuiz(record, quiz);
+        const uploadedDom = await getAQuiz(record.uploadedDom, forceReload);
+        return this.updatePayloadAndReturnQuiz(record, uploadedDom);
     }
 
     private updatePayloadAndReturnQuiz(record : SinglePageDetails | undefined, uploadedDom : UploadedDom | undefined) : (Quiz | undefined) {
@@ -90,7 +90,8 @@ class BackgroundState {
             // update the dom to include the quiz.
             pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: uploadedDom}, true);
         }
-        return uploadedDom?.quiz_context?.previous_quiz
+
+        return uploadedDom?.quiz_context?.previous_quiz;
     }
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {

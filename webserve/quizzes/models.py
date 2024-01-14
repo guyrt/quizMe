@@ -22,7 +22,7 @@ class SimpleQuiz(ModelBaseMixin):
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
 
-    status = models.CharField(max_length=16, choices=QuizStatus, default=QuizStatus.Completed)  # todo change this default once you migrate.
+    status = models.CharField(max_length=16, choices=QuizStatus, default=QuizStatus.NotStarted)
 
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField(max_length=10000)
@@ -40,7 +40,7 @@ class SimpleQuizResults(ModelBaseMixin):
     results = models.TextField(max_length=64)
 
 
-def get_simple_quiz(url_pk : str, user : User, force_create=False) -> SimpleQuiz:
+def get_simple_quiz(url_pk : str, user : User, create_if_not_exists, force_create=False) -> SimpleQuiz | None:
     if not force_create:
         try:
             existing_quiz = SimpleQuiz.objects.get(url__pk=url_pk, owner=user, active=1)
@@ -54,13 +54,16 @@ def get_simple_quiz(url_pk : str, user : User, force_create=False) -> SimpleQuiz
             logger.info("Returning existing quiz")
             return existing_quiz
 
-    return SimpleQuiz.objects.create(
-        owner=user,
-        content="",
-        reasoning="",
-        status=SimpleQuiz.QuizStatus.NotStarted,
-        url_pk=url_pk
-    )
+    if create_if_not_exists:
+        return SimpleQuiz.objects.create(
+            owner=user,
+            content="[]",
+            reasoning="",
+            status=SimpleQuiz.QuizStatus.NotStarted,
+            url_id=url_pk
+        )
+    else:
+        return None
 
 
 def repair_quizzes(url_pk : int, user : User):

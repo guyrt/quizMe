@@ -15,7 +15,8 @@ class SingleUrlContext:
 
 def build_context(single_url : SingleUrl) -> SingleUrlContext:
     """Build context needed by the extension Front End to help maintain the FSM for reentry."""
-    quiz = get_simple_quiz(single_url.pk, single_url.user)
+    quiz = get_simple_quiz(single_url.pk, single_url.user, create_if_not_exists=False)
+
     if not quiz:
         return None
     sqs = SimpleQuizSchema(
@@ -23,7 +24,8 @@ def build_context(single_url : SingleUrl) -> SingleUrlContext:
         owner=str(quiz.owner_id),
         content=json.loads(quiz.content),
         id=str(quiz.pk),
-        reasoning=quiz.reasoning
+        reasoning=quiz.reasoning,
+        status=quiz.status
     )
     ret = SingleUrlContext(quiz_obj=sqs, quiz_last_result=[])
     if quiz is not None:

@@ -1,4 +1,4 @@
-import { DomShape, UploadedDom, QuizResponse } from "./interfaces";
+import { DomShape, UploadedDom, QuizResponse, Quiz } from "./interfaces";
 import { sharedState } from "./stateTrackers/sharedState";
 import { domain } from "./globalSettings";
 
@@ -25,13 +25,24 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
         if (q) {
             return q as UploadedDom;
         } else {
-            return undefined;
+            return {...payload, quiz_context: {previous_quiz: createErrorQuiz()}};
         }
     })
     .catch(error => {
         console.error('Error calling API: ', error);
-        return undefined;
-    });;
+        return {...payload, quiz_context: {previous_quiz: createErrorQuiz()}};
+    });
+}
+
+
+function createErrorQuiz() : Quiz {
+    return {
+        status: "error",
+        content: [],
+        id: "error",
+        owner: "error",
+        reasoning: "error"
+    };
 }
 
 
@@ -52,6 +63,7 @@ function callFetch<InT, OutT>(token : string, url : string, payload : InT, metho
         } else if (response.status == 401) {
             // unauthorized - fire generic signal.
             chrome.runtime.sendMessage({action: "fa_noAPIToken"});
+            return;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
     })

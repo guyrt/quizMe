@@ -12,7 +12,6 @@ type QuizViewProps = {
 }
 
 
-
 // todo - pass in whether quiz has been answered already.
 const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
     
@@ -35,11 +34,12 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
     return (
         <div>
             {finiteState == "QuizBeingDeveloped" ? <div>Building a quiz!</div> : <button onClick={() => makeQuizClick(quiz != undefined)}>
-                {quiz != undefined ? "Rebuild" : "Quiz me!"}
+                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Quiz me!"}
             </button>
             }
-            {finiteState != "QuizBeingDeveloped" && quiz != undefined && quizStatus == "inprogress" && <QuizInProgress quiz={quiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
-            {finiteState != "QuizBeingDeveloped" && quiz != undefined && quizStatus == 'scored' && <QuizGraded quiz={quiz} quizAnswers={quizAnswers} />}
+            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == "inprogress" && <QuizInProgress quiz={quiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
+            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == 'scored' && <QuizGraded quiz={quiz} quizAnswers={quizAnswers} />}
+            {finiteState != "QuizBeingDeveloped" && quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
         </div>
     );
 };

@@ -60,7 +60,7 @@ class QuizGenerator:
         # with transaction:
         with transaction.atomic():
             # update any other quizzes
-            SimpleQuiz.objects.filter(url=raw_doc.url_model).filter(id__ne=quiz_id).update(active=False)
+            SimpleQuiz.objects.filter(url=raw_doc.url_model).exclude(id=quiz_id).update(active=False)
             s = SimpleQuiz.objects.get(id=quiz_id)
             s.content = dumps(raw_quiz_content)
             s.reasoning = preamble
