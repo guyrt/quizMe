@@ -15,12 +15,16 @@ class CustomUserManager(BaseUserManager):
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
+        self.create_subscription(user)
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
         extra_fields.setdefault("is_staff", True)
         extra_fields.setdefault("is_superuser", True)
         return self.create_user(email, password, **extra_fields)
+
+    def create_subscription(self, user):
+        return UserSubscriptions.objects.create(user=user, subscription=UserSubscriptions.SubscriptionTypes.Free)
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -69,3 +73,17 @@ class UserSubscriptions(ModelBaseMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     subscription = models.CharField(max_length=32, choices=SubscriptionTypes)
+
+
+def get_active_subscription(self, user) -> UserSubscriptions:
+    """Get the best active subscription"""
+    subs = UserSubscriptions.objects.filter(user=user, active=True)
+    if len(subs) == 0:
+        return UserSubscriptions.objects.create(user=user, subscription=UserSubscriptions.SubscriptionTypes.Free)
+
+    for ranked_type in ['annual_quiz', 'monthly_quiz', 'free']:
+        for s in subs:
+            if s.subscription == ranked_type:
+                return s
+    
+    raise ValueError(f"Couldn't find known subscription type. User has sub {subs[0].subscription}")

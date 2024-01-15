@@ -1,6 +1,7 @@
-from json import dumps
+from json import dumps, loads
 import logging
 import time
+from datetime import date
 
 from django.shortcuts import get_object_or_404
 from users.apiauth import ApiKey
@@ -11,14 +12,14 @@ from ninja.errors import HttpError
 
 from .models import SimpleQuiz, SimpleQuizResults, get_simple_quiz
 from .quiz_gen import QuizGenerator
-from .schemas import create_simple_quiz_schema, MakeQuizIdSchemas, UploadQuizResultsSchema
+from .schemas import create_simple_quiz_schema, MakeQuizIdSchemas, QuizStatsReturnSchema, UploadQuizResultsSchema
 
 logger = logging.getLogger("default")
 
 router = Router(auth=ApiKey(), tags=['quizzes'])
 
 
-@router.post("stats")
+@router.post("stats", response=QuizStatsReturnSchema)
 def quiz_stats(request):
     """
     Return all statistics that we know about quizzes.
@@ -35,7 +36,26 @@ def quiz_stats(request):
     user = request.auth
 
     total_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).count()
+    month_start = date.now().replace(day=1)
+    recent_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).filter(date_created__ge=month_start).prefetch_related('simplequizresults_set')
 
+    quiz_contexts = []
+    for q in recent_quizzes:
+        payload = {
+            'previous_quiz': create_simple_quiz_schema(q, False),
+            'latest_results': []
+        }
+        try:
+            scr = q.simplequizresults_set.latest('date_added')
+            payload['latest_results'] = loads(scr.results)
+        except SimpleQuizResults.DoesNotExist:
+            pass
+        quiz_contexts.append(q)
+
+    return {
+        'total_quizzes': total_quizzes,
+        'recent_quizzes': quiz_contexts
+    }
 
 
 
