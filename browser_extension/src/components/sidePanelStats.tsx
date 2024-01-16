@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from "react";
 import { Quiz } from "../interfaces";
-import { SidePanelState, fsm } from "../stateTrackers/sidePanelStateMachine";
+import { SidePanelState, fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import QuizView from "./quizComponent";
 
 

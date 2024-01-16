@@ -54,7 +54,7 @@ export class OptionsWebInterface {
 
     public async logoutThisDevice() : Promise<boolean> {
         // drop locally.
-        sharedState.deleteApiToken();
+        sharedState.deleteUserState();
 
         // delete the token.
         const url = `${domain}/api/users/tokens/delete`;

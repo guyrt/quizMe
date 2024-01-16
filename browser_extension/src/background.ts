@@ -1,6 +1,7 @@
 import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
-import {backgroundState} from "./stateTrackers/backgroundState";
-import { pageDetailsStore } from "./stateTrackers/pageDetailsStore";
+import {backgroundState} from "./stateTrackers/backgroundThread/backgroundState";
+import { pageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
+import { quizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
 import { log } from "./utils/logger";
 import { uploadQuizResults } from "./webInterface";
 
@@ -64,17 +65,20 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_pageLoaded") {
         // Perform action on page load
-        (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            if (tabs[0] === undefined) {
-                return;
-            }
-            const tId = tabs[0].id ?? 1;
-            chrome.tabs.sendMessage(
-                tId, { action: "fa_accessDOM"},
-                (x) => handleFAAccessDOMMessage(tId, x))
-        })})();
+        (async () => {
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                if (tabs[0] === undefined) {
+                    return;
+                }
+                const tId = tabs[0].id ?? 1;
+                chrome.tabs.sendMessage(
+                    tId, { action: "fa_accessDOM"},
+                    (x) => handleFAAccessDOMMessage(tId, x))
+            })
+        })();
     } else if (message.action === "fa_makequiz") {
-        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+        (async () => {
+            chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
                 const activeTabId = getActiveTabId(tabs);
 
@@ -84,6 +88,13 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             });
         })();
         return false;
+    } else if (message.action === "fa_getQuizHistory") {
+        // Update the quiz history and return it
+        (async () => {
+            const state = await quizHistoryState.getLatestQuizHistory();
+            sendResponse(state);
+        })();
+        return true;
     }
 });
 
@@ -92,8 +103,6 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((error : any) => console.error(error));
-
-
 
 
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {

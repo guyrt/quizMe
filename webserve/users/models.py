@@ -74,8 +74,10 @@ class UserSubscriptions(ModelBaseMixin):
 
     subscription = models.CharField(max_length=32, choices=SubscriptionTypes)
 
+    quiz_allowance = models.IntegerField(default=5)  # number of quizzes allowed per month. # 5 is free.
 
-def get_active_subscription(self, user) -> UserSubscriptions:
+
+def get_active_subscription(user) -> UserSubscriptions:
     """Get the best active subscription"""
     subs = UserSubscriptions.objects.filter(user=user, active=True)
     if len(subs) == 0:

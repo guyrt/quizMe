@@ -48,8 +48,9 @@ class QuizContextSchema(Schema):
 
 class QuizStatsReturnSchema(Schema):
 
-    recent_quizzes: List[QuizContextSchema]
     total_quizzes: int
+    quiz_allowance : int
+    recent_quizzes: List[QuizContextSchema]
 
 
 def create_simple_quiz_schema(obj : SimpleQuiz, was_created : bool) -> SimpleQuizSchema:

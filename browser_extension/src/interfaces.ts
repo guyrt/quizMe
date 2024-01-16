@@ -17,13 +17,17 @@ export type DomShape = {
     domClassification : DomClassification
 }
 
+
+type QuizContext = {
+    previous_quiz : Quiz
+    latest_results? : number[]
+}
+
+
 export type UploadedDom = {
     raw_doc : string,
     url_obj : string,
-    quiz_context? : {
-        previous_quiz : Quiz
-        latest_results? : number[]
-    }
+    quiz_context? : QuizContext
 }
 
 export type Quiz = {
@@ -49,7 +53,12 @@ export type QuizResponse = {
     selection : number[]
 }
 
-export type ChromeMessageType = "fa_pageLoaded" | "fa_makequiz" | "fa_getCurrentPage" | "fa_uploadQuizResult" | "fa_noAPIToken"
+export type ChromeMessageType = "fa_pageLoaded" 
+    | "fa_makequiz" 
+    | "fa_getCurrentPage" 
+    | "fa_uploadQuizResult" 
+    | "fa_noAPIToken"
+    | "fa_getQuizHistory"
 
 
 export type ChromeMessage = {
@@ -60,6 +69,12 @@ export type ChromeMessage = {
 export type QuizResponseMessage = {
     action : "fa_uploadQuizResult"
     payload : QuizResponse
+}
+
+export type QuizHistory = {
+    total_quizzes : number
+    quiz_allowance : number
+    recent_quizzes : QuizContext[]
 }
 
 export type SinglePageDetailsChangeMessage = {

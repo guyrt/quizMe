@@ -5,10 +5,13 @@ from datetime import date
 
 from django.shortcuts import get_object_or_404
 from users.apiauth import ApiKey
+from users.models import get_active_subscription
+
 from extensionapis.models import RawDocCapture
 from extensionapis.schemas import WriteDomReturnSchema
 from ninja import Router
 from ninja.errors import HttpError
+
 
 from .models import SimpleQuiz, SimpleQuizResults, get_simple_quiz
 from .quiz_gen import QuizGenerator
@@ -36,8 +39,10 @@ def quiz_stats(request):
     user = request.auth
 
     total_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).count()
-    month_start = date.now().replace(day=1)
-    recent_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).filter(date_created__ge=month_start).prefetch_related('simplequizresults_set')
+    month_start = date.today().replace(day=1)
+    recent_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).filter(date_added__gte=month_start).prefetch_related('simplequizresults_set')
+
+    quiz_allowance = get_active_subscription(user).quiz_allowance
 
     quiz_contexts = []
     for q in recent_quizzes:
@@ -50,11 +55,12 @@ def quiz_stats(request):
             payload['latest_results'] = loads(scr.results)
         except SimpleQuizResults.DoesNotExist:
             pass
-        quiz_contexts.append(q)
+        quiz_contexts.append(payload)
 
     return {
         'total_quizzes': total_quizzes,
-        'recent_quizzes': quiz_contexts
+        'recent_quizzes': quiz_contexts,
+        'quiz_allowance': quiz_allowance
     }
 
 

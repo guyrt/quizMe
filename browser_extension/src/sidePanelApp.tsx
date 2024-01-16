@@ -2,7 +2,7 @@ import React, {useEffect, useState} from "react";
 import { createRoot } from 'react-dom/client';
 
 import SidePanelError from "./components/sidePanelError";
-import { SidePanelState, fsm } from "./stateTrackers/sidePanelStateMachine";
+import { SidePanelState, fsm } from "./stateTrackers/sidePanelThread/sidePanelStateMachine";
 import SidePanelStats from "./components/sidePanelStats";
 
 function MainApp() {

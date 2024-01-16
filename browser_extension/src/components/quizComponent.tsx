@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import { SidePanelState, fsm } from "../stateTrackers/sidePanelStateMachine";
+import { SidePanelState, fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import { Quiz } from "../interfaces";
 import { QuizStatus } from "./quizzes/quizInterfaces";
 import { QuizInProgress } from "./quizzes/quizQuestion";

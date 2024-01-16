@@ -23,13 +23,14 @@ class SharedState {
         return (await chrome.storage.local.get("secret.apikey"))["secret.apikey"];
     }
 
+    /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
     public setApiToken(newToken : string) {
         chrome.storage.local.set({
             "secret.apikey": newToken
         });
     }
 
-    public deleteApiToken() {
+    public deleteUserState() {
         chrome.storage.local.remove("secret.apikey");
     }
 
