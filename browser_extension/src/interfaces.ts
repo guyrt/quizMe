@@ -53,12 +53,16 @@ export type QuizResponse = {
     selection : number[]
 }
 
-export type ChromeMessageType = "fa_pageLoaded" 
-    | "fa_makequiz" 
+export type ChromeMessageType = 
+    // these pair of events are a 2-directional update.
+      "fa_pageLoaded" 
     | "fa_getCurrentPage" 
+    | "fa_makequiz"
     | "fa_uploadQuizResult" 
     | "fa_noAPIToken"
-    | "fa_getQuizHistory"
+    // these pair of events are a 2-direction update.
+    | "fa_getQuizHistory"  // sent from SidePanel to Background and expects most recent cached history.
+    | "fa_newQuizHistory"  // send from the Background when a new history is retrieved. Sidepanel should listen for it.
 
 
 export type ChromeMessage = {

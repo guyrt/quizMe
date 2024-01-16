@@ -1,4 +1,4 @@
-import { DomShape, UploadedDom, QuizResponse, Quiz } from "./interfaces";
+import { DomShape, UploadedDom, QuizResponse, Quiz, QuizHistory } from "./interfaces";
 import { sharedState } from "./stateTrackers/sharedState";
 import { domain } from "./globalSettings";
 
@@ -16,9 +16,9 @@ export function sendDomPayload(token : string, payload : DomShape) : Promise<Upl
 }
 
 /// Request a quiz
-export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom | undefined> {
+export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom> {
     const url = `${domain}/api/quiz/makequiz`;
-    const apiToken = await sharedState.getApiToken() ?? "todo";
+    const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
     const fullPayload = {...payload, force_recreate: forceReload};
 
     return callFetch(apiToken, url, fullPayload).then((q : any) => {
@@ -31,6 +31,23 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
     .catch(error => {
         console.error('Error calling API: ', error);
         return {...payload, quiz_context: {previous_quiz: createErrorQuiz()}};
+    });
+}
+
+
+export async function getQuizHistory() : Promise<QuizHistory | undefined> {
+    const url = `${domain}/api/quiz/stats`;
+    const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
+    
+    return callFetch(apiToken, url, {}, "GET").then(x => {
+        if (x != undefined) {
+            return x as QuizHistory;
+        } else {
+            return undefined;
+        }
+    }).catch(error => {
+        console.error('Error calling QuizHistory: ', error);
+        return undefined;
     });
 }
 

@@ -22,7 +22,7 @@ logger = logging.getLogger("default")
 router = Router(auth=ApiKey(), tags=['quizzes'])
 
 
-@router.post("stats", response=QuizStatsReturnSchema)
+@router.get("stats", response=QuizStatsReturnSchema)
 def quiz_stats(request):
     """
     Return all statistics that we know about quizzes.

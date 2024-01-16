@@ -5,6 +5,7 @@ import { getAQuiz, sendDomPayload } from "../../webInterface";
 import { sharedState } from "../sharedState";
 
 import { pageDetailsStore } from "./pageDetailsStore";
+import { quizHistoryState } from "./quizSubscriptionState";
 
 
 class BackgroundState {
@@ -40,6 +41,11 @@ class BackgroundState {
         this.uploadPromises[record.key].then((x) => {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
             console.log(`Upload complete for tab ${tabId} url ${response.url.href}`);
+
+            // if the page is an article then we need up to date quiz info.
+            if (record.domClassification.classification == "article") {
+                quizHistoryState.updateLatestQuizHistory();
+            }
         })
         .catch(() => {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'}, true);

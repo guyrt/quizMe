@@ -13,7 +13,6 @@ export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "
 
 
 class SidePanelFiniteStateMachine {
-
     private activeTabId : number = -1;
 
     private activeDetails : SinglePageDetails | undefined = undefined;
@@ -45,6 +44,7 @@ class SidePanelFiniteStateMachine {
     public setQuizBeingBuilt() {
         this.state = "QuizBeingDeveloped";
         this.listeners.forEach(listener => listener(this.state));
+        this.publish();
     }
 
     public updateState(singlePage : SinglePageDetails) {
@@ -65,10 +65,7 @@ class SidePanelFiniteStateMachine {
             Error(`Unexpected state ${singlePage.uploadState}`);
         }
 
-        this.listeners.forEach(listener => {
-            listener(this.state)
-        });
-
+        this.publish();
     }
 
     public triggerCheck() {
@@ -93,7 +90,13 @@ class SidePanelFiniteStateMachine {
 
     public handleUserLoggedOut() {
         this.state = "UserLoggedOut";
-        this.listeners.forEach(listener => listener(this.state));
+        this.publish();
+    }
+
+    private publish() {
+        this.listeners.forEach(listener => {
+            listener(this.state)
+        });
     }
 
 }
