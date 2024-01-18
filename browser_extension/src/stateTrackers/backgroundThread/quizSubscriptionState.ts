@@ -29,9 +29,11 @@ class QuizHistoryState {
         if (this.quizHistory != undefined) {
             return this.quizHistory;
         }
+
         const storedHistory = await chrome.storage.session.get("quizHistory") as QuizHistory | undefined;
         if (storedHistory != undefined) {
             this.quizHistory = storedHistory;
+            console.log("getting latest quiz history")
             this.updateLatestQuizHistory(); // async but do not wait on it.
         }
         return storedHistory;

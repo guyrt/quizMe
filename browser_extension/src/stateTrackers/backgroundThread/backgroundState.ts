@@ -15,7 +15,7 @@ class BackgroundState {
     private uploadPromises : {[key: number]: Promise<UploadedDom>} = {}
 
     public async uploadPage(tabId : number, response : DomShape) {
-
+        console.log("Upload started on ", tabId);
         const record = await this.getOrCreatePageDetails(tabId, response);
 
         if (!await this.shouldOperateOnPage(record)) {
@@ -25,6 +25,7 @@ class BackgroundState {
         }
         
         if (record.uploadState != 'notstarted' && record.uploadState != 'error') {
+            console.log("upload abandonded for state", record.uploadState);
             return;
         }
 
@@ -39,11 +40,12 @@ class BackgroundState {
         pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'inprogress'}, true);
 
         this.uploadPromises[record.key].then((x) => {
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
             console.log(`Upload complete for tab ${tabId} url ${response.url.href}`);
-
+            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
+            
             // if the page is an article then we need up to date quiz info.
             if (record.domClassification.classification == "article") {
+                console.log("Getting quiz history");
                 quizHistoryState.updateLatestQuizHistory();
             }
         })

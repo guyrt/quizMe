@@ -5,14 +5,14 @@ import { domain } from "./globalSettings";
 export async function uploadQuizResults(payload : QuizResponse) : Promise<undefined> {
     const url = `${domain}/api/quiz/uploadresults`;
     const token = await sharedState.getApiToken() ?? "todo";
-    return callFetch(token, url, payload);
+    return post(token, url, payload);
 }
 
 
 export function sendDomPayload(token : string, payload : DomShape) : Promise<UploadedDom> {
     const url = `${domain}/api/browser/writehtml`;
 
-    return callFetch(token, url, payload); // TODO - this could return undefined.
+    return post(token, url, payload); // TODO - this could return undefined.
 }
 
 /// Request a quiz
@@ -21,7 +21,7 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
     const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
     const fullPayload = {...payload, force_recreate: forceReload};
 
-    return callFetch(apiToken, url, fullPayload).then((q : any) => {
+    return post(apiToken, url, fullPayload).then((q : any) => {
         if (q) {
             return q as UploadedDom;
         } else {
@@ -36,10 +36,11 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
 
 
 export async function getQuizHistory() : Promise<QuizHistory | undefined> {
+    console.trace("Getting quiz history");
     const url = `${domain}/api/quiz/stats`;
     const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
     
-    return callFetch(apiToken, url, {}, "GET").then(x => {
+    return get(apiToken, url).then(x => {
         if (x != undefined) {
             return x as QuizHistory;
         } else {
@@ -63,18 +64,46 @@ function createErrorQuiz() : Quiz {
 }
 
 
-function callFetch<InT, OutT>(token : string, url : string, payload : InT, method = "POST") : Promise<OutT> {
+// Todo - eventually may need a payload... or combine with post...
+function get<OutT>(token : string, url : string) : Promise<OutT>{
     const headers = {
         'X-API-KEY': token,
         'Content-Type': 'application/json'
     };
 
     const p = fetch(url, {
-        method: method,
+        method: "GET",
+        headers: headers
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        } else if (response.status == 401) {
+            // unauthorized - fire generic signal.
+            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
+            return;
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
+    })
+
+    return p
+
+}
+
+
+function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<OutT> {
+    const headers = {
+        'X-API-KEY': token,
+        'Content-Type': 'application/json'
+    };
+
+    const p = fetch(url, {
+        method: "POST",
         headers: headers,
         body: JSON.stringify(payload)
     })
     .then(response => {
+        console.log("Post got response", response.json());
         if (response.ok) {
             return response.json();
         } else if (response.status == 401) {

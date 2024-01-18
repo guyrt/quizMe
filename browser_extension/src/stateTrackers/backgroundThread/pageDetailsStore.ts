@@ -40,7 +40,7 @@ class PageDetailsStore {
         storageEngine.set({[storageKey]: page}, () => {});
         this.pageDetails[tabId] = page;
         if (broadcast) {
-            console.log(`Sending mesage activeSinglePageDetailsChange with ${page}`);
+            console.log(`Sending message activeSinglePageDetailsChange with`, page);
             chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: page});
         }
     }

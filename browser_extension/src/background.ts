@@ -65,30 +65,29 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_pageLoaded") {
         // Perform action on page load
-        (async () => {
-            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                if (tabs[0] === undefined) {
-                    return;
-                }
-                const tId = tabs[0].id ?? 1;
-                chrome.tabs.sendMessage(
-                    tId, { action: "fa_accessDOM"},
-                    (x) => handleFAAccessDOMMessage(tId, x))
-            })
-        })();
+        (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+            if (tabs[0] === undefined) {
+                return;
+            }
+            const tId = tabs[0].id ?? 1;
+            chrome.tabs.sendMessage(
+                tId, { action: "fa_accessDOM"},
+                (x) => handleFAAccessDOMMessage(tId, x))
+        });})();
+        return true;
     } else if (message.action === "fa_makequiz") {
-        (async () => {
-            chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
-                const activeTabId = getActiveTabId(tabs);
+            const activeTabId = getActiveTabId(tabs);
 
-                if (activeTabId !== undefined) {
-                    backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false)
-                }
-            });
+            if (activeTabId !== undefined) {
+                backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false)
+            }
+        });
         })();
         return false;
-    } else if (message.action === "fa_getQuizHistory") {
+    } 
+    else if (message.action === "fa_getQuizHistory") {
         // Update the quiz history and return it
         (async () => {
             const state = await quizHistoryState.getLatestQuizHistory();

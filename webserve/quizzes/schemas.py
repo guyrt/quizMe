@@ -54,10 +54,14 @@ class QuizStatsReturnSchema(Schema):
 
 
 def create_simple_quiz_schema(obj : SimpleQuiz, was_created : bool) -> SimpleQuizSchema:
+    try:
+        content = json.loads(obj.content)
+    except json.JSONDecodeError:
+        content = []
     return SimpleQuizSchema(
         was_created=was_created,
         owner=str(obj.owner.pk),
-        content=json.loads(obj.content),
+        content=content,
         reasoning=obj.reasoning,
         id=str(obj.pk),
         status=obj.status
