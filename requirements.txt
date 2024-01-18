@@ -25,12 +25,12 @@ sentence-transformers
 wikipedia
 
 # website
-django
-rq
-django-rq
-django-cors-headers
+django>=5.0
+rq>=1.15
+django-rq>=2.9
+django-cors-headers>=4.3.1
 sentry_sdk
-django-ninja
+django-ninja>=1.0.1
 
 psycopg2-binary
 gunicorn

@@ -2,7 +2,6 @@ import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundThread/backgroundState";
 import { pageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
 import { quizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
-import { log } from "./utils/logger";
 import { uploadQuizResults } from "./webInterface";
 
 console.log("Background ran");
@@ -29,7 +28,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
     if (message.action === "fa_getCurrentPage") {
         // check if the active tab is an article.
         (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            log("start query");
+            
             if (!tabs.length) {
                 console.log("Unable to get active tab");
                 sendResponse({error: "no active tab"});
@@ -47,7 +46,6 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             }).catch(e => {
                 sendResponse({error: e.message});
             });
-            return true;
         })})();
         return true;
     }
@@ -105,7 +103,7 @@ chrome.sidePanel
 
 
 function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
-    log(`Background received dom. TabId: ${tabId}, Url: ${response?.url.href}`);
+    console.log(`Background received dom. TabId: ${tabId}, response:`, response);
     backgroundState.uploadPage(tabId, response);
 }
 

@@ -49,7 +49,9 @@ class BackgroundState {
                 quizHistoryState.updateLatestQuizHistory();
             }
         })
-        .catch(() => {
+        .catch((e) => {
+            console.log("Upload had issue ", e);
+
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'}, true);
         });
     }

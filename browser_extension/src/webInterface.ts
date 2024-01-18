@@ -10,6 +10,7 @@ export async function uploadQuizResults(payload : QuizResponse) : Promise<undefi
 
 
 export function sendDomPayload(token : string, payload : DomShape) : Promise<UploadedDom> {
+    console.log("sendDomPayload");
     const url = `${domain}/api/browser/writehtml`;
 
     return post(token, url, payload); // TODO - this could return undefined.
@@ -92,6 +93,8 @@ function get<OutT>(token : string, url : string) : Promise<OutT>{
 
 
 function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<OutT> {
+    console.log(`Posting to ${url}`);
+
     const headers = {
         'X-API-KEY': token,
         'Content-Type': 'application/json'
@@ -106,7 +109,7 @@ function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<
         console.log("Post got response", response.json());
         if (response.ok) {
             return response.json();
-        } else if (response.status == 401) {
+        } else if (response.status === 401) {
             // unauthorized - fire generic signal.
             chrome.runtime.sendMessage({action: "fa_noAPIToken"});
             return;
