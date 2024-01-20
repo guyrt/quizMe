@@ -1,7 +1,6 @@
 import logging
 import uuid
 from datetime import datetime
-from json import loads
 from typing import List
 from urllib.parse import urlparse
 
@@ -15,7 +14,6 @@ from .context_builder import build_context
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
 from .schemas import (DomSchema, RawDocCaptureSchema,
                       RawDocCaptureWithContentSchema, WriteDomReturnSchema)
-from quizzes.schemas import QuizContextSchema
 
 
 logger = logging.getLogger("default")

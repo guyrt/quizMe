@@ -8,8 +8,7 @@
         "scripting",
         "storage",
         "webNavigation",
-        "sidePanel",
-        "http://localhost:8000/*"
+        "sidePanel"
     ],
     "content_scripts": [
         {

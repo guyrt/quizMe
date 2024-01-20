@@ -37,7 +37,7 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
 
 
 export async function getQuizHistory() : Promise<QuizHistory | undefined> {
-    console.trace("Getting quiz history");
+    console.log("Getting quiz history");
     const url = `${domain}/api/quiz/stats`;
     const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
     
@@ -106,7 +106,6 @@ function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<
         body: JSON.stringify(payload)
     })
     .then(response => {
-        console.log("Post got response", response.json());
         if (response.ok) {
             return response.json();
         } else if (response.status === 401) {

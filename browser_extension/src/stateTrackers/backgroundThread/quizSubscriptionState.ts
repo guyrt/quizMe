@@ -2,7 +2,7 @@
 //  - save/retrieve loader from session history
 //  - get from server.
 
-import { Quiz, QuizHistory } from "../../interfaces";
+import { QuizHistory } from "../../interfaces";
 import { getQuizHistory } from "../../webInterface";
 
 class QuizHistoryState {
@@ -33,6 +33,7 @@ class QuizHistoryState {
         const storedHistory = await chrome.storage.session.get("quizHistory") as QuizHistory | undefined;
         if (storedHistory != undefined) {
             this.quizHistory = storedHistory;
+        } else {
             console.log("getting latest quiz history")
             this.updateLatestQuizHistory(); // async but do not wait on it.
         }
