@@ -72,7 +72,6 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 tId, { action: "fa_accessDOM"},
                 (x) => handleFAAccessDOMMessage(tId, x))
         });})();
-        return true;
     } else if (message.action === "fa_makequiz") {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
@@ -89,6 +88,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         // Update the quiz history and return it
         (async () => {
             const state = await quizHistoryState.getLatestQuizHistory();
+            console.log("Background returning quiz history", state);
             sendResponse(state);
         })();
         return true;

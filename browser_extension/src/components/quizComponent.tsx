@@ -28,11 +28,13 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
     // on start effect
     useEffect(() => {
         const stateHandler = (qh : QuizHistory) => {
+            console.log("Quizhistory state");
             setQuizHistory(qh);
             setQuizzesRemaining(quizHistoryBroker.getQuizzesRemaining());
         };
 
         quizHistoryBroker.subscribe(stateHandler);
+        console.log("Triggering an updated quiz history");
         quizHistoryBroker.trigger();
 
         return () => {
@@ -52,6 +54,10 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
         fsm.setQuizBeingBuilt();
     }
 
+    function getMoreQuizzes() {
+        
+    }
+
     return (
         <div>
             {finiteState == "QuizBeingDeveloped" ? 
@@ -64,6 +70,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
                     {
                         quizzesRemaining == Infinity ? <></> : <p className='note-text'>{quizzesRemaining} of {quizHistory?.quiz_allowance} remaining.</p>
                     }                    
+                    {
+                    quizzesRemaining <= 0 ? <button onClick={getMoreQuizzes}>Get more quizzes</button> : <></>
+                    }
                 </>
             }
             {finiteState != "QuizBeingDeveloped" && quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}

@@ -17,6 +17,7 @@ class QuizHistoryState {
     public async updateLatestQuizHistory() : Promise<QuizHistory | undefined> {
         const newResults = await getQuizHistory();
         this.quizHistory = newResults;
+        console.log("received new quiz history: ", newResults);
         chrome.storage.session.set({["quizHistory"]: newResults}, () => {});
         chrome.runtime.sendMessage({action: "fa_newQuizHistory", payload: newResults});
         return this.quizHistory;
@@ -26,12 +27,13 @@ class QuizHistoryState {
     // If null is returned, then we trust the async updateLatestQuizHistory to eventually get an updated message
     // sent to interested parties.
     public async getLatestQuizHistory() : Promise<QuizHistory | undefined> {
-        if (this.quizHistory != undefined) {
+        
+        if (this.quizHistory != undefined && (Object.keys(this.quizHistory).length > 0)) {
             return this.quizHistory;
         }
 
         const storedHistory = await chrome.storage.session.get("quizHistory") as QuizHistory | undefined;
-        if (storedHistory != undefined) {
+        if (storedHistory != undefined && (Object.keys(storedHistory).length > 0)) {
             this.quizHistory = storedHistory;
         } else {
             console.log("getting latest quiz history")

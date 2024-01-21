@@ -45,7 +45,7 @@ class BackgroundState {
             
             // if the page is an article then we need up to date quiz info.
             if (record.domClassification.classification == "article") {
-                console.log("Getting quiz history");
+                console.log("Bumping quiz info");
                 quizHistoryState.updateLatestQuizHistory();
             }
         })

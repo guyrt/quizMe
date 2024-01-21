@@ -19,14 +19,15 @@ class QuizHistoryBroker {
     }
 
     public getQuizzesRemaining() {
-        if (this.quizHistory?.quiz_allowance ?? 101 > 100) {
+        if ((this.quizHistory?.quiz_allowance ?? 101) > 100) {
             return Infinity;
         }
-        return ((this.quizHistory?.quiz_allowance ?? Infinity) - (this.quizHistory?.recent_quizzes.length ?? 0));
+        return Math.max(0, ((this.quizHistory?.quiz_allowance ?? Infinity) - (this.quizHistory?.recent_quizzes.length ?? 0)));
     }
 
     public trigger() {
         chrome.runtime.sendMessage({ action: "fa_getQuizHistory", payload: {} }, (_quizHistory: QuizHistory | undefined) => {
+            console.log("Received quiz history: ", _quizHistory);
             if (_quizHistory != undefined) {
                 this.setQuizHistory(_quizHistory);
             }

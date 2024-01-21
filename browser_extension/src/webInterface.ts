@@ -37,7 +37,6 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
 
 
 export async function getQuizHistory() : Promise<QuizHistory | undefined> {
-    console.log("Getting quiz history");
     const url = `${domain}/api/quiz/stats`;
     const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
     
