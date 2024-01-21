@@ -10,7 +10,7 @@ from ninja import Body, Router, pagination
 from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
 from users.apiauth import ApiKey
 
-from .context_builder import build_context
+from .context_builder import build_page_domain_history, build_quiz_context
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
 from .schemas import (DomSchema, RawDocCaptureSchema,
                       RawDocCaptureWithContentSchema, WriteDomReturnSchema)
@@ -43,8 +43,9 @@ def write_dom(request, data : DomSchema = Body(...)):
         obj.save()
     else:
         # if this was created, we need to create an augmentation dict of previous quizzes, ect.
-        context = build_context(obj)
+        context = build_quiz_context(obj)
 
+    # Save any classification info to back end
     for k, v in data.domClassification.dict().items():
         if v is None:
             continue
@@ -58,6 +59,8 @@ def write_dom(request, data : DomSchema = Body(...)):
             o.fact_value = v
             o.save()
 
+    page_history_context = build_page_domain_history(obj)
+
     record = RawDocCapture.objects.create(
         user=user,
         location_container=container,
@@ -69,7 +72,8 @@ def write_dom(request, data : DomSchema = Body(...)):
 
     d = {
         'raw_doc': record.pk,
-        'url_obj': obj.pk
+        'url_obj': obj.pk,
+        'visit_history': page_history_context
     }
     if context is not None and context.quiz_obj is not None:
         d['quiz_context'] = {
