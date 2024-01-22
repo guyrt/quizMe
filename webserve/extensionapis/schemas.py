@@ -72,4 +72,11 @@ class WriteDomReturnSchema(Schema):
     raw_doc : int
     url_obj : int
     quiz_context : QuizContextSchema = None
+
+
+class WriteDomReturnSchemaWithHistory(Schema):
+
+    raw_doc : int
+    url_obj : int
+    quiz_context : QuizContextSchema = None
     visit_history : VisitHistorySchema

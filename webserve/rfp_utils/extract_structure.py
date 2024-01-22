@@ -80,7 +80,6 @@ class StructuredExtraction:
         messages = [asdict(c) for c in current.content]
 
         response = self._oai.call(messages, temp=prompt.temp)
-        import ipdb; ipdb.set_trace()
         parsed_response = parse_json(response['response'])
 
         pr = PromptResponse.objects.create(

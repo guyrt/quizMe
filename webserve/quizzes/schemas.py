@@ -58,6 +58,7 @@ def create_simple_quiz_schema(obj : SimpleQuiz, was_created : bool) -> SimpleQui
         content = json.loads(obj.content)
     except json.JSONDecodeError:
         content = []
+
     return SimpleQuizSchema(
         was_created=was_created,
         owner=str(obj.owner.pk),

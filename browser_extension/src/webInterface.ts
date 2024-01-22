@@ -23,8 +23,10 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
     const fullPayload = {...payload, force_recreate: forceReload};
 
     return post(apiToken, url, fullPayload).then((q : any) => {
+        // note: overwrites only quizzes. This is critical to avoid 
+        // clobbering other parts of a dom payload.
         if (q) {
-            return q as UploadedDom;
+            return {...payload, quiz_context: (q as UploadedDom).quiz_context};
         } else {
             return {...payload, quiz_context: {previous_quiz: createErrorQuiz()}};
         }

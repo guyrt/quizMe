@@ -69,12 +69,12 @@ def quiz_stats(request):
 @router.post("makequiz", response=WriteDomReturnSchema)
 def make_quiz(request, body : MakeQuizIdSchemas):
     """
-    If a quiz exists for this URL, return it. (Maybe later have a force recreate as a sign it's bad.)
+    If a quiz exists for this URL, return it.
     """
     
     user = request.auth
     logger.info("Write quiz for %s for user %s", body.url_obj, user.pk)
-    
+ 
     quiz = get_simple_quiz(body.url_obj, user, True, body.force_recreate)
     if quiz.status != SimpleQuiz.QuizStatus.NotStarted:
         # note that we return Error quizzes too. This should trigger "recreate" on the FE.

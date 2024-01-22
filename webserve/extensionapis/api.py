@@ -13,7 +13,7 @@ from users.apiauth import ApiKey
 from .context_builder import build_page_domain_history, build_quiz_context
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
 from .schemas import (DomSchema, RawDocCaptureSchema,
-                      RawDocCaptureWithContentSchema, WriteDomReturnSchema)
+                      RawDocCaptureWithContentSchema, WriteDomReturnSchemaWithHistory)
 
 
 logger = logging.getLogger("default")
@@ -21,7 +21,7 @@ logger = logging.getLogger("default")
 router = Router(auth=[ApiKey()], tags=['pages'])
 
 
-@router.post("/writehtml", response=WriteDomReturnSchema)
+@router.post("/writehtml", response=WriteDomReturnSchemaWithHistory)
 def write_dom(request, data : DomSchema = Body(...)):
     user = request.auth
     url = data.url.href[:2048]

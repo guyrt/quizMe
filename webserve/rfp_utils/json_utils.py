@@ -19,7 +19,7 @@ def find_json(input : str) -> Tuple[str, any, str]:
     """
 
     if "```" not in input:
-        return input, {}, ""
+        return input, [], ""
     
     groups = input.split("```")
     json_section = groups[1]
