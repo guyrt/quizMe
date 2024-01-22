@@ -45,7 +45,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
 
     const handleAnswerClick = (questionIndex: number, answerIndex: number) => {
         setQuizAnswers(prevAnswers => {
-            return {...quizAnswers, questionIndex: answerIndex};
+            return {...prevAnswers, [questionIndex]: answerIndex};
         });
     };
 

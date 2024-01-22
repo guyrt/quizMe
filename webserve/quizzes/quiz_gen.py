@@ -35,6 +35,8 @@ class QuizGenerator:
             logger.error("No article content for %s", raw_doc.id)
             return None
 
+        article_content = self._shrink_article(article_content)
+
         # Generate response
         quiz_content = self._run_openai(article_content)
         if not quiz_content:
@@ -69,6 +71,11 @@ class QuizGenerator:
 
         # return it.
         return s
+
+    def _shrink_article(self, article_content : str) -> str:
+        """If the article is too long, shrink it to fit in payload"""
+        total_article_size = 25000  # no more than 25000 tokens in article.
+        return article_content
 
     def _run_openai(self, article_content : str):
         current = fill_prompt(quiz_gen, {'doc_content': article_content, 'num_questions': 'three'})
