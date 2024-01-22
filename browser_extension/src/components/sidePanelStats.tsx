@@ -1,7 +1,8 @@
 import React, {useState, useEffect} from "react";
-import { Quiz } from "../interfaces";
+import { Quiz, VisitHistory } from "../interfaces";
 import { SidePanelState, fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import QuizView from "./quizComponent";
+import HistorySection from "./history/historySection";
 
 
 export default function SidePanelStats() {
@@ -16,6 +17,8 @@ export default function SidePanelStats() {
 
     const [finiteState, setFiniteState] = useState<SidePanelState>(fsm.getState());
 
+    const [history, setHistory] = useState<VisitHistory>();
+
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
             const activeElement = fsm.getActiveDetails();
@@ -24,6 +27,7 @@ export default function SidePanelStats() {
             setHeader(activeElement?.title ?? "Unknown page");
             setIsArticle(activeElement?.domClassification?.classification == 'article');
             setQuiz(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
+            setHistory(activeElement?.uploadedDom?.visit_history);
         };
 
         fsm.subscribe(stateHandler);
@@ -39,6 +43,7 @@ export default function SidePanelStats() {
             <h3>{header}</h3>
             <p>This is where we should put your stats. Not an article. Also include a "quiz me" button if not an article.</p>
             {isArticle == true && <QuizView quiz={quiz} finiteState={finiteState}/>}
+            {history != undefined && <HistorySection history={history}/>}
         </div>
     )
 }

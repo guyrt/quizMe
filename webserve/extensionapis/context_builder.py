@@ -1,5 +1,6 @@
 import json
 from dataclasses import dataclass
+from django.db.models import OuterRef, Subquery
 
 from extensionapis.models import RawDocCapture, SingleUrl
 from quizzes.models import get_simple_quiz, SimpleQuizResults
@@ -22,9 +23,21 @@ def build_page_domain_history(single_url : SingleUrl):
         .filter(host=single_url.host)\
         .order_by('-date_added')[:5]
 
+    most_recent_capture = RawDocCapture.objects.filter(
+        url_model=OuterRef('pk')
+    ).order_by('-date_added')
+
+    # We use a subquery to get the title of the most recent capture
+    recent_capture_title = most_recent_capture.values('title')[:1]
+
+    # Now, annotate the SingleUrl queryset
+    single_urls_with_title = other_urls.annotate(
+        recent_title=Subquery(recent_capture_title)
+    )
+
     return {
         'recent_page_visits': previous_visits,
-        'recent_domain_visits': other_urls
+        'recent_domain_visits': single_urls_with_title
     }
 
 

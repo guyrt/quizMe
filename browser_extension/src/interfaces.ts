@@ -24,10 +24,26 @@ type QuizContext = {
 }
 
 
+export type VisitHistory = {
+    recent_page_visits: {
+        id: string,
+        date_added: string // datetime
+    }[],
+    recent_domain_visits: {
+        id: string,
+        date_added: string,
+        url: string,
+        host: string,
+        recent_title : string
+    }[]
+}
+
+
 export type UploadedDom = {
     raw_doc : string,
     url_obj : string,
     quiz_context? : QuizContext
+    visit_history : VisitHistory
 }
 
 export type Quiz = {

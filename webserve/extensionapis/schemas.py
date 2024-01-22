@@ -40,6 +40,9 @@ class RawDocCaptureSchema(ModelSchema):
 
 
 class SingleUrlHistorySchema(ModelSchema):
+
+    recent_title : str
+
     class Meta:
         model = SingleUrl
         fields = ['id', 'date_added', 'url', 'host']
