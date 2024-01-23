@@ -51,6 +51,7 @@ class OpenAIClient:
                 api_version=os.getenv("AZURE_OPENAI_API_APIVERSION")
             )
         else:
+            # Use env variables: 
             self._internal_client = openai.OpenAI()
 
         self._temp = temp
