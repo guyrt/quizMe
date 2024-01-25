@@ -56,7 +56,7 @@ class OpenAIClient:
 
         self._temp = temp
         self._encoding = get_encoding(model)
-        self.max_doc_tokens = 12000  # 16824 total for gpt16k
+        self.max_doc_tokens = 4096  # 16824 total for gpt16k
         if gate is None:
             self.gate = Gate(default_gate)
         else:
