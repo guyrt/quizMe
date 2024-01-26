@@ -13,7 +13,6 @@ export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "
 
 
 class SidePanelFiniteStateMachine {
-    private activeTabId : number = -1;
 
     private activeDetails : SinglePageDetails | undefined = undefined;
 
@@ -50,7 +49,6 @@ class SidePanelFiniteStateMachine {
     public updateState(singlePage : SinglePageDetails) {
         console.log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
 
-        this.activeTabId = singlePage.key;
         this.activeDetails = singlePage;
 
         if (singlePage.uploadState == "inprogress" || singlePage.uploadState == "notstarted") {

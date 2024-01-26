@@ -19,14 +19,21 @@ export default function SidePanelStats() {
 
     const [history, setHistory] = useState<VisitHistory>();
 
+    const [quizAnswers, setQuizAnswers] = useState<number[] | undefined>(undefined);
+
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
             const activeElement = fsm.getActiveDetails();
 
             setFiniteState(state);
+            
+            console.log("Writing context ", activeElement?.uploadedDom);
+
             setHeader(activeElement?.title ?? "Unknown page");
             setIsArticle(activeElement?.domClassification?.classification == 'article');
             setQuiz(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
+            
+            setQuizAnswers(activeElement?.uploadedDom?.quiz_context?.latest_results);
             setHistory(activeElement?.uploadedDom?.visit_history);
         };
 
@@ -42,7 +49,7 @@ export default function SidePanelStats() {
         <div>
             <h3>{header}</h3>
             <p>This is where we should put your stats. Not an article. Also include a "quiz me" button if not an article.</p>
-            {isArticle == true && <QuizView quiz={quiz} finiteState={finiteState}/>}
+            {isArticle == true && <QuizView quiz={quiz} finiteState={finiteState} incomingQuizAnswers={quizAnswers}/>}
             {history != undefined && <HistorySection history={history}/>}
         </div>
     )

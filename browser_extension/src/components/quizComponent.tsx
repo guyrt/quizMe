@@ -9,17 +9,31 @@ import { quizHistoryBroker } from "../stateTrackers/sidePanelThread/quizHistoryB
 // Component Props type
 type QuizViewProps = {
     quiz: Quiz | undefined;
-    finiteState: SidePanelState
+    finiteState: SidePanelState;
+    incomingQuizAnswers: number[] | undefined
 }
 
 
 // todo - pass in whether quiz has been answered already.
-const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState}) => {
+const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnswers}) => {
     
     const [quizStatus, setQuizStatus] = useState<QuizStatus>("inprogress"); // todo load taken quizzes too.
     
     // this maps question idx to answer within that question.
     const [quizAnswers, setQuizAnswers] = useState<{[key: number]: number}>({});
+
+    useEffect(() => {
+        if (incomingQuizAnswers !== undefined && incomingQuizAnswers.length > 0) {
+            const answersObject = incomingQuizAnswers.reduce((obj : {[key: number]: number}, current, index) => {
+                obj[index] = current;
+                return obj;
+            }, {});
+            console.log("Answers ", answersObject, incomingQuizAnswers);
+            setQuizAnswers(answersObject);
+
+            setQuizStatus("scored");
+        }
+    }, [incomingQuizAnswers]);
 
     const [quizzesRemaining, setQuizzesRemaining] = useState<number>(Infinity);
 
