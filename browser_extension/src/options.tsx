@@ -7,10 +7,11 @@ import {
     , useNavigate
 } from "react-router-dom";
 
-import { Signin } from "./optionsManagement/signin";
+import SignIn from "./optionsManagement/signin";
 import { sharedState } from "./stateTrackers/sharedState";
 import { LoggedInUserSettings } from "./optionsManagement/loggedInUserSettings";
 import { SignUp } from "./optionsManagement/signup";
+
 
 const optionsRouter = createMemoryRouter([
     {
@@ -19,11 +20,11 @@ const optionsRouter = createMemoryRouter([
     },
     {
         path: '/signin',
-        element: <Signin />
+        element: <SignIn doNav={true} handleSignUp={() => {}} handleSignedIn={() => {}} />
     },
     {
         path: '/signup',
-        element: <SignUp />
+        element: <SignUp doNav={true} handleSignedUp={() => {}}/>
     },
     {
         path: '/user',

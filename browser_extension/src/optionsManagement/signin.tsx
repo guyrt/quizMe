@@ -1,9 +1,15 @@
 import React, { useState } from "react";
 import { OptionsWebInterface } from "./optionsWebInterface";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export function Signin() {
-    const navigate = useNavigate();
+
+type SignInProps = {
+    doNav : boolean
+    handleSignUp: () => void
+    handleSignedIn: () => void
+}
+
+const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) => {
 
     const [username, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -11,10 +17,15 @@ export function Signin() {
 
     async function signIn() {
         
-        console.log("Signin in");
         const status = await new OptionsWebInterface().loginAndSaveToken(username, password);
         if (status == "ok") {
-            navigate("/user"); // off to user settings.
+            if (doNav) {
+                const navigate = useNavigate();
+
+                navigate("/user");
+            } else {
+                handleSignedIn();
+            }
         } else {
             // show an error
             setError("Nah dawg, that ain't it. Try again maybe? Type slower?"); // Set error message for other errors
@@ -33,8 +44,9 @@ export function Signin() {
         <>
             <div>
                 Sign in!
-                <div>New here? 
-                    <Link to={'/signup'}>Sign up instead</Link>
+                <div>
+                    <p>New here?</p>
+                    <a href='#' onClick={() => handleSignUp()}>Sign up instead (todo fix this in options)</a>
                 </div>
 
                 <label htmlFor="username">Email Address</label>
@@ -61,3 +73,5 @@ export function Signin() {
         </>
     );
 }
+
+export default SignIn;

@@ -38,9 +38,14 @@ def quiz_stats(request):
     """
     user = request.auth
 
-    total_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).count()
+    quiz_q = SimpleQuiz.objects.filter(
+        owner=user, 
+        active=True, 
+        status__in=[SimpleQuiz.QuizStatus.Completed, SimpleQuiz.QuizStatus.Building]
+    )
+    total_quizzes = quiz_q.count()
     month_start = date.today().replace(day=1)
-    recent_quizzes = SimpleQuiz.objects.filter(owner=user, active=True).filter(date_added__gte=month_start).prefetch_related('simplequizresults_set')
+    recent_quizzes = quiz_q.filter(date_added__gte=month_start).prefetch_related('simplequizresults_set')
 
     quiz_allowance = get_active_subscription(user).quiz_allowance
 

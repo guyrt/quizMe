@@ -11,12 +11,14 @@ class SharedState {
 
     private domainBlockList = [
         'microsoft-my.sharepoint.com',
+        'outlook.office.com', // safety check from outlook.
         'microsoft.sharepoint.com',
         'localhost',
         'statics.teams.cdn.office.net',
         'google.com',
         'bing.com',
-        'ms.portal.azure.com'
+        'ms.portal.azure.com',
+        'login.microsoftonline.com' // logins
     ];
 
     public async getApiToken() : Promise<string | undefined> {

@@ -8,7 +8,10 @@
         "scripting",
         "storage",
         "webNavigation",
-        "sidePanel"
+        "sidePanel",
+        "windows",
+        "tabs",
+        "idle"
     ],
     "content_scripts": [
         {

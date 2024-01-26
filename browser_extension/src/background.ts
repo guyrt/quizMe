@@ -9,6 +9,11 @@ console.log("Background ran");
 var fa_lastActiveTab = 0;
 
 
+import TabTracker from './stateTrackers/backgroundThread/tabTimer';
+
+// create this - initializer will set up events.
+const tabTracker = new TabTracker();
+
 chrome.tabs.onActivated.addListener((activeInfo) => {
     // get the active tag if it exists.
     console.log(`Change tab to ${activeInfo.tabId}`);

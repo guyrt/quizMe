@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { OptionsWebInterface } from "./optionsWebInterface";
 import { useNavigate } from "react-router-dom";
 
-export function SignUp() {
+type SignUpProps = {
+    doNav : boolean
+    handleSignedUp: () => void
+}
 
-    const navigate = useNavigate();
+export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
 
     const [username, setUserName] = useState<string>("");
     const [password, setPassword] = useState<string>("");
@@ -20,7 +23,12 @@ export function SignUp() {
 
         const status = await new OptionsWebInterface().signUpAndSaveToken(username, password);
         if (status == "ok") {
-            navigate("/user"); // off to user settings.
+            if (doNav) {    
+                const navigate = useNavigate();
+                navigate("/user"); // off to user settings.
+            } else {
+                handleSignedUp();
+            }
         } else {
             // show an error
             setError("Something's gone horribly wrong? Try again later."); // Set error message for other errors

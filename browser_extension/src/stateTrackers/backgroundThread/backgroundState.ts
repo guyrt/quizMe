@@ -106,7 +106,7 @@ class BackgroundState {
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
-        if (response.url.host in await sharedState.getDomainBlockList()){
+        if (response.url.host in (await sharedState.getDomainBlockList())){
             return false;
         }
     
