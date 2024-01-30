@@ -25,7 +25,7 @@ class QuizGenerator:
 
 
     def create_quiz(self, raw_doc : RawDocCapture, quiz_id : int) -> Optional[SimpleQuiz]:
-        logger.error("Creating a quiz init for %s", raw_doc.id)
+        logger.info("Creating a quiz init for %s", raw_doc.id)
 
         SimpleQuiz.objects.filter(id=quiz_id).update(status=SimpleQuiz.QuizStatus.Building)
 
