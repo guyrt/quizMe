@@ -18,7 +18,10 @@ function MainApp() {
         };
 
         fsm.subscribe(stateHandler);
-        fsm.triggerCheck();  // this will end up calling subscribe.
+        
+        // wrap async and fire a trigger check.!
+        const f = async () => {await fsm.triggerCheck()};
+        f();
 
         // Optional cleanup function
         return () => {

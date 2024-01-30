@@ -9,8 +9,8 @@ export default function() {
     // true == show log in, false == show sign up.
     const [showLogIn, setShowLogIn] = useState(true);
 
-    function handleLoggedIn() {
-        fsm.triggerCheck();
+    async function handleLoggedIn() {
+        await fsm.triggerCheck();
     }
 
     function handleSignUp() {

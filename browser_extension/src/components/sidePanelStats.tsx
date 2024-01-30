@@ -38,7 +38,9 @@ export default function SidePanelStats() {
         };
 
         fsm.subscribe(stateHandler);
-        fsm.triggerCheck();  // this will end up calling subscribe.
+        // wrap async and fire a trigger check.!
+        const f = async () => {await fsm.triggerCheck()};
+        f();
 
         return () => {
             fsm.unsubscribe(stateHandler);

@@ -7,6 +7,7 @@
  */
 
 import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from "../../interfaces";
+import { sharedState } from "../sharedState";
 
 
 export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "QuizBeingDeveloped" | "NotUploaded";
@@ -66,8 +67,13 @@ class SidePanelFiniteStateMachine {
         this.publish();
     }
 
-    public triggerCheck() {
+    public async triggerCheck() {
         console.log("Trigger check");
+
+        if (await sharedState.getApiToken() == undefined) {
+            this.handleUserLoggedOut();
+        }
+
         // get the latest state then trigger.
         // step 1: get latest state from BE
         chrome.runtime.sendMessage({ action: "fa_getCurrentPage", payload: {} }, (_domFacts: SinglePageDetails | { error: string }) => {
