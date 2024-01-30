@@ -29,6 +29,25 @@ body {
             margin-bottom: 10px; // Space between question and answers
         }
     
+        .quizAnswerAnswered {
+            background-color: #efefef;
+            color: #0000007d;
+            border: none;
+            padding: 10px;
+            cursor: pointer; // Change cursor to indicate clickable
+
+            
+            &.selected-correct {
+                color: #29b94a;
+                background-color: #e9fff5; // Soft green for correct answer            
+            }
+
+            &.selected-incorrect {
+                color: #f14668;
+                background-color: #ffe5ea; // Light red for incorrect answer
+            }
+        }
+
         .quizAnswer {
             border: 1px solid #{$accentColor}; // Border for each answer
             padding: 10px;
@@ -36,7 +55,7 @@ body {
             margin-bottom: 5px; // Space between each answer
             cursor: pointer; // Change cursor to indicate clickable
             transition: background-color 0.3s; // Smooth transition for background color
-    
+
             &:hover {
                 background-color: #e8e8e8; // Optional: change background on hover
             }
@@ -46,13 +65,6 @@ body {
                 color: #fff;
             }
 
-            &.selected-correct {
-                background-color: #98FB98; // Soft green for correct answer            
-            }
-
-            &.selected-incorrect {
-                background-color: #fd566f; // Light red for incorrect answer
-            }
         }
     }
     
