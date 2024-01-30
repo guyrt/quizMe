@@ -58,17 +58,20 @@ const QuizQuestionComponent: React.FC<{
 
     return (
         <div className="quizQuestion">
-            <span>{idx + 1}.</span><span>{question.question}</span>
-            {question.answers.map((answer, i) => (
-                <p 
-                    onClick={() => onAnswerClick(i)} 
-                    key={`item_${i}`}
-                    data-index={i} 
-                    className={`quizAnswer ${selectedAnswer === i ? "selected" : ""}`}
-                >
-                    {answer.answer}
-                </p>
-            ))}
+            <span className='quiz-index'>{idx + 1}.</span>
+            <div className='quizQuestionContent'>
+                <span>{question.question}</span>
+                {question.answers.map((answer, i) => (
+                    <p 
+                        onClick={() => onAnswerClick(i)} 
+                        key={`item_${i}`}
+                        data-index={i} 
+                        className={`quizAnswer ${selectedAnswer === i ? "selected" : ""}`}
+                    >
+                        {answer.answer}
+                    </p>
+                ))}
+            </div>
         </div>
     );
 };
