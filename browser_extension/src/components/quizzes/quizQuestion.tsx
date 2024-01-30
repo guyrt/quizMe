@@ -37,6 +37,7 @@ export const QuizInProgress: React.FC<{
             {quiz.content.map((quizQuestion, i) => (
                 <QuizQuestionComponent
                     key={`item_${i}`} 
+                    idx={i}
                     question={quizQuestion} 
                     selectedAnswer={quizAnswers[i]}
                     onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
@@ -49,14 +50,15 @@ export const QuizInProgress: React.FC<{
 
 
 const QuizQuestionComponent: React.FC<{
+    idx: number
     question: QuizQuestion;
     selectedAnswer: number;
     onAnswerClick: (index: number) => void;
-}> = ({ question, selectedAnswer, onAnswerClick }) => {
+}> = ({ idx, question, selectedAnswer, onAnswerClick }) => {
 
     return (
         <div className="quizQuestion">
-            <p>{question.question}</p>
+            <span>{idx + 1}.</span><span>{question.question}</span>
             {question.answers.map((answer, i) => (
                 <p 
                     onClick={() => onAnswerClick(i)} 

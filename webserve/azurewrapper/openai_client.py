@@ -29,7 +29,7 @@ def get_engine(model, api_type):
         if model == '35turbo':
             return "gpt-3.5-turbo-16k"
         elif model == 'gpt4':
-            return "gpt-4-1106-preview"
+            return "gpt-4"
 
 
 
