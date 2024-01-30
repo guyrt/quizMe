@@ -7,6 +7,12 @@ body {
     //font-weight: bold;
     margin: 0;
     padding: 1rem;
+
+    .quiz-grade-correct {
+        padding-top: 10px;
+        padding-bottom: 15px;
+    }
+
     .quizQuestion {
         //border: 2px solid #666565; // Box around the quiz question
         display: flex;

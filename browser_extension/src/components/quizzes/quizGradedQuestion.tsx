@@ -25,7 +25,7 @@ export const QuizGraded : React.FC<{
 
     return (
         <div>
-            <div>{gradeQuiz()} / {quiz.content.length} correct</div>
+            <div className="quiz-grade-correct">{gradeQuiz()} / {quiz.content.length} correct</div>
             {quiz.content.map((quizQuestion, i) => (
                 <QuizGradedQuestion 
                     idx={i}
