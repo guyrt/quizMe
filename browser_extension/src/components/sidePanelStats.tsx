@@ -50,7 +50,7 @@ export default function SidePanelStats() {
     return (
         <div>
             <h3>{header}</h3>
-            <p>This is where we should put your stats. Not an article. Also include a "quiz me" button if not an article.</p>
+            
             {isArticle == true && <QuizView quiz={quiz} finiteState={finiteState} incomingQuizAnswers={quizAnswers}/>}
             {history != undefined && <HistorySection history={history}/>}
         </div>

@@ -1,4 +1,5 @@
 import { classifyPage } from "./articleDetector";
+import getReaderMode from "./domAccessLayer/readerModeExtract";
 import { DomShape } from "./interfaces";
 
 function handleUrlChange() {
@@ -25,12 +26,18 @@ observer.observe(targetNode, config);
 // This is a separate call response rather than simply sending in fa_pageLoaded b/c error pathways will also trigger calls INTO this context.
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action == 'fa_accessDOM') {
+        const readerMode = getReaderMode(document);
+        
         const data : DomShape = {
             dom: document.body.innerHTML.toString(),
             url: document.location,
             recordTime: new Date().getTime(),
-            title: document.title,
-            domClassification: classifyPage(document.location)
+            title: readerMode?.title ?? document.title,
+            byline : readerMode?.byline ?? "",
+            domClassification: classifyPage(document.location),
+            readerContent: readerMode?.content ?? "",
+            siteName : readerMode?.siteName ?? "",
+            publishedTime : readerMode?.publishedTime ?? ""
         }
 
         if (data.domClassification.classification == "article") {

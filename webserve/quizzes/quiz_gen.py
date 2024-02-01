@@ -21,8 +21,7 @@ logger = logging.getLogger("default")
 class QuizGenerator:
 
     def __init__(self) -> None:
-        self._oai = OpenAIClient(model='gpt4', temp=0.7)
-
+        self._oai = OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=1000)
 
     def create_quiz(self, raw_doc : RawDocCapture, quiz_id : int) -> Optional[SimpleQuiz]:
         logger.info("Creating a quiz init for %s", raw_doc.id)

@@ -13,8 +13,11 @@ export type DomShape = {
     url : Location,
     recordTime : number,
     title : string,
-
+    byline : string,
+    readerContent : string,
     domClassification : DomClassification
+    siteName : string,
+    publishedTime : string
 }
 
 
@@ -107,7 +110,6 @@ type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error' | 'donotp
 
 
 /// store information about a single uploaded article.
-/// long term likely needs to be in storage.
 export type SinglePageDetails = {
     domClassification : DomClassification
     url : Location

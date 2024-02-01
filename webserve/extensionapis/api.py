@@ -29,8 +29,8 @@ def write_dom(request, data : DomSchema = Body(...)):
     logging.info("Receive request for %s: %s", user.pk, url)
     # Save a Raw File Save and upload.
     # Assume on server side we need to save (maybe relax later)
-    handler = RawDocCaptureHander()
-    container, filename = handler.upload(user, data.dom, datetime.today().strftime('%Y/%m/%d'), str(uuid.uuid4()))
+    
+    container, filename, reader_container, reader_filename = upload_dom(user, data)
     context = None
 
     # create a SingleURL and return that id.
@@ -65,6 +65,8 @@ def write_dom(request, data : DomSchema = Body(...)):
         user=user,
         location_container=container,
         location_path=filename,
+        reader_location_container=reader_container,
+        reader_location_path=reader_filename,
         url=url,
         title=data.title[:1024],
         url_model=obj
@@ -75,6 +77,7 @@ def write_dom(request, data : DomSchema = Body(...)):
         'url_obj': obj.pk,
         'visit_history': page_history_context
     }
+
     if context is not None and context.quiz_obj is not None:
         d['quiz_context'] = {
             'previous_quiz': context.quiz_obj,
@@ -111,3 +114,13 @@ def parse_raw_doc(request, item_id : int):
     driver.process_impression(raw_doc_capture)
     return {'message': 'ok'}
 
+
+def upload_dom(user, data : DomSchema):
+    handler = RawDocCaptureHander()
+    timestamp = datetime.today().strftime('%Y/%m/%d')
+    filename_base = str(uuid.uuid4())
+    container, filename = handler.upload(user, data.dom, timestamp, filename_base)
+    if data.readerContent:
+        reader_container, reader_filename = handler.upload(user, data.readerContent, timestamp, f"{filename_base}_reader")
+        return container, filename, reader_container, reader_filename
+    return container, filename, "", ""
