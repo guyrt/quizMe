@@ -78,11 +78,13 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                 <div>Building a quiz!</div> 
                 : 
                 <>
-                    <div className="buttonWrap">
-                        <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>
-                            {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Quiz me!"}
-                        </button>
-                    </div>
+                    {quizzesRemaining > 0 && 
+                        <div className="buttonWrap">
+                            <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>
+                                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Quiz me!"}
+                            </button>
+                        </div>
+                    }
                     {
                         quizzesRemaining == Infinity ? <></> : <p className='note-text'>{quizzesRemaining} of {quizHistory?.quiz_allowance} remaining.</p>
                     }                    
