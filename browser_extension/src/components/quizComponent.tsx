@@ -17,7 +17,7 @@ type QuizViewProps = {
 // todo - pass in whether quiz has been answered already.
 const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnswers}) => {
     
-    const [quizStatus, setQuizStatus] = useState<QuizStatus>("inprogress"); // todo load taken quizzes too.
+    const [quizStatus, setQuizStatus] = useState<QuizStatus>("inprogress");
     
     // this maps question idx to answer within that question.
     const [quizAnswers, setQuizAnswers] = useState<{[key: number]: number}>({});
@@ -32,6 +32,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
             setQuizAnswers(answersObject);
 
             setQuizStatus("scored");
+        } else {
+            setQuizStatus("inprogress");
+            setQuizAnswers({});
         }
     }, [incomingQuizAnswers]);
 
