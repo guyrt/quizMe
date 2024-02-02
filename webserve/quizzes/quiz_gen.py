@@ -1,7 +1,7 @@
 import logging
 from dataclasses import asdict
 from json import dumps
-from typing import Optional
+from typing import Optional, List
 
 from django.db import transaction
 
@@ -21,7 +21,8 @@ logger = logging.getLogger("default")
 class QuizGenerator:
 
     def __init__(self) -> None:
-        self._oai = OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=1000)
+        self._return_tokens = 1000
+        self._oai = OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=self._return_tokens)
 
     def create_quiz(self, raw_doc : RawDocCapture, quiz_id : int) -> Optional[SimpleQuiz]:
         logger.info("Creating a quiz init for %s", raw_doc.id)
@@ -74,10 +75,26 @@ class QuizGenerator:
     def _shrink_article(self, article_content : str) -> str:
         """If the article is too long, shrink it to fit in payload"""
         num_prompt_tokens = 183  # this is from the system prompt.
-        total_allowed_tokens = 7000 - num_prompt_tokens  # allow 1000 for return.
+        total_allowed_tokens = 8000 - self._return_tokens - num_prompt_tokens  # allow 1000 for return.
 
-        total_article_size = 25000  # no more than 25000 tokens in article.
-        return article_content
+        total_article_size = self._oai.num_tokens_from_string(article_content)
+        if total_article_size < total_allowed_tokens:
+            return article_content
+        
+        num_tokens_to_remove = total_article_size - total_allowed_tokens
+        sections = self._partition_string(article_content, 4)
+        if total_article_size // num_prompt_tokens < 0.25:
+            # we can remove the tokens from third section.
+            section = sections[2]
+            delete_ratio = num_tokens_to_remove / self._oai.num_tokens_from_string(section) + 0.02  # fudge factor...
+            delete_target = len(section) * (1 - delete_ratio)
+            sections[2] = " ...omitted content... " + sections[2][:delete_target]
+            return ''.join(sections)
+        else:
+            # we need to remove third section and rerun.
+            sections[2] = " ...omitted content... "
+            return self._shrink_article(''.join(sections))
+
 
     def _run_openai(self, article_content : str):
         current = fill_prompt(quiz_gen, {'doc_content': article_content, 'num_questions': 'three'})
@@ -95,3 +112,9 @@ class QuizGenerator:
         # also handle bad JSON in some better way.
         preamble, obj, _ = find_json(raw_content)
         return preamble, obj
+
+    def _partition_string(s : str, num_partitions : int) -> List[str]:
+        s += ' ' * (len(s) % num_partitions)
+        part_length = len(s) // num_partitions
+        parts = [s[i * part_length: (i + 1) * part_length] for i in range(4)]
+        return parts
