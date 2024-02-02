@@ -21,8 +21,7 @@ logger = logging.getLogger("default")
 class QuizGenerator:
 
     def __init__(self) -> None:
-        self._oai = OpenAIClient(model='gpt4', temp=0.7)
-
+        self._oai = OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=1000)
 
     def create_quiz(self, raw_doc : RawDocCapture, quiz_id : int) -> Optional[SimpleQuiz]:
         logger.info("Creating a quiz init for %s", raw_doc.id)
@@ -74,6 +73,9 @@ class QuizGenerator:
 
     def _shrink_article(self, article_content : str) -> str:
         """If the article is too long, shrink it to fit in payload"""
+        num_prompt_tokens = 183  # this is from the system prompt.
+        total_allowed_tokens = 7000 - num_prompt_tokens  # allow 1000 for return.
+
         total_article_size = 25000  # no more than 25000 tokens in article.
         return article_content
 

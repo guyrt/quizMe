@@ -19,3 +19,6 @@ services:
     volumes:
       - .:/app
 
+  pgsql:
+    image: pgvector/pgvector:pg15
+    

@@ -35,7 +35,7 @@ def get_engine(model, api_type):
 
 class OpenAIClient:
 
-    def __init__(self, temp=0.7, model='35turbo', gate=None) -> None:
+    def __init__(self, temp=0.7, model='35turbo', gate=None, max_doc_tokens=4096) -> None:
         self.api_type = os.getenv("OPENAI_SOURCE")
         self.engine = get_engine(model, self.api_type)
 
@@ -56,7 +56,7 @@ class OpenAIClient:
 
         self._temp = temp
         self._encoding = get_encoding(model)
-        self.max_doc_tokens = 4096  # 16824 total for gpt16k
+        self.max_doc_tokens = max_doc_tokens  # 16824 total for gpt16k
         if gate is None:
             self.gate = Gate(default_gate)
         else:

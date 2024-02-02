@@ -26,11 +26,25 @@ class RawDocCapture(ModelBaseMixin):
     location_container = models.CharField(max_length=64)
     location_path = models.CharField(max_length=256)
 
+    reader_location_container = models.CharField(max_length=64)
+    reader_location_path = models.CharField(max_length=256)
+
     url_model = models.ForeignKey(SingleUrl, on_delete=models.CASCADE, null=True)
 
-    def get_content(self):
-        handler = RawDocCaptureHander(container_name=self.location_container)
-        content = handler.download(self.user, self.location_path)
+    def get_content(self, get_reader=False):
+        """get_reader=True means try to get the reader."""
+        if get_reader:
+            container = self.reader_location_container
+            path = self.reader_location_path
+            if container == "" or path == "":
+                return ""
+
+        else:
+            container = self.location_container
+            path = self.location_path
+
+        handler = RawDocCaptureHander(container_name=container)
+        content = handler.download(self.user, path)
         return content
 
 

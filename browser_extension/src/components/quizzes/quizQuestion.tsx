@@ -43,7 +43,7 @@ export const QuizInProgress: React.FC<{
                     onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
                 />
             ))}
-            <button onClick={quizSubmit}>How did I do ?!</button>
+            <div className="buttonWrap"><button className="standard" onClick={quizSubmit}>How did I do ?!</button></div>
         </div>
     )
 }

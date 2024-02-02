@@ -81,20 +81,26 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                 <div>Building a quiz!</div> 
                 : 
                 <>
-                    <button onClick={() => makeQuizClick(quiz != undefined)}>
-                        {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Quiz me!"}
-                    </button>
+                    {quizzesRemaining > 0 && 
+                        <div className="buttonWrap">
+                            <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>
+                                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Quiz me!"}
+                            </button>
+                        </div>
+                    }
                     {
                         quizzesRemaining == Infinity ? <></> : <p className='note-text'>{quizzesRemaining} of {quizHistory?.quiz_allowance} remaining.</p>
                     }                    
                     {
-                    quizzesRemaining <= 0 ? <button onClick={getMoreQuizzes}>Get more quizzes</button> : <></>
+                        quizzesRemaining <= 0 ? <div className="buttonWrap"><button className="standard" onClick={getMoreQuizzes}>Get more quizzes</button></div> : <></>
                     }
                 </>
             }
             {finiteState != "QuizBeingDeveloped" && quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
-            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == "inprogress" && <QuizInProgress quiz={quiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
-            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == 'scored' && <QuizGraded quiz={quiz} quizAnswers={quizAnswers} />}
+            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == "inprogress" 
+                && <QuizInProgress quiz={quiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
+            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == 'scored' 
+                && <QuizGraded quiz={quiz} quizAnswers={quizAnswers} />}
         </div>
     );
 };

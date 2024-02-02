@@ -29,7 +29,10 @@ class DomSchema(Schema):
     url : DomLocation 
     title : str = ""
     recordTime : int  # integer timestamp
-
+    byline : str = ""  # this is capture by Mozilla reader mode
+    readerContent : str = ""  # this is captured by Mozilla reader mode.
+    siteName : str = ""  # this is captured by Mozilla reader mode.
+    publishedTime : str = ""  # this is captured by Mozilla reader mode.
     domClassification : DomClassificationSchema
 
 
