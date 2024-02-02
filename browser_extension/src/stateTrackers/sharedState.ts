@@ -19,6 +19,7 @@ class SharedState {
         'google.com',
         'bing.com',
         'ms.portal.azure.com',
+        'sapsf.com',
         'login.microsoftonline.com' // logins
     ];
 

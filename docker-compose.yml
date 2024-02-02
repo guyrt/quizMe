@@ -10,6 +10,8 @@ services:
       - .:/app
     ports:
       - "8000:8000"
+    depends_on:
+      - pgsql
 
   worker:
     build: .
@@ -21,4 +23,9 @@ services:
 
   pgsql:
     image: pgvector/pgvector:pg15
-    
+    volumes:
+      - ./data/db:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgressu
+      - POSTGRES_PASSWORD=mosdumps123
