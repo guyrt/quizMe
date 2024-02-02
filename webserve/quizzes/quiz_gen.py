@@ -35,7 +35,11 @@ class QuizGenerator:
             logger.error("No article content for %s", raw_doc.id)
             return None
 
+        current_size = len(article_content)
         article_content = self._shrink_article(article_content)
+        new_size = len(article_content)
+        if new_size != current_size:
+            logger.info("Resized doc from %s to %s", current_size, new_size)
 
         # Generate response
         quiz_content = self._run_openai(article_content)
@@ -83,7 +87,7 @@ class QuizGenerator:
         
         num_tokens_to_remove = total_article_size - total_allowed_tokens
         sections = self._partition_string(article_content, 4)
-        if total_article_size // num_prompt_tokens < 0.25:
+        if total_article_size // num_tokens_to_remove < 0.25:
             # we can remove the tokens from third section.
             section = sections[2]
             delete_ratio = num_tokens_to_remove / self._oai.num_tokens_from_string(section) + 0.02  # fudge factor...
@@ -113,7 +117,7 @@ class QuizGenerator:
         preamble, obj, _ = find_json(raw_content)
         return preamble, obj
 
-    def _partition_string(s : str, num_partitions : int) -> List[str]:
+    def _partition_string(self, s : str, num_partitions : int) -> List[str]:
         s += ' ' * (len(s) % num_partitions)
         part_length = len(s) // num_partitions
         parts = [s[i * part_length: (i + 1) * part_length] for i in range(4)]
