@@ -111,6 +111,7 @@ function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<
             return response.json();
         } else if (response.status === 401) {
             // unauthorized - fire generic signal.
+            console.log("sending logged out message");
             chrome.runtime.sendMessage({action: "fa_noAPIToken"});
             return;
         }
