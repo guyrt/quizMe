@@ -14,7 +14,16 @@ const observer = new MutationObserver((mutations, obs) => {
     if (window.location.href !== lastUrl) {
         lastUrl = window.location.href;
         handleUrlChange();
+        return;
     }
+    
+    // default handler: set a timer. if it's been 'long enough' then check 
+    // if you've gotten a big change to innertext. if yes then set a timer and re-send
+    // when it calms down.
+    
+    // handle resubmit as a different thing b/c you want to overwrite the back end 
+    // i think. maybe a new layer of model - URL/PageView/Capture
+    console.log(`Mutation: ${Date.now()} ${document.body.innerText.length}`);
 });
 
 const config = { childList: true, subtree: true };
