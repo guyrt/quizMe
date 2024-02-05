@@ -73,7 +73,7 @@ def write_dom(request, data : DomSchema = Body(...)):
     )
 
     d = {
-        'raw_doc': record.pk,
+        'raw_doc': str(record.pk),
         'url_obj': obj.pk,
         'visit_history': page_history_context
     }
@@ -95,7 +95,7 @@ def get_raw_doc_list(request):
 
 @router.get("/rawdoccaptures/{item_id}", response=RawDocCaptureWithContentSchema)
 def get_raw_doc(request, item_id : int):
-    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
+    raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
 
     content = raw_doc_capture.get_content()
 
@@ -109,7 +109,7 @@ def get_raw_doc(request, item_id : int):
 
 @router.post("/rawdoccaptures/{item_id}/parse")
 def parse_raw_doc(request, item_id : int):
-    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
+    raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
     driver = WebParserDriver()
     driver.process_impression(raw_doc_capture)
     return {'message': 'ok'}

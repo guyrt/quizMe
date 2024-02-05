@@ -8,7 +8,7 @@ from .models import SimpleQuiz
 class MakeQuizIdSchemas(Schema):
 
     url_obj : int
-    raw_doc : int
+    raw_doc : str
     force_recreate : bool = False
 
 

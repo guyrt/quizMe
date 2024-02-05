@@ -66,7 +66,7 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-    if (message.action === "fa_pageLoaded") {
+    if (message.action === "fa_pageLoaded" || message.action === "fa_pageReloaded") {
         // Perform action on page load
         (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (tabs[0] === undefined) {
@@ -75,7 +75,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             const tId = tabs[0].id ?? 1;
             chrome.tabs.sendMessage(
                 tId, { action: "fa_accessDOM"},
-                (x) => handleFAAccessDOMMessage(tId, x))
+                (x) => handleFAAccessDOMMessage(tId, x, message.action === "fa_pageLoaded"))
         });})();
     } else if (message.action === "fa_makequiz") {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
@@ -107,9 +107,13 @@ chrome.sidePanel
   .catch((error : any) => console.error(error));
 
 
-function handleFAAccessDOMMessage(tabId : number, response : DomShape) {
+function handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
     console.log(`Background received dom. TabId: ${tabId}, response:`, response);
-    backgroundState.uploadPage(tabId, response);
+    if (firstUpload) {
+        backgroundState.uploadPage(tabId, response);
+    } else {
+        backgroundState.uploadNewVersionSamePage(tabId, response);
+    }
 }
 
 function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{

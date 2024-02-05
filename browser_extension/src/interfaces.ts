@@ -36,7 +36,7 @@ export type VisitHistory = {
         }
     },
     recent_domain_visits: {
-        id: string,
+        guid: string,
         date_added: string,
         url: string,
         host: string,
@@ -76,8 +76,9 @@ export type QuizResponse = {
 }
 
 export type ChromeMessageType = 
-    // these pair of events are a 2-directional update.
+    // these three events are a 2-directional update.
       "fa_pageLoaded" 
+    | "fa_pageReloaded"  // fired if the page is a reload.
     | "fa_getCurrentPage" 
     | "fa_makequiz"
     | "fa_uploadQuizResult" 
@@ -85,7 +86,6 @@ export type ChromeMessageType =
     // these pair of events are a 2-direction update.
     | "fa_getQuizHistory"  // sent from SidePanel to Background and expects most recent cached history.
     | "fa_newQuizHistory"  // send from the Background when a new history is retrieved. Sidepanel should listen for it.
-
 
 export type ChromeMessage = {
     action : ChromeMessageType,

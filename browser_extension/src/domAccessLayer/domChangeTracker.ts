@@ -6,6 +6,7 @@ export default class DomChangeTracker {
     private lastSeenSize : number;
 
     private timerId : number | undefined;
+    private eventuallySendId : number | undefined;
 
     private timerSize : number = 3000;
 
@@ -32,12 +33,19 @@ export default class DomChangeTracker {
         if (this.isBigChange(ratio)) {
             // start the timer.
             this.timerId = window.setTimeout(this.handleTimer, this.timerSize);
+            this.eventuallySendId = window.setTimeout(this.handleTimer, this.timerSize * 5); // force a send eventually
         }
 
     }
 
     private handleTimer() {
+        // clean up both timeouts.
+        window.clearTimeout(this.eventuallySendId); 
+        this.eventuallySendId = undefined;
+        window.clearTimeout(this.timerId);
+        this.timerId = undefined;
 
+        chrome.runtime.sendMessage({action: 'fa_pageReloaded'})
     }
 
     /** doubling in size triggers. */

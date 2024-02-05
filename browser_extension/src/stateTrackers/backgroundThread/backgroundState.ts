@@ -59,6 +59,19 @@ class BackgroundState {
         });
     }
 
+    /**
+     * Handle upload of a new version of the same page. 
+     * Current upload may be in progress. If so we need to wait for it, get the id, then use it to send the update.
+     * 
+     * @param tabId 
+     * @param response 
+     */
+    public async uploadNewVersionSamePage(tabId : number, response : DomShape) {
+        this.uploadPromises[tabId].then(() => {
+            
+        });
+    }
+
     public async getOrCreateAQuiz(key : number, forceReload : boolean) : Promise<Quiz | undefined> {
         if (!forceReload && key in this.quizzes) {
             log(`Outputting cached quiz for key ${key}`);
