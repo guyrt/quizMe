@@ -16,7 +16,13 @@ class SingleUrlContext:
 
 def build_page_domain_history(single_url : SingleUrl):
     """Build a context object of history of page and of domain"""
-    previous_visits = RawDocCapture.objects.filter(active=1, url_model=single_url).order_by('-date_added')[:5]
+    previous_visits_qs = RawDocCapture.objects.filter(active=1, url_model=single_url)
+    num_previous_visits = previous_visits_qs.count()
+    if num_previous_visits > 1:
+        latest_visit = previous_visits_qs.order_by('-date_added')[1]
+    else:
+        latest_visit = None
+    
     other_urls = SingleUrl.objects\
         .filter(user=single_url.user, active=1)\
         .exclude(id=single_url.pk)\
@@ -36,7 +42,10 @@ def build_page_domain_history(single_url : SingleUrl):
     )
 
     return {
-        'recent_page_visits': previous_visits,
+        'recent_page_visits': {
+            'number_visits': num_previous_visits,
+            'latest_visit': latest_visit
+        },
         'recent_domain_visits': single_urls_with_title
     }
 

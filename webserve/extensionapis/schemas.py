@@ -4,7 +4,7 @@ from .models import RawDocCapture, SingleUrl
 
 from quizzes.schemas import QuizContextSchema
 
-from typing import Literal, List
+from typing import Literal, List, Optional
 
 
 class DomClassificationSchema(Schema):
@@ -65,8 +65,13 @@ class RawDocCaptureWithContentSchema(Schema):
     content : str
 
 
+class RecentPageVisits(Schema):
+    number_visits: int
+    latest_visit: Optional[RawDocCaptureHistorySchema] = None
+
+
 class VisitHistorySchema(Schema):
-    recent_page_visits: List[RawDocCaptureHistorySchema]
+    recent_page_visits: RecentPageVisits
     recent_domain_visits: List[SingleUrlHistorySchema]
 
 

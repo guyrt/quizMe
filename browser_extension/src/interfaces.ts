@@ -29,9 +29,12 @@ type QuizContext = {
 
 export type VisitHistory = {
     recent_page_visits: {
-        id: string,
-        date_added: string // datetime
-    }[],
+        number_visits: number,
+        latest_visit?: {
+            id: string,
+            date_added: string // datetime
+        }
+    },
     recent_domain_visits: {
         id: string,
         date_added: string,
