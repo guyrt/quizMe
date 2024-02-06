@@ -28,4 +28,4 @@ COPY webserve .
 
 EXPOSE 8000
 
-CMD ["gunicorn", "--bind", "0.0.0.0:8000", "webserve.wsgi"]
+CMD ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8000", "webserve.wsgi"]
