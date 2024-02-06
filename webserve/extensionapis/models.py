@@ -1,5 +1,6 @@
 import uuid
-from django.db import models
+from django.db import models, transaction
+from django.core.exceptions import ValidationError
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 
 from users.models import User
@@ -52,6 +53,18 @@ class RawDocCapture(ModelBaseMixin):
         handler = RawDocCaptureHander(container_name=container)
         content = handler.download(self.user, path)
         return content
+
+    def save(self, *args, **kwargs):
+        if self._state.adding:
+            # When adding a new record, simply save it.
+            super().save(*args, **kwargs)
+        else:
+            with transaction.atomic():
+            # Lock the table to prevent race conditions.
+                latest_version = RawDocCapture.objects.filter(guid=self.guid).select_for_update().aggregate(max_capture_index=models.Max('capture_index'))['max_capture_index']
+                if latest_version is not None and self.capture_index <= latest_version:
+                    raise ValidationError(f'Version must be greater than {latest_version}.')
+                super().save(*args, **kwargs)
 
 
 class SingleUrlFact(ModelBaseMixin):

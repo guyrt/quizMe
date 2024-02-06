@@ -1,5 +1,7 @@
 /// State object for the background
-import { DomShape, Quiz, SinglePageDetails, UploadedDom } from "../../interfaces";
+import { v4 as uuidv4 } from 'uuid';
+
+import { DomShape, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { getAQuiz, sendDomPayload } from "../../webInterface";
 import { sharedState } from "../sharedState";
@@ -14,12 +16,12 @@ class BackgroundState {
 
     private uploadPromises : {[key: number]: Promise<UploadedDom>} = {}
 
-    public async uploadPage(tabId : number, response : DomShape) {
+    public async uploadPage(tabId : number, domSummary : DomShape) {
         console.log("Upload started on ", tabId);
-        const record = await this.getOrCreatePageDetails(tabId, response);
+        const record = await this.getOrCreatePageDetails(tabId, domSummary);
 
         if (!await this.shouldOperateOnPage(record)) {
-            console.log(`Upload abandoned ${tabId} url ${response.url.href}`);
+            console.log(`Upload abandoned ${tabId} url ${domSummary.url.href}`);
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'donotprocess'}, true);
             return;
         }
@@ -39,11 +41,12 @@ class BackgroundState {
             return;
         }
 
-        this.uploadPromises[record.key] = sendDomPayload(t, response);
+        const uploadableDom : UploadableDomShape = {...domSummary, guid: record.guid, capture_index: record.capture_index}
+        this.uploadPromises[record.key] = sendDomPayload(t, uploadableDom);
         pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'inprogress'}, true);
 
         this.uploadPromises[record.key].then((x) => {
-            console.log(`Upload complete for tab ${tabId} url ${response.url.href}`);
+            console.log(`Upload complete for tab ${tabId} url ${domSummary.url.href}`);
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
             
             // if the page is an article then we need up to date quiz info.
@@ -148,6 +151,8 @@ class BackgroundState {
         if (missingKey || urlMismatch) {
             // If this is a new page OR this is a change of site in same tab.
             pageDetail =  {
+                guid: uuidv4(),
+                capture_index: Date.now() - 1707152956350, // subtract out from start of project.
                 domClassification: response.domClassification,
                 uploadState: 'notstarted',
                 url: response.url,

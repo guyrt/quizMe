@@ -1,4 +1,4 @@
-import { DomShape, UploadedDom, QuizResponse, Quiz, QuizHistory } from "./interfaces";
+import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory } from "./interfaces";
 import { sharedState } from "./stateTrackers/sharedState";
 import { domain } from "./globalSettings";
 
@@ -9,7 +9,7 @@ export async function uploadQuizResults(payload : QuizResponse) : Promise<undefi
 }
 
 
-export function sendDomPayload(token : string, payload : DomShape) : Promise<UploadedDom> {
+export function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
     console.log("sendDomPayload");
     const url = `${domain}/api/browser/writehtml`;
 

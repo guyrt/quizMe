@@ -25,6 +25,8 @@ class DomLocation(Schema):
 
 class DomSchema(Schema):
 
+    guid : str  # primary key suggested by the client
+    capture_index : int  # should be 0 on first write.
     dom : str  # HTML representation of the page contents.
     url : DomLocation 
     title : str = ""
@@ -60,9 +62,11 @@ class RawDocCaptureHistorySchema(ModelSchema):
 class RawDocCaptureWithContentSchema(Schema):
 
     user : str
+    capture_index : int
     url : str
     title : str
     content : str
+    reader_content : str
 
 
 class RecentPageVisits(Schema):

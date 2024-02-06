@@ -21,6 +21,12 @@ export type DomShape = {
 }
 
 
+export interface UploadableDomShape extends DomShape {
+    guid : string,
+    capture_index: number
+}
+
+
 type QuizContext = {
     previous_quiz : Quiz
     latest_results? : number[]
@@ -114,6 +120,8 @@ type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error' | 'donotp
 
 /// store information about a single uploaded article.
 export type SinglePageDetails = {
+    guid : string,
+    capture_index: number,
     domClassification : DomClassification
     url : Location
     uploadState : UploadState

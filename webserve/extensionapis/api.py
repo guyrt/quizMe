@@ -62,6 +62,8 @@ def write_dom(request, data : DomSchema = Body(...)):
     page_history_context = build_page_domain_history(obj)
 
     record = RawDocCapture.objects.create(
+        guid=data.guid,
+        capture_index=data.capture_index,
         user=user,
         location_container=container,
         location_path=filename,
@@ -87,6 +89,14 @@ def write_dom(request, data : DomSchema = Body(...)):
     return d
 
 
+def upload_new_version(request):
+    """
+    push the new files.
+    save a new copy.
+    if it succeeds, schedule a delete of old files
+    """
+
+
 @router.get("/rawdoccaptures/", response=List[RawDocCaptureSchema])
 @pagination.paginate()
 def get_raw_doc_list(request):
@@ -94,16 +104,21 @@ def get_raw_doc_list(request):
 
 
 @router.get("/rawdoccaptures/{item_id}", response=RawDocCaptureWithContentSchema)
-def get_raw_doc(request, item_id : int):
+def get_raw_doc(request, item_id : str):
     raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
 
     content = raw_doc_capture.get_content()
+    doc_content = raw_doc_capture.get_content(True)
+    if doc_content is None:
+        doc_content = ""
 
     return RawDocCaptureWithContentSchema(
         user=str(request.auth.pk),
         url=raw_doc_capture.url,
         title=raw_doc_capture.title,
-        content=content
+        content=content,
+        capture_index=raw_doc_capture.capture_index,
+        reader_content=doc_content
     )
 
 
