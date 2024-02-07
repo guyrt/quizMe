@@ -5,7 +5,7 @@ services:
     build: .
     image: flexindex.azurecr.io/web
     working_dir: /app/webserve
-    command: python manage.py runserver 0.0.0.0:8000
+    command: poetry run python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
@@ -17,7 +17,7 @@ services:
     build: .
     image: flexindex.azurecr.io/worker
     working_dir: /app/webserve
-    command: python manage.py rqworker
+    command: poetry run python manage.py rqworker
     volumes:
       - .:/app
 
