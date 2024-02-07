@@ -38,6 +38,8 @@ pdfminer-six = "^20231228"
 
 [tool.poetry.group.dev.dependencies]
 ipdb = "^0.13.13"
+ruff = "^0.2.1"
+pre-commit = "^3.6.0"
 
 [build-system]
 requires = ["poetry-core"]
