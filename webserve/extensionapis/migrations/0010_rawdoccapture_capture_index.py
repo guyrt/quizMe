@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('extensionapis', '0009_auto_20240205_0331'),
+        ("extensionapis", "0009_auto_20240205_0331"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='rawdoccapture',
-            name='capture_index',
+            model_name="rawdoccapture",
+            name="capture_index",
             field=models.IntegerField(default=0),
         ),
     ]

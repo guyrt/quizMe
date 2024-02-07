@@ -4,25 +4,34 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('privateuploads', '0001_initial'),
+        ("privateuploads", "0001_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='documentfile',
-            name='file_role',
-            field=models.CharField(choices=[('rfp', 'rfp'), ('unknown', 'unknown')], max_length=16),
+            model_name="documentfile",
+            name="file_role",
+            field=models.CharField(
+                choices=[("rfp", "rfp"), ("unknown", "unknown")], max_length=16
+            ),
         ),
         migrations.AlterField(
-            model_name='documentfile',
-            name='last_jobid',
-            field=models.CharField(default='', max_length=32),
+            model_name="documentfile",
+            name="last_jobid",
+            field=models.CharField(default="", max_length=32),
         ),
         migrations.AlterField(
-            model_name='documentfile',
-            name='processing_status',
-            field=models.CharField(choices=[('notstarted', 'notstarted'), ('done', 'done'), ('active', 'active'), ('error', 'error')], max_length=16),
+            model_name="documentfile",
+            name="processing_status",
+            field=models.CharField(
+                choices=[
+                    ("notstarted", "notstarted"),
+                    ("done", "done"),
+                    ("active", "active"),
+                    ("error", "error"),
+                ],
+                max_length=16,
+            ),
         ),
     ]

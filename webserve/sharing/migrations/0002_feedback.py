@@ -4,25 +4,32 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('sharing', '0001_initial'),
+        ("sharing", "0001_initial"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Feedback',
+            name="Feedback",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('share_link', models.CharField(max_length=512)),
-                ('name', models.CharField(max_length=512)),
-                ('feedback', models.TextField(max_length=2048)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("share_link", models.CharField(max_length=512)),
+                ("name", models.CharField(max_length=512)),
+                ("feedback", models.TextField(max_length=2048)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

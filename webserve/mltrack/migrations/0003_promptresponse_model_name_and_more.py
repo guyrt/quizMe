@@ -4,7 +4,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
         ("mltrack", "0002_promptresponse_completion_tokens_and_more"),
     ]

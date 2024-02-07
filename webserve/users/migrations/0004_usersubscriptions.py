@@ -6,25 +6,48 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('users', '0003_authtoken'),
+        ("users", "0003_authtoken"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='UserSubscriptions',
+            name="UserSubscriptions",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('subscription', models.CharField(choices=[('free', 'free'), ('monthly_quiz', 'monthly_quiz'), ('annual_quiz', 'annual_quiz')], max_length=32)),
-                ('quiz_allowance', models.IntegerField(default=5)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "subscription",
+                    models.CharField(
+                        choices=[
+                            ("free", "free"),
+                            ("monthly_quiz", "monthly_quiz"),
+                            ("annual_quiz", "annual_quiz"),
+                        ],
+                        max_length=32,
+                    ),
+                ),
+                ("quiz_allowance", models.IntegerField(default=5)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

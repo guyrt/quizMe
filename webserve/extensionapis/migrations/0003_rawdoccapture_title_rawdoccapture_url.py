@@ -4,22 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('extensionapis', '0002_rawdoccapture_parseddoccapture'),
+        ("extensionapis", "0002_rawdoccapture_parseddoccapture"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='rawdoccapture',
-            name='title',
-            field=models.CharField(default='', max_length=1024),
+            model_name="rawdoccapture",
+            name="title",
+            field=models.CharField(default="", max_length=1024),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='rawdoccapture',
-            name='url',
-            field=models.CharField(default='', max_length=2048),
+            model_name="rawdoccapture",
+            name="url",
+            field=models.CharField(default="", max_length=2048),
             preserve_default=False,
         ),
     ]

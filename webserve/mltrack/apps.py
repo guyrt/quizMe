@@ -2,5 +2,5 @@ from django.apps import AppConfig
 
 
 class MltrackConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
-    name = 'mltrack'
+    default_auto_field = "django.db.models.BigAutoField"
+    name = "mltrack"

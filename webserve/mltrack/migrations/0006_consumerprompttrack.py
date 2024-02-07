@@ -6,26 +6,39 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('mltrack', '0005_alter_extractedfact_output_role_and_more'),
+        ("mltrack", "0005_alter_extractedfact_output_role_and_more"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ConsumerPromptTrack',
+            name="ConsumerPromptTrack",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('template_name', models.CharField(max_length=64)),
-                ('template_version', models.SmallIntegerField()),
-                ('source_type', models.CharField(max_length=64)),
-                ('source_id', models.CharField(max_length=16)),
-                ('prompt_tokens', models.IntegerField(default=0)),
-                ('completion_tokens', models.IntegerField(default=0)),
-                ('model_service', models.TextField()),
-                ('model_name', models.TextField()),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("template_name", models.CharField(max_length=64)),
+                ("template_version", models.SmallIntegerField()),
+                ("source_type", models.CharField(max_length=64)),
+                ("source_id", models.CharField(max_length=16)),
+                ("prompt_tokens", models.IntegerField(default=0)),
+                ("completion_tokens", models.IntegerField(default=0)),
+                ("model_service", models.TextField()),
+                ("model_name", models.TextField()),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
     ]

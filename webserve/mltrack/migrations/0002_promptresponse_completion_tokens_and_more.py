@@ -4,20 +4,19 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('mltrack', '0001_initial'),
+        ("mltrack", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='promptresponse',
-            name='completion_tokens',
+            model_name="promptresponse",
+            name="completion_tokens",
             field=models.IntegerField(default=0),
         ),
         migrations.AddField(
-            model_name='promptresponse',
-            name='prompt_tokens',
+            model_name="promptresponse",
+            name="prompt_tokens",
             field=models.IntegerField(default=0),
         ),
     ]

@@ -4,15 +4,16 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('privateuploads', '0003_remove_documentcluster_upload_source_and_more'),
+        ("privateuploads", "0003_remove_documentcluster_upload_source_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='documentfile',
-            name='file_role',
-            field=models.CharField(choices=[('primary', 'Primary'), ('unknown', 'None')], max_length=16),
+            model_name="documentfile",
+            name="file_role",
+            field=models.CharField(
+                choices=[("primary", "Primary"), ("unknown", "None")], max_length=16
+            ),
         ),
     ]

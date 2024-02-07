@@ -4,29 +4,55 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('privateuploads', '0002_alter_documentfile_file_role_and_more'),
+        ("privateuploads", "0002_alter_documentfile_file_role_and_more"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='PromptResponse',
+            name="PromptResponse",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('template_name', models.CharField(max_length=64)),
-                ('template_version', models.SmallIntegerField()),
-                ('output_role', models.CharField(choices=[('longsummary', 'longsummary'), ('shortsummary', 'shortsummary'), ('req_details', 'req_details'), ('specific_dates', 'specific_dates'), ('legal_notes', 'legal_notes'), ('certifications', 'certifications'), ('expertise', 'expertise'), ('vendors', 'vendors'), ('suggested_questions', 'suggested_questions')], max_length=64)),
-                ('result', models.TextField()),
-                ('document_inputs', models.ManyToManyField(to='privateuploads.documentextract')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("template_name", models.CharField(max_length=64)),
+                ("template_version", models.SmallIntegerField()),
+                (
+                    "output_role",
+                    models.CharField(
+                        choices=[
+                            ("longsummary", "longsummary"),
+                            ("shortsummary", "shortsummary"),
+                            ("req_details", "req_details"),
+                            ("specific_dates", "specific_dates"),
+                            ("legal_notes", "legal_notes"),
+                            ("certifications", "certifications"),
+                            ("expertise", "expertise"),
+                            ("vendors", "vendors"),
+                            ("suggested_questions", "suggested_questions"),
+                        ],
+                        max_length=64,
+                    ),
+                ),
+                ("result", models.TextField()),
+                (
+                    "document_inputs",
+                    models.ManyToManyField(to="privateuploads.documentextract"),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

@@ -1,3 +1,5 @@
+import os
+
 from .shared_settings import *
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -17,12 +19,12 @@ DEBUG = True
 # }
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ['AZURE_POSTGRESQL_DATABASE'],
-        'HOST': os.environ['AZURE_POSTGRESQL_HOST'],
-        'USER': os.environ['AZURE_POSTGRESQL_USERNAME'],
-        'PASSWORD': os.environ['AZURE_POSTGRESQL_PASSWORD'], 
+    "default": {
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": os.environ["AZURE_POSTGRESQL_DATABASE"],
+        "HOST": os.environ["AZURE_POSTGRESQL_HOST"],
+        "USER": os.environ["AZURE_POSTGRESQL_USERNAME"],
+        "PASSWORD": os.environ["AZURE_POSTGRESQL_PASSWORD"],
     }
 }
 
@@ -33,11 +35,10 @@ DATABASES = {
 # AZURE_POSTGRESQL_PASSWORD="mosdumps123"
 
 
-
 RQ_QUEUES = {
-    'default': {
-        'URL': os.environ['rqhost'],
-        'DB': 0,
-        'DEFAULT_TIMEOUT': 3600,
+    "default": {
+        "URL": os.environ["rqhost"],
+        "DB": 0,
+        "DEFAULT_TIMEOUT": 3600,
     },
 }

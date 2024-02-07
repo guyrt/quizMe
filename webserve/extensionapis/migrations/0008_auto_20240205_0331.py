@@ -12,7 +12,7 @@ def gen_uuid(apps, schema_editor):
 
 class Migration(migrations.Migration):
     dependencies = [
-        ('extensionapis', '0007_rawdoccapture_guid'),
+        ("extensionapis", "0007_rawdoccapture_guid"),
     ]
 
     operations = [

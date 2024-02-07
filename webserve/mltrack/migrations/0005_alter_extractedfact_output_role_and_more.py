@@ -4,20 +4,51 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('mltrack', '0004_extractedfact'),
+        ("mltrack", "0004_extractedfact"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='extractedfact',
-            name='output_role',
-            field=models.CharField(choices=[('longsummary', 'longsummary'), ('shortsummary', 'shortsummary'), ('req_details', 'req_details'), ('specific_dates', 'specific_dates'), ('legal_notes', 'legal_notes'), ('certifications', 'certifications'), ('expertise', 'expertise'), ('vendors', 'vendors'), ('suggested_questions', 'suggested_questions'), ('peoplesummary', 'peoplesummary'), ('proposalquestions', 'proposalquestions'), ('tocextract', 'tocextract')], max_length=64),
+            model_name="extractedfact",
+            name="output_role",
+            field=models.CharField(
+                choices=[
+                    ("longsummary", "longsummary"),
+                    ("shortsummary", "shortsummary"),
+                    ("req_details", "req_details"),
+                    ("specific_dates", "specific_dates"),
+                    ("legal_notes", "legal_notes"),
+                    ("certifications", "certifications"),
+                    ("expertise", "expertise"),
+                    ("vendors", "vendors"),
+                    ("suggested_questions", "suggested_questions"),
+                    ("peoplesummary", "peoplesummary"),
+                    ("proposalquestions", "proposalquestions"),
+                    ("tocextract", "tocextract"),
+                ],
+                max_length=64,
+            ),
         ),
         migrations.AlterField(
-            model_name='promptresponse',
-            name='output_role',
-            field=models.CharField(choices=[('longsummary', 'longsummary'), ('shortsummary', 'shortsummary'), ('req_details', 'req_details'), ('specific_dates', 'specific_dates'), ('legal_notes', 'legal_notes'), ('certifications', 'certifications'), ('expertise', 'expertise'), ('vendors', 'vendors'), ('suggested_questions', 'suggested_questions'), ('peoplesummary', 'peoplesummary'), ('proposalquestions', 'proposalquestions'), ('tocextract', 'tocextract')], max_length=64),
+            model_name="promptresponse",
+            name="output_role",
+            field=models.CharField(
+                choices=[
+                    ("longsummary", "longsummary"),
+                    ("shortsummary", "shortsummary"),
+                    ("req_details", "req_details"),
+                    ("specific_dates", "specific_dates"),
+                    ("legal_notes", "legal_notes"),
+                    ("certifications", "certifications"),
+                    ("expertise", "expertise"),
+                    ("vendors", "vendors"),
+                    ("suggested_questions", "suggested_questions"),
+                    ("peoplesummary", "peoplesummary"),
+                    ("proposalquestions", "proposalquestions"),
+                    ("tocextract", "tocextract"),
+                ],
+                max_length=64,
+            ),
         ),
     ]

@@ -4,22 +4,21 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('extensionapis', '0005_delete_authtokens'),
+        ("extensionapis", "0005_delete_authtokens"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='rawdoccapture',
-            name='reader_location_container',
-            field=models.CharField(default='', max_length=64),
+            model_name="rawdoccapture",
+            name="reader_location_container",
+            field=models.CharField(default="", max_length=64),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='rawdoccapture',
-            name='reader_location_path',
-            field=models.CharField(default='', max_length=256),
+            model_name="rawdoccapture",
+            name="reader_location_path",
+            field=models.CharField(default="", max_length=256),
             preserve_default=False,
         ),
     ]

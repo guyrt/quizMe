@@ -6,7 +6,6 @@ import django.db.models.deletion
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -15,69 +14,159 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='DocumentCluster',
+            name="DocumentCluster",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('upload_source', models.CharField(choices=[('RFP', 'RFP'), ('PublicSEC', 'PublicSEC')], max_length=16)),
-                ('owner', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "upload_source",
+                    models.CharField(
+                        choices=[("RFP", "RFP"), ("PublicSEC", "PublicSEC")],
+                        max_length=16,
+                    ),
+                ),
+                (
+                    "owner",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='RawUpload',
+            name="RawUpload",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('format', models.CharField(choices=[('pdf', 'pdf'), ('docx', 'docx'), ('zip', 'zip')], max_length=8)),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.documentcluster')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "format",
+                    models.CharField(
+                        choices=[("pdf", "pdf"), ("docx", "docx"), ("zip", "zip")],
+                        max_length=8,
+                    ),
+                ),
+                ("location_container", models.CharField(max_length=64)),
+                ("location_path", models.CharField(max_length=256)),
+                (
+                    "document",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="privateuploads.documentcluster",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='DocumentFile',
+            name="DocumentFile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('file_role', models.CharField(max_length=16)),
-                ('doc_format', models.CharField(choices=[('pdf', 'pdf'), ('docx', 'docx'), ('zip', 'zip')], max_length=8)),
-                ('doc_name', models.TextField()),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('processing_status', models.CharField(choices=[('done', 'done'), ('active', 'active'), ('error', 'error')], max_length=8)),
-                ('last_jobid', models.CharField(max_length=32)),
-                ('document', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.documentcluster')),
-                ('source', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.rawupload')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("file_role", models.CharField(max_length=16)),
+                (
+                    "doc_format",
+                    models.CharField(
+                        choices=[("pdf", "pdf"), ("docx", "docx"), ("zip", "zip")],
+                        max_length=8,
+                    ),
+                ),
+                ("doc_name", models.TextField()),
+                ("location_container", models.CharField(max_length=64)),
+                ("location_path", models.CharField(max_length=256)),
+                (
+                    "processing_status",
+                    models.CharField(
+                        choices=[
+                            ("done", "done"),
+                            ("active", "active"),
+                            ("error", "error"),
+                        ],
+                        max_length=8,
+                    ),
+                ),
+                ("last_jobid", models.CharField(max_length=32)),
+                (
+                    "document",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="privateuploads.documentcluster",
+                    ),
+                ),
+                (
+                    "source",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="privateuploads.rawupload",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='DocumentExtract',
+            name="DocumentExtract",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('docfile', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.documentfile')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("location_container", models.CharField(max_length=64)),
+                ("location_path", models.CharField(max_length=256)),
+                (
+                    "docfile",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="privateuploads.documentfile",
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

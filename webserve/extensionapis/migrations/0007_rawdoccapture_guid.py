@@ -5,15 +5,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('extensionapis', '0006_rawdoccapture_reader_location_container_and_more'),
+        ("extensionapis", "0006_rawdoccapture_reader_location_container_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='rawdoccapture',
-            name='guid',
+            model_name="rawdoccapture",
+            name="guid",
             field=models.UUIDField(default=uuid.uuid4, null=True),
         ),
     ]

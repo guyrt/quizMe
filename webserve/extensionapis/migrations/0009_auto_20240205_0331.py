@@ -3,16 +3,16 @@
 from django.db import migrations, models
 import uuid
 
-class Migration(migrations.Migration):
 
+class Migration(migrations.Migration):
     dependencies = [
-        ('extensionapis', '0008_auto_20240205_0331'),
+        ("extensionapis", "0008_auto_20240205_0331"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='rawdoccapture',
-            name='guid',
+            model_name="rawdoccapture",
+            name="guid",
             field=models.UUIDField(default=uuid.uuid4, editable=False, unique=True),
         ),
     ]

@@ -20,15 +20,15 @@ class StructuredExtraction:
     sections."""
 
     def __init__(self) -> None:
-        self._oai = OpenAIClient(model='gpt4', temp=0.9)
+        self._oai = OpenAIClient(model="gpt4", temp=0.9)
 
-    def parse(self, doc_file_id : int) -> List[int]:
+    def parse(self, doc_file_id: int) -> List[int]:
         doc_file = DocumentFile.objects.get(id=doc_file_id)
 
         extracted_files = []
 
         # Step 1: extract the doc
-        if doc_file.doc_format == 'pdf':
+        if doc_file.doc_format == "pdf":
             extracted_files.append(self._extract_pdf(doc_file))
         else:
             raise NotImplementedError(f"RawUpload {doc_file.pk}: {doc_file.doc_format}")
@@ -40,23 +40,27 @@ class StructuredExtraction:
 
         return [de.pk for de in extracted_files]
 
-    def _extract_pdf(self, raw_obj : DocumentFile) -> DocumentExtract:
-        content = KMRawBlobHander().get_path_to_bytes(raw_obj.location_path) # note this may need to change for other types.
+    def _extract_pdf(self, raw_obj: DocumentFile) -> DocumentExtract:
+        content = KMRawBlobHander().get_path_to_bytes(
+            raw_obj.location_path
+        )  # note this may need to change for other types.
         parser = PdfParser()
-        text_content : List[str] = parser.extract_text(content)['content']
+        text_content: List[str] = parser.extract_text(content)["content"]
         raw_text = "\n".join(text_content)
 
         toc, structure = self._extract_structure(raw_text)
         structure_str = parse_json(structure)
 
         upload_path = f"{raw_obj.location_path}.extract.txt"
-        container, blob_path = KMExtractedTextBlobHander().upload(structure_str, upload_path)
+        container, blob_path = KMExtractedTextBlobHander().upload(
+            structure_str, upload_path
+        )
 
         d = DocumentExtract(
             docfile=raw_obj,
             location_container=container,
             location_path=blob_path,
-            structure='sectionsv1'
+            structure="sectionsv1",
         )
         d.save()
 
@@ -66,31 +70,33 @@ class StructuredExtraction:
         structure.save()
         return d
 
-    def _extract_structure(self, raw_text : str) -> Tuple[PromptResponse, PromptResponse]:
+    def _extract_structure(
+        self, raw_text: str
+    ) -> Tuple[PromptResponse, PromptResponse]:
         toc_response, parsed_toc = self._extract_table_of_contents(raw_text)
         sections_response = self._extract_sections_with_toc(parsed_toc, raw_text)
         return toc_response, sections_response
-    
+
     def _extract_table_of_contents(self, raw_text) -> PromptResponse:
         """Simple, single-pass prompt"""
         prompt = table_of_contents_extract_prompt
         chunks = LargeDocSplitter(self._oai).split(raw_text, 1500)
         doc = chunks[0]
-        current = fill_prompt(prompt, {'doc_content': doc})
+        current = fill_prompt(prompt, {"doc_content": doc})
         messages = [asdict(c) for c in current.content]
 
         response = self._oai.call(messages, temp=prompt.temp)
-        parsed_response = parse_json(response['response'])
+        parsed_response = parse_json(response["response"])
 
         pr = PromptResponse.objects.create(
             template_name=prompt.name,
             template_version=prompt.version,
-            output_role='tocextract',
-            result=response['response'],
-            prompt_tokens=response['prompt_tokens'],
-            completion_tokens=response['completion_tokens'],
+            output_role="tocextract",
+            result=response["response"],
+            prompt_tokens=response["prompt_tokens"],
+            completion_tokens=response["completion_tokens"],
             model_service=self._oai.api_type,
-            model_name=self._oai.engine
+            model_name=self._oai.engine,
         )
         return pr, parsed_response
 
@@ -98,9 +104,8 @@ class StructuredExtraction:
         pass
 
 
-
 @job
-def execute_doc_structure_parse(doc_cluster_id : int):
+def execute_doc_structure_parse(doc_cluster_id: int):
     """This is our queued request."""
     objs = DocumentFile.objects.filter(active=True).filter(document__id=doc_cluster_id)
     all_extracted_files = []

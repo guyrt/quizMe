@@ -4,16 +4,23 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('privateuploads', '0005_alter_documentfile_last_jobid'),
+        ("privateuploads", "0005_alter_documentfile_last_jobid"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='documentextract',
-            name='structure',
-            field=models.CharField(choices=[('rawtext', 'rawtext'), ('html', 'html'), ('sectionsv1', 'sectionsv1')], default='rawtext', max_length=64),
+            model_name="documentextract",
+            name="structure",
+            field=models.CharField(
+                choices=[
+                    ("rawtext", "rawtext"),
+                    ("html", "html"),
+                    ("sectionsv1", "sectionsv1"),
+                ],
+                default="rawtext",
+                max_length=64,
+            ),
             preserve_default=False,
         ),
     ]

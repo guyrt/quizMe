@@ -4,13 +4,15 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('extensionapis', '0004_singleurl_observedlink_rawdoccapture_url_model_and_more'),
+        (
+            "extensionapis",
+            "0004_singleurl_observedlink_rawdoccapture_url_model_and_more",
+        ),
     ]
 
     operations = [
         migrations.DeleteModel(
-            name='AuthTokens',
+            name="AuthTokens",
         ),
     ]

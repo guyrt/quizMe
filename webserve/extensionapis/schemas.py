@@ -8,34 +8,35 @@ from typing import Literal, List, Optional
 
 
 class DomClassificationSchema(Schema):
+    classification: Literal["article", "unknown"]
 
-    classification : Literal["article", "unknown"]
+    reason: Literal[
+        "hasArticleTag", "dashCount", "textContent", "id", "class", "fallthrough"
+    ]
 
-    reason : Literal["hasArticleTag", "dashCount", "textContent", "id", "class", "fallthrough"]
+    idLookup: str = None
 
-    idLookup : str = None
-
-    classLookup : str = None
+    classLookup: str = None
 
 
 class DomLocation(Schema):
     """Subset of browser Location object."""
-    href : str
+
+    href: str
 
 
 class DomSchema(Schema):
-
-    guid : str  # primary key suggested by the client
-    capture_index : int  # should be 0 on first write.
-    dom : str  # HTML representation of the page contents.
-    url : DomLocation 
-    title : str = ""
-    recordTime : int  # integer timestamp
-    byline : str = ""  # this is capture by Mozilla reader mode
-    readerContent : str = ""  # this is captured by Mozilla reader mode.
-    siteName : str = ""  # this is captured by Mozilla reader mode.
-    publishedTime : str = ""  # this is captured by Mozilla reader mode.
-    domClassification : DomClassificationSchema
+    guid: str  # primary key suggested by the client
+    capture_index: int  # should be 0 on first write.
+    dom: str  # HTML representation of the page contents.
+    url: DomLocation
+    title: str = ""
+    recordTime: int  # integer timestamp
+    byline: str = ""  # this is capture by Mozilla reader mode
+    readerContent: str = ""  # this is captured by Mozilla reader mode.
+    siteName: str = ""  # this is captured by Mozilla reader mode.
+    publishedTime: str = ""  # this is captured by Mozilla reader mode.
+    domClassification: DomClassificationSchema
 
 
 class RawDocCaptureSchema(ModelSchema):
@@ -45,28 +46,26 @@ class RawDocCaptureSchema(ModelSchema):
 
 
 class SingleUrlHistorySchema(ModelSchema):
-
-    recent_title : str
+    recent_title: str
 
     class Meta:
         model = SingleUrl
-        fields = ['id', 'date_added', 'url', 'host']
+        fields = ["id", "date_added", "url", "host"]
 
 
 class RawDocCaptureHistorySchema(ModelSchema):
     class Meta:
         model = RawDocCapture
-        fields = ['guid', 'date_added']
+        fields = ["guid", "date_added"]
 
 
 class RawDocCaptureWithContentSchema(Schema):
-
-    user : str
-    capture_index : int
-    url : str
-    title : str
-    content : str
-    reader_content : str
+    user: str
+    capture_index: int
+    url: str
+    title: str
+    content: str
+    reader_content: str
 
 
 class RecentPageVisits(Schema):
@@ -80,15 +79,13 @@ class VisitHistorySchema(Schema):
 
 
 class WriteDomReturnSchema(Schema):
-
-    raw_doc : str
-    url_obj : int
-    quiz_context : QuizContextSchema = None
+    raw_doc: str
+    url_obj: int
+    quiz_context: QuizContextSchema = None
 
 
 class WriteDomReturnSchemaWithHistory(Schema):
-
-    raw_doc : str
-    url_obj : int
-    quiz_context : QuizContextSchema = None
-    visit_history : VisitHistorySchema
+    raw_doc: str
+    url_obj: int
+    quiz_context: QuizContextSchema = None
+    visit_history: VisitHistorySchema
