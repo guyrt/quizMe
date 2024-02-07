@@ -15,22 +15,3 @@ python3.11 -m venv "secdata"
 source secdata/bin/activate
 
 ```
-
-With switch to poetry the above may nolonger be valid:
-- install [pipx](https://pipx.pypa.io/latest/installation/) for isolation of CLI tools. 
-- ensure pipx command is available
-```shell
-pipx ensurepath
-```
-- install [poetry](https://python-poetry.org/docs/) 
-```shell
-pipx install poetry
-```
-- set venv location to in-project
-```shell
- poetry config virtualenvs.in-project true
-```
-- install poetry managed deps:
-```shell
-poetry install
-```
