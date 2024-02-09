@@ -53,17 +53,19 @@ def write_dom(request, data : DomSchema = Body(...)):
     page_history_context = build_page_domain_history(obj)
 
     try:
-        r, created = RawDocCapture.objects.create(
+        r, created = RawDocCapture.objects.get_or_create(
             guid=data.guid,
-            capture_index=data.capture_index,
-            user=user,
-            location_container=container,
-            location_path=filename,
-            reader_location_container=reader_container,
-            reader_location_path=reader_filename,
-            url=url,
-            title=data.title[:1024],
-            url_model=obj
+            defaults={
+                'capture_index': data.capture_index,
+                'user': user,
+                'location_container': container,
+                'location_path': filename,
+                'reader_location_container': reader_container,
+                'reader_location_path': reader_filename,
+                'url': url,
+                'title': data.title[:1024],
+                'url_model': obj
+            }
         )
         if not created:
             enqueue(clean_raw_doc_capture, container, filename)
