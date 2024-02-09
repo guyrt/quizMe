@@ -7,7 +7,7 @@ from users.key_manager import EncryptionWrapper
 
 class EncryptedDocHandlerBase:
 
-    def __init__(self, connection_string, container_name=None):
+    def __init__(self, connection_string, container_name):
         self.connection_string = connection_string
         self.container_name = container_name
 
@@ -22,6 +22,12 @@ class EncryptedDocHandlerBase:
         encrypted_content = self._encryption_wrapper.encrypt(user, input)
         blob_client.upload_blob(encrypted_content, overwrite=True)  # todo return and store etags
         return self.container_name, full_filename
+
+    def delete(self, remote_path):
+        try:
+            self.container_client.delete_blob(remote_path)
+        except ResourceNotFoundError:
+            pass  # soft delete ok for now. Maybe a cleanup job later?
 
     def download(self, user : User, remote_path):
         try:
