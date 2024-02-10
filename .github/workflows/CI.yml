@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ] # Replace 'main' with your default branch name
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0 # Shallow clone to save time
+
+      # Pre-commit hooks using pre-commit package and husky
+      - name: Install dependencies
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11.7'
+
+      - name: Install pre-commit
+        uses: actions/checkout@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          pip install pre-commit husky
+
+      - name: Configure and checkout submodules
+        uses: actions/checkout@v2
+        working-directory: webserve/ # Replace 'my_project' with the name of your Django project directory
+        args:
+          recursive: true
+
+      - name: Install project dependencies
+        working-directory: webserve/
+        run: |
+          pip install -r requirements.txt --trusted-host pypi.python.org
+
+      # Pre-commit hooks
+      - name: Pre-commit checks
+        uses: pre-commit@latest
+        working-directory: webserve/
+        args: check
+
+      # Pytest tests
+      - name: Test
+        working-directory: webserve/
+        run: |
+          pytest --cov=webserve --cov-report xml:coverage.xml
+          codecov --file coverage.xml
