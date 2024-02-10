@@ -86,7 +86,7 @@ def make_quiz(request, body : MakeQuizIdSchemas):
         return _make_quiz_return_object(body, quiz, False)
 
     qs = RawDocCapture.objects.select_related("url_model").prefetch_related("url_model__singleurlfact_set")
-    raw_doc = get_object_or_404(qs, id=body.raw_doc, user=user, active=1)
+    raw_doc = get_object_or_404(qs, guid=body.raw_doc, user=user, active=1)
 
     # try to get an extract.
     # if none (there won't be one now) then assume someone is making one. don't wait.
