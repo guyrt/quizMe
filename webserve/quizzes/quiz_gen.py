@@ -29,7 +29,7 @@ class QuizGenerator:
 
         SimpleQuiz.objects.filter(id=quiz_id).update(status=SimpleQuiz.QuizStatus.Building)
 
-        raw_dom = parse_contents(raw_doc.get_content())
+        raw_dom = parse_contents(raw_doc.get_content_prefer_readable())
         article_content = get_rough_article_content(raw_doc, raw_dom)
         if article_content == "":
             logger.error("No article content for %s", raw_doc.pk)

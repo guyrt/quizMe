@@ -38,7 +38,7 @@ class RawDocCapture(ModelBaseMixin):
 
     url_model = models.ForeignKey(SingleUrl, on_delete=models.CASCADE, null=True)
 
-    def get_content(self, get_reader=False):
+    def get_content(self, get_reader=False) -> str:
         """get_reader=True means try to get the reader."""
         if get_reader:
             container = self.reader_location_container
@@ -53,6 +53,12 @@ class RawDocCapture(ModelBaseMixin):
         handler = RawDocCaptureHander(container_name=container)
         content = handler.download(self.user, path)
         return content
+
+    def get_content_prefer_readable(self) -> str:
+        reader_content = self.get_content(True)
+        if reader_content != "":
+            return reader_content
+        return self.get_content(False)
 
     def save(self, *args, **kwargs):
         if self._state.adding:
