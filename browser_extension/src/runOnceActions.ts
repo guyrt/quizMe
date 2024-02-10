@@ -1,4 +1,5 @@
 import { classifyPage } from "./articleDetector";
+import DomChangeTracker from "./domAccessLayer/domChangeTracker";
 import getReaderMode from "./domAccessLayer/readerModeExtract";
 import { DomShape } from "./interfaces";
 
@@ -9,6 +10,8 @@ function handleUrlChange() {
 }
 
 handleUrlChange(); // on load
+
+const domChangeTracker = new DomChangeTracker();
 
 const observer = new MutationObserver((mutations, obs) => {
     if (window.location.href !== lastUrl) {
@@ -23,7 +26,7 @@ const observer = new MutationObserver((mutations, obs) => {
     
     // handle resubmit as a different thing b/c you want to overwrite the back end 
     // i think. maybe a new layer of model - URL/PageView/Capture
-    console.log(`Mutation: ${Date.now()} ${document.body.innerText.length}`);
+    domChangeTracker.handleMutation();
 });
 
 const config = { childList: true, subtree: true };
@@ -35,12 +38,14 @@ observer.observe(targetNode, config);
 // This is a separate call response rather than simply sending in fa_pageLoaded b/c error pathways will also trigger calls INTO this context.
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action == 'fa_accessDOM') {
+        const tabId = request.payload.tabId;
+        domChangeTracker.setTabId(tabId);
         const readerMode = getReaderMode(document);
         
         const data : DomShape = {
             dom: document.body.innerHTML.toString(),
             url: document.location,
-            recordTime: new Date().getTime(),
+            recordTime: Math.floor((new Date()).getTime() / 100),  // 0.1 second resolution.
             title: readerMode?.title ?? document.title,
             byline : readerMode?.byline ?? "",
             domClassification: classifyPage(document.location),

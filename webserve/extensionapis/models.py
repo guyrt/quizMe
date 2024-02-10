@@ -24,7 +24,7 @@ class RawDocCapture(ModelBaseMixin):
     guid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
 
     # Record the capture index within an impression. Always prefer higher number
-    capture_index = models.IntegerField(default=0, null=False)
+    capture_index = models.BigIntegerField(default=0, null=False)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     url =  models.CharField(max_length=2048)
