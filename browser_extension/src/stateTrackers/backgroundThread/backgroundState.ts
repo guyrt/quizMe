@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { DomShape, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
-import { getAQuiz, sendDomPayload } from "../../webInterface";
+import { getAQuiz, sendDomPayload, sendDomPayloadUpdate } from "../../webInterface";
 import { sharedState } from "../sharedState";
 
 import { pageDetailsStore } from "./pageDetailsStore";
@@ -31,18 +31,11 @@ class BackgroundState {
             return;
         }
 
-        const t = await sharedState.getApiToken();
-        if (t == undefined) {
-            log("Unable to find api token.");
-            sharedState.deleteUserState();
+        const token = await this.getToken();
+        if (token == undefined) {return;}
 
-            // alert UI
-            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
-            return;
-        }
-
-        const uploadableDom : UploadableDomShape = {...domSummary, guid: record.guid, capture_index: record.capture_index}
-        this.uploadPromises[record.key] = sendDomPayload(t, uploadableDom);
+        const uploadableDom = this.buildUploadableDom(domSummary, record.guid, record.capture_index);
+        this.uploadPromises[record.key] = sendDomPayload(token, uploadableDom);
         pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'inprogress'}, true);
 
         this.uploadPromises[record.key].then((x) => {
@@ -69,9 +62,24 @@ class BackgroundState {
      * @param tabId 
      * @param response 
      */
-    public async uploadNewVersionSamePage(tabId : number, response : DomShape) {
+    public async uploadNewVersionSamePage(tabId : number, domSummary : DomShape) {
+        console.log(`Uploading new version of ${tabId}`);
+        const token = await this.getToken();
+        if (token == undefined) {return;}
+
+        let record : SinglePageDetails;
+        try {
+            record = await this.getPageDetails(tabId)
+            record.capture_index = this.createCaptureIndex(domSummary.recordTime);
+        } catch (e) {
+            console.error(e);
+            return;
+        }
+
+        // this doesn't set loading/unloading and I'm not sure if we should.
         this.uploadPromises[tabId].then(() => {
-            
+            const uploadableDom = this.buildUploadableDom(domSummary, record.guid, record.capture_index);
+            this.uploadPromises[record.key] = sendDomPayloadUpdate(token, uploadableDom);
         });
     }
 
@@ -114,6 +122,22 @@ class BackgroundState {
         return this.updatePayloadAndReturnQuiz(record, uploadedDom);
     }
 
+    private async getToken() : Promise<string | undefined> {
+        const t = await sharedState.getApiToken();
+        if (t == undefined) {
+            log("Unable to find api token.");
+            sharedState.deleteUserState();
+
+            // alert UI
+            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
+        }
+        return t;
+    }
+
+    private buildUploadableDom(domSummary : DomShape, guid : string, captureIndex : number) : UploadableDomShape {
+        return {...domSummary, guid: guid, capture_index: captureIndex}
+    }
+
     private updatePayloadAndReturnQuiz(record : SinglePageDetails | undefined, uploadedDom : UploadedDom | undefined) : (Quiz | undefined) {
         if (record != undefined && uploadedDom != undefined) {
             // update the dom to include the quiz.
@@ -140,6 +164,14 @@ class BackgroundState {
         return true;
     }
 
+    private async getPageDetails(key : number) : Promise<SinglePageDetails> {
+        let pageDetail = await pageDetailsStore.getPageDetails(key);
+        if (pageDetail == undefined) {
+            throw `Key not found: ${key}`;
+        }
+        return pageDetail;
+    }
+
     private async getOrCreatePageDetails(key : number, response : DomShape) : Promise<SinglePageDetails> {
         let pageDetail = await pageDetailsStore.getPageDetails(key);
         const missingKey = pageDetail == undefined;
@@ -152,7 +184,7 @@ class BackgroundState {
             // If this is a new page OR this is a change of site in same tab.
             pageDetail =  {
                 guid: uuidv4(),
-                capture_index: Date.now() - 1707152956350, // subtract out from start of project.
+                capture_index: this.createCaptureIndex(response.recordTime),
                 domClassification: response.domClassification,
                 uploadState: 'notstarted',
                 url: response.url,
@@ -168,6 +200,10 @@ class BackgroundState {
         }
 
         return Promise.resolve(pageDetail as SinglePageDetails);
+    }
+
+    private createCaptureIndex(recordTime : number) {
+        return recordTime - 17071529563; // subtract out from start of project.
     }
 
 }

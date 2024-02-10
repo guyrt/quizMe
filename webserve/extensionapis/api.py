@@ -112,6 +112,7 @@ def upload_new_version(request, data : DomSchema = Body(...)):
         }
     )
 
+    saved_new_files = False
     try:
         raw_doc_capture, created = RawDocCapture.objects.get_or_create(
             guid=data.guid,
@@ -127,28 +128,40 @@ def upload_new_version(request, data : DomSchema = Body(...)):
                 'url_model': url_obj
             }
         )
-        if not created and raw_doc_capture.capture_index < data.capture_index:
+
+        if not created:
+            logger.info("Reupload for %s used existing record. Updating index from %s to %s", raw_doc_capture.guid, raw_doc_capture.capture_index, data.capture_index)
             # todo - populate object and trigger cleanup of old items.
-            enqueue(clean_raw_doc_capture, data.location_container, data.location_path)
-            enqueue(clean_raw_doc_capture, data.reader_location_container, data.reader_location_path)
-            
-            raw_doc_capture.capture_index = data.capture_index
-            raw_doc_capture.user = raw_doc_capture.user
-            raw_doc_capture.location_container = container
-            raw_doc_capture.location_path = filename
-            raw_doc_capture.reader_location_container = reader_container
-            raw_doc_capture.reader_location_path = reader_filename
-            raw_doc_capture.url = url
-            raw_doc_capture.title = data.title[:1024]
-            raw_doc_capture.url_model = url_obj
-            raw_doc_capture.save()
+            if raw_doc_capture.capture_index < data.capture_index:
+                enqueue(clean_raw_doc_capture, raw_doc_capture.location_container, raw_doc_capture.location_path)
+                enqueue(clean_raw_doc_capture, raw_doc_capture.reader_location_container, raw_doc_capture.reader_location_path)
+                
+                raw_doc_capture.capture_index = data.capture_index
+                raw_doc_capture.user = raw_doc_capture.user
+                raw_doc_capture.location_container = container
+                raw_doc_capture.location_path = filename
+                raw_doc_capture.reader_location_container = reader_container
+                raw_doc_capture.reader_location_path = reader_filename
+                raw_doc_capture.url = url
+                raw_doc_capture.title = data.title[:1024]
+                raw_doc_capture.url_model = url_obj
+                raw_doc_capture.save()
+                saved_new_files = True
+            else:
+                logger.info("out of sync timestamps: existing is %s and new is %s", raw_doc_capture.capture_index, data.capture_index)
+        else:
+            logger.info("reupload created new record for %s", data.guid)
     except ValidationError: 
         # This means we are not most recent.
         logger.warning(f"Tried to save out of order doc for {data.guid}")
-        enqueue(clean_raw_doc_capture, data.location_container, data.location_path)
-        enqueue(clean_raw_doc_capture, data.reader_location_container, data.reader_location_path)
 
-    return {'message': 'ok'}
+    if saved_new_files:
+        return {'message': 'ok'}
+    else:
+        enqueue(clean_raw_doc_capture, container, filename)
+        enqueue(clean_raw_doc_capture, reader_container, reader_filename)
+
+        return {'message': 'ooo'}
 
 
 def _save_history(data : DomSchema, url_obj : SingleUrl):

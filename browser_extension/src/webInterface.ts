@@ -9,9 +9,16 @@ export async function uploadQuizResults(payload : QuizResponse) : Promise<undefi
 }
 
 
-export function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
+export async function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
     console.log("sendDomPayload");
     const url = `${domain}/api/browser/writehtml`;
+
+    return post(token, url, payload); // TODO - this could return undefined.
+}
+
+export async function sendDomPayloadUpdate(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
+    console.log("sendDomPayload");
+    const url = `${domain}/api/browser/rewritehtml`;
 
     return post(token, url, payload); // TODO - this could return undefined.
 }

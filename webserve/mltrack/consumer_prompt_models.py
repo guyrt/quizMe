@@ -11,7 +11,7 @@ class ConsumerPromptTrack(models.Model):
 
     # todo -> document type, document id.
     source_type = models.CharField(max_length=64)  # name of the model you used to generate data
-    source_id = models.CharField(max_length=16)  # pk of the model you used to generate data
+    source_id = models.CharField(max_length=48)  # pk of the model you used to generate data
 
     prompt_tokens = models.IntegerField(default=0)
     completion_tokens = models.IntegerField(default=0)

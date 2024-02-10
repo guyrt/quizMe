@@ -66,7 +66,8 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-    if (message.action === "fa_pageLoaded" || message.action === "fa_pageReloaded") {
+    if (message.action === "fa_pageLoaded") {
+        console.log(`Got action ${message.action}`);
         // Perform action on page load
         (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             if (tabs[0] === undefined) {
@@ -74,9 +75,19 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             }
             const tId = tabs[0].id ?? 1;
             chrome.tabs.sendMessage(
-                tId, { action: "fa_accessDOM"},
-                (x) => handleFAAccessDOMMessage(tId, x, message.action === "fa_pageLoaded"))
+                tId,
+                {action: "fa_accessDOM", payload: {tabId: tId}},
+                (x) => handleFAAccessDOMMessage(tId, x, message.action === "fa_pageLoaded")
+            );
         });})();
+    } else if (message.action === "fa_pageReloaded") {
+        console.log(`Got action ${message.action}`);
+        const tId = message.payload.tabId;
+        chrome.tabs.sendMessage(
+            tId,
+            {action: "fa_accessDOM", payload: {tabId: tId}},
+            (x) => handleFAAccessDOMMessage(tId, x, message.action === "fa_pageLoaded")
+        );
     } else if (message.action === "fa_makequiz") {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
@@ -96,7 +107,6 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             console.log("Background returning quiz history", state);
             sendResponse(state);
         })();
-        return true;
     }
 });
 
@@ -108,7 +118,7 @@ chrome.sidePanel
 
 
 function handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
-    console.log(`Background received dom. TabId: ${tabId}, response:`, response);
+    console.log(`Background received dom. TabId: ${tabId}, isFirst: ${firstUpload} response:`, response);
     if (firstUpload) {
         backgroundState.uploadPage(tabId, response);
     } else {

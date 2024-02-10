@@ -5,22 +5,20 @@ export default class DomChangeTracker {
 
     private lastSeenSize : number;
 
-    private timerId : number | undefined;
-    private eventuallySendId : number | undefined;
-
+    private timerIds : number[];
     private timerSize : number = 3000;
+    private tabId : number | undefined;
 
     public constructor() {
         this.lastSeenSize = this.getSize();
+        this.timerIds = [];
+    }
+
+    public setTabId(tabId : number) {
+        this.tabId = tabId;
     }
 
     public handleMutation() {
-        // if a timer has started then just bump time.
-        if (this.timerId != undefined) {
-            window.clearTimeout(this.timerId);
-            this.timerId = window.setTimeout(this.handleTimer, this.timerSize);
-        }
-
         const newSize = this.getSize();
         if (this.lastSeenSize == 0) {
             this.lastSeenSize = newSize;
@@ -28,24 +26,35 @@ export default class DomChangeTracker {
         }
 
         const ratio = newSize / this.lastSeenSize;
-        this.lastSeenSize = newSize;
 
         if (this.isBigChange(ratio)) {
-            // start the timer.
-            this.timerId = window.setTimeout(this.handleTimer, this.timerSize);
-            this.eventuallySendId = window.setTimeout(this.handleTimer, this.timerSize * 5); // force a send eventually
-        }
+            console.log(`Big change from ${this.lastSeenSize} to ${newSize}`);
 
+            // if a timer has started then just bump time.
+            if (this.timerIds.length > 0) {
+                this.clearIds();
+                this.timerIds.push(window.setTimeout(() => this.handleTimer(), this.timerSize));
+            } else {
+                this.timerIds.push(window.setTimeout(() => this.handleTimer(), this.timerSize));
+                this.timerIds.push(window.setTimeout(() => this.handleTimer(), this.timerSize * 5)); // force a send eventually
+            }
+        }
+        this.lastSeenSize = newSize;
+    }
+
+    private clearIds() {
+        this.timerIds.map(x => window.clearTimeout(x));
+        this.timerIds = [];
     }
 
     private handleTimer() {
         // clean up both timeouts.
-        window.clearTimeout(this.eventuallySendId); 
-        this.eventuallySendId = undefined;
-        window.clearTimeout(this.timerId);
-        this.timerId = undefined;
-
-        chrome.runtime.sendMessage({action: 'fa_pageReloaded'})
+        if (this.tabId == undefined) {
+            return;  // let a later one come along (if our fallback exists...)
+        }
+        this.clearIds();
+        console.log("Change fired");
+        chrome.runtime.sendMessage({action: 'fa_pageReloaded', payload: {tabId: this.tabId}});
     }
 
     /** doubling in size triggers. */

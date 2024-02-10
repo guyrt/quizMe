@@ -25,14 +25,14 @@ class QuizGenerator:
         self._oai = OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=self._return_tokens)
 
     def create_quiz(self, raw_doc : RawDocCapture, quiz_id : int) -> Optional[SimpleQuiz]:
-        logger.info("Creating a quiz init for %s", raw_doc.id)
+        logger.info("Creating a quiz init for %s", raw_doc.pk)
 
         SimpleQuiz.objects.filter(id=quiz_id).update(status=SimpleQuiz.QuizStatus.Building)
 
         raw_dom = parse_contents(raw_doc.get_content())
         article_content = get_rough_article_content(raw_doc, raw_dom)
         if article_content == "":
-            logger.error("No article content for %s", raw_doc.id)
+            logger.error("No article content for %s", raw_doc.pk)
             return None
 
         current_size = len(article_content)
@@ -44,7 +44,7 @@ class QuizGenerator:
         # Generate response
         quiz_content = self._run_openai(article_content)
         if not quiz_content:
-            logger.error("No content from openai for %s", raw_doc.id)
+            logger.error("No content from openai for %s", raw_doc.pk)
             return None
 
         preamble, raw_quiz_content = self._extract_quiz_json(quiz_content['response'])
