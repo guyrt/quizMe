@@ -40,6 +40,8 @@ pdfminer-six = "^20231228"
 ipdb = "^0.13.13"
 pytest = "^8.0.0"
 pre-commit = "^3.6.0"
+pytest-django = "^4.8.0"
+jupyterlab = "^4.1.0"
 
 [build-system]
 requires = ["poetry-core"]

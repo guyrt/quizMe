@@ -1,39 +1,24 @@
 version: '3'
 
 services:
-#  web:
-#    restart: always
-#    build:
-#      context: ./
-#      dockerfile: ./webserve/Dockerfile
-#    expose:
-#      - "8000"
-#    links:
-#      - postgres:postgres
-#      - redis:redis
-#    volumes:
-#      - webserve-django:/usr/src/app
-#      - webserve-static:/usr/src/app/static
-#    env_file: .env
-#    environment:
-#      DEBUG: 'true'
-#    command: /usr/local/bin/gunicorn docker_django.wsgi:application -w 2 -b :8000
-#
-#
-#  nginx:
-#    # https://hub.docker.com/_/nginx/
-#    restart: always
-#    build: ./nginx/
-#    ports:
-#      - "80:80"
-#    volumes:
-#      - webserve-static:/www/static
-#    links:
-#      - web:web
-#    # environment:
-#      # this img support env if needed
-#      # - NGINX_HOST=foobar.com
-#      # - NGINX_PORT=80
+  web:
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    ports:
+      - "5678:5678"
+    volumes:
+      - "./:/app"
+    command: sh -c "poetry run python"
+  worker:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+#    image: flexindex.azurecr.io/worker
+    working_dir: /app/webserve
+    command: poetry run python manage.py rqworker
+    volumes:
+      - .:/app
 
   pgsql:
     image: pgvector/pgvector:pg15

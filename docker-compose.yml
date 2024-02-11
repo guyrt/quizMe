@@ -2,10 +2,14 @@ version: '3'
 
 services:
   web:
-    build: .
-    image: flexindex.azurecr.io/web
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    expose:
+        - "8000"
+#    image: flexindex.azurecr.io/web
     working_dir: /app/webserve
-    command: python manage.py runserver 0.0.0.0:8000
+    command: poetry run python manage.py runserver 0.0.0.0:8000
     volumes:
       - .:/app
     ports:
@@ -14,10 +18,12 @@ services:
       - pgsql
 
   worker:
-    build: .
-    image: flexindex.azurecr.io/worker
+    build:
+      context: ./
+      dockerfile: Dockerfile
+#    image: flexindex.azurecr.io/worker
     working_dir: /app/webserve
-    command: python manage.py rqworker
+    command: poetry run python manage.py rqworker
     volumes:
       - .:/app
 
@@ -29,3 +35,17 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgressu
       - POSTGRES_PASSWORD=mosdumps123
+
+  redis:
+    restart: always
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redisdata:/data
+
+volumes:
+  web:
+  worker:
+  pgdata:
+  redisdata:

@@ -20,16 +20,19 @@ RUN poetry config virtualenvs.in-project true
 
 WORKDIR /app
 # add the two poetry env files we care about
-COPY pyproject.toml poetry.lock .
+COPY pyproject.toml poetry.lock ./
 # copy the project files
-COPY . .
-# install deps, only ones needed for a deployed run
-RUN poetry install --without dev
+COPY webserve ./
+# install deps
+
+RUN poetry install
 
 RUN apt-get purge -y gnupg2 curl build-essential unixodbc-dev zip git
 
-COPY . .
+COPY webserve ./
 
 EXPOSE 8000
 
-CMD ["poetry", "run", "gunicorn", "--bind", "0.0.0.0:8000", "webserve.wsgi"]
+# expose debugging port and set up command for running the application with PyCharm
+EXPOSE 5678
+CMD ["python", "-m", "debugpy.server", "--listen=0.0.0.0:5678"]
