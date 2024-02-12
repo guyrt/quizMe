@@ -1,17 +1,13 @@
+I do all python dev in Docker, so only Docker needs to be installed.
 
-
+To run:
 ```
-sudo apt install software-properties-common
- 
-sudo add-apt-repository ppa:deadsnakes/ppa
- 
-sudo apt update
-
- 
-sudo apt install python3.11
-sudo apt install python3.11-venv
-
-python3.11 -m venv "secdata"
-source secdata/bin/activate
-
+docker compose up
 ```
+
+To force rebuild your images:
+```
+docker compose up --force-recreate --build # this will force newest code in.
+```
+
+To build the front end: [front end readme](/browser_extension/README.md)
