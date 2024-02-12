@@ -3,20 +3,28 @@ from bs4 import BeautifulSoup
 from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
 from ..utilities import parse_contents
 
+from .recursive_html_chunker import RecursiveHtmlChunker
+from .web_embedder import default_web_embedder_singleton
+
+import logging
+
+logger = logging.getLogger("default")
+
 
 class WebParserDriver:
     """Main parser driver for our web content"""
 
     def __init__(self) -> None:
-        pass
+        self._embedder = default_web_embedder_singleton
 
     def process_impression(self, impression : RawDocCapture):
         # you could group these two statements in async.
-        raw_dom = parse_contents(impression.get_content())
+        raw_dom = parse_contents(impression.get_content(True))
         single_url = impression.url_model
 
         # these can run in parallel
-        self._classify_article(single_url, raw_dom)
+        #self._classify_article(single_url, raw_dom)
+        self._index_text(impression.guid, raw_dom)
 
     def _extract_and_create_links(self, raw_dom : BeautifulSoup):
         pass
@@ -43,5 +51,10 @@ class WebParserDriver:
 
         return obj
 
-    def _index_text(self, raw_dom : BeautifulSoup):
-        pass
+    def _index_text(self, guid : str, raw_dom : BeautifulSoup):
+        chunks = RecursiveHtmlChunker().parse(raw_dom)
+        logger.info("Parsed raw doc %s into %s chunks", guid, len(chunks))
+
+        for chunk in chunks:
+            embedding = self._embedder.embed(chunk.content)
+            print(embedding)

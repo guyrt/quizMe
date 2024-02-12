@@ -95,13 +95,16 @@ class RecursiveHtmlChunker:
 
         # if ended on strings need to merge what remains
         if len(consecutive_strings) > 0:
-            final_chunks.extend(self._merge_strings)
+            final_chunks.extend(self._merge_strings(consecutive_strings))
 
         # pass 2: merge any remaining strings to nearest neighbor if possible.
         # if one side of relationship is header use other side. If both are headers create chunks.
         # if both sides non-header either merge to shorter (easy!) or merge based on embedding nearness (harder!)
+        
+        # pass 3: merge any short chunks to a longer chunk as long as it's not a header. 
+        # prefer even sized 
 
-        return [Chunk(content=c, reason='default') if isinstance(c, str) else c for c in maybe_chunks]
+        return [Chunk(content=c, reason='default') if isinstance(c, str) else c for c in final_chunks]
 
     def _merge_strings(self, obs : List[str]) -> List[str | Chunk]:
         len_sum = sum((len(c) for c in obs))
@@ -109,7 +112,29 @@ class RecursiveHtmlChunker:
             return [Chunk(" \n".join(obs), reason='merge')]
         
         # handle too long string - split by size and recurse.
-        return obs
+        second_half = [] # will be in reverse order
+        cum_sum = 0
+        while obs:
+            o = obs.pop()
+            o_l = len(o)
+            if cum_sum + o_l < len_sum / 2:
+                second_half.append(o)
+                cum_sum += o_l
+            else:
+                break
+
+        # if obs has items and o is set then decide to add back to end or append to second_half
+        if o_l + cum_sum > (len_sum - cum_sum) + o_l:
+            # add to the first half
+            obs.append(o)
+        else:
+            second_half.append(o)
+
+        return_set = []
+        return_set.extend(self._merge_strings(obs))
+        second_half.reverse()
+        return_set.extend(self._merge_strings(second_half))
+        return return_set
 
 
 if __name__ == "__main__":
