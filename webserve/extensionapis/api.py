@@ -9,7 +9,7 @@ from django_rq import enqueue
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
 from ninja import Body, Router, pagination
-from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver, process_raw_doc
+from parser_utils.webutils.freeassociate_parser_driver import process_raw_doc
 from users.apiauth import ApiKey
 
 from .context_builder import build_page_domain_history, build_quiz_context
@@ -190,8 +190,8 @@ def get_raw_doc_list(request):
     return RawDocCapture.objects.filter(user=request.auth, active=1)
 
 
-@router.get("/rawdoccaptures/{item_id}", response=RawDocCaptureWithContentSchema)
-def get_raw_doc(request, item_id : str):
+@router.get("/rawdoccaptures/{item_id}^", response=RawDocCaptureWithContentSchema)
+def get_raw_doc(request, item_id : uuid.UUID):
     raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
 
     content = raw_doc_capture.get_content()
@@ -209,12 +209,12 @@ def get_raw_doc(request, item_id : str):
     )
 
 
-@router.post("/rawdoccaptures/{item_id}/parse")
-def parse_raw_doc(request, item_id : int):
+@router.get("/rawdoccaptures/{item_id}/reprocess")
+def reprocess_raw_doc(request, item_id : uuid.UUID):
     raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
-    driver = WebParserDriver()
-    driver.process_impression(raw_doc_capture)
-    return {'message': 'ok'}
+    enqueue(process_raw_doc, raw_doc_capture.guid)
+    return {'status': 'ok'}
+
 
 
 def upload_dom(user, data : DomSchema):
