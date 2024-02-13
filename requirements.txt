@@ -33,6 +33,7 @@ sentry_sdk
 django-ninja>=1.0.1
 
 psycopg2-binary
+pgvector
 gunicorn
 whitenoise
 
