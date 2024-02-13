@@ -84,7 +84,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                     {quizzesRemaining > 0 && 
                         <div className="buttonWrap">
                             <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>
-                                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Got the point?"}
+                                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Get the point!"}
                             </button>
                         </div>
                     }
