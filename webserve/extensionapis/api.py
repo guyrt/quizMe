@@ -9,7 +9,7 @@ from django_rq import enqueue
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
 from ninja import Body, Router, pagination
-from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver
+from parser_utils.webutils.freeassociate_parser_driver import WebParserDriver, process_raw_doc
 from users.apiauth import ApiKey
 
 from .context_builder import build_page_domain_history, build_quiz_context
@@ -71,6 +71,8 @@ def write_dom(request, data : DomSchema = Body(...)):
             enqueue(clean_raw_doc_capture, container, filename)
             enqueue(clean_raw_doc_capture, reader_container, reader_filename)
             # no need to try to save... this has lower capture index.
+        else:
+            enqueue(process_raw_doc, data.guid)
     except ValidationError:
         pass  # this happens if a different upload beat us to it.
 
@@ -147,6 +149,8 @@ def upload_new_version(request, data : DomSchema = Body(...)):
                 raw_doc_capture.url_model = url_obj
                 raw_doc_capture.save()
                 saved_new_files = True
+                
+                enqueue(process_raw_doc, data.guid)
             else:
                 logger.info("out of sync timestamps: existing is %s and new is %s", raw_doc_capture.capture_index, data.capture_index)
         else:

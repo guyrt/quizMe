@@ -1,4 +1,6 @@
+import uuid
 from django.db import models
+from pgvector.django import VectorField
 
 from users.models import User
 
@@ -18,3 +20,19 @@ class ConsumerPromptTrack(models.Model):
 
     model_service = models.TextField()
     model_name = models.TextField()
+
+
+class UserLevelVectorIndex(models.Model):
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    doc_id = models.UUIDField()
+    doc_url = models.CharField(max_length=2024)
+
+    doc_chunk = models.TextField()
+    doc_chunk_type = models.CharField(max_length=32)
+    
+    embedding = VectorField(dimensions=1024)
+    embedding_type = models.CharField(max_length=32)

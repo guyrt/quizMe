@@ -1,10 +1,15 @@
+from typing import List
+from uuid import UUID
 from bs4 import BeautifulSoup
+from django.db import transaction
+from django_rq import job
 
 from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
+from mltrack.consumer_prompt_models import UserLevelVectorIndex
 from ..utilities import parse_contents
 
 from .recursive_html_chunker import RecursiveHtmlChunker
-from .web_embedder import default_web_embedder_singleton
+from .web_embedder import WebDocEmbedder
 
 import logging
 
@@ -15,16 +20,16 @@ class WebParserDriver:
     """Main parser driver for our web content"""
 
     def __init__(self) -> None:
-        self._embedder = default_web_embedder_singleton
+        self._embedder = WebDocEmbedder()
 
     def process_impression(self, impression : RawDocCapture):
         # you could group these two statements in async.
-        raw_dom = parse_contents(impression.get_content(True))
+        raw_dom = parse_contents(impression.get_content_prefer_readable())
         single_url = impression.url_model
 
         # these can run in parallel
         #self._classify_article(single_url, raw_dom)
-        self._index_text(impression.guid, raw_dom)
+        self._index_text(impression, raw_dom)
 
     def _extract_and_create_links(self, raw_dom : BeautifulSoup):
         pass
@@ -51,10 +56,39 @@ class WebParserDriver:
 
         return obj
 
-    def _index_text(self, guid : str, raw_dom : BeautifulSoup):
+    def _index_text(self, impression : RawDocCapture, raw_dom : BeautifulSoup):
         chunks = RecursiveHtmlChunker().parse(raw_dom)
-        logger.info("Parsed raw doc %s into %s chunks", guid, len(chunks))
+        logger.info("Parsed raw doc %s into %s chunks", impression.pk, len(chunks))
 
-        for chunk in chunks:
-            embedding = self._embedder.embed(chunk.content)
-            print(embedding)
+        embeddings = self._embedder.embed([chunk.content for chunk in chunks])
+        vector_models : List[UserLevelVectorIndex] = []
+        for i, chunk in enumerate(chunks):
+            embedding = embeddings[i]
+
+            vector_models.append(
+                UserLevelVectorIndex(
+                    user=impression.user,
+                    doc_id=impression.guid,
+                    doc_url=impression.url,
+
+                    doc_chunk=chunk.content,
+                    doc_chunk_type=chunk.reason,
+                    embedding=embedding.tolist(),
+                    embedding_type=self._embedder.embedding_name
+                )
+            )
+
+        self._update_for_doc(impression.pk, vector_models)
+
+    def _update_for_doc(self, doc_guid : UUID, new_vectors : List[UserLevelVectorIndex]):
+        with transaction.atomic():
+            UserLevelVectorIndex.objects.filter(doc_id=doc_guid).delete()
+            UserLevelVectorIndex.objects.bulk_create(new_vectors)
+
+
+@job
+def process_raw_doc(pk : str):
+    logger.info("Start to process %s", pk)
+    w = WebParserDriver()
+    r = RawDocCapture.objects.get(guid=pk)
+    w.process_impression(r)

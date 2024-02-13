@@ -3,21 +3,30 @@ from sentence_transformers import SentenceTransformer
 
 from django.conf import settings
 
+
+def singleton(cls):
+    instances = {}
+    def get_instance(*args, **kwargs):
+        if cls not in instances:
+            instances[cls] = cls(*args, **kwargs)
+        return instances[cls]
+    return get_instance
+
+
+@singleton
 class WebDocEmbedder:
     """Basic embedder - only one kind for now."""
 
     def __init__(self, embedding_name=None) -> None:
         if embedding_name is None:
             embedding_name = settings.DEFAULT_WEB_EMBEDDING_MODEL
-        self._embedding_name = embedding_name
-        self._model = SentenceTransformer('BAAI/bge-large-en-v1.5')
+        self.embedding_name = embedding_name
+        self._model = SentenceTransformer(self.embedding_name)
 
     def embed(self, content):
-        return self._model.encode(content, normalize_embeddings=True)
+        return self._model.encode(content, normalize_embeddings=True, batch_size=16)
 
     def embed_query(self, content):
         q = 'Represent this sentence for searching relevant passages: '
         self._model.encode(q + content, normalize_embeddings=True)
 
-# This will trigger a load of the model weights if one hasn't happened already. Cheap but we'll want to fix in prod.
-default_web_embedder_singleton = WebDocEmbedder()
