@@ -101,7 +101,7 @@ class QuizGenerator:
 
 
     def _run_openai(self, article_content : str):
-        current = fill_prompt(quiz_gen, {'doc_content': article_content, 'num_questions': 'three'})
+        current = fill_prompt(quiz_gen, {'doc_content': article_content, 'num_questions': 'one'})
         messages = [asdict(c) for c in current.content]
         try:
             response = self._oai.call(messages, temp=quiz_gen.temp)
