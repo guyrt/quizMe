@@ -78,21 +78,21 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     return (
         <div>
             {finiteState == "QuizBeingDeveloped" ? 
-                <div>Building a quiz!</div> 
+                <div>Generating...</div> 
                 : 
                 <>
                     {quizzesRemaining > 0 && 
                         <div className="buttonWrap">
                             <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>
-                                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Quiz me!"}
+                                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Got the point?"}
                             </button>
                         </div>
                     }
                     {
-                        quizzesRemaining == Infinity ? <></> : <p className='note-text'>{quizzesRemaining} of {quizHistory?.quiz_allowance} remaining.</p>
+                        quizzesRemaining == Infinity ? <></> : <p className='note-text'>{quizzesRemaining} of {quizHistory?.quiz_allowance} points remaining.</p>
                     }                    
                     {
-                        quizzesRemaining <= 0 ? <div className="buttonWrap"><button className="standard" onClick={getMoreQuizzes}>Get more quizzes</button></div> : <></>
+                        quizzesRemaining <= 0 ? <div className="buttonWrap"><button className="standard" onClick={getMoreQuizzes}>Get more points!</button></div> : <></>
                     }
                 </>
             }
@@ -101,6 +101,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                 && <QuizInProgress quiz={quiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
             {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == 'scored' 
                 && <QuizGraded quiz={quiz} quizAnswers={quizAnswers} />}
+            <hr />
         </div>
     );
 };

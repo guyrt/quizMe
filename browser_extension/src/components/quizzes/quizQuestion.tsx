@@ -1,5 +1,5 @@
 // Single question including the question and answers.
-import React from "react";
+import React, {useState} from "react";
 import { Quiz, QuizQuestion, QuizResponse } from "../../interfaces";
 import { QuizStatus } from "./quizInterfaces";
 
@@ -33,7 +33,6 @@ export const QuizInProgress: React.FC<{
 
     return (
         <div>
-            <p>Here's your quiz!</p>
             {quiz.content.map((quizQuestion, i) => (
                 <QuizQuestionComponent
                     key={`item_${i}`} 
@@ -56,17 +55,27 @@ const QuizQuestionComponent: React.FC<{
     onAnswerClick: (index: number) => void;
 }> = ({ idx, question, selectedAnswer, onAnswerClick }) => {
 
+    const [animatingAnswer, setAnimatingAnswer] = useState<number | null>(null);
+
+    function handleclick(i : number) {
+        setAnimatingAnswer(i);
+        onAnswerClick(i)
+
+        // Reset the animation state after a short delay to allow re-animation
+        setTimeout(() => setAnimatingAnswer(null), 500); // 500ms matches your CSS animation duration
+    }
+
     return (
         <div className="quizQuestion">
-            <span className='quiz-index'>{idx + 1}.</span>
+            {/* <span className='quiz-index'>{idx + 1}.</span> */}
             <div className='quizQuestionContent'>
                 <span>{question.question}</span>
                 {question.answers.map((answer, i) => (
                     <p 
-                        onClick={() => onAnswerClick(i)} 
+                        onClick={() => handleclick(i)} 
                         key={`item_${i}`}
                         data-index={i} 
-                        className={`quizAnswer ${selectedAnswer === i ? "selected" : ""}`}
+                        className={`quizAnswer ${selectedAnswer === i ? "selected" : ""} ${animatingAnswer === i ? 'animate-click' : ''}`}
                     >
                         {answer.answer}
                     </p>

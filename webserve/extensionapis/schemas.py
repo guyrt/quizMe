@@ -46,7 +46,7 @@ class RawDocCaptureSchema(ModelSchema):
 
 class SingleUrlHistorySchema(ModelSchema):
 
-    recent_title : str
+    recent_title : str | None = None
 
     class Meta:
         model = SingleUrl
