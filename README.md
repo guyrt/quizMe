@@ -30,5 +30,13 @@ Container d5cfd runs web
 ```shell
 docker exec -it d5cfd127c1ec bash
 ```
+#### All in one to do the prior tree steps in one-pass. Testing utility for a debug/run config in the editor:
+```shell
+docker compose up -d --no-start &
+#docker compose up -d  &
+sleep 5 
+CONTAINER_ID=$(docker ps | grep web | awk '{print $1}')
+docker exec -it ${CONTAINER_ID} bash
 
+```
 To build the front end: [front end readme](./browser_extension/README.md)
