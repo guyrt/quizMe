@@ -28,4 +28,4 @@ e4bc7c46c444   flexindex.azurecr.io/worker   "python manage.py rq…"   5 days a
 docker exec -it d5c bash
 ```
 
-To build the front end: [front end readme](/browser_extension/README.md)
+To build the front end: [front end readme](./browser_extension/README.md)
