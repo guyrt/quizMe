@@ -59,7 +59,7 @@ class RecursiveHtmlChunker:
             if total_length > self._max_chunk_length:
                 return children
             
-            inner_content = "\n".join([str(s) for s in children])
+            inner_content = "\n".join([str(s) for s in children]).strip()
             if total_length > self._min_chunk_length:
                 return [Chunk(content=inner_content, reason=dom.name)]
             else:
@@ -82,6 +82,7 @@ class RecursiveHtmlChunker:
 
         # pass 1: consolidate
         consecutive_strings : List[str] = []
+        maybe_chunks = (c for c in maybe_chunks if len(c) > 0)
         for obj in maybe_chunks:
             if isinstance(obj, Chunk):
                 # merge in all remaining chunks

@@ -67,8 +67,8 @@ function showCircle() {
     const circle = document.createElement('div');
     
     // Style the circle
-    circle.style.width = '50px';
-    circle.style.height = '50px';
+    circle.style.width = '25px';
+    circle.style.height = '25px';
     circle.style.backgroundColor = 'purple';
     circle.style.borderRadius = '50%';
     circle.style.position = 'fixed';
