@@ -26,7 +26,7 @@ d5cfd127c1ec   flexindex.azurecr.io/web      "python manage.py ru…"   5 days a
 213aab17c615   pgvector/pgvector:pg15        "docker-entrypoint.s…"   5 days ago   Up 8 seconds   5432/tcp                 financeexplorer-pgsql-1
 e4bc7c46c444   flexindex.azurecr.io/worker   "python manage.py rq…"   5 days ago   Up 8 seconds   8000/tcp                 financeexplorer-worker-1
 ```
-Contaienr d5cfd runs web
+Container d5cfd runs web
 ```shell
 docker exec -it d5cfd127c1ec bash
 ```
