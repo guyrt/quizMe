@@ -11,6 +11,7 @@ from django.shortcuts import get_object_or_404
 from ninja import Body, Router, pagination
 from parser_utils.webutils.freeassociate_parser_driver import process_raw_doc
 from users.apiauth import ApiKey
+from mltrack.search.relevant_chunks import NoChunksError, find_relevant_chunks
 
 from .context_builder import build_page_domain_history, build_quiz_context
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
@@ -215,6 +216,14 @@ def reprocess_raw_doc(request, item_id : uuid.UUID):
     enqueue(process_raw_doc, raw_doc_capture.guid)
     return {'status': 'ok'}
 
+
+@router.get("/rawdoccaptures/{item_id}/search")
+def search_doc(request, item_id : uuid.UUID):
+    raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
+    try:
+        return find_relevant_chunks(raw_doc_capture)
+    except NoChunksError:
+        return {'status': 'wait'}
 
 
 def upload_dom(user, data : DomSchema):
