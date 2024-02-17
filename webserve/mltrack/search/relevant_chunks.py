@@ -1,3 +1,4 @@
+from django.db import models
 from extensionapis.models import RawDocCapture
 from mltrack.consumer_prompt_models import UserLevelVectorIndex
 
@@ -23,19 +24,21 @@ def find_relevant_chunks(raw_doc : RawDocCapture):
 
     chunk_matches = []
     for chunk in chunks:
-        matches = UserLevelVectorIndex.objects.search_by_embedding(
+        matches : models.Manager = UserLevelVectorIndex.objects.search_by_embedding(
             user_id=raw_doc.user.pk,
             embedding_vector=chunk.embedding,
-            excluding_doc_id=raw_doc.guid,
-            take=3
+            exclude_doc_id=raw_doc.guid,
+            take=3,
+            include_dist=True
         )
 
         processed_matches = [
             {
                 'doc_id': m.doc_id,
                 'url': m.doc_url,
-                'chunk': m.chunk,
-                'rank': i
+                'chunk': m.doc_chunk,
+                'rank': i,
+                'score': m.dist
             }
         for i, m in enumerate(matches)]
 

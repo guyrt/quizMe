@@ -3,6 +3,7 @@ from uuid import UUID
 from bs4 import BeautifulSoup
 from django.db import transaction
 from django_rq import job
+from torch import sin
 
 from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
 from mltrack.consumer_prompt_models import UserLevelVectorIndex
@@ -26,17 +27,17 @@ class WebParserDriver:
         # you could group these two statements in async.
         raw_dom = parse_contents(impression.get_content_prefer_readable())
         single_url = impression.url_model
-        
 
         # these can run in parallel
         #self._classify_article(single_url, raw_dom)
-        self._index_text(impression, raw_dom)
+        self._index_text(impression, single_url, raw_dom)
 
     def _extract_and_create_links(self, raw_dom : BeautifulSoup):
         pass
 
-    def _index_text(self, impression : RawDocCapture, raw_dom : BeautifulSoup):
+    def _index_text(self, impression : RawDocCapture, single_url : SingleUrl, raw_dom : BeautifulSoup):
         chunks = RecursiveHtmlChunker().parse(raw_dom)
+        chunks = [c for c in chunks if len(c) > 0]
         logger.info("Parsed raw doc %s into %s chunks", impression.pk, len(chunks))
 
         embeddings = self._embedder.embed([chunk.content for chunk in chunks])
@@ -47,7 +48,7 @@ class WebParserDriver:
             vector_models.append(
                 UserLevelVectorIndex(
                     user=impression.user,
-                    doc_id=impression.guid,
+                    doc_id=single_url.pk,
                     doc_url=impression.url,
 
                     doc_chunk=chunk.content,
@@ -66,8 +67,10 @@ class WebParserDriver:
 
 
 @job
-def process_raw_doc(pk : str):
-    logger.info("Start to process %s", pk)
+def process_raw_doc(single_url_pk : int):
+    logger.info("Start to process %s", single_url_pk)
     w = WebParserDriver()
-    r = RawDocCapture.objects.get(guid=pk)
+    surl = SingleUrl.objects.get(id=single_url_pk)
+    r = surl.rawdoccapture_set.order_by('-date_added').first()
+
     w.process_impression(r)

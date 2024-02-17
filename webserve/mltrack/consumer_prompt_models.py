@@ -30,6 +30,8 @@ class UserLevelVectorIndex(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # this should be a SingleUrl.
     doc_id = models.UUIDField()
     doc_url = models.CharField(max_length=2024)
 
