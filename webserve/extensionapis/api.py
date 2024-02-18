@@ -99,7 +99,7 @@ def upload_new_version(request, data : DomSchema = Body(...)):
     save a new copy.
     if it succeeds, schedule a delete of old files.
     """
-    logger.info("Got more recent upload for %s", data.pk)
+    logger.info("Got more recent upload for %s", data.guid)
     user = request.auth
     url = data.url.href[:2048]
 
