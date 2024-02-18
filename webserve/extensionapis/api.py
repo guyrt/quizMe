@@ -210,7 +210,7 @@ def get_raw_doc(request, item_id : uuid.UUID):
     )
 
 
-@router.get("/rawdoccaptures/{item_id}/reprocess")
+@router.get("/url/{item_id}/reprocess")
 def reprocess_raw_doc(request, item_id : uuid.UUID):
     single_url = get_object_or_404(SingleUrl, id=item_id, active=1, user=request.auth)
     enqueue(process_raw_doc, single_url.pk)
