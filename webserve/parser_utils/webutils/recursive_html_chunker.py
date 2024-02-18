@@ -2,12 +2,12 @@ import bs4
 
 from dataclasses import dataclass
 
-from typing import Iterable, List
+from typing import Iterable, List, Literal
 
 @dataclass
 class Chunk:
     content : str
-    reason : str
+    reason : Literal["headermerge", "merge", 'div', 'p', 'ul']
 
     def __len__(self):
         return len(self.content)
@@ -19,7 +19,7 @@ class Chunk:
 class RecursiveHtmlChunker:
     """Chunker that respects common HTML patterns.
     
-    Aims for XXX length chunks.
+    Aims for self._max_chunk_length length chunks.
     """
 
     def __init__(self) -> None:
@@ -78,34 +78,34 @@ class RecursiveHtmlChunker:
         return children_results
 
     def _consolidate_chunks(self, maybe_chunks : List[Chunk | str]) -> List[Chunk]:
-        final_chunks : List[Chunk] = []
+        # clear empties.
+        maybe_chunks = [c for c in maybe_chunks if len(c) > 0]
 
-        # pass 1: consolidate
-        consecutive_strings : List[str] = []
-        maybe_chunks = (c for c in maybe_chunks if len(c) > 0)
-        for obj in maybe_chunks:
-            if isinstance(obj, Chunk):
-                # merge in all remaining chunks
-                final_chunks.extend(self._merge_strings(consecutive_strings))
-                consecutive_strings.clear()
+        chunks : List[Chunk] = [Chunk(content=c, reason='default') if isinstance(c, str) else c for c in maybe_chunks]
 
-                # append this chunk
-                final_chunks.append(obj)
+        # pass 0: merge headers to the subsequent section. It's ok to ignore length here.
+        chunks = self._merge_headers(chunks)
+
+        # pass 1: merge any short chunks to a longer chunk. prefer even.
+
+        return chunks
+
+    def _merge_headers(self, in_chunks : List[Chunk]) -> List[Chunk]:
+        """Merge headers into next chunk. Assumes that there are not two back to back header chunks. TODO fix that."""
+        ret_chunks = []
+        i = 0
+        while i < len(in_chunks):
+            chunk = in_chunks[i]
+            if chunk.reason == "header" and i < len(in_chunks) - 1 and in_chunks[i +1 ].reason != 'header':
+                # there are more chunks
+                next_chunk = in_chunks[i+1]
+                ret_chunks.append(Chunk(content="\n".join([chunk.content, next_chunk.content]), reason='headermerge'))
+                i += 2
             else:
-                consecutive_strings.append(obj)
+                ret_chunks.append(chunk)
+                i += 1
 
-        # if ended on strings need to merge what remains
-        if len(consecutive_strings) > 0:
-            final_chunks.extend(self._merge_strings(consecutive_strings))
-
-        # pass 2: merge any remaining strings to nearest neighbor if possible.
-        # if one side of relationship is header use other side. If both are headers create chunks.
-        # if both sides non-header either merge to shorter (easy!) or merge based on embedding nearness (harder!)
-        
-        # pass 3: merge any short chunks to a longer chunk as long as it's not a header. 
-        # prefer even sized 
-
-        return [Chunk(content=c, reason='default') if isinstance(c, str) else c for c in final_chunks]
+        return ret_chunks
 
     def _merge_strings(self, obs : List[str]) -> List[str | Chunk]:
         len_sum = sum((len(c) for c in obs))

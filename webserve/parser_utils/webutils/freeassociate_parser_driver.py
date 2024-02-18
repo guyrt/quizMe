@@ -1,12 +1,10 @@
 from typing import List
-from uuid import UUID
 from bs4 import BeautifulSoup
 from django.db import transaction
 from django_rq import job
 from pydantic import UUID4
-from torch import sin
 
-from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
+from extensionapis.models import RawDocCapture, SingleUrl
 from mltrack.consumer_prompt_models import UserLevelVectorIndex
 from ..utilities import parse_contents
 
@@ -55,16 +53,17 @@ class WebParserDriver:
                     doc_chunk=chunk.content,
                     doc_chunk_type=chunk.reason,
                     embedding=embedding.tolist(),
-                    embedding_type=self._embedder.embedding_name
+                    embedding_type=self._embedder.embedding_name,
+                    chunk_index=i
                 )
             )
 
         self._update_for_doc(single_url, vector_models)
 
     def _update_for_doc(self, url : SingleUrl, new_vectors : List[UserLevelVectorIndex]):
-      #  with transaction.atomic():
-        UserLevelVectorIndex.objects.filter(doc_id=url.pk).delete()
-        UserLevelVectorIndex.objects.bulk_create(new_vectors)
+        with transaction.atomic():
+            UserLevelVectorIndex.objects.filter(doc_id=url.pk).delete()
+            UserLevelVectorIndex.objects.bulk_create(new_vectors)
 
 
 @job
