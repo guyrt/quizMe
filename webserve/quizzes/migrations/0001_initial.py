@@ -13,30 +13,28 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Feedback',
+            name='SimpleQuiz',
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('date_modified', models.DateTimeField(auto_now=True)),
                 ('active', models.BooleanField(default=True)),
-                ('share_link', models.CharField(max_length=512)),
-                ('name', models.CharField(max_length=512)),
-                ('feedback', models.TextField(max_length=2048)),
+                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('status', models.CharField(choices=[('notstarted', 'NotStarted'), ('building', 'Building'), ('completed', 'Completed'), ('error', 'Error')], default='notstarted', max_length=16)),
+                ('content', models.TextField(max_length=10000)),
+                ('reasoning', models.TextField(max_length=10000)),
             ],
             options={
                 'abstract': False,
             },
         ),
         migrations.CreateModel(
-            name='ShareRequest',
+            name='SimpleQuizResults',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('date_modified', models.DateTimeField(auto_now=True)),
                 ('active', models.BooleanField(default=True)),
-                ('shared_object', models.CharField(max_length=128)),
-                ('shared_pk', models.IntegerField()),
-                ('share_link', models.CharField(max_length=512)),
+                ('results', models.TextField(max_length=64)),
             ],
             options={
                 'abstract': False,

@@ -2,7 +2,7 @@ import json
 from django.db import models
 import markdown
 
-from .known_fact_formatters import format_specific_date_to_object, format_requirements
+from .rfpstuff.known_fact_formatters import format_specific_date_to_object, format_requirements
 
 from privateuploads.models import DocumentCluster, DocumentExtract
 from webserve.mixins import ModelBaseMixin

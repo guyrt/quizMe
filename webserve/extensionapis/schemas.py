@@ -56,7 +56,7 @@ class SingleUrlHistorySchema(ModelSchema):
 class RawDocCaptureHistorySchema(ModelSchema):
     class Meta:
         model = RawDocCapture
-        fields = ['guid', 'date_added']
+        fields = ['id', 'date_added']
 
 
 class RawDocCaptureWithContentSchema(Schema):
@@ -82,13 +82,13 @@ class VisitHistorySchema(Schema):
 class WriteDomReturnSchema(Schema):
 
     raw_doc : str
-    url_obj : int
+    url_obj : str
     quiz_context : QuizContextSchema = None
 
 
 class WriteDomReturnSchemaWithHistory(Schema):
 
     raw_doc : str
-    url_obj : int
+    url_obj : str
     quiz_context : QuizContextSchema = None
     visit_history : VisitHistorySchema

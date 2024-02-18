@@ -1,5 +1,7 @@
 import uuid
 from django.db import models
+from .consumer_prompt_managers import UserLevelVectorIndexManager
+
 from pgvector.django import VectorField
 
 from users.models import User
@@ -28,6 +30,8 @@ class UserLevelVectorIndex(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    # this should be a SingleUrl.
     doc_id = models.UUIDField()
     doc_url = models.CharField(max_length=2024)
 
@@ -36,3 +40,6 @@ class UserLevelVectorIndex(models.Model):
     
     embedding = VectorField(dimensions=1024)
     embedding_type = models.CharField(max_length=32)
+
+    objects = UserLevelVectorIndexManager()
+    
