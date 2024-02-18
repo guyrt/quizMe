@@ -55,7 +55,7 @@ def write_dom(request, data : DomSchema = Body(...)):
 
     try:
         r, created = RawDocCapture.objects.get_or_create(
-            guid=data.guid,
+            id=data.guid,
             defaults={
                 'capture_index': data.capture_index,
                 'user': user,
@@ -99,7 +99,7 @@ def upload_new_version(request, data : DomSchema = Body(...)):
     save a new copy.
     if it succeeds, schedule a delete of old files.
     """
-    logger.info("Got more recent upload for %s", data.guid)
+    logger.info("Got more recent upload for %s", data.pk)
     user = request.auth
     url = data.url.href[:2048]
 
@@ -118,7 +118,7 @@ def upload_new_version(request, data : DomSchema = Body(...)):
     saved_new_files = False
     try:
         raw_doc_capture, created = RawDocCapture.objects.get_or_create(
-            guid=data.guid,
+            id=data.guid,
             defaults={
                 'capture_index': data.capture_index,
                 'user': user,
@@ -133,7 +133,7 @@ def upload_new_version(request, data : DomSchema = Body(...)):
         )
 
         if not created:
-            logger.info("Reupload for %s used existing record. Updating index from %s to %s", raw_doc_capture.guid, raw_doc_capture.capture_index, data.capture_index)
+            logger.info("Reupload for %s used existing record. Updating index from %s to %s", raw_doc_capture.pk, raw_doc_capture.capture_index, data.capture_index)
             # todo - populate object and trigger cleanup of old items.
             if raw_doc_capture.capture_index < data.capture_index:
                 enqueue(clean_raw_doc_capture, raw_doc_capture.location_container, raw_doc_capture.location_path)
@@ -193,7 +193,7 @@ def get_raw_doc_list(request):
 
 @router.get("/rawdoccaptures/{item_id}^", response=RawDocCaptureWithContentSchema)
 def get_raw_doc(request, item_id : uuid.UUID):
-    raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
+    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
 
     content = raw_doc_capture.get_content()
     doc_content = raw_doc_capture.get_content(True)
@@ -212,14 +212,14 @@ def get_raw_doc(request, item_id : uuid.UUID):
 
 @router.get("/rawdoccaptures/{item_id}/reprocess")
 def reprocess_raw_doc(request, item_id : uuid.UUID):
-    raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
-    enqueue(process_raw_doc, raw_doc_capture.guid)
+    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
+    enqueue(process_raw_doc, raw_doc_capture.pk)
     return {'status': 'ok'}
 
 
 @router.get("/rawdoccaptures/{item_id}/search")
 def search_doc(request, item_id : uuid.UUID):
-    raw_doc_capture = get_object_or_404(RawDocCapture, guid=item_id, active=1, user=request.auth)
+    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
     try:
         return find_relevant_chunks(raw_doc_capture)
     except NoChunksError:

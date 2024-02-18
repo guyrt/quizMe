@@ -21,8 +21,6 @@ class SingleUrl(ModelBaseMixin):
 class RawDocCapture(ModelBaseMixin):
     """Single impression."""
     
-    guid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
-
     # Record the capture index within an impression. Always prefer higher number
     capture_index = models.BigIntegerField(default=0, null=False)
 
@@ -67,7 +65,7 @@ class RawDocCapture(ModelBaseMixin):
         else:
             with transaction.atomic():
             # Lock the table to prevent race conditions.
-                latest_version = RawDocCapture.objects.filter(guid=self.guid).select_for_update().aggregate(max_capture_index=models.Max('capture_index'))['max_capture_index']
+                latest_version = RawDocCapture.objects.filter(guid=self.pk).select_for_update().aggregate(max_capture_index=models.Max('capture_index'))['max_capture_index']
                 if latest_version is not None and self.capture_index <= latest_version:
                     raise ValidationError(f'Version must be greater than {latest_version}.')
                 super().save(*args, **kwargs)

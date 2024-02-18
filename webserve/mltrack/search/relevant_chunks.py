@@ -16,7 +16,7 @@ def find_relevant_chunks(raw_doc : RawDocCapture):
     """
 
     chunks = list(UserLevelVectorIndex.objects.filter(
-        doc_id=raw_doc.guid
+        doc_id=raw_doc.pk
     ).exclude(doc_chunk_type='header'))
 
     if len(chunks) == 0:
@@ -27,7 +27,7 @@ def find_relevant_chunks(raw_doc : RawDocCapture):
         matches : models.Manager = UserLevelVectorIndex.objects.search_by_embedding(
             user_id=raw_doc.user.pk,
             embedding_vector=chunk.embedding,
-            exclude_doc_id=raw_doc.guid,
+            exclude_doc_id=raw_doc.pk,
             take=3,
             include_dist=True
         )

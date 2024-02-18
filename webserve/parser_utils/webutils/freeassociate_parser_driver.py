@@ -58,11 +58,13 @@ class WebParserDriver:
                 )
             )
 
-        self._update_for_doc(impression.pk, vector_models)
+        self._update_for_doc(single_url, vector_models)
 
-    def _update_for_doc(self, doc_guid : UUID, new_vectors : List[UserLevelVectorIndex]):
+    def _update_for_doc(self, url : SingleUrl, new_vectors : List[UserLevelVectorIndex]):
+        # sloppy - switch to storing on singleurl once it has guid pk.
+        impressions = url.rawdoccapture_set.values_list('guid')
         with transaction.atomic():
-            UserLevelVectorIndex.objects.filter(doc_id=doc_guid).delete()
+            UserLevelVectorIndex.objects.filter(doc_id__in=impressions).delete()
             UserLevelVectorIndex.objects.bulk_create(new_vectors)
 
 

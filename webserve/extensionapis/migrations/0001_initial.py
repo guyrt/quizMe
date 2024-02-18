@@ -13,65 +13,55 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='DocumentCluster',
+            name='ObservedLink',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('date_modified', models.DateTimeField(auto_now=True)),
                 ('active', models.BooleanField(default=True)),
-                ('document_role', models.CharField(choices=[('rfp', 'RFP'), ('proposal', 'Proposal'), ('resume', 'Resume'), ('verbatim', 'Verbatim Templates'), ('intelligence', 'Customer Intelligence'), ('unknown', 'None')], max_length=16)),
+                ('from_str', models.CharField(max_length=2028)),
+                ('to_str', models.CharField(max_length=2048)),
+            ],
+        ),
+        migrations.CreateModel(
+            name='RawDocCapture',
+            fields=[
+                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
+                ('date_added', models.DateTimeField(auto_now_add=True)),
+                ('date_modified', models.DateTimeField(auto_now=True)),
+                ('active', models.BooleanField(default=True)),
+                ('capture_index', models.BigIntegerField(default=0)),
+                ('url', models.CharField(max_length=2048)),
+                ('title', models.CharField(max_length=1024)),
+                ('location_container', models.CharField(max_length=64)),
+                ('location_path', models.CharField(max_length=256)),
+                ('reader_location_container', models.CharField(max_length=64)),
+                ('reader_location_path', models.CharField(max_length=256)),
             ],
             options={
                 'abstract': False,
             },
         ),
         migrations.CreateModel(
-            name='DocumentExtract',
+            name='SingleUrl',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('date_modified', models.DateTimeField(auto_now=True)),
                 ('active', models.BooleanField(default=True)),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('structure', models.CharField(choices=[('rawtext', 'rawtext'), ('html', 'html'), ('sectionsv1', 'sectionsv1')], max_length=64)),
+                ('url', models.CharField(max_length=2048)),
+                ('host', models.CharField(max_length=512)),
             ],
-            options={
-                'abstract': False,
-            },
         ),
         migrations.CreateModel(
-            name='DocumentFile',
+            name='SingleUrlFact',
             fields=[
                 ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
                 ('date_added', models.DateTimeField(auto_now_add=True)),
                 ('date_modified', models.DateTimeField(auto_now=True)),
                 ('active', models.BooleanField(default=True)),
-                ('file_role', models.CharField(choices=[('primary', 'Primary'), ('unknown', 'None')], max_length=16)),
-                ('doc_format', models.CharField(choices=[('pdf', 'pdf'), ('docx', 'docx'), ('zip', 'zip')], max_length=8)),
-                ('doc_name', models.TextField()),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('processing_status', models.CharField(choices=[('notstarted', 'notstarted'), ('done', 'done'), ('active', 'active'), ('error', 'error')], max_length=16)),
-                ('last_jobid', models.CharField(default='', max_length=128)),
+                ('fact_key', models.CharField(max_length=64)),
+                ('fact_value', models.CharField(max_length=512)),
             ],
-            options={
-                'abstract': False,
-            },
-        ),
-        migrations.CreateModel(
-            name='RawUpload',
-            fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('format', models.CharField(choices=[('pdf', 'pdf'), ('docx', 'docx'), ('zip', 'zip')], max_length=8)),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-            ],
-            options={
-                'abstract': False,
-            },
         ),
     ]
