@@ -73,7 +73,7 @@ def write_dom(request, data : DomSchema = Body(...)):
             enqueue(clean_raw_doc_capture, reader_container, reader_filename)
             # no need to try to save... this has lower capture index.
         else:
-            enqueue(process_raw_doc, data.guid)
+            enqueue(process_raw_doc, obj.pk)
     except ValidationError:
         pass  # this happens if a different upload beat us to it.
 
@@ -151,7 +151,7 @@ def upload_new_version(request, data : DomSchema = Body(...)):
                 raw_doc_capture.save()
                 saved_new_files = True
                 
-                enqueue(process_raw_doc, data.guid)
+                enqueue(process_raw_doc, url_obj.pk)
             else:
                 logger.info("out of sync timestamps: existing is %s and new is %s", raw_doc_capture.capture_index, data.capture_index)
         else:
@@ -212,8 +212,8 @@ def get_raw_doc(request, item_id : uuid.UUID):
 
 @router.get("/rawdoccaptures/{item_id}/reprocess")
 def reprocess_raw_doc(request, item_id : uuid.UUID):
-    raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
-    enqueue(process_raw_doc, raw_doc_capture.pk)
+    single_url = get_object_or_404(SingleUrl, id=item_id, active=1, user=request.auth)
+    enqueue(process_raw_doc, single_url.pk)
     return {'status': 'ok'}
 
 

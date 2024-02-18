@@ -3,6 +3,7 @@ from uuid import UUID
 from bs4 import BeautifulSoup
 from django.db import transaction
 from django_rq import job
+from pydantic import UUID4
 from torch import sin
 
 from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
@@ -61,15 +62,13 @@ class WebParserDriver:
         self._update_for_doc(single_url, vector_models)
 
     def _update_for_doc(self, url : SingleUrl, new_vectors : List[UserLevelVectorIndex]):
-        # sloppy - switch to storing on singleurl once it has guid pk.
-        impressions = url.rawdoccapture_set.values_list('guid')
-        with transaction.atomic():
-            UserLevelVectorIndex.objects.filter(doc_id__in=impressions).delete()
-            UserLevelVectorIndex.objects.bulk_create(new_vectors)
+      #  with transaction.atomic():
+        UserLevelVectorIndex.objects.filter(doc_id=url.pk).delete()
+        UserLevelVectorIndex.objects.bulk_create(new_vectors)
 
 
 @job
-def process_raw_doc(single_url_pk : int):
+def process_raw_doc(single_url_pk : UUID4):
     logger.info("Start to process %s", single_url_pk)
     w = WebParserDriver()
     surl = SingleUrl.objects.get(id=single_url_pk)
