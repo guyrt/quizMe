@@ -79,7 +79,7 @@ def write_dom(request, data : DomSchema = Body(...)):
 
     d = {
         'raw_doc': str(data.guid),
-        'url_obj': obj.pk,
+        'url_obj': str(obj.pk),
         'visit_history': page_history_context
     }
 
