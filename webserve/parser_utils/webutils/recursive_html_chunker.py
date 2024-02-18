@@ -88,7 +88,7 @@ class RecursiveHtmlChunker:
         # pass 0: merge headers to the subsequent section. It's ok to ignore length here.
         chunks = self._merge_to_header(chunks)
 
-        # pass 1: merge any short chunks to a longer chunk. prefer even.
+        # pass 1: merge any short chunks to a longer chunk without merging headers.
 
         return chunks
 
@@ -137,8 +137,9 @@ class RecursiveHtmlChunker:
 
         return ret_chunks
 
-    def _merge_strings(self, obs : List[str]) -> List[str | Chunk]:
+    def _merge_strings(self, obs : List[Chunk]) -> List[Chunk]:
         # not used but I should probably use it for merging short chunks.
+        # expects mergable chunks - so handle headers upstream.
         len_sum = sum((len(c) for c in obs))
         if len_sum < self._max_chunk_length:
             return [Chunk(" \n".join(obs), reason='merge')]
