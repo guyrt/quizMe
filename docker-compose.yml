@@ -12,6 +12,7 @@ services:
       - "8000:8000"
     depends_on:
       - pgsql
+      - redis
 
   worker:
     build: .
@@ -20,6 +21,8 @@ services:
     command: python manage.py rqworker
     volumes:
       - .:/app
+    depends_on:
+      - redis
 
   pgsql:
     image: pgvector/pgvector:pg15
@@ -29,3 +32,6 @@ services:
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgressu
       - POSTGRES_PASSWORD=mosdumps123
+
+  redis:
+    image: redis

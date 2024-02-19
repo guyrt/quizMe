@@ -6,16 +6,23 @@ from typing import Iterable, List, Literal
 
 from numpy import roll
 
+
+TypeReason = Literal["headermerge", "header", "merge", 'div', 'p', 'ul']
+
+
 @dataclass
 class Chunk:
     content : str
-    reason : Literal["headermerge", "header", "merge", 'div', 'p', 'ul']
+    reason : TypeReason
 
     def __len__(self):
         return len(self.content)
 
     def __str__(self) -> str:
         return self.content
+    
+    def is_header(self):
+        return self.reason in ('headermerge', 'header')
 
 
 class RecursiveHtmlChunker:
@@ -89,12 +96,12 @@ class RecursiveHtmlChunker:
         chunks = self._merge_to_header(chunks)
 
         # pass 1: merge any short chunks to a longer chunk without merging headers.
+        chunks = self._merge_strings_header_aware(chunks)
 
         return chunks
 
     def _merge_to_header(self, in_chunks : List[Chunk]) -> List[Chunk]:
         ret_chunks = []
-        i = 0
 
         current_pool = []
         roll_sum = 0
@@ -108,10 +115,16 @@ class RecursiveHtmlChunker:
             current_pool.clear()
             roll_sum = 0
 
+        i = 0
+        last_i = -1
 
         while i < len(in_chunks):
+            # sanity check your while resolves
+            assert i != last_i
+            last_i - i
+
             chunk = in_chunks[i]
-            if chunk.reason == "headermerge" or chunk.reason == "header":
+            if chunk.is_header():
                 recent_header = chunk
                 flush_pool()
                 current_pool = [chunk]
@@ -130,6 +143,7 @@ class RecursiveHtmlChunker:
             else:
                 # not in a header.
                 ret_chunks.append(chunk)
+            i += 1
 
         # handle recent_header set and not set but non-empty pool.
         if len(current_pool) > 0:
@@ -137,12 +151,50 @@ class RecursiveHtmlChunker:
 
         return ret_chunks
 
-    def _merge_strings(self, obs : List[Chunk]) -> List[Chunk]:
-        # not used but I should probably use it for merging short chunks.
+    def _merge_strings_header_aware(self, in_chunks : List[Chunk]) -> List[Chunk]:
+        """Iterate through chunks breaking on headers. When you see a header, break and consolidate"""
+        ret_chunks = []
+        current_pool = []
+        rolling_sum = 0
+        recent_header = None
+
+        def flush_pool():
+            nonlocal rolling_sum
+            new_reason = 'headermerge' if recent_header is not None else "merge"
+            ret_chunks.extend(self._merge_strings(current_pool, new_reason))
+            current_pool.clear()
+            rolling_sum = 0
+
+        i = 0
+        last_i = -1
+        while i < len(in_chunks):
+            # sanity check your while resolves
+            assert i != last_i
+            last_i = i
+
+            chunk = in_chunks[i]
+            if chunk.is_header():
+                # header found - reset
+                if len(current_pool) > 0:
+                    flush_pool()
+
+                recent_header = chunk
+            else:
+                current_pool.append(chunk)
+                rolling_sum += len(chunk)                
+
+            i += 1
+
+        if len(current_pool) > 0:
+            flush_pool()
+
+        return ret_chunks
+
+    def _merge_strings(self, obs : List[Chunk], new_reason : TypeReason) -> List[Chunk]:
         # expects mergable chunks - so handle headers upstream.
         len_sum = sum((len(c) for c in obs))
         if len_sum < self._max_chunk_length:
-            return [Chunk(" \n".join(obs), reason='merge')]
+            return [Chunk("\n".join(c.content for c in obs), reason=new_reason)]
         
         # handle too long string - split by size and recurse.
         second_half = [] # will be in reverse order
@@ -164,9 +216,9 @@ class RecursiveHtmlChunker:
             second_half.append(o)
 
         return_set = []
-        return_set.extend(self._merge_strings(obs))
+        return_set.extend(self._merge_strings(obs, new_reason))
         second_half.reverse()
-        return_set.extend(self._merge_strings(second_half))
+        return_set.extend(self._merge_strings(second_half, new_reason))
         return return_set
 
 

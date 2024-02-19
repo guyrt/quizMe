@@ -39,7 +39,7 @@ class UserLevelVectorIndex(models.Model):
     doc_chunk_type = models.CharField(max_length=32)
     
     embedding = VectorField(dimensions=384)
-    embedding_type = models.CharField(max_length=32)
+    embedding_type = models.CharField(max_length=64)
     chunk_index = models.IntegerField()
 
     objects = UserLevelVectorIndexManager()
