@@ -4,16 +4,25 @@ from dataclasses import dataclass
 
 from typing import Iterable, List, Literal
 
+from numpy import roll
+
+
+TypeReason = Literal["headermerge", "header", "merge", 'div', 'p', 'ul']
+
+
 @dataclass
 class Chunk:
     content : str
-    reason : Literal["headermerge", "merge", 'div', 'p', 'ul']
+    reason : TypeReason
 
     def __len__(self):
         return len(self.content)
 
     def __str__(self) -> str:
         return self.content
+    
+    def is_header(self):
+        return self.reason in ('headermerge', 'header')
 
 
 class RecursiveHtmlChunker:
@@ -23,7 +32,7 @@ class RecursiveHtmlChunker:
     """
 
     def __init__(self) -> None:
-        self._max_chunk_length = 1600  # 1600 characters
+        self._max_chunk_length = 1000  # 1600 characters
         self._min_chunk_length = 400 # min length we'll accept. Note that headers and other special elements may be shorter (but we may collapse them)
         pass
 
@@ -84,33 +93,108 @@ class RecursiveHtmlChunker:
         chunks : List[Chunk] = [Chunk(content=c, reason='default') if isinstance(c, str) else c for c in maybe_chunks]
 
         # pass 0: merge headers to the subsequent section. It's ok to ignore length here.
-        chunks = self._merge_headers(chunks)
+        chunks = self._merge_to_header(chunks)
 
-        # pass 1: merge any short chunks to a longer chunk. prefer even.
+        # pass 1: merge any short chunks to a longer chunk without merging headers.
+        chunks = self._merge_strings_header_aware(chunks)
 
         return chunks
 
-    def _merge_headers(self, in_chunks : List[Chunk]) -> List[Chunk]:
-        """Merge headers into next chunk. Assumes that there are not two back to back header chunks. TODO fix that."""
+    def _merge_to_header(self, in_chunks : List[Chunk]) -> List[Chunk]:
         ret_chunks = []
+
+        current_pool = []
+        roll_sum = 0
+
+        recent_header = None
+
+        def flush_pool():
+            nonlocal roll_sum
+            new_reason = 'headermerge' if recent_header is not None else "merge"
+            ret_chunks.append(Chunk("\n".join(c.content for c in current_pool), reason=new_reason))
+            current_pool.clear()
+            roll_sum = 0
+
         i = 0
+        last_i = -1
+
         while i < len(in_chunks):
+            # sanity check your while resolves
+            assert i != last_i
+            last_i - i
+
             chunk = in_chunks[i]
-            if chunk.reason == "header" and i < len(in_chunks) - 1 and in_chunks[i +1 ].reason != 'header':
-                # there are more chunks
-                next_chunk = in_chunks[i+1]
-                ret_chunks.append(Chunk(content="\n".join([chunk.content, next_chunk.content]), reason='headermerge'))
-                i += 2
+            if chunk.is_header():
+                recent_header = chunk
+                flush_pool()
+                current_pool = [chunk]
+                roll_sum += len(chunk)
+
+            elif recent_header is not None:
+                # in a current header
+                
+                if roll_sum + len(chunk) < self._max_chunk_length:
+                    current_pool.append(chunk)
+                    roll_sum += len(chunk)
+                else:
+                    # too long - flush
+                    flush_pool()
+                    ret_chunks.append(chunk)
             else:
+                # not in a header.
                 ret_chunks.append(chunk)
-                i += 1
+            i += 1
+
+        # handle recent_header set and not set but non-empty pool.
+        if len(current_pool) > 0:
+            flush_pool()
 
         return ret_chunks
 
-    def _merge_strings(self, obs : List[str]) -> List[str | Chunk]:
+    def _merge_strings_header_aware(self, in_chunks : List[Chunk]) -> List[Chunk]:
+        """Iterate through chunks breaking on headers. When you see a header, break and consolidate"""
+        ret_chunks = []
+        current_pool = []
+        rolling_sum = 0
+        recent_header = None
+
+        def flush_pool():
+            nonlocal rolling_sum
+            new_reason = 'headermerge' if recent_header is not None else "merge"
+            ret_chunks.extend(self._merge_strings(current_pool, new_reason))
+            current_pool.clear()
+            rolling_sum = 0
+
+        i = 0
+        last_i = -1
+        while i < len(in_chunks):
+            # sanity check your while resolves
+            assert i != last_i
+            last_i = i
+
+            chunk = in_chunks[i]
+            if chunk.is_header():
+                # header found - reset
+                if len(current_pool) > 0:
+                    flush_pool()
+
+                recent_header = chunk
+            else:
+                current_pool.append(chunk)
+                rolling_sum += len(chunk)                
+
+            i += 1
+
+        if len(current_pool) > 0:
+            flush_pool()
+
+        return ret_chunks
+
+    def _merge_strings(self, obs : List[Chunk], new_reason : TypeReason) -> List[Chunk]:
+        # expects mergable chunks - so handle headers upstream.
         len_sum = sum((len(c) for c in obs))
         if len_sum < self._max_chunk_length:
-            return [Chunk(" \n".join(obs), reason='merge')]
+            return [Chunk("\n".join(c.content for c in obs), reason=new_reason)]
         
         # handle too long string - split by size and recurse.
         second_half = [] # will be in reverse order
@@ -132,9 +216,9 @@ class RecursiveHtmlChunker:
             second_half.append(o)
 
         return_set = []
-        return_set.extend(self._merge_strings(obs))
+        return_set.extend(self._merge_strings(obs, new_reason))
         second_half.reverse()
-        return_set.extend(self._merge_strings(second_half))
+        return_set.extend(self._merge_strings(second_half, new_reason))
         return return_set
 
 
