@@ -1,6 +1,6 @@
 import { classifyPage } from "./articleDetector";
 import DomChangeTracker from "./domAccessLayer/domChangeTracker";
-import getReaderMode from "./domAccessLayer/readerModeExtract";
+import { getReaderMode, getCleanDom } from "./domAccessLayer/readerModeExtract";
 import { DomShape } from "./interfaces";
 
 function handleUrlChange() {
@@ -43,7 +43,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const readerMode = getReaderMode(document);
         
         const data : DomShape = {
-            dom: document.body.innerHTML.toString(),
+            dom: getCleanDom(document).body.innerHTML.toString(),
             url: document.location,
             recordTime: Math.floor((new Date()).getTime() / 100),  // 0.1 second resolution.
             title: readerMode?.title ?? document.title,
@@ -90,3 +90,4 @@ function showCircle() {
         setTimeout(() => circle.remove(), 15000); // Ensure this matches the transition time
     }, 50000); // Start fading immediately; adjust this delay as needed
 }
+
