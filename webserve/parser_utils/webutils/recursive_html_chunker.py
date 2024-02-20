@@ -2,9 +2,11 @@ import bs4
 
 from dataclasses import dataclass
 
-from typing import Iterable, List, Literal
+from typing import Iterable, List, Literal, Union
 
-from numpy import roll
+import logging
+
+logger = logging.getLogger("default")
 
 
 TypeReason = Literal["headermerge", "header", "merge", 'div', 'p', 'ul']
@@ -45,9 +47,64 @@ class RecursiveHtmlChunker:
         1. Assign every text element to a chunk.
         2. Break or consolidate chunks that are too big. 
         """
-        maybe_chunks = self._recurse(dom)
+        maybe_chunks = self._non_recurse(dom)
         return self._consolidate_chunks(maybe_chunks)
 
+    def _non_recurse(self, dom: bs4.Tag) -> List[Union[Chunk, str]]:
+        """I asked GPT4 to rewrite recursive approach."""
+        stack = [(dom, False)]  # Each element is a tuple: (node, processed_flag)
+        max_stack_length = 1
+        result = []
+
+        while stack:
+            node, processed = stack.pop()
+
+            if processed:
+                # Handle aggregated children's content for container tags
+                if isinstance(node, bs4.Tag) and node.name in ['div', 'p', 'ul']:
+                    children_content = [r for r in result if isinstance(r, (Chunk, str))]
+                    total_length = sum(len(str(c)) for c in children_content)
+                    if total_length > self._max_chunk_length:
+                        continue
+
+                    inner_content = "\n".join(str(s) for s in children_content).strip()
+                    if total_length > self._min_chunk_length:
+                        result = [Chunk(content=inner_content, reason=node.name)]
+                    else:
+                        result = [inner_content]
+                continue
+
+            if isinstance(node, bs4.Comment):
+                continue
+            elif isinstance(node, bs4.NavigableString):
+                result.append(node.strip())
+                continue
+            elif isinstance(node, bs4.Tag):
+                if node.name == 'a':
+                    result.append(node.text.strip())
+                    continue
+                elif node.name in ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']:
+                    result.append(Chunk(content=node.text.strip(), reason='header'))
+                    continue
+                elif node.name in ['div', 'p', 'ul']:
+                    # Mark current node as processed but needs aggregation later
+                    stack.append((node, True))
+                    # Add children to stack
+                    for child in reversed(list(node.children)):
+                        stack.append((child, False))
+                    continue
+
+            # Default case: if it's another type of Tag, process its children
+            if isinstance(node, bs4.Tag):
+                for child in reversed(list(node.children)):
+                    stack.append((child, False))
+
+            max_stack_length = max(max_stack_length, len(stack))
+
+        logger.info("Max stack length seen was %s", max_stack_length)
+        return result
+
+    # NOT USED
     def _recurse(self, dom : bs4.element.PageElement) -> List[Chunk | str]:
         if isinstance(dom, bs4.Comment):
             return []
@@ -209,8 +266,8 @@ class RecursiveHtmlChunker:
                 break
 
         # if obs has items and o is set then decide to add back to end or append to second_half
-        if o_l + cum_sum > (len_sum - cum_sum) + o_l:
-            # add to the first half
+        if cum_sum > sum(len(c) for c in obs):
+            # add back to the first half
             obs.append(o)
         else:
             second_half.append(o)
