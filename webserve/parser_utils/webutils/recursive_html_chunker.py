@@ -249,6 +249,9 @@ class RecursiveHtmlChunker:
 
     def _merge_strings(self, obs : List[Chunk], new_reason : TypeReason) -> List[Chunk]:
         # expects mergable chunks - so handle headers upstream.
+        if len(obs) < 2:
+            return obs
+
         len_sum = sum((len(c) for c in obs))
         if len_sum < self._max_chunk_length:
             return [Chunk("\n".join(c.content for c in obs), reason=new_reason)]

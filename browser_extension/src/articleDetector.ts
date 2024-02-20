@@ -60,5 +60,5 @@ function isArticleByTextContent(): boolean {
     const linksPerMinute = linkCount / readingTimeMinutes;
     // console.log({ readingTimeMinutes, linkCount, linksPerMinute });
 
-    return readingTimeMinutes >= 3 && linksPerMinute < 0.8;
+    return readingTimeMinutes > 15 || (readingTimeMinutes >= 3 && linksPerMinute < 0.8);
 }

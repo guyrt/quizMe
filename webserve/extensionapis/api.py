@@ -221,7 +221,7 @@ def reprocess_raw_doc(request, item_id : uuid.UUID):
 def search_doc(request, item_id : uuid.UUID):
     raw_doc_capture = get_object_or_404(RawDocCapture, id=item_id, active=1, user=request.auth)
     try:
-        return find_relevant_chunks(raw_doc_capture)
+        return find_relevant_chunks(raw_doc_capture.url_model)
     except NoChunksError:
         return {'status': 'wait'}
 

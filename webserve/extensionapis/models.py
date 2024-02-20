@@ -65,7 +65,7 @@ class RawDocCapture(ModelBaseMixin):
         else:
             with transaction.atomic():
             # Lock the table to prevent race conditions.
-                latest_version = RawDocCapture.objects.filter(guid=self.pk).select_for_update().aggregate(max_capture_index=models.Max('capture_index'))['max_capture_index']
+                latest_version = RawDocCapture.objects.filter(id=self.pk).select_for_update().aggregate(max_capture_index=models.Max('capture_index'))['max_capture_index']
                 if latest_version is not None and self.capture_index <= latest_version:
                     raise ValidationError(f'Version must be greater than {latest_version}.')
                 super().save(*args, **kwargs)

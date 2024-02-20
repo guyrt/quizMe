@@ -4,7 +4,7 @@ from django.db import transaction
 from django_rq import job
 from pydantic import UUID4
 
-from extensionapis.models import RawDocCapture, SingleUrl
+from extensionapis.models import RawDocCapture, SingleUrl, SingleUrlFact
 from mltrack.consumer_prompt_models import UserLevelVectorIndex
 from ..utilities import parse_contents
 
@@ -26,6 +26,14 @@ class WebParserDriver:
         # you could group these two statements in async.
         raw_dom = parse_contents(impression.get_content_prefer_readable())
         single_url = impression.url_model
+
+        try:
+            article_class : SingleUrlFact = single_url.singleurlfact_set.get(fact_key='client_classification')
+            if article_class.fact_value != 'article':
+                return
+        except SingleUrlFact.DoesNotExist:
+            # not an article.
+            return
 
         # these can run in parallel
         #self._classify_article(single_url, raw_dom)
