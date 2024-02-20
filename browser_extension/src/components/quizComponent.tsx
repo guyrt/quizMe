@@ -72,7 +72,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     }
 
     function getMoreQuizzes() {
-        
+        fsm.setShowOptions();
     }
 
     return (

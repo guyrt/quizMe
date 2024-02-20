@@ -1,117 +1,77 @@
-$accentColor: #4741de;
+@import 'variables';
+@import 'animations';
+@import 'base';
 
-@keyframes clickScale {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05); // Scales up 10%
-    }
-    100% {
-      transform: scale(1);
-    }
-  }
-  
+.quiz-grade-correct {
+    padding-top: 10px;
+    padding-bottom: 15px;
+}
 
-body {
-    background: #fff;
-    height: auto;
-    font-family: "Lexend";
-    //font-weight: bold;
-    margin: 0;
-    padding: 1rem;
 
-    .quiz-grade-correct {
-        padding-top: 10px;
-        padding-bottom: 15px;
+.quizQuestion {
+    //border: 2px solid #666565; // Box around the quiz question
+    display: flex;
+    align-items: flex-start;
+    //margin-bottom: 20px;
+    //background-color: #f8f8f8; // Optional: background color for the box
+
+    // Class to apply for the animation
+    .animate-click {
+        animation: clickScale 0.3s ease forwards;
     }
 
-    .buttonWrap {
-        display: flex;
-        justify-content: center;
+    .quiz-index {
+        width: 30px;
+        display: inline-block;
     }
 
-    button.standard {
-        background-color: #{$accentColor}; // Example blue color
-        color: white;
+    .quizQuestionContent {
+        display:flex;
+        flex-direction: column;
+        margin-left: 10px;
+    }
+    
+    p {
+        margin-bottom: 10px; // Space between question and answers
+    }
+
+    .quizAnswerAnswered {
+        background-color: #efefef;
+        color: #0000007d;
         border: none;
-        padding: 10px 20px;
-        margin: 10px 0;
-        border-radius: 5px;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    
-        &:hover {
-          background-color: darken($accentColor, 10%);; // Darken the button on hover
-        }
-    }
+        padding: 10px;
+        cursor: pointer; // Change cursor to indicate clickable
 
-    .quizQuestion {
-        //border: 2px solid #666565; // Box around the quiz question
-        display: flex;
-        align-items: flex-start;
-        //margin-bottom: 20px;
-        //background-color: #f8f8f8; // Optional: background color for the box
-    
-        // Class to apply for the animation
-        .animate-click {
-            animation: clickScale 0.3s ease forwards;
-        }
-
-        .quiz-index {
-            width: 30px;
-            display: inline-block;
-        }
-
-        .quizQuestionContent {
-            display:flex;
-            flex-direction: column;
-            margin-left: 10px;
-        }
         
-        p {
-            margin-bottom: 10px; // Space between question and answers
-        }
-    
-        .quizAnswerAnswered {
-            background-color: #efefef;
-            color: #0000007d;
-            border: none;
-            padding: 10px;
-            cursor: pointer; // Change cursor to indicate clickable
-
-            
-            &.selected-correct {
-                color: #29b94a;
-                background-color: #e9fff5; // Soft green for correct answer            
-            }
-
-            &.selected-incorrect {
-                color: #f14668;
-                background-color: #ffe5ea; // Light red for incorrect answer
-            }
+        &.selected-correct {
+            color: #29b94a;
+            background-color: #e9fff5; // Soft green for correct answer            
         }
 
-        .quizAnswer {
-            border: 1px solid #{$accentColor}; // Border for each answer
-            padding: 10px;
-            color: #4741de;
-            margin-bottom: 5px; // Space between each answer
-            cursor: pointer; // Change cursor to indicate clickable
-            transition: background-color 0.3s; // Smooth transition for background color
-
-            &:hover {
-                background-color: #e8e8e8; // Optional: change background on hover
-            }
-    
-            &.selected {
-                background-color: #{$accentColor}; // Soft green for selected answer
-                color: #fff;
-            }
-
+        &.selected-incorrect {
+            color: #f14668;
+            background-color: #ffe5ea; // Light red for incorrect answer
         }
     }
-    
+
+    .quizAnswer {
+        border: 1px solid #{$accentColor}; // Border for each answer
+        padding: 10px;
+        color: #4741de;
+        margin-bottom: 5px; // Space between each answer
+        cursor: pointer; // Change cursor to indicate clickable
+        transition: background-color 0.3s; // Smooth transition for background color
+
+        &:hover {
+            background-color: #e8e8e8; // Optional: change background on hover
+        }
+
+        &.selected {
+            background-color: #{$accentColor}; // Soft green for selected answer
+            color: #fff;
+        }
+
+    }
 }
 
 

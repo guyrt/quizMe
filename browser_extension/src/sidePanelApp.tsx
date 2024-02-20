@@ -4,7 +4,8 @@ import { createRoot } from 'react-dom/client';
 import SidePanelError from "./components/sidePanelError";
 import { SidePanelState, fsm } from "./stateTrackers/sidePanelThread/sidePanelStateMachine";
 import SidePanelStats from "./components/sidePanelStats";
-import SidePanelOptions from "./optionsManagement/sidePanelOptions";
+import SidePanelSignInOptions from "./optionsManagement/sidePanelSignInResolver";
+import { SidePanelLoggedInUserSettings } from "./optionsManagement/sidePanelUserSettings";
 
 function MainApp() {
 
@@ -30,13 +31,23 @@ function MainApp() {
         };
     }, []); // Empty dependency array ensures this runs once on mount
 
+    function handleSettingsClick() {
+        fsm.setShowOptions();
+    }
+    
     return (
         <>
             {state == "PageNotUploaded" && <p>Loading! Hang tight...</p>}
             {state == "UploadError" && <SidePanelError />}
             {(state == "PageUploadedAndClassified" || state == "QuizBeingDeveloped") && <SidePanelStats />}
-            {state == "NotUploaded" && <p>This page is blocked.</p>}
-            {state == "UserLoggedOut" && <div>You are logged out. <SidePanelOptions /></div>}
+            {state == "PageBlocked" && <p>This page is blocked.</p>}
+            {state == "UserLoggedOut" && <div>You are logged out. <SidePanelSignInOptions /></div>}
+            {state == "ShowUserSettings" && <SidePanelLoggedInUserSettings />}
+            {state != "ShowUserSettings" && 
+            <footer className="footer">
+                <a href="#" onClick={handleSettingsClick} className="settings-link">Show User Settings</a>
+            </footer>
+            }
         </>
     );
     
