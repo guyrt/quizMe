@@ -21,8 +21,8 @@ export function SidePanelUserSettingsQuizHistory() {
             <div>
                 <p>Nice job! You've got {quizHistory?.total_quizzes} points!</p>
                 <p>You currently get {quizHistory?.quiz_allowance} per month.</p>
-                <p>Let's get you more!</p>
-                <p>options.</p>
+                <a href="https://buy.stripe.com/test_eVag2H7Yt6NUdK8fYY" target="_">Let's get you more!</a>
+                <p>This link will take you to Stripe.</p>
             </div> : 
             <p>Checking your points...</p>}
     </>);
