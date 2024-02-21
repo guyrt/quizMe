@@ -14,7 +14,6 @@ type QuizViewProps = {
 }
 
 
-// todo - pass in whether quiz has been answered already.
 const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnswers}) => {
     
     const [quizStatus, setQuizStatus] = useState<QuizStatus>("inprogress");

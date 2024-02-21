@@ -2,6 +2,7 @@ import React, { ChangeEvent, useEffect, useState } from "react";
 import { OptionsWebInterface } from "./optionsWebInterface";
 import { sharedState } from "../stateTrackers/sharedState";
 import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
+import { SidePanelUserSettingsQuizHistory } from "./sidePanelUserSettingsQuizHistory";
 
 export function SidePanelLoggedInUserSettings() {
     
@@ -14,13 +15,14 @@ export function SidePanelLoggedInUserSettings() {
     }
     
     return (
-        <div>
-            User settings.
+        <>
+            <SidePanelUserSettingsQuizHistory />
+
             <br/>
             <Checkbox label="Track all pages" getter={sharedState.getTrackAllPages} setter={sharedState.setFilterSend} />
             <br/>
             <button id='logout' onClick={logoutThisDevice}>Log out</button>
-        </div>
+        </>
     )
 }
 

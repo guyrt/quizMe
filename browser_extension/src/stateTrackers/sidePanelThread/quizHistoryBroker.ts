@@ -25,9 +25,12 @@ class QuizHistoryBroker {
         return Math.max(0, ((this.quizHistory?.quiz_allowance ?? Infinity) - (this.quizHistory?.recent_quizzes.length ?? 0)));
     }
 
+    public getTotalQuizzes() {
+        return this.quizHistory?.total_quizzes;
+    }
+
     public trigger() {
         chrome.runtime.sendMessage({ action: "fa_getQuizHistory", payload: {} }, (_quizHistory: QuizHistory | undefined) => {
-            console.log("Received quiz history: ", _quizHistory);
             if (_quizHistory != undefined) {
                 this.setQuizHistory(_quizHistory);
             }
