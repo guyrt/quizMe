@@ -99,14 +99,14 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         });
         })();
         return false;
-    } 
-    else if (message.action === "fa_getQuizHistory") {
+    } else if (message.action === "fa_getQuizHistory") {
         // Update the quiz history and return it
         (async () => {
             const state = await quizHistoryState.getLatestQuizHistory();
             console.log("Background returning quiz history", state);
             sendResponse(state);
         })();
+        return true;
     }
 });
 

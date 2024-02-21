@@ -1,0 +1,35 @@
+body {
+    background: #fff;
+    height: auto;
+    font-family: "Lexend";
+    //font-weight: bold;
+    margin: 0;
+    padding: 1rem;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0; // Pins the footer to the bottom
+    padding: 10px; // Adjust padding as needed
+    text-align: center; // Centers the link
+}
+
+.buttonWrap {
+    display: flex;
+    justify-content: center;
+}
+
+button.standard {
+    background-color: #{$accentColor}; // Example blue color
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: darken($accentColor, 10%);; // Darken the button on hover
+    }
+}

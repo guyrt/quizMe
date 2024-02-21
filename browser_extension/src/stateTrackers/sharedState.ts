@@ -14,10 +14,9 @@ class SharedState {
         'outlook.office.com', // safety check from outlook.
         'microsoft.sharepoint.com',
         'localhost',
+        'totalrewards.azurefd.net',
         'statics.teams.cdn.office.net',
         'microsoft-my.sharepoint-df.com',
-        'google.com',
-        'bing.com',
         'ms.portal.azure.com',
         'sapsf.com',
         'login.microsoftonline.com' // logins

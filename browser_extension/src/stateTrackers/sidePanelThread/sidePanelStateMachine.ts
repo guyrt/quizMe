@@ -10,7 +10,7 @@ import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from
 import { sharedState } from "../sharedState";
 
 
-export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "QuizBeingDeveloped" | "NotUploaded";
+export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "ShowUserSettings" | "QuizBeingDeveloped" | "PageBlocked";
 
 
 class SidePanelFiniteStateMachine {
@@ -59,7 +59,7 @@ class SidePanelFiniteStateMachine {
         } else if (singlePage.uploadState == "completed") {
             this.state = "PageUploadedAndClassified";
         } else if (singlePage.uploadState == "donotprocess") {
-            this.state = "NotUploaded";
+            this.state = "PageBlocked";
         } else {
             Error(`Unexpected state ${singlePage.uploadState}`);
         }
@@ -94,6 +94,11 @@ class SidePanelFiniteStateMachine {
 
     public handleUserLoggedOut() {
         this.state = "UserLoggedOut";
+        this.publish();
+    }
+
+    public setShowOptions() {
+        this.state = "ShowUserSettings";
         this.publish();
     }
 

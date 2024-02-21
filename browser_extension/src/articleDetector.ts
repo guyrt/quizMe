@@ -47,6 +47,14 @@ export function classifyPage(url : Location) : DomClassification {
         }
     }
 
+    const maybeSerp = getSerps();
+    if (maybeSerp != undefined) {
+        return {
+            classification: "serp",
+            reason: "serp"
+        }
+    } 
+
     // fallback to no
     return {
         classification : "unknown",
@@ -54,11 +62,30 @@ export function classifyPage(url : Location) : DomClassification {
     }
 }
 
+
+function getSerps() : string | undefined {
+    const host = document.location.host;
+    const path = document.location.pathname;
+
+    if (host == "www.bing.com" && path == "/search") {
+        return "serp";
+    }
+
+    if (host == "www.google.com" && path == "/search") {
+        return "serp";
+    }
+
+    if (host == "duckduckgo.com" && document.location.href.includes("&q=")) {
+        return "serp";
+    }
+}
+
+
 function isArticleByTextContent(): boolean {
     const readingTimeMinutes = document.body.innerText.trim().split(/\s+/).length / 200;
     const linkCount = document.querySelectorAll("a").length;
     const linksPerMinute = linkCount / readingTimeMinutes;
     // console.log({ readingTimeMinutes, linkCount, linksPerMinute });
 
-    return readingTimeMinutes > 15 || (readingTimeMinutes >= 3 && linksPerMinute < 0.8);
+    return readingTimeMinutes > 10 || (readingTimeMinutes >= 3 && linksPerMinute < 0.8);
 }
