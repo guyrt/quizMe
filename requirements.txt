@@ -40,5 +40,7 @@ whitenoise
 markdown
 pdfminer.six
 
+stripe
+
 # debugging
 ipdb
