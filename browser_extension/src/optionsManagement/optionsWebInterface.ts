@@ -67,6 +67,7 @@ export class OptionsWebInterface {
                 // save the token to storage.
         const j = await response.json();
         sharedState.setApiToken(j['key']);
+        sharedState.setUserEmail(j['user']);
         
         // return "ok"
         return Promise.resolve("ok");
