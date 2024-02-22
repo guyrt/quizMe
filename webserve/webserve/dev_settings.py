@@ -1,5 +1,7 @@
 from .shared_settings import *
 
+ALLOWED_HOSTS = ['web', 'localhost']
+
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = "django-insecure-h@6nuzpckf*1wa1sb3ufd79ag#cjx#p^sg4%w^@x7pa6h-j6!0"
 
@@ -43,3 +45,4 @@ RQ_QUEUES = {
         'DEFAULT_TIMEOUT': 3600,
     },
 }
+

@@ -9,7 +9,7 @@ from typing import Literal, List, Optional
 
 class DomClassificationSchema(Schema):
 
-    classification : Literal["article", "unknown"]
+    classification : Literal["article", "serp", "unknown"]
 
     reason : Literal["hasArticleTag", "dashCount", "textContent", "id", "class", "fallthrough"]
 

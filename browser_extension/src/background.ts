@@ -106,7 +106,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             console.log("Background returning quiz history", state);
             sendResponse(state);
         })();
-        return true;
+        return false;
     }
 });
 
