@@ -33,6 +33,16 @@ class SharedState {
         });
     }
 
+    public setUserEmail(newEmail : string) {
+        chrome.storage.local.set({
+            "secret.email": newEmail
+        })
+    }
+
+    public async getUserEmail() : Promise<string | undefined> {
+        return (await chrome.storage.local.get("secret.email"))["secret.email"];
+    }
+
     public deleteUserState() {
         chrome.storage.local.remove("secret.apikey");
     }
