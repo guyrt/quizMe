@@ -76,6 +76,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     }
 
     console.log("Loading quiz: ", quiz);
+    console.log("Answers: ", incomingQuizAnswers);
 
     return (
         <div>
@@ -103,7 +104,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                     {quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
                     {quiz == undefined ? 
                         <></> : 
-                        quiz.status == 'completed' && quizAnswers != undefined ?
+                        quizStatus == "scored" ?
                         <QuizGraded quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} /> :
                         <QuizInProgress quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />
                     }
