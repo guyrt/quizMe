@@ -118,8 +118,8 @@ class BackgroundState {
             }
         }
     
-        const uploadedDom = await getAQuiz(record.uploadedDom, forceReload);
-        return this.updatePayloadAndReturnQuiz(record, uploadedDom);
+        getAQuiz(record.uploadedDom, forceReload).then(newDom => this.updatePayloadAndReturnQuiz(record, newDom));
+        return this.setQuiz(record, {'status': 'building'});
     }
 
     private async getToken() : Promise<string | undefined> {

@@ -69,23 +69,26 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
         chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {
             setQuizHistory(quiz);
         });
-        fsm.setQuizBeingBuilt();
     }
 
     function getMoreQuizzes() {
         fsm.setShowOptions();
     }
 
+    console.log("Loading quiz: ", quiz);
+
     return (
         <div>
-            {finiteState == "QuizBeingDeveloped" || quiz?.status == "building" ? 
+            {/* Handles generation header */}
+            {quiz?.status == "building" ?
                 <div>Generating...</div> 
                 : 
                 <>
+                    {/* header info */}
                     {quizzesRemaining > 0 &&
                         <div className="buttonWrap">
                             <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>
-                                {quiz?.status != "notstarted" ? "Rebuild" : "Get the point!"}
+                                {quiz?.status != undefined ? "Rebuild" : "Get the point!"}
                             </button>
                         </div>
                     }
@@ -95,13 +98,18 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                     {
                         quizzesRemaining <= 0 ? <div className="buttonWrap"><button className="standard" onClick={getMoreQuizzes}>Get more points!</button></div> : <></>
                     }
+
+                    {/* body */}
+                    {quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
+                    {quiz == undefined ? 
+                        <></> : 
+                        quiz.status == 'completed' && quizAnswers != undefined ?
+                        <QuizGraded quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} /> :
+                        <QuizInProgress quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />
+                    }
                 </>
             }
-            {finiteState != "QuizBeingDeveloped" && quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
-            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == "inprogress" 
-                && <QuizInProgress quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
-            {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == 'scored' 
-                && <QuizGraded quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} />}
+            
             <hr />
         </div>
     );

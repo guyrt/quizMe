@@ -16,7 +16,7 @@ export const QuizGraded : React.FC<{
         for (let i = 0; i < quiz.content.length; i++) {
             const c = quiz.content[i];
             const s = quizAnswers[i] ?? -1;
-            if (c.answers[s].correct) {
+            if (c.answers[s]?.correct) {
                 totalRight++;
             }
         }
