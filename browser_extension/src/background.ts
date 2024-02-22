@@ -94,11 +94,12 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             const activeTabId = getActiveTabId(tabs);
 
             if (activeTabId !== undefined) {
-                backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false)
+                const q = backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false);
+                sendResponse(q);
             }
         });
         })();
-        return false;
+        return true;
     } else if (message.action === "fa_getQuizHistory") {
         // Update the quiz history and return it
         (async () => {

@@ -58,12 +58,16 @@ export type UploadedDom = {
     visit_history : VisitHistory
 }
 
-export type Quiz = {
+export type FilledQuiz = {
     owner : string,
     content : QuizQuestion[],
     id : string,
     reasoning : string,
     status : "notstarted" | "building" | "completed" | "error"
+}
+
+export type Quiz = FilledQuiz | {
+    status: "error" | "building"
 }
 
 export type QuizQuestion = {

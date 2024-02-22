@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from "react";
 import { SidePanelState, fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
-import { Quiz, QuizHistory } from "../interfaces";
+import { FilledQuiz, Quiz, QuizHistory } from "../interfaces";
 import { QuizStatus } from "./quizzes/quizInterfaces";
 import { QuizInProgress } from "./quizzes/quizQuestion";
 import { QuizGraded } from "./quizzes/quizGradedQuestion";
@@ -66,7 +66,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     };
 
     function makeQuizClick(forceReload : boolean = false) {
-        chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}});
+        chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {
+            setQuizHistory(quiz);
+        });
         fsm.setQuizBeingBuilt();
     }
 
@@ -76,20 +78,20 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
 
     return (
         <div>
-            {finiteState == "QuizBeingDeveloped" ? 
+            {finiteState == "QuizBeingDeveloped" || quiz?.status == "building" ? 
                 <div>Generating...</div> 
                 : 
                 <>
-                    {quizzesRemaining > 0 && 
+                    {quizzesRemaining > 0 &&
                         <div className="buttonWrap">
                             <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>
-                                {quiz?.status == "error" || quiz != undefined ? "Rebuild" : "Get the point!"}
+                                {quiz?.status != "notstarted" ? "Rebuild" : "Get the point!"}
                             </button>
                         </div>
                     }
                     {
                         quizzesRemaining == Infinity ? <></> : <p className='note-text'>{quizzesRemaining} of {quizHistory?.quiz_allowance} points remaining.</p>
-                    }                    
+                    }
                     {
                         quizzesRemaining <= 0 ? <div className="buttonWrap"><button className="standard" onClick={getMoreQuizzes}>Get more points!</button></div> : <></>
                     }
@@ -97,9 +99,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
             }
             {finiteState != "QuizBeingDeveloped" && quiz?.status == "error" && <div>Sorry something went wrong. Try rebuilding</div>}
             {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == "inprogress" 
-                && <QuizInProgress quiz={quiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
+                && <QuizInProgress quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} setQuizState={setQuizStatus} handleAnswerClick={handleAnswerClick} />}
             {finiteState != "QuizBeingDeveloped" && quiz?.status != 'error' && quiz != undefined && quizStatus == 'scored' 
-                && <QuizGraded quiz={quiz} quizAnswers={quizAnswers} />}
+                && <QuizGraded quiz={quiz as FilledQuiz} quizAnswers={quizAnswers} />}
             <hr />
         </div>
     );

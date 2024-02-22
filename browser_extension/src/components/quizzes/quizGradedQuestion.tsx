@@ -1,9 +1,9 @@
 import React from "react";
-import { Quiz, QuizQuestion } from "../../interfaces";
+import { FilledQuiz, QuizQuestion } from "../../interfaces";
 
 
 export const QuizGraded : React.FC<{
-    quiz : Quiz,
+    quiz : FilledQuiz,
     quizAnswers : {[key : number]: number}
 }> = ({quiz, quizAnswers}) => {
 
