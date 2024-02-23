@@ -4,8 +4,7 @@ import { getReaderMode, getCleanDom } from "./domAccessLayer/readerModeExtract";
 import { DomShape } from "./interfaces";
 
 function handleUrlChange() {
-    console.log("Url change detected");
-    chrome.runtime.sendMessage({action: 'fa_pageLoaded'})
+    chrome.runtime.sendMessage({action: 'fa_pageLoaded', payload: {url: document.location.href}});
 
 }
 

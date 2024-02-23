@@ -61,7 +61,6 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
 
 chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
     if (message.action === "fa_uploadQuizResult") {
-        console.log("Upload quiz response to server");
         uploadQuizResults(message.payload);
     }
 });
@@ -69,13 +68,15 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_pageLoaded") {
-        console.log(`Got action ${message.action}`);
+        oldLogger(`Got action ${message.action} with ${message.payload.url}`);
         // Perform action on page load
-        (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        const loadedUrl = message.payload.url;
+        (async () => {chrome.tabs.query({url: loadedUrl, currentWindow: true}, function(tabs) {
+            oldLogger('tabs ', tabs);
             if (tabs[0] === undefined) {
                 return;
             }
-            const tId = tabs[0].id ?? 1;
+            const tId = argMax<any, any>(tabs, 'lastAccessed').id;
             chrome.tabs.sendMessage(
                 tId,
                 {action: "fa_accessDOM", payload: {tabId: tId}},
@@ -149,3 +150,10 @@ function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{
     }
     
 }
+
+function argMax<T extends Record<K, number>, K extends keyof any>(listOfObjects: T[], key: K): T {
+    const argMaxObject = listOfObjects.reduce((maxObj, currentObj) => {
+      return currentObj[key] > maxObj[key] ? currentObj : maxObj;
+    }, listOfObjects[0]);
+    return argMaxObject;
+  }
