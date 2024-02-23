@@ -40,9 +40,9 @@ type TabInfo = {
     }
 
     private onIdleState(newState : chrome.idle.IdleState) {
-        console.log("Idle detect with ", newState);
+        //console.log("Idle detect with ", newState);
         if (newState === "idle" && this.currentTabId !== null) {
-            console.log("idle");
+            //console.log("idle");
             this.stopTracking(this.currentTabId);
         } else if (newState === "active") {
             this.initCurrentTab();
@@ -50,15 +50,15 @@ type TabInfo = {
     }
 
     private onFocusChanged(windowId : number) {
-        console.log("Window focus");
+        //console.log("Window focus");
 
         if (windowId === chrome.windows.WINDOW_ID_NONE) {
-            console.log("loss");
+            //console.log("loss");
             if (this.currentTabId !== null) {
                 this.stopTracking(this.currentTabId)
             };
         } else {
-            console.log(`Changed window focus to ${windowId}`);
+            //console.log(`Changed window focus to ${windowId}`);
             this.initCurrentTab(); // Restart tracking for the new focused window's active tab
         }
     }
@@ -80,7 +80,7 @@ type TabInfo = {
     private callTabChange(tabId: number) {
       // Implement your custom logic here
       // For example: tabChange(tabId);
-      console.log("Tab change ", this.tabs.get(tabId))
+      //console.log("Tab change ", this.tabs.get(tabId))
     }
   
     private onTabActivated(activeInfo: { tabId: number; windowId: number }) {

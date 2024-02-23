@@ -11,7 +11,7 @@ class DomClassificationSchema(Schema):
 
     classification : Literal["article", "serp", "unknown"]
 
-    reason : Literal["hasArticleTag", "dashCount", "textContent", "id", "class", "fallthrough"]
+    reason : Literal["hasArticleTag", "dashCount", "textContent", "serp", "id", "class", "fallthrough"]
 
     idLookup : str = None
 

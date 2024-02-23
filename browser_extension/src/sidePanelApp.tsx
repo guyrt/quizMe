@@ -39,7 +39,7 @@ function MainApp() {
         <>
             {state == "PageNotUploaded" && <p>Loading! Hang tight...</p>}
             {state == "UploadError" && <SidePanelError />}
-            {(state == "PageUploadedAndClassified" || state == "QuizBeingDeveloped") && <SidePanelStats />}
+            {(state == "PageUploadedAndClassified") && <SidePanelStats />}
             {state == "PageBlocked" && <p>This page is blocked.</p>}
             {state == "UserLoggedOut" && <div>You are logged out. <SidePanelSignInOptions /></div>}
             {state == "ShowUserSettings" && <SidePanelLoggedInUserSettings />}

@@ -83,7 +83,7 @@ class BackgroundState {
         });
     }
 
-    public async getOrCreateAQuiz(key : number, forceReload : boolean) : Promise<Quiz | undefined> {
+    public async getOrCreateAQuiz(key : number, forceReload : boolean) : Promise<Quiz> {
         if (!forceReload && key in this.quizzes) {
             log(`Outputting cached quiz for key ${key}`);
             return Promise.resolve(this.quizzes[key]);
@@ -93,12 +93,12 @@ class BackgroundState {
 
         if (record == undefined) {
             log(`Key ${key} not in page details. Returning no quiz.`)
-            return Promise.resolve(undefined);
+            return Promise.resolve({'status': 'error'});
         }
         
         if (record.domClassification.classification != "article") {
             log(`Key ${key} is not an article. Returning no quiz.`);
-            return Promise.resolve(undefined);
+            return Promise.resolve(this.setQuiz(record, {'status': 'error'}));
         }
 
         if (record.uploadState == 'inprogress' || record.uploadedDom == null) {
@@ -111,15 +111,15 @@ class BackgroundState {
 
                         return this.updatePayloadAndReturnQuiz(record, uploadedDom);
                     }
-                    return undefined;
+                    return this.setQuiz(record, {'status': 'building'});
                 });
             } else {
-                return undefined;
+                return this.setQuiz(record, {'status': 'error'});
             }
         }
     
-        const uploadedDom = await getAQuiz(record.uploadedDom, forceReload);
-        return this.updatePayloadAndReturnQuiz(record, uploadedDom);
+        getAQuiz(record.uploadedDom, forceReload).then(newDom => this.updatePayloadAndReturnQuiz(record, newDom));
+        return this.setQuiz(record, {'status': 'building'});
     }
 
     private async getToken() : Promise<string | undefined> {
@@ -138,13 +138,27 @@ class BackgroundState {
         return {...domSummary, guid: guid, capture_index: captureIndex}
     }
 
-    private updatePayloadAndReturnQuiz(record : SinglePageDetails | undefined, uploadedDom : UploadedDom | undefined) : (Quiz | undefined) {
+    private updatePayloadAndReturnQuiz(record : SinglePageDetails | undefined, uploadedDom : UploadedDom | undefined) : (Quiz) {
         if (record != undefined && uploadedDom != undefined) {
             // update the dom to include the quiz.
             pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: uploadedDom}, true);
         }
 
-        return uploadedDom?.quiz_context?.previous_quiz;
+        return uploadedDom?.quiz_context?.previous_quiz || {status: "building"};
+    }
+
+    // This is used to set an empty quiz.
+    private setQuiz(record : SinglePageDetails | undefined, newQuiz : Quiz) : Quiz {
+        if (record?.uploadedDom != undefined) {
+            pageDetailsStore.setPageDetails(record.key, {
+                ...record, 
+                uploadedDom: {
+                    ...record.uploadedDom,
+                    quiz_context: {previous_quiz: newQuiz}
+                }
+            }, true);
+        }
+        return newQuiz;
     }
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {

@@ -19,6 +19,7 @@ class SharedState {
         'microsoft-my.sharepoint-df.com',
         'ms.portal.azure.com',
         'sapsf.com',
+        'idweb.microsoft.com',
         'login.microsoftonline.com' // logins
     ];
 

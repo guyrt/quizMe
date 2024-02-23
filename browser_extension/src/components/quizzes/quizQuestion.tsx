@@ -1,10 +1,10 @@
 // Single question including the question and answers.
 import React, {useState} from "react";
-import { Quiz, QuizQuestion, QuizResponse } from "../../interfaces";
+import { FilledQuiz, QuizQuestion, QuizResponse } from "../../interfaces";
 import { QuizStatus } from "./quizInterfaces";
 
 export const QuizInProgress: React.FC<{
-    quiz: Quiz,
+    quiz: FilledQuiz,
     setQuizState : React.Dispatch<React.SetStateAction<QuizStatus>>
     quizAnswers : {[key : number]: number}
     handleAnswerClick : (qIdx: number, aIdx: number) => void

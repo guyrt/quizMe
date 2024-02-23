@@ -1,9 +1,9 @@
 import React from "react";
-import { Quiz, QuizQuestion } from "../../interfaces";
+import { FilledQuiz, QuizQuestion } from "../../interfaces";
 
 
 export const QuizGraded : React.FC<{
-    quiz : Quiz,
+    quiz : FilledQuiz,
     quizAnswers : {[key : number]: number}
 }> = ({quiz, quizAnswers}) => {
 
@@ -16,7 +16,7 @@ export const QuizGraded : React.FC<{
         for (let i = 0; i < quiz.content.length; i++) {
             const c = quiz.content[i];
             const s = quizAnswers[i] ?? -1;
-            if (c.answers[s].correct) {
+            if (c.answers[s]?.correct) {
                 totalRight++;
             }
         }

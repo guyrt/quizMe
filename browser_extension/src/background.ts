@@ -4,9 +4,11 @@ import { pageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsSt
 import { quizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
 import { uploadQuizResults } from "./webInterface";
 
-console.log("Background ran");
-
 var fa_lastActiveTab = 0;
+
+
+const oldLogger = console.log;
+console.log = () => {};
 
 
 import TabTracker from './stateTrackers/backgroundThread/tabTimer';
@@ -94,11 +96,14 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             const activeTabId = getActiveTabId(tabs);
 
             if (activeTabId !== undefined) {
-                backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false)
+                const q = backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false);
+                sendResponse(q);
+            } else {
+                sendResponse({'status': 'error'});
             }
         });
         })();
-        return false;
+        return true;
     } else if (message.action === "fa_getQuizHistory") {
         // Update the quiz history and return it
         (async () => {
