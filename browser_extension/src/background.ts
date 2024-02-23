@@ -113,6 +113,16 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             sendResponse(state);
         })();
         return true;
+    } else if (message.action === 'fa_onReminderClick') {
+        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+
+            const activeTabId = getActiveTabId(tabs);
+
+            if (activeTabId !== undefined) {
+                chrome.sidePanel.open({tabId: activeTabId});
+            }
+        });
+        })();
     }
 });
 

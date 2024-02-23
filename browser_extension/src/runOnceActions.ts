@@ -80,6 +80,10 @@ function showCircle() {
     
     // Append the circle to the body
     document.body.appendChild(circle);
+
+    circle.onclick = () => {
+        chrome.runtime.sendMessage({action: 'fa_onReminderClick', payload: {url: document.location.href}});
+    };
     
     // Set a timeout to fade the circle out after 15 seconds
     setTimeout(() => {

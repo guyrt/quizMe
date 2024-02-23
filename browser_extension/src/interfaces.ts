@@ -96,6 +96,7 @@ export type ChromeMessageType =
     // these pair of events are a 2-direction update.
     | "fa_getQuizHistory"  // sent from SidePanel to Background and expects most recent cached history.
     | "fa_newQuizHistory"  // send from the Background when a new history is retrieved. Sidepanel should listen for it.
+    | "fa_onReminderClick"  // this fires when article reminder fires on webpage.
 
 export type ChromeMessage = {
     action : ChromeMessageType,
