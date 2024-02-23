@@ -68,7 +68,7 @@ function showCircle() {
     // Style the circle
     circle.style.width = '25px';
     circle.style.height = '25px';
-    circle.style.backgroundColor = 'purple';
+    circle.style.backgroundColor = '#4741de';
     circle.style.borderRadius = '50%';
     circle.style.position = 'fixed';
     circle.style.top = '20px';
