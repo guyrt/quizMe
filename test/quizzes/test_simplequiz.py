@@ -1,0 +1,24 @@
+import pytest
+from mixer.backend.django import mixer
+from quizzes.models import SimpleQuiz
+
+pytestmark = pytest.mark.django_db
+
+import os
+
+print(os.environ["STRIPE_PUBLIC_KEY"])
+
+
+@pytest.fixture
+def mixed_quiz():
+    return mixer.blend(SimpleQuiz, content="lorem ipsum dolor")
+
+def test_sanity(mixed_quiz):
+    sq = SimpleQuiz.objects.get(content="lorem ipsum dolor")
+    sq.content = "pig latin"
+    sq.save()
+    sq.refresh_from_db()
+    assert sq.content == "pig latin"
+
+
+

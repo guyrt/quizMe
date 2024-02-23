@@ -44,3 +44,8 @@ stripe
 
 # debugging
 ipdb
+
+# test
+pytest
+pytest-django
+mixer
