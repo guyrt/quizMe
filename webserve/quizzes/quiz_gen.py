@@ -11,7 +11,6 @@ from extensionapis.models import RawDocCapture
 from mltrack.consumer_prompt_models import ConsumerPromptTrack
 from parser_utils.utilities import get_rough_article_content, parse_contents
 from rfp_utils.json_utils import find_json
-from webserve.dev_settings import  LOCAL_DEVELOPER_NAME
 
 from .models import SimpleQuiz
 from .quiz_prompts import quiz_gen
@@ -19,24 +18,11 @@ from .quiz_prompts import quiz_gen
 logger = logging.getLogger("default")
 
 
-
 class QuizGenerator:
 
     def __init__(self) -> None:
         self._return_tokens = 1000
-        self._oai = self._chose_client()
-
-    def _chose_client(self):
-        """
-        sl: crude way to override to a client I have access to.
-        """
-        match LOCAL_DEVELOPER_NAME:
-            case "SAM":
-                return OpenAIClient(model='35turbo', temp=0.7, max_doc_tokens=self._return_tokens)
-            case "TOMMY":
-                return OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=self._return_tokens)
-            case _:
-                return OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=self._return_tokens)
+        self._oai = OpenAIClient(model='gpt4', temp=0.7, max_doc_tokens=self._return_tokens)
 
     def create_quiz(self, raw_doc : RawDocCapture, quiz_id : int) -> Optional[SimpleQuiz]:
         logger.info("Creating a quiz init for %s", raw_doc.pk)
