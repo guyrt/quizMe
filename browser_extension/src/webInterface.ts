@@ -26,7 +26,11 @@ export async function sendDomPayloadUpdate(token : string, payload : UploadableD
 /// Request a quiz
 export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom> {
     const url = `${domain}/api/quiz/makequiz`;
-    const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
+    const apiToken = await sharedState.getApiToken();
+    if (apiToken == undefined) {
+        return {...payload, quiz_context: {previous_quiz: {status: "error"}}};
+    }
+
     const fullPayload = {...payload, force_recreate: forceReload};
 
     return post(apiToken, url, fullPayload).then((q : any) => {
@@ -47,7 +51,10 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
 
 export async function getQuizHistory() : Promise<QuizHistory | undefined> {
     const url = `${domain}/api/quiz/stats`;
-    const apiToken = await sharedState.getApiToken() ?? "badtokenWillTriggerLoggedOut";
+    const apiToken = await sharedState.getApiToken();
+    if (apiToken == undefined) {
+        return undefined;
+    }
     
     return get(apiToken, url).then(x => {
         if (x != undefined) {
@@ -89,6 +96,7 @@ function get<OutT>(token : string, url : string) : Promise<OutT>{
             return response.json();
         } else if (response.status == 401) {
             // unauthorized - fire generic signal.
+            console.log(`Error calling ${url} b/c no token`);
             chrome.runtime.sendMessage({action: "fa_noAPIToken"});
             return;
         }

@@ -124,13 +124,6 @@ class BackgroundState {
 
     private async getToken() : Promise<string | undefined> {
         const t = await sharedState.getApiToken();
-        if (t == undefined) {
-            log("Unable to find api token.");
-            sharedState.deleteUserState();
-
-            // alert UI
-            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
-        }
         return t;
     }
 
