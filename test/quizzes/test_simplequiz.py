@@ -17,13 +17,18 @@ def mixed_quiz():
     return mixer.blend(SimpleQuiz, content="lorem ipsum dolor")
 
 def test_sanity(mixed_quiz):
+    # load the fixture quiz
     sq = SimpleQuiz.objects.get(content="lorem ipsum dolor")
+    # change the content attribute
     sq.content = "pig latin"
+    # re-save
     sq.save()
+    # confirm it saved as expected
     sq.refresh_from_db()
     assert sq.content == "pig latin"
 
 def test_conftest_is_loading():
+    # confirms that conftest overrode the env file defaults
     assert os.environ['STRIPE_PUBLIC_KEY'] == '1234'
 
 
