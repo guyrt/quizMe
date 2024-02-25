@@ -6,8 +6,6 @@ pytestmark = pytest.mark.django_db
 
 import os
 
-print(os.environ["STRIPE_PUBLIC_KEY"])
-
 
 @pytest.fixture
 def mixed_quiz():
