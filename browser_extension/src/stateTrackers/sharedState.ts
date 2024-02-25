@@ -29,9 +29,13 @@ class SharedState {
         if (token == undefined) {
             // if a token doesn't exist, nuke local state.
             this.deleteUserState();
-            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
         }
         return token;
+    }
+
+    public async hasApiToken() {
+        const token = (await chrome.storage.local.get("secret.apikey"))["secret.apikey"];
+        return token != undefined;
     }
 
     /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
@@ -52,7 +56,6 @@ class SharedState {
     }
 
     public deleteUserState() {
-        chrome.storage.local.remove("secret.apikey");
         chrome.runtime.sendMessage({action: "fa_userLoggedOut"})
     }
 

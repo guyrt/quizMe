@@ -52,8 +52,13 @@ class SidePanelFiniteStateMachine {
         this.publish();
     }
 
-    public updateState(singlePage : SinglePageDetails) {
-        console.log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
+    public async updateState(singlePage : SinglePageDetails) {
+        if (this.state == "UserLoggedOut") {
+            // check for a token
+            if (!await sharedState.hasApiToken()) {
+                return;
+            }
+        }
 
         this.activeDetails = singlePage;
 
@@ -111,6 +116,7 @@ class SidePanelFiniteStateMachine {
     }
 
     private publish() {
+        console.log(`Reacting to state ${this.state}`);
         this.listeners.forEach(listener => {
             listener(this.state)
         });
