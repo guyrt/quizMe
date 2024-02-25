@@ -3,6 +3,7 @@ I do all python dev in Docker, so only Docker needs to be installed.
 To run django and the [webserve](./webserve) portion of the project:
 A .env file in the format of [sample.env.txt](./webserve/sample.env.txt) needs to be populated with the needed values and placed in the webserve folder
 
+## Basic Setup: 
 #### A basic run:
 ```shell
 docker compose up
@@ -40,5 +41,10 @@ docker exec -it ${CONTAINER_ID} bash
 
 ```
 
-
+## Front End Setup: 
 To build the front end: [front end readme](./browser_extension/README.md)
+
+## Back End (python) Testing:
+Back-end (pytest) [readme](./test/README.md)
+
+

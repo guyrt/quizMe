@@ -1,5 +1,7 @@
 <component name="ProjectRunConfigurationManager">
   <configuration default="false" name="pytest in test" type="tests" factoryName="py.test" nameIsGenerated="true">
+    <output_file path="$PROJECT_DIR$/test/logs" />
+    <log_file checked="false" alias="test_logs" path="$PROJECT_DIR$/test/logs" />
     <module name="financeExplorer" />
     <option name="ENV_FILES" value="" />
     <option name="INTERPRETER_OPTIONS" value="" />
