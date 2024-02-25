@@ -10,4 +10,4 @@ def set_env(monkeypatch: MonkeyPatch):
     tests with both sets of configs. Demoing a basic override of the strip env variable.
     """
     monkeypatch.setenv("STRIPE_PUBLIC_KEY", "1234_PUBLIC")
-    monkeypatch.setenv("STRIPE_SECRET_KEY", "1234_PRIVATE")
+    monkeypatch.setenv("STRIPE_SECRET_KEY", "1234_SECRET")

@@ -27,9 +27,13 @@ def test_sanity(mixed_quiz):
     sq.refresh_from_db()
     assert sq.content == "pig latin"
 
-def test_conftest_is_loading():
+@pytest.mark.parametrize("input, expected", [
+    ("STRIPE_PUBLIC_KEY", "1234_PUBLIC"),
+    ("STRIPE_SECRET_KEY", "1234_SECRET"),
+])
+def test_conftest_is_loading(input, expected):
     # confirms that conftest overrode the env file defaults
-    assert os.environ['STRIPE_PUBLIC_KEY'] == '1234'
+    assert os.environ[input] == expected
 
 
 
