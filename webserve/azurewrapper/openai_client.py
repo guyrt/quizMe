@@ -1,7 +1,6 @@
 import openai
 import os
 import tiktoken
-from enum import Enum
 
 from azurewrapper.gate import Gate
 
@@ -16,25 +15,11 @@ logger = logging.getLogger('default')
 # Engine becomes model == 3.5 or 4
 # Encoding becomes internal lookup.
 
-class ApiType(Enum):
-    AZURE = 'azure'
-    OPENAI = ''
-
-class ModelName(Enum):
-    TURBO35 = "35turbo"
-    GPT4 = 'gpt4'
-
 def get_encoding(model='35turbo'):
     return 'cl100k_base'
 
 
 def get_engine(model, api_type):
-    # api_type = ApiType(api_type.lower())
-    # model_name = ModelName(model.lower())
-    # match api_type:
-    #     case api_type.AZURE:
-    #
-
     if api_type == 'azure':
         if model == '35turbo':
             return "gpt-35-turbo-16k"
