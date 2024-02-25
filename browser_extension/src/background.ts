@@ -71,10 +71,6 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         // Perform action on page load
         const loadedUrl = message.payload.url;
         (async () => {
-            const searchTerms : chrome.tabs.QueryInfo = {
-                lastFocusedWindow: true
-            };
-
             // handle case where we're reloading from error on current active.
             if (loadedUrl == "unknown") {
                 chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
@@ -131,6 +127,17 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         })();
     } else if (message.action == "fa_userLoggedOut") {
         pageDetailsStore.deleteAllPageDetails();
+    } else if (message.action == "fa_onLoginReminderClick") {
+        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+
+            const activeTabId = getActiveTabId(tabs);
+
+            if (activeTabId !== undefined) {
+                chrome.sidePanel.open({tabId: activeTabId});
+                chrome.runtime.sendMessage({action: "fa_noAPIToken"});
+            }
+        });
+        })();
     }
 });
 
@@ -151,7 +158,6 @@ function handleTabs(tabs : chrome.tabs.Tab[], firstUpload : boolean) {
         {action: "fa_accessDOM", payload: {tabId: tId}},
         (x) => handleFAAccessDOMMessage(tId, x, firstUpload)
     );
-
 }
 
 

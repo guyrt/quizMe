@@ -64,6 +64,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 
 function showHint(isArticle : boolean) {
+    console.log('show circle');
     const circle = document.createElement('div');
     
     // Style the circle
@@ -115,6 +116,7 @@ function styleToLogin(circle : HTMLDivElement) {
 
     circle.onclick = () => {
         chrome.runtime.sendMessage({action: 'fa_onLoginReminderClick'});
+        circle.remove();
     };
 }
 
@@ -127,5 +129,6 @@ function styleToHint(circle : HTMLDivElement) {
 
     circle.onclick = () => {
         chrome.runtime.sendMessage({action: 'fa_onReminderClick', payload: {url: document.location.href}});
+        circle.remove();
     };
 }
