@@ -32,7 +32,10 @@ class BackgroundState {
         }
 
         const token = await this.getToken();
-        if (token == undefined) {return;}
+        if (token == undefined) {
+            chrome.tabs.sendMessage(tabId, {action: "fa_noAPIToken"});
+            return;
+        }
 
         const uploadableDom = this.buildUploadableDom(domSummary, record.guid, record.capture_index);
         this.uploadPromises[record.key] = sendDomPayload(token, uploadableDom);
@@ -124,13 +127,6 @@ class BackgroundState {
 
     private async getToken() : Promise<string | undefined> {
         const t = await sharedState.getApiToken();
-        if (t == undefined) {
-            log("Unable to find api token.");
-            sharedState.deleteUserState();
-
-            // alert UI
-            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
-        }
         return t;
     }
 

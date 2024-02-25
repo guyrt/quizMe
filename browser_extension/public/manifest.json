@@ -1,6 +1,6 @@
 {
-    "name": "Freesociate",
-    "description": "Reduce the fog of war",
+    "name": "Wezo",
+    "description": "Don't just read.",
     "version": "1.0.0",
     "manifest_version": 3,
     "permissions": [

@@ -56,12 +56,10 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         })})();
         return true;
     }
-    return false;
 });
 
 chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
     if (message.action === "fa_uploadQuizResult") {
-        console.log("Upload quiz response to server");
         uploadQuizResults(message.payload);
     }
 });
@@ -69,19 +67,23 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_pageLoaded") {
-        console.log(`Got action ${message.action}`);
+        oldLogger(`Got action ${message.action} with ${message.payload.url}`);
         // Perform action on page load
-        (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            if (tabs[0] === undefined) {
-                return;
+        const loadedUrl = message.payload.url;
+        (async () => {
+            // handle case where we're reloading from error on current active.
+            if (loadedUrl == "unknown") {
+                chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
+                    handleTabs(tabs, true);
+                });
+            } else {
+                chrome.tabs.query({currentWindow: true, url: loadedUrl}, function(tabs) {
+                    handleTabs(tabs, true);
+                });
             }
-            const tId = tabs[0].id ?? 1;
-            chrome.tabs.sendMessage(
-                tId,
-                {action: "fa_accessDOM", payload: {tabId: tId}},
-                (x) => handleFAAccessDOMMessage(tId, x, message.action === "fa_pageLoaded")
-            );
-        });})();
+
+            
+        })();
     } else if (message.action === "fa_pageReloaded") {
         console.log(`Got action ${message.action}`);
         const tId = message.payload.tabId;
@@ -91,17 +93,18 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             (x) => handleFAAccessDOMMessage(tId, x, message.action === "fa_pageLoaded")
         );
     } else if (message.action === "fa_makequiz") {
-        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+        (async () => {
+            chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
-            const activeTabId = getActiveTabId(tabs);
+                const activeTabId = getActiveTabId(tabs);
 
-            if (activeTabId !== undefined) {
-                const q = backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false);
-                sendResponse(q);
-            } else {
-                sendResponse({'status': 'error'});
-            }
-        });
+                if (activeTabId !== undefined) {
+                    const q = backgroundState.getOrCreateAQuiz(activeTabId, message.payload['forceReload'] ?? false);
+                    sendResponse(q);
+                } else {
+                    sendResponse({'status': 'error'});
+                }
+            });
         })();
         return true;
     } else if (message.action === "fa_getQuizHistory") {
@@ -112,6 +115,29 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             sendResponse(state);
         })();
         return true;
+    } else if (message.action === 'fa_onReminderClick') {
+        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+
+            const activeTabId = getActiveTabId(tabs);
+
+            if (activeTabId !== undefined) {
+                chrome.sidePanel.open({tabId: activeTabId});
+            }
+        });
+        })();
+    } else if (message.action == "fa_userLoggedOut") {
+        pageDetailsStore.deleteAllPageDetails();
+    } else if (message.action == "fa_onLoginReminderClick") {
+        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+
+            const activeTabId = getActiveTabId(tabs);
+
+            if (activeTabId !== undefined) {
+                chrome.sidePanel.open({tabId: activeTabId});
+                chrome.runtime.sendMessage({action: "fa_noAPIToken"});
+            }
+        });
+        })();
     }
 });
 
@@ -120,6 +146,19 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
 chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((error : any) => console.error(error));
+
+
+function handleTabs(tabs : chrome.tabs.Tab[], firstUpload : boolean) {
+    if (tabs[0] === undefined) {
+        return;
+    }
+    const tId = argMax<any, any>(tabs, 'lastAccessed').id;
+    chrome.tabs.sendMessage(
+        tId,
+        {action: "fa_accessDOM", payload: {tabId: tId}},
+        (x) => handleFAAccessDOMMessage(tId, x, firstUpload)
+    );
+}
 
 
 function handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
@@ -149,3 +188,10 @@ function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{
     }
     
 }
+
+function argMax<T extends Record<K, number>, K extends keyof any>(listOfObjects: T[], key: K): T {
+    const argMaxObject = listOfObjects.reduce((maxObj, currentObj) => {
+      return currentObj[key] > maxObj[key] ? currentObj : maxObj;
+    }, listOfObjects[0]);
+    return argMaxObject;
+  }

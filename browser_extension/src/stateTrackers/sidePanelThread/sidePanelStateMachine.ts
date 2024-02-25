@@ -10,7 +10,14 @@ import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from
 import { sharedState } from "../sharedState";
 
 
-export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "ShowUserSettings" | "PageBlocked";
+export type SidePanelState = "PageNotUploaded" 
+| "PageUploadedAndClassified" 
+| "UploadError" 
+| "UserLoggedOut" 
+| "ShowUserSettings" 
+| "PageBlocked" 
+| "Reload"  // not an error so don't apologize.
+;
 
 
 class SidePanelFiniteStateMachine {
@@ -37,8 +44,21 @@ class SidePanelFiniteStateMachine {
         this.listeners = this.listeners.filter(l => l !== listener);
     }
 
-    public updateState(singlePage : SinglePageDetails) {
-        console.log(`Updating state ${singlePage.uploadState} for ${singlePage.url.href}`);
+    public updateReload() {
+        if (this.state == 'Reload') {
+            return;
+        }
+        this.state = 'Reload'
+        this.publish();
+    }
+
+    public async updateState(singlePage : SinglePageDetails) {
+        if (this.state == "UserLoggedOut") {
+            // check for a token
+            if (!await sharedState.hasApiToken()) {
+                return;
+            }
+        }
 
         this.activeDetails = singlePage;
 
@@ -72,6 +92,7 @@ class SidePanelFiniteStateMachine {
             if (_domFacts == undefined) {
                 return;
             } else if ('error' in _domFacts) {
+                this.updateReload();
                 console.log(`FSM got error: ${_domFacts.error}`);
             } else {
                 // Call updateState with the received data
@@ -83,8 +104,10 @@ class SidePanelFiniteStateMachine {
     }
 
     public handleUserLoggedOut() {
-        this.state = "UserLoggedOut";
-        this.publish();
+        if (this.state != "UserLoggedOut") {
+            this.state = "UserLoggedOut";
+            this.publish();
+        }
     }
 
     public setShowOptions() {
@@ -93,6 +116,7 @@ class SidePanelFiniteStateMachine {
     }
 
     private publish() {
+        console.log(`Reacting to state ${this.state}`);
         this.listeners.forEach(listener => {
             listener(this.state)
         });
@@ -100,14 +124,16 @@ class SidePanelFiniteStateMachine {
 
 }
 
-console.log("Side panel FSM loading")
 export const fsm = new SidePanelFiniteStateMachine();
 
 // Listen for one Message: active details changed.
 chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, sender) => {
     if (message.action === "fa_activeSinglePageDetailsChange") {
-        console.log(`FSM got action with ${message}`)
-        fsm.updateState(message.payload);
+        if ('error' in message.payload && message.payload.error == "no page exists") {
+            fsm.updateReload();
+        } else {
+            fsm.updateState(message.payload as SinglePageDetails);
+        }
         return true;
     }
     return false;
