@@ -46,3 +46,6 @@ RQ_QUEUES = {
     },
 }
 
+ALLOWED_HOSTS=('0.0.0.0','localhost')
+LOCAL_DEVELOPER_NAME="SAM"
+
