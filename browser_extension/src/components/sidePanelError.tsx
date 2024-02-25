@@ -17,7 +17,7 @@ const ReloadView: React.FC<ReloadViewProps> = ({ isError }) => {
         <div>
             {isError && <>
                 <p>Uh oh! Something went wrong. Our bad.</p> <button type='button' onClick={retry}>
-                    "Try again?"
+                    Try again?
                 </button>
                 </>
             }

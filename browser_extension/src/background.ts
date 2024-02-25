@@ -22,7 +22,7 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
     pageDetailsStore.getPageDetails(activeInfo.tabId).then(x => {
         chrome.runtime.sendMessage({
             action: "fa_activeSinglePageDetailsChange",
-            payload: x ? x : {error: 'no page exists'}
+            payload: x
         });
     });
 });
@@ -38,20 +38,19 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             
             if (!tabs.length) {
                 console.log("Unable to get active tab");
-                sendResponse({error: "no active tab"});
+                sendResponse({error: "nopage"});
                 return true;
             }
             const activeTabId = getActiveTabId(tabs);
             if (activeTabId == undefined) {
                 console.log(`No active tab info found for tab ${activeTabId}`);
-                sendResponse({error: `No active tab info for tab ${activeTabId}`});
+                sendResponse({error: "nopage"});
                 return true;
             }
             pageDetailsStore.getPageDetails(activeTabId).then(d => {
-                console.log(`Reporting tab ${activeTabId} article status ${d?.domClassification?.classification}`);
-                sendResponse(d ? d : {error: "no details returned"});
+                sendResponse(d);
             }).catch(e => {
-                sendResponse({error: e.message});
+                sendResponse({error: "nopage"});
             });
         })})();
         return true;

@@ -136,3 +136,11 @@ export type SinglePageDetails = {
     key : number,
     title : string,
 }
+
+export type SinglePageDetailsErrorState =  {
+    error: 'auth' |   // issue with auth - generally fatal.
+            'nopage' |  // no page shown yet.
+            'cachemiss'  // cache miss. generally sign to reprocess if seen in front end.
+}
+
+export type MaybeSinglePageDetails = SinglePageDetails | SinglePageDetailsErrorState;

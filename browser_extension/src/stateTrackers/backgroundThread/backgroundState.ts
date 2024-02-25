@@ -1,7 +1,7 @@
 /// State object for the background
 import { v4 as uuidv4 } from 'uuid';
 
-import { DomShape, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
+import { DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { getAQuiz, sendDomPayload, sendDomPayloadUpdate } from "../../webInterface";
 import { sharedState } from "../sharedState";
@@ -19,7 +19,14 @@ class BackgroundState {
     public async uploadPage(tabId : number, domSummary : DomShape) {
         console.log("Upload started on ", tabId);
         const record = await this.getOrCreatePageDetails(tabId, domSummary);
+        
+        // Assume that any errors here are fatal. Some errors like cache miss are cleaned up before this.
+        if ('error' in record) {
+            pageDetailsStore.setPageDetails(tabId, record);
+            return;
+        }
 
+        // from here, we assume record is a SimplePageRecord.
         if (!await this.shouldOperateOnPage(record)) {
             console.log(`Upload abandoned ${tabId} url ${domSummary.url.href}`);
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'donotprocess'}, true);
@@ -27,13 +34,13 @@ class BackgroundState {
         }
         
         if (record.uploadState != 'notstarted' && record.uploadState != 'error') {
-            console.log("upload abandonded for state", record.uploadState);
+            console.log("upload abandoned for state", record.uploadState);
             return;
         }
 
         const token = await this.getToken();
         if (token == undefined) {
-            chrome.tabs.sendMessage(tabId, {action: "fa_noAPIToken"});
+            pageDetailsStore.setPageDetails(record.key, {error: 'auth'});
             return;
         }
 
@@ -94,7 +101,7 @@ class BackgroundState {
 
         const record = await pageDetailsStore.getPageDetails(key);
 
-        if (record == undefined) {
+        if ('error' in record) {
             log(`Key ${key} not in page details. Returning no quiz.`)
             return Promise.resolve({'status': 'error'});
         }
@@ -176,19 +183,20 @@ class BackgroundState {
 
     private async getPageDetails(key : number) : Promise<SinglePageDetails> {
         let pageDetail = await pageDetailsStore.getPageDetails(key);
-        if (pageDetail == undefined) {
+        if ('error' in pageDetail && pageDetail.error == 'cachemiss') {
             throw `Key not found: ${key}`;
         }
-        return pageDetail;
+        return pageDetail as SinglePageDetails;
     }
 
-    private async getOrCreatePageDetails(key : number, response : DomShape) : Promise<SinglePageDetails> {
+    private async getOrCreatePageDetails(key : number, response : DomShape) : Promise<MaybeSinglePageDetails> {
         let pageDetail = await pageDetailsStore.getPageDetails(key);
-        const missingKey = pageDetail == undefined;
-        missingKey && log(`tabId ${key} missing from pageDetails`);
+        if ('error' in pageDetail && pageDetail.error == 'auth') {
+            return pageDetail;
+        }
 
-        const urlMismatch = pageDetail?.url?.href != response.url.href;
-        urlMismatch && log(`url mismatch: stored ${pageDetail?.url?.href} but need ${response.url.href}`);
+        const missingKey = 'error' in pageDetail && pageDetail.error == 'cachemiss';
+        const urlMismatch = missingKey || (pageDetail as SinglePageDetails).url.href != response.url.href;
 
         if (missingKey || urlMismatch) {
             // If this is a new page OR this is a change of site in same tab.
@@ -209,7 +217,7 @@ class BackgroundState {
             }
         }
 
-        return Promise.resolve(pageDetail as SinglePageDetails);
+        return Promise.resolve(pageDetail);
     }
 
     private createCaptureIndex(recordTime : number) {
