@@ -96,6 +96,9 @@ export type ChromeMessageType =
     // these pair of events are a 2-direction update.
     | "fa_getQuizHistory"  // sent from SidePanel to Background and expects most recent cached history.
     | "fa_newQuizHistory"  // send from the Background when a new history is retrieved. Sidepanel should listen for it.
+    | "fa_onReminderClick"  // this fires when article reminder fires on webpage.
+    | "fa_onLoginReminderClick"  // fires when user clicks logged out reminder.
+    | "fa_userLoggedOut"
 
 export type ChromeMessage = {
     action : ChromeMessageType,
@@ -115,7 +118,7 @@ export type QuizHistory = {
 
 export type SinglePageDetailsChangeMessage = {
     action : "fa_activeSinglePageDetailsChange"
-    payload : SinglePageDetails
+    payload : SinglePageDetails | {'error': string}
 }
 
 

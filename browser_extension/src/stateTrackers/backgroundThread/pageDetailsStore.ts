@@ -50,9 +50,23 @@ class PageDetailsStore {
         await storageEngine.remove(this.makeKey(tabId));
     }
 
-    private makeKey(tabId : number) : string {
-        return `singlepagedetails.${tabId}`;
+    public async deleteAllPageDetails() {
+        const kPrefix = this.keyPrefix;
+        chrome.storage.local.get(null, function(items) {
+            const keysToDelete = Object.keys(items).filter(key => key.startsWith(kPrefix));
+
+            if (keysToDelete.length > 0) {
+                chrome.storage.local.remove(keysToDelete, function() {});
+            }
+        });
+        this.pageDetails = {};
     }
+
+    private makeKey(tabId : number | string) : string {
+        return `${this.keyPrefix}.${tabId}`;
+    }
+
+    private keyPrefix = "singlepagedetails"
 
 }
 

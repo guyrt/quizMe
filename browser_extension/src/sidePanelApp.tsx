@@ -38,8 +38,9 @@ function MainApp() {
     return (
         <>
             {state == "PageNotUploaded" && <p>Loading! Hang tight...</p>}
-            {state == "UploadError" && <SidePanelError />}
-            {(state == "PageUploadedAndClassified") && <SidePanelStats />}
+            {state == "UploadError" && <SidePanelError isError={true}/>}
+            {state == "Reload" && <SidePanelError isError={false} />}
+            {state == "PageUploadedAndClassified" && <SidePanelStats />}
             {state == "PageBlocked" && <p>This page is blocked.</p>}
             {state == "UserLoggedOut" && <div>You are logged out. <SidePanelSignInOptions /></div>}
             {state == "ShowUserSettings" && <SidePanelLoggedInUserSettings />}

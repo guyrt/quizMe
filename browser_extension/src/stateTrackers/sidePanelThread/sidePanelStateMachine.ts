@@ -10,7 +10,14 @@ import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from
 import { sharedState } from "../sharedState";
 
 
-export type SidePanelState = "PageNotUploaded" | "PageUploadedAndClassified" | "UploadError" | "UserLoggedOut" | "ShowUserSettings" | "PageBlocked";
+export type SidePanelState = "PageNotUploaded" 
+| "PageUploadedAndClassified" 
+| "UploadError" 
+| "UserLoggedOut" 
+| "ShowUserSettings" 
+| "PageBlocked" 
+| "Reload"  // not an error so don't apologize.
+;
 
 
 class SidePanelFiniteStateMachine {
@@ -35,6 +42,14 @@ class SidePanelFiniteStateMachine {
 
     public unsubscribe(listener: (state: SidePanelState) => void): void {
         this.listeners = this.listeners.filter(l => l !== listener);
+    }
+
+    public updateReload() {
+        if (this.state == 'Reload') {
+            return;
+        }
+        this.state = 'Reload'
+        this.publish();
     }
 
     public updateState(singlePage : SinglePageDetails) {
@@ -72,6 +87,7 @@ class SidePanelFiniteStateMachine {
             if (_domFacts == undefined) {
                 return;
             } else if ('error' in _domFacts) {
+                this.updateReload();
                 console.log(`FSM got error: ${_domFacts.error}`);
             } else {
                 // Call updateState with the received data
@@ -83,8 +99,10 @@ class SidePanelFiniteStateMachine {
     }
 
     public handleUserLoggedOut() {
-        this.state = "UserLoggedOut";
-        this.publish();
+        if (this.state != "UserLoggedOut") {
+            this.state = "UserLoggedOut";
+            this.publish();
+        }
     }
 
     public setShowOptions() {
@@ -100,14 +118,16 @@ class SidePanelFiniteStateMachine {
 
 }
 
-console.log("Side panel FSM loading")
 export const fsm = new SidePanelFiniteStateMachine();
 
 // Listen for one Message: active details changed.
 chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, sender) => {
     if (message.action === "fa_activeSinglePageDetailsChange") {
-        console.log(`FSM got action with ${message}`)
-        fsm.updateState(message.payload);
+        if ('error' in message.payload && message.payload.error == "no page exists") {
+            fsm.updateReload();
+        } else {
+            fsm.updateState(message.payload as SinglePageDetails);
+        }
         return true;
     }
     return false;

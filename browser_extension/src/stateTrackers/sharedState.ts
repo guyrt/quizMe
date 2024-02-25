@@ -24,7 +24,14 @@ class SharedState {
     ];
 
     public async getApiToken() : Promise<string | undefined> {
-        return (await chrome.storage.local.get("secret.apikey"))["secret.apikey"];
+        const token = (await chrome.storage.local.get("secret.apikey"))["secret.apikey"];
+
+        if (token == undefined) {
+            // if a token doesn't exist, nuke local state.
+            this.deleteUserState();
+            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
+        }
+        return token;
     }
 
     /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
@@ -46,6 +53,7 @@ class SharedState {
 
     public deleteUserState() {
         chrome.storage.local.remove("secret.apikey");
+        chrome.runtime.sendMessage({action: "fa_userLoggedOut"})
     }
 
     public async getDomainBlockList() : Promise<string[]> {
