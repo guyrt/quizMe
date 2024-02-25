@@ -11,7 +11,7 @@ import os
 @pytest.fixture
 def mixed_quiz():
     """
-    Dummy example. Blender auto-populates any object attributes that
+    Dummy example. Mixer auto-populates any object attributes that
     we don't manually override with kwargs, then creates the object.
     """
     return mixer.blend(SimpleQuiz, content="lorem ipsum dolor")
