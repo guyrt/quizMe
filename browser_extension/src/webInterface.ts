@@ -94,11 +94,6 @@ function get<OutT>(token : string, url : string) : Promise<OutT>{
     .then(response => {
         if (response.ok) {
             return response.json();
-        } else if (response.status == 401) {
-            // unauthorized - fire generic signal.
-            console.log(`Error calling ${url} b/c no token`);
-            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
-            return;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
     })
@@ -124,11 +119,6 @@ function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<
     .then(response => {
         if (response.ok) {
             return response.json();
-        } else if (response.status === 401) {
-            // unauthorized - fire generic signal.
-            console.log("sending logged out message");
-            chrome.runtime.sendMessage({action: "fa_noAPIToken"});
-            return;
         }
         throw new Error(`HTTP error! status: ${response.status}`);
     })

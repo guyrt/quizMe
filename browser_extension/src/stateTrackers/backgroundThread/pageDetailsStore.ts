@@ -1,8 +1,8 @@
-import { SinglePageDetails } from "../../interfaces";
+import { MaybeSinglePageDetails, SinglePageDetails } from "../../interfaces";
 
 
 type PageDetailsMap = {
-    [key: number]: SinglePageDetails
+    [key: number]: MaybeSinglePageDetails
 }
 
 
@@ -13,7 +13,7 @@ const storageEngine = chrome.storage.local;
 class PageDetailsStore {
     private pageDetails : PageDetailsMap = {}
 
-    public async getPageDetails(tabId : number) : Promise<SinglePageDetails | undefined> {
+    public async getPageDetails(tabId : number) : Promise<MaybeSinglePageDetails> {
         if (tabId in this.pageDetails) {
             return Promise.resolve(this.pageDetails[tabId]);
         }
@@ -24,9 +24,9 @@ class PageDetailsStore {
         const v = storeResults[storageKey];
         if (v != undefined) {
             this.pageDetails[tabId] = v;
+            return v
         }
-
-        return v;
+        return {error: 'cachemiss'};
     }
 
     /**
@@ -35,7 +35,7 @@ class PageDetailsStore {
      * @param page 
      * @param broadcast Only set to true if you are the current active tab.
      */
-    public setPageDetails(tabId : number, page : SinglePageDetails, broadcast : boolean = true) {
+    public setPageDetails(tabId : number, page : MaybeSinglePageDetails, broadcast : boolean = true) {
         const storageKey = this.makeKey(tabId);
         storageEngine.set({[storageKey]: page}, () => {});
         this.pageDetails[tabId] = page;

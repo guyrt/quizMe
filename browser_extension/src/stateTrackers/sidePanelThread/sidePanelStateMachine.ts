@@ -6,7 +6,7 @@
  * Finite State Machine lives in the SidePanel context.
  */
 
-import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage } from "../../interfaces";
+import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage, MaybeSinglePageDetails, SinglePageDetailsErrorState } from "../../interfaces";
 import { sharedState } from "../sharedState";
 
 
@@ -17,6 +17,7 @@ export type SidePanelState = "PageNotUploaded"
 | "ShowUserSettings" 
 | "PageBlocked" 
 | "Reload"  // not an error so don't apologize.
+| "EmptyPage"
 ;
 
 
@@ -77,27 +78,30 @@ class SidePanelFiniteStateMachine {
         this.publish();
     }
 
+    public async handleError(singlePage : SinglePageDetailsErrorState) {
+        if (singlePage.error == 'auth') {
+            this.handleUserLoggedOut();
+        } else if (singlePage.error == 'cachemiss' || singlePage.error == 'nopage') {
+            this.state = "EmptyPage";
+            this.publish();
+        }
+    }
+
     public async triggerCheck() {
         console.log("Trigger check");
 
-        if (await sharedState.getApiToken() == undefined) {
-            this.handleUserLoggedOut();
-        }
-
         // get the latest state then trigger.
         // step 1: get latest state from BE
-        chrome.runtime.sendMessage({ action: "fa_getCurrentPage", payload: {} }, (_domFacts: SinglePageDetails | { error: string }) => {
+        chrome.runtime.sendMessage({ action: "fa_getCurrentPage", payload: {} }, (_domFacts: MaybeSinglePageDetails) => {
             // Check if the response contains an error
-            console.log("FSM trigger check callback");
             if (_domFacts == undefined) {
                 return;
             } else if ('error' in _domFacts) {
-                this.updateReload();
-                console.log(`FSM got error: ${_domFacts.error}`);
+                this.handleError(_domFacts);
             } else {
                 // Call updateState with the received data
                 console.log("FSM updaing from trigger check")
-                this.updateState(_domFacts);
+                this.updateState(_domFacts as SinglePageDetails);
             }
         });
         
@@ -129,8 +133,8 @@ export const fsm = new SidePanelFiniteStateMachine();
 // Listen for one Message: active details changed.
 chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, sender) => {
     if (message.action === "fa_activeSinglePageDetailsChange") {
-        if ('error' in message.payload && message.payload.error == "no page exists") {
-            fsm.updateReload();
+        if ('error' in message.payload) {
+            fsm.handleError(message.payload as SinglePageDetailsErrorState)
         } else {
             fsm.updateState(message.payload as SinglePageDetails);
         }
