@@ -1,3 +1,4 @@
+import os
 import pytest
 from mixer.backend.django import mixer
 from quizzes.models import SimpleQuiz
@@ -17,6 +18,9 @@ def test_sanity(mixed_quiz):
     sq.save()
     sq.refresh_from_db()
     assert sq.content == "pig latin"
+
+def test_conftest_is_loading():
+    assert os.environ['STRIPE_PUBLIC_KEY'] == '1234'
 
 
 
