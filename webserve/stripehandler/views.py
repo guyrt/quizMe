@@ -7,7 +7,7 @@ import stripe
 
 from django.conf import settings
 
-from .handlers import customer_created
+from .handlers import customer_created, customer_deleted
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -27,11 +27,13 @@ def stripe_hook(request):
     if event_type == "customer.created":
         customer_id = body['data']['object']['id']
         customer_email = body.get('customer_email', '')
-        customer_created(customer_id, customer_email)
+        customer_created(event_id, customer_id, customer_email)
     elif event_type == "customer.deleted":
         customer_id = body['data']['object']['id']
         customer_email = body.get('customer_email', '')
+        customer_deleted(event_id, customer_id)
     elif event_type == "customer.subscription.created":
+        # todo
         customer_email = body['customer_email']
         subscription = body['data']['object']['id']
     elif event_type == "customer.subscription.updated":
@@ -39,9 +41,11 @@ def stripe_hook(request):
         customer_id = body['data']['object']['customer']
         subscription = body['data']['object']['id']
     elif event_type == "customer.subscription.delete":
+        # todo
         customer_id = body['data']['object']['id']
         customer_email = body.get('customer_email', '')
     elif event_type == "invoice.paid":
+        # todo
         customer_email = body['customer_email']
         subscription = body['data']['object']['subscription']
     else:

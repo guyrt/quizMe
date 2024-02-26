@@ -1,4 +1,3 @@
-import uuid
 from django.db import models, transaction
 from django.core.exceptions import ValidationError
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
