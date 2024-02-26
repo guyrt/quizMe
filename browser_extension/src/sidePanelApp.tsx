@@ -6,6 +6,7 @@ import { SidePanelState, fsm } from "./stateTrackers/sidePanelThread/sidePanelSt
 import SidePanelStats from "./components/sidePanelStats";
 import SidePanelSignInOptions from "./optionsManagement/sidePanelSignInResolver";
 import { SidePanelLoggedInUserSettings } from "./optionsManagement/sidePanelUserSettings";
+import { LoadingGif } from "./components/shared/loading";
 
 function MainApp() {
 
@@ -37,7 +38,7 @@ function MainApp() {
     
     return (
         <>
-            {state == "PageNotUploaded" && <p>Loading! Hang tight...</p>}
+            {state == "PageNotUploaded" && <LoadingGif message={"Loading! Hang tight..."} wait={1000}/>}
             {state == "UploadError" && <SidePanelError isError={true}/>}
             {state == "Reload" && <SidePanelError isError={false} />}
             {state == "EmptyPage" && <p>Don't just stand there... open something!</p> }

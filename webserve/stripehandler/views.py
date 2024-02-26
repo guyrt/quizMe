@@ -7,6 +7,8 @@ import stripe
 
 from django.conf import settings
 
+from .handlers import customer_created
+
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
 
@@ -21,10 +23,14 @@ def stripe_hook(request):
     event_id = body['id']
     event_type = body['type']
 
-    logger.info("Got event %s %s", event_id, event_type)
+    logger.info("Stripe event %s %s", event_id, event_type)
     if event_type == "customer.created":
         customer_id = body['data']['object']['id']
-        customer_email = body['customer_email']
+        customer_email = body.get('customer_email', '')
+        customer_created(customer_id, customer_email)
+    elif event_type == "customer.deleted":
+        customer_id = body['data']['object']['id']
+        customer_email = body.get('customer_email', '')
     elif event_type == "customer.subscription.created":
         customer_email = body['customer_email']
         subscription = body['data']['object']['id']
@@ -34,12 +40,12 @@ def stripe_hook(request):
         subscription = body['data']['object']['id']
     elif event_type == "customer.subscription.delete":
         customer_id = body['data']['object']['id']
-        customer_email = body['customer_email']
+        customer_email = body.get('customer_email', '')
     elif event_type == "invoice.paid":
         customer_email = body['customer_email']
         subscription = body['data']['object']['subscription']
     else:
-      logger.info("Unhandled stripe event: %s %s", event_type, event_id)        
+        logger.info("Unhandled stripe event: %s %s", event_type, event_id)
 
     return HttpResponse(status=200)
 

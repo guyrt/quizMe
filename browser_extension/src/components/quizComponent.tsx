@@ -5,6 +5,7 @@ import { QuizStatus } from "./quizzes/quizInterfaces";
 import { QuizInProgress } from "./quizzes/quizQuestion";
 import { QuizGraded } from "./quizzes/quizGradedQuestion";
 import { quizHistoryBroker } from "../stateTrackers/sidePanelThread/quizHistoryBroker";
+import { LoadingGif } from "./shared/loading";
 
 // Component Props type
 type QuizViewProps = {
@@ -82,7 +83,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
         <div>
             {/* Handles generation header */}
             {quiz?.status == "building" ?
-                <div>Generating...</div> 
+                <LoadingGif message={"Generating..."} wait={0}/>
                 : 
                 <>
                     {/* header info */}
