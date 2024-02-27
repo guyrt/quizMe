@@ -55,6 +55,6 @@ jobs:
       env:
         CHANGED_FILES: ${{ steps.get_changed_files.outputs.changed_files }}
       run: |
-        echo "::set-output name=changed_files::$(git diff --name-only --diff-filter=d HEAD^HEAD)"
+        echo "::set-output name=changed_files::$(git diff --name-only --diff-filter=d HEAD^ HEAD)"
         local changed_files=$(echo "${{ env.CHANGED_FILES }}" | tr '\n' ' ')
         pre-commit run --show-diff-on-failure --files="$changed_files"
