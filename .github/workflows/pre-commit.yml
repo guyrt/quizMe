@@ -16,8 +16,10 @@
 #    - uses: pre-commit/action@v3.0.1
 
 
-name: Pre-Commit Checks
-on: [push]
+
+name: pre-commit
+
+on: [push, pull_request]
 jobs:
   pre_commit:
     name: Pre-Commit checks
