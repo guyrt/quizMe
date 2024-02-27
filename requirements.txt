@@ -49,4 +49,8 @@ ipdb
 pytest
 pytest-django
 mixer
+
+# linting/ci/orchestration
+pre-commit
+ruff
 pytest-xdist
