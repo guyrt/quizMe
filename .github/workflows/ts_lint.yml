@@ -18,7 +18,6 @@ jobs:
       - uses: sibiraj-s/action-eslint@v3.0.1
         with:
           working-directory: browser_extension
-          # token: ${{ secrets.GITHUB_TOKEN }} # optional
           eslint-args: '--ignore-path=.eslintignore --quiet'
           extensions: 'js,jsx,ts,tsx'
           annotations: true
