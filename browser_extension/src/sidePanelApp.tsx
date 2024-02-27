@@ -38,7 +38,7 @@ function MainApp() {
     
     return (
         <>
-            {state == "PageNotUploaded" && <LoadingGif message={"Loading! Hang tight..."} wait={1000}/>}
+            {state == "PageNotUploaded" && <LoadingGif message={"Loading! Hang tight..."} wait={1500}/>}
             {state == "UploadError" && <SidePanelError isError={true}/>}
             {state == "Reload" && <SidePanelError isError={false} />}
             {state == "EmptyPage" && <p>Don't just stand there... open something!</p> }

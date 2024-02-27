@@ -19,9 +19,13 @@ logger = logging.getLogger("default")
 @require_POST
 def stripe_hook(request):
 
-    body = json.loads(request.body)
-    event_id = body['id']
-    event_type = body['type']
+    # lazy but good for now - anything not passing this is likely garbage traffic
+    try:
+        body = json.loads(request.body)
+        event_id = body['id']
+        event_type = body['type']
+    except:
+        return
 
     logger.info("Stripe event %s %s", event_id, event_type)
     if event_type == "customer.created":
@@ -52,10 +56,3 @@ def stripe_hook(request):
         logger.info("Unhandled stripe event: %s %s", event_type, event_id)
 
     return HttpResponse(status=200)
-
-
-# todo:
-#   customer object - only one with get or create.
-#   subscriptions object with 'state' that is active and inactive
-#   events log
-#   
