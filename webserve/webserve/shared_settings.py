@@ -70,7 +70,8 @@ INSTALLED_APPS = [
     "privateuploads",
     "mltrack",
     "quizzes",
-    "sharing"
+    "sharing",
+    "stripehandler"
 ]
 
 MIDDLEWARE = [
