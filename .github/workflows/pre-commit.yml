@@ -48,7 +48,7 @@ jobs:
     - name: Get changed files
       id: get_changed_files
       run: |
-        echo "::set-output name=changed_files::$(git diff --name-only --diff-filter=d HEAD^HEAD)"
+        echo "::set-output name=changed_files::$(git diff --name-only --diff-filter=d HEAD^ HEAD)"
 
     # Run pre-commit checks on the changed files only
     - name: Pre-Commit check
