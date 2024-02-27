@@ -49,3 +49,4 @@ ipdb
 pytest
 pytest-django
 mixer
+pytest-xdist
