@@ -17,7 +17,7 @@ jobs:
       - run: yarn install
       - uses: sibiraj-s/action-eslint@v4
         with:
-          working-dir: browser_extension
+          working-directory: browser_extension
           # token: ${{ secrets.GITHUB_TOKEN }} # optional
           eslint-args: '--ignore-path=.eslintignore --quiet'
           extensions: 'js,jsx,ts,tsx'
