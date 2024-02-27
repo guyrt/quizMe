@@ -1,41 +1,37 @@
 {
-    "name": "Wezo",
-    "description": "Don't just read.",
-    "version": "1.0.0",
-    "manifest_version": 3,
-    "permissions": [
-        "activeTab",
-        "scripting",
-        "storage",
-        "webNavigation",
-        "sidePanel",
-        "windows",
-        "tabs",
-        "idle"
-    ],
-    "content_scripts": [
-        {
-            "matches": [
-                "<all_urls>"
-            ],
-            "js": [
-                "runOnceActions.js"
-            ]
-        }
-    ],
-    "options_page": "options.html",
-    "action": {
-        "default_icon": {
-            "16": "/images/logo-16x16.png",
-            "48": "/images/logo-48x48.png",
-            "128": "/images/logo-128x128.png"
-        },
-        "default_title": "Click to open!"
-    },
-    "side_panel": {
-        "default_path": "index.html"
-    },
-    "background": {
-        "service_worker": "background.js"
+  "name": "Wezo",
+  "description": "Don't just read.",
+  "version": "1.0.0",
+  "manifest_version": 3,
+  "permissions": [
+    "activeTab",
+    "scripting",
+    "storage",
+    "webNavigation",
+    "sidePanel",
+    "windows",
+    "tabs",
+    "idle"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["runOnceActions.js"]
     }
+  ],
+  "options_page": "options.html",
+  "action": {
+    "default_icon": {
+      "16": "/images/logo-16x16.png",
+      "48": "/images/logo-48x48.png",
+      "128": "/images/logo-128x128.png"
+    },
+    "default_title": "Click to open!"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
 }
