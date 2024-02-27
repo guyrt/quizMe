@@ -15,7 +15,7 @@ jobs:
 
     # Install pre-commit and the configured hooks
     - name: Install pre-commit
-      uses: pre-commit/pre-commit
+      uses: pre-commit/action@v3.0.1
       with:
         install-hook: local
         hookid: "^.*"
