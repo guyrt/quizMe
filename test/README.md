@@ -6,7 +6,8 @@ All backend and python code should be tested using the pytest framework, which o
 - Test the code, not the framework. (Don't test that django does django stuff, django already does that)
 
 ## Running Pytest: 
-- In pycharm there should be a run config called "pytest in test" that will work properly
+- pycharm run config called "pytest in test" that will work properly. You can run it with the debugger and step through the code as it runs when invoked in this manner.
+- Pycharm run config called "pytest parallel" that runs the same suite with the additional argument `-n auto` which will invoke the test in parallel using all available cores. 
 - To directly run: 
 ```shell
 docker compose up -d  &
