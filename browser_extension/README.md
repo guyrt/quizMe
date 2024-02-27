@@ -26,3 +26,9 @@ yarn dev
 ```
 
 Load the `dist` folder as your extension.
+
+### Linting: 
+```shell
+yarn run lint --fix
+yarn run format 
+```
