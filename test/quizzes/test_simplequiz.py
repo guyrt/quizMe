@@ -5,8 +5,6 @@ from quizzes.models import SimpleQuiz
 
 pytestmark = pytest.mark.django_db
 
-import os
-
 
 @pytest.fixture
 def mixed_quiz():
@@ -15,6 +13,7 @@ def mixed_quiz():
     we don't manually override with kwargs, then creates the object.
     """
     return mixer.blend(SimpleQuiz, content="lorem ipsum dolor")
+
 
 def test_sanity(mixed_quiz):
     # load the fixture quiz
@@ -27,13 +26,14 @@ def test_sanity(mixed_quiz):
     sq.refresh_from_db()
     assert sq.content == "pig latin"
 
-@pytest.mark.parametrize("input, expected", [
-    ("STRIPE_PUBLIC_KEY", "1234_PUBLIC"),
-    ("STRIPE_SECRET_KEY", "1234_SECRET"),
-])
+
+@pytest.mark.parametrize(
+    "input, expected",
+    [
+        ("STRIPE_PUBLIC_KEY", "1234_PUBLIC"),
+        ("STRIPE_SECRET_KEY", "1234_SECRET"),
+    ],
+)
 def test_conftest_is_loading(input, expected):
     # confirms that conftest overrode the env file defaults
     assert os.environ[input] == expected
-
-
-

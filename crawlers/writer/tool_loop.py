@@ -1,11 +1,9 @@
 import json
-from typing import List
 
 from azurewrapper.openai_client import OpenAIClient
 from writer.quality_response import RelevantDataChecker
 from writer.tools.bing_search import Bing
 from writer.tools.wikipedia import Wikipedia
-from writer.writer_types import KnownFact
 
 from .tools.base import Tool
 
@@ -13,7 +11,6 @@ import logging
 
 
 class Sec(Tool):
-
     name = "CompanyFinancialDetails"
     description = (
         "A wrapper around data that companies file with the Securities Exchange Commission. "
@@ -25,7 +22,6 @@ class Sec(Tool):
 
 
 class YahooFinance(Tool):
-
     name = "FinanceNewsAPI"
     description = (
         "Useful for when you need to find recent financial news about a public company. "
@@ -35,7 +31,6 @@ class YahooFinance(Tool):
 
 
 class YahooFinanceFact(Tool):
-
     name = "StockPrice"
     description = (
         "This tool contains only the following information: daily stock prices, sector name for a stock."
@@ -45,24 +40,23 @@ class YahooFinanceFact(Tool):
 
 
 class ToolLoop:
-
-    def __init__(self, oai : OpenAIClient) -> None:
+    def __init__(self, oai: OpenAIClient) -> None:
         self._oai = oai
-        self._tools : list[Tool] = [
+        self._tools: list[Tool] = [
             Wikipedia(),
             YahooFinance(),
             Sec(),
             YahooFinanceFact(),
-            Bing()
+            Bing(),
         ]
         self._checker = RelevantDataChecker(self._oai)
 
-    def loop(self, question : str) -> str:
+    def loop(self, question: str) -> str:
         """TODO: return a fact set. Need to define type, but these must have attributes!"""
         print(f"--------- {question} ----------")
         known_facts = []
         all_responses = []
-        
+
         total_turns = 0
         max_turns = 3
 
@@ -72,7 +66,7 @@ class ToolLoop:
             prompt = self._build_prompt(question, all_responses)
             print(f"Prompt length: {len(prompt)}")
             raw_response_d = self._oai.call(prompt)
-            raw_response = raw_response_d['response']
+            raw_response = raw_response_d["response"]
             print(raw_response)
 
             responses = self._parse_response(raw_response)
@@ -80,16 +74,16 @@ class ToolLoop:
             # TODO: store responses and pass to the prompt. not known facts...
 
             for response in responses:
-                response_tool = response['tool']
+                response_tool = response["tool"]
                 found_tool = False
 
-                if response_tool == 'stop':
+                if response_tool == "stop":
                     break
 
                 for tool in self._tools:
                     if tool.name == response_tool:
                         found_tool = True
-                        new_facts = tool.run(response['input'])
+                        new_facts = tool.run(response["input"])
 
                         for new_fact in new_facts:
                             self._checker.is_relevant(question, new_fact.value)
@@ -107,7 +101,7 @@ class ToolLoop:
 
         return known_facts
 
-    def _parse_response(self, raw_response : str):
+    def _parse_response(self, raw_response: str):
         try:
             raw = json.loads(raw_response)
         except json.JSONDecodeError as e:
@@ -116,8 +110,9 @@ class ToolLoop:
         return raw
 
     def _build_prompt(self, question, known_facts):
-
-        s_tools = '\n\n'.join([f"Tool Name: {t.name}\nDescription: {t.description}" for t in self._tools])
+        s_tools = "\n\n".join(
+            [f"Tool Name: {t.name}\nDescription: {t.description}" for t in self._tools]
+        )
 
         if known_facts:
             s_tools += "\n\nTool Name: Stop\n"
@@ -159,14 +154,19 @@ Your tools are listed here:
 
 That is all of the tools you have available. Do not repeat the same tool and input combination in multiple answers.
 """.strip()
-        
+
         p = [
-            {'role': 'system', 'content': main_prompt},
-            {'role': 'user', 'content': question},
+            {"role": "system", "content": main_prompt},
+            {"role": "user", "content": question},
         ]
         if known_facts:
             for kf in known_facts:
-                p.append({'role': 'assistant', 'content': kf})
-                p.append({'role': 'user', 'content': "can you think of any more? do not repeat previous answers. Always include a reason."})
+                p.append({"role": "assistant", "content": kf})
+                p.append(
+                    {
+                        "role": "user",
+                        "content": "can you think of any more? do not repeat previous answers. Always include a reason.",
+                    }
+                )
 
         return p
