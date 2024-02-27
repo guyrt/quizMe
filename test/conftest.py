@@ -14,4 +14,4 @@ def set_env(monkeypatch: MonkeyPatch):
     """
 
     monkeypatch.setenv("STRIPE_PUBLIC_KEY", "1234_PUBLIC")
-    monkeypatch.setenv("STRIPE_SECRET_KEY", "1234_SECRET")
+monkeypatch.setenv("STRIPE_SECRET_KEY", "1234_SECRET")
