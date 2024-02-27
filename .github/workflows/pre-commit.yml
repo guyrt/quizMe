@@ -1,25 +1,14 @@
-name: Pre-Commit Checks
-on: [push]
-jobs:
-  pre_commit:
-    name: Pre-Commit checks
-    runs-on: ubuntu-latest
+name: pre-commit
 
+on:
+  pull_request:
+  push:
+#    branches: [main]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Set up Python
-      uses: actions/setup-python@v3
-      with:
-        python-version: 3.11
-        pip: true
-
-    # Install pre-commit and the configured hooks
-    - name: Install pre-commit
-      uses: pre-commit/action@v3.0.1
-      with:
-        install-hook: local
-        hookid: "^.*"
-
-    # Run pre-commit checks in GitHub Actions
-    - name: Pre-Commit check
-      run: pre-commit run --show-diff-on-failure
+    - uses: actions/setup-python@v3
+    - uses: pre-commit/action@v3.0.1
