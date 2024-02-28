@@ -5,63 +5,93 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='ObservedLink',
+            name="ObservedLink",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('from_str', models.CharField(max_length=2028)),
-                ('to_str', models.CharField(max_length=2048)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("from_str", models.CharField(max_length=2028)),
+                ("to_str", models.CharField(max_length=2048)),
             ],
         ),
         migrations.CreateModel(
-            name='RawDocCapture',
+            name="RawDocCapture",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('capture_index', models.BigIntegerField(default=0)),
-                ('url', models.CharField(max_length=2048)),
-                ('title', models.CharField(max_length=1024)),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('reader_location_container', models.CharField(max_length=64)),
-                ('reader_location_path', models.CharField(max_length=256)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("capture_index", models.BigIntegerField(default=0)),
+                ("url", models.CharField(max_length=2048)),
+                ("title", models.CharField(max_length=1024)),
+                ("location_container", models.CharField(max_length=64)),
+                ("location_path", models.CharField(max_length=256)),
+                ("reader_location_container", models.CharField(max_length=64)),
+                ("reader_location_path", models.CharField(max_length=256)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='SingleUrl',
+            name="SingleUrl",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('url', models.CharField(max_length=2048)),
-                ('host', models.CharField(max_length=512)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("url", models.CharField(max_length=2048)),
+                ("host", models.CharField(max_length=512)),
             ],
         ),
         migrations.CreateModel(
-            name='SingleUrlFact',
+            name="SingleUrlFact",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('fact_key', models.CharField(max_length=64)),
-                ('fact_value', models.CharField(max_length=512)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("fact_key", models.CharField(max_length=64)),
+                ("fact_value", models.CharField(max_length=512)),
             ],
         ),
     ]

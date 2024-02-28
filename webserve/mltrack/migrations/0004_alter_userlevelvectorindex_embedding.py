@@ -5,15 +5,14 @@ from django.db import migrations
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('mltrack', '0003_userlevelvectorindex_chunk_index'),
+        ("mltrack", "0003_userlevelvectorindex_chunk_index"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userlevelvectorindex',
-            name='embedding',
+            model_name="userlevelvectorindex",
+            name="embedding",
             field=pgvector.django.VectorField(dimensions=384),
         ),
     ]

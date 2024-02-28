@@ -1,41 +1,44 @@
 import openai
 import os
+import logging
 import tiktoken
+from dotenv import load_dotenv
 
 from azurewrapper.gate import Gate
 
-from dotenv import load_dotenv
+
 load_dotenv()
 
-import logging
-logger = logging.getLogger('default')
+
+logger = logging.getLogger("default")
 
 
 # Todo:
 # Engine becomes model == 3.5 or 4
 # Encoding becomes internal lookup.
 
-def get_encoding(model='35turbo'):
-    return 'cl100k_base'
+
+def get_encoding(model="35turbo"):
+    return "cl100k_base"
 
 
 def get_engine(model, api_type):
-    if api_type == 'azure':
-        if model == '35turbo':
+    if api_type == "azure":
+        if model == "35turbo":
             return "gpt-35-turbo-16k"
-        elif model == 'gpt4':
-            return 'gpt-4-32k'
+        elif model == "gpt4":
+            return "gpt-4-32k"
     else:
-        if model == '35turbo':
+        if model == "35turbo":
             return "gpt-3.5-turbo-16k"
-        elif model == 'gpt4':
+        elif model == "gpt4":
             return "gpt-4-turbo-preview"
 
 
-
 class OpenAIClient:
-
-    def __init__(self, temp=0.7, model='35turbo', gate=None, max_doc_tokens=4096) -> None:
+    def __init__(
+        self, temp=0.7, model="35turbo", gate=None, max_doc_tokens=4096
+    ) -> None:
         self.api_type = os.getenv("OPENAI_SOURCE")
         self.engine = get_engine(model, self.api_type)
 
@@ -46,12 +49,12 @@ class OpenAIClient:
         if self.api_type == "azure":
             default_gate = 5  # 0.2 call/sec
             self._internal_client = openai.AzureOpenAI(
-                azure_endpoint = os.getenv("AZURE_OPENAI_ENDPOINT"), 
-                api_key=os.getenv("AZURE_OPENAI_KEY"),  
-                api_version=os.getenv("AZURE_OPENAI_API_APIVERSION")
+                azure_endpoint=os.getenv("AZURE_OPENAI_ENDPOINT"),
+                api_key=os.getenv("AZURE_OPENAI_KEY"),
+                api_version=os.getenv("AZURE_OPENAI_API_APIVERSION"),
             )
         else:
-            # Use env variables: 
+            # Use env variables:
             self._internal_client = openai.OpenAI()
 
         self._temp = temp
@@ -75,16 +78,18 @@ class OpenAIClient:
                     top_p=0.95,
                     frequency_penalty=0,
                     presence_penalty=0,
-                    stop=None)
-            except openai.RateLimitError as e:
+                    stop=None,
+                )
+            except openai.RateLimitError:
                 logger.error("Rate limit for OAI. Sleep for %s seconds" % sleep_amt)
                 import time
+
                 time.sleep(sleep_amt)
                 sleep_amt *= 2
             else:
                 return {
-                    'response': response.choices[0].message.content,
-                    'tokens': response.usage
+                    "response": response.choices[0].message.content,
+                    "tokens": response.usage,
                 }
 
     def num_tokens_from_string(self, string: str) -> int:

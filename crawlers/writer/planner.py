@@ -1,5 +1,4 @@
 import json
-from dataclasses import dataclass
 from typing import List
 
 from azurewrapper.openai_client import OpenAIClient
@@ -10,11 +9,10 @@ import logging
 
 
 class Planner:
-
-    def __init__(self, oai : OpenAIClient) -> None:
+    def __init__(self, oai: OpenAIClient) -> None:
         self._oai = oai
 
-    def make_plan(self, goal : str) -> Plan:
+    def make_plan(self, goal: str) -> Plan:
         """
         Create a Plan with sections and questions.
         """
@@ -25,7 +23,7 @@ class Planner:
 
         return outline
 
-    def create_outline(self, goal : str) -> Plan:
+    def create_outline(self, goal: str) -> Plan:
         system = f"""You are a financial analyst assistant who helps compiles research reports. Our reports are known for their factual accuracy, depth, detail, and humor.
 
 Our client has given us a contract to write a prospectus on this question:
@@ -51,19 +49,22 @@ You should answer in a list JSON format. Each element in the list is a report se
 Each section should have between 4 and 10 topics. You should have between 10 and 15 sections. It's ok to be long because we will edit the content in a later step.
 """.strip()
 
-        response_d = self._oai.call([{'role': 'system', 'content': system}])
-        response = response_d['response']
+        response_d = self._oai.call([{"role": "system", "content": system}])
+        response = response_d["response"]
         try:
             structured_response = json.loads(response)
         except json.decoder.JSONDecodeError as e:
             logging.error(f"Failed to decode outline: {e}")
             raise e  # TODO - try to correct it! Use a "go make better JSON" prompt.
         else:
-            sections = [Section(name=s['title'], topics=_make_topics(s['topics'])) for s in structured_response]
+            sections = [
+                Section(name=s["title"], topics=_make_topics(s["topics"]))
+                for s in structured_response
+            ]
             plan = Plan(sections=sections)
             return plan
 
-    def add_facts(self, goal : str, topic : Topic):
+    def add_facts(self, goal: str, topic: Topic):
         system = f"""You are a financial analyst assistant who helps compiles research reports. Our reports are known for their factual accuracy, depth, detail, and humor.
 
 Our client has given us a contract to write a prospectus on this question:
@@ -82,17 +83,14 @@ Do not try to answer the questions or provide detailed facts. Describe the fact 
 
 Do not include questions about the report itself. Your job is to decide what specific facts to include or questions we need to answer to meet our objective.
 """.strip()
-        
-        response = self._oai.call([{'role': 'system', 'content': system}])
-        structured_response = [r.strip() for r in response.split('\n')]
-    
+
+        response = self._oai.call([{"role": "system", "content": system}])
+        structured_response = [r.strip() for r in response.split("\n")]
+
         topic.questions = structured_response
         print(f"Added {len(structured_response)} topics")
         return topic
 
 
-
-
-
-def _make_topics(d : List[any]) -> List[Topic]:
-    return [Topic(name=t['name'], description=t['description']) for t in d]
+def _make_topics(d: List[any]) -> List[Topic]:
+    return [Topic(name=t["name"], description=t["description"]) for t in d]

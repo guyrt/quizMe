@@ -4,7 +4,6 @@ from typing import List
 
 
 def build_prompts() -> List[Prompt]:
-
     _default_system_instruction = """You are a bot that helps my company respond to the Request for Proposal (RFP) below. 
 The contents of an RFP are listed below after the [startdocument] tag.
 The content is a request for proposal. It contains a mix of important details for this project, requirements for response,
@@ -17,23 +16,28 @@ Be concise. Be specific in your responses.
 """.strip()
 
     _summarize_ask = Prompt(
-        name='RFPSummarizeAsk',
+        name="RFPSummarizeAsk",
         content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""Describe the project in this RFP""")
+            PromptCell(role="system", content=_default_system_instruction),
+            PromptCell(role="user", content="""Describe the project in this RFP"""),
         ],
         continuations=[
-            PromptCell(role='user', content="write a headline length summary of your last response. Focus on who, what, when, and how much."),
+            PromptCell(
+                role="user",
+                content="write a headline length summary of your last response. Focus on who, what, when, and how much.",
+            ),
         ],
-        version=2
+        version=2,
     )
 
     # This is a temporary solution. Too token expensive tbh.
     _extract_details = Prompt(
-        name='RFPExtractDetails',
+        name="RFPExtractDetails",
         content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""The RFP describes many requirements and questions in my submission to show that I am able to take this business.
+            PromptCell(role="system", content=_default_system_instruction),
+            PromptCell(
+                role="user",
+                content="""The RFP describes many requirements and questions in my submission to show that I am able to take this business.
 I am planning to bid on this RFP. List all requirements I need to fill in the document. Also list all of the questions that I need to answer. 
 
 Respond in a table with two columns:
@@ -42,7 +46,8 @@ Second column is an source for the requirement. This should be a section header 
 
 Source should use document section headers. Use a consistent format for all section headers.
 
-Be thorough and list all requirements and all questions.""")
+Be thorough and list all requirements and all questions.""",
+            ),
         ],
         # continuations=[
         #     PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
@@ -50,23 +55,28 @@ Be thorough and list all requirements and all questions.""")
         #     PromptCell(role='user', content="Are there any more requirements or questions? Don't repeat previous answers. Use the same format."),
         #     PromptCell(role='user', content="Create a single table from all of your answers so far. Combine any duplicted requirements or questions. Sometimes, previous answers may not be accurate requirements. In that case, you should remove them.")
         # ],
-        version=1
+        version=1,
     )
 
     _specific_dates = Prompt(
-        name='RFPSpecificDates',
+        name="RFPSpecificDates",
         content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""Make a table of all dates in this text selection. The table should have two columns. First list the date in "yyyy-MM-dd" format. Second list the meaning of the date.""")
+            PromptCell(role="system", content=_default_system_instruction),
+            PromptCell(
+                role="user",
+                content="""Make a table of all dates in this text selection. The table should have two columns. First list the date in "yyyy-MM-dd" format. Second list the meaning of the date.""",
+            ),
         ],
-        version=1
+        version=1,
     )
 
     _certs = Prompt(
-        name='RFPCertifications',
+        name="RFPCertifications",
         content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""List all certifications and specific requirements in this RFP. 
+            PromptCell(role="system", content=_default_system_instruction),
+            PromptCell(
+                role="user",
+                content="""List all certifications and specific requirements in this RFP. 
 
 Examples include:
 - Required ISO or other accreditations.
@@ -94,18 +104,22 @@ Here are some examples that you should NEVER return:
 "Pricing must cover all aspects of the project, including delivery, installation, start-up, and any required equipment or software licenses"
 "Each proposal must be submitted in Microsoft Word or Excel, or PDF" -- this is about the submission document.
 Only return requirements from the actual document!
-""")
+""",
+            ),
         ],
-        version=1
+        version=1,
     )
 
     _expertise = Prompt(
-        name='RFPExpertise',
+        name="RFPExpertise",
         content=[
-            PromptCell(role='system', content=_default_system_instruction),
-            PromptCell(role='user', content="""What expertise will vendors need to demonstrate to bid for this project?""")
+            PromptCell(role="system", content=_default_system_instruction),
+            PromptCell(
+                role="user",
+                content="""What expertise will vendors need to demonstrate to bid for this project?""",
+            ),
         ],
-        version=1
+        version=1,
     )
 
     return [

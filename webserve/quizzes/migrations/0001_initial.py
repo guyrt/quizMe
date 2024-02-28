@@ -5,39 +5,65 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='SimpleQuiz',
+            name="SimpleQuiz",
             fields=[
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('status', models.CharField(choices=[('notstarted', 'NotStarted'), ('building', 'Building'), ('completed', 'Completed'), ('error', 'Error')], default='notstarted', max_length=16)),
-                ('content', models.TextField(max_length=10000)),
-                ('reasoning', models.TextField(max_length=10000)),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("notstarted", "NotStarted"),
+                            ("building", "Building"),
+                            ("completed", "Completed"),
+                            ("error", "Error"),
+                        ],
+                        default="notstarted",
+                        max_length=16,
+                    ),
+                ),
+                ("content", models.TextField(max_length=10000)),
+                ("reasoning", models.TextField(max_length=10000)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='SimpleQuizResults',
+            name="SimpleQuizResults",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('results', models.TextField(max_length=64)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("results", models.TextField(max_length=64)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

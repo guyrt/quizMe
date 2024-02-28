@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('mltrack', '0004_alter_userlevelvectorindex_embedding'),
+        ("mltrack", "0004_alter_userlevelvectorindex_embedding"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='userlevelvectorindex',
-            name='embedding_type',
+            model_name="userlevelvectorindex",
+            name="embedding_type",
             field=models.CharField(max_length=64),
         ),
     ]

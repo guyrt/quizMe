@@ -5,18 +5,28 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('stripehandler', '0002_stripeerrorlog'),
+        ("stripehandler", "0002_stripeerrorlog"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='StripeSubscription',
+            name="StripeSubscription",
             fields=[
-                ('id', models.CharField(editable=False, max_length=64, primary_key=True, serialize=False)),
-                ('active', models.BooleanField(default=True)),
-                ('stripe_user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='stripehandler.stripeuser')),
+                (
+                    "id",
+                    models.CharField(
+                        editable=False, max_length=64, primary_key=True, serialize=False
+                    ),
+                ),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "stripe_user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to="stripehandler.stripeuser",
+                    ),
+                ),
             ],
         ),
     ]

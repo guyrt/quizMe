@@ -7,74 +7,142 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         VectorExtension(),
         migrations.CreateModel(
-            name='ConsumerPromptTrack',
+            name="ConsumerPromptTrack",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('template_name', models.CharField(max_length=64)),
-                ('template_version', models.SmallIntegerField()),
-                ('source_type', models.CharField(max_length=64)),
-                ('source_id', models.CharField(max_length=48)),
-                ('prompt_tokens', models.IntegerField(default=0)),
-                ('completion_tokens', models.IntegerField(default=0)),
-                ('model_service', models.TextField()),
-                ('model_name', models.TextField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("template_name", models.CharField(max_length=64)),
+                ("template_version", models.SmallIntegerField()),
+                ("source_type", models.CharField(max_length=64)),
+                ("source_id", models.CharField(max_length=48)),
+                ("prompt_tokens", models.IntegerField(default=0)),
+                ("completion_tokens", models.IntegerField(default=0)),
+                ("model_service", models.TextField()),
+                ("model_name", models.TextField()),
             ],
         ),
         migrations.CreateModel(
-            name='ExtractedFact',
+            name="ExtractedFact",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('fact_contents', models.TextField()),
-                ('output_role', models.CharField(choices=[('longsummary', 'longsummary'), ('shortsummary', 'shortsummary'), ('req_details', 'req_details'), ('specific_dates', 'specific_dates'), ('legal_notes', 'legal_notes'), ('certifications', 'certifications'), ('expertise', 'expertise'), ('vendors', 'vendors'), ('suggested_questions', 'suggested_questions'), ('peoplesummary', 'peoplesummary'), ('proposalquestions', 'proposalquestions'), ('tocextract', 'tocextract')], max_length=64)),
-                ('sort_order', models.IntegerField(default=0)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("fact_contents", models.TextField()),
+                (
+                    "output_role",
+                    models.CharField(
+                        choices=[
+                            ("longsummary", "longsummary"),
+                            ("shortsummary", "shortsummary"),
+                            ("req_details", "req_details"),
+                            ("specific_dates", "specific_dates"),
+                            ("legal_notes", "legal_notes"),
+                            ("certifications", "certifications"),
+                            ("expertise", "expertise"),
+                            ("vendors", "vendors"),
+                            ("suggested_questions", "suggested_questions"),
+                            ("peoplesummary", "peoplesummary"),
+                            ("proposalquestions", "proposalquestions"),
+                            ("tocextract", "tocextract"),
+                        ],
+                        max_length=64,
+                    ),
+                ),
+                ("sort_order", models.IntegerField(default=0)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='PromptResponse',
+            name="PromptResponse",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('template_name', models.CharField(max_length=64)),
-                ('template_version', models.SmallIntegerField()),
-                ('output_role', models.CharField(choices=[('longsummary', 'longsummary'), ('shortsummary', 'shortsummary'), ('req_details', 'req_details'), ('specific_dates', 'specific_dates'), ('legal_notes', 'legal_notes'), ('certifications', 'certifications'), ('expertise', 'expertise'), ('vendors', 'vendors'), ('suggested_questions', 'suggested_questions'), ('peoplesummary', 'peoplesummary'), ('proposalquestions', 'proposalquestions'), ('tocextract', 'tocextract')], max_length=64)),
-                ('result', models.TextField()),
-                ('prompt_tokens', models.IntegerField(default=0)),
-                ('completion_tokens', models.IntegerField(default=0)),
-                ('model_service', models.TextField()),
-                ('model_name', models.TextField()),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("template_name", models.CharField(max_length=64)),
+                ("template_version", models.SmallIntegerField()),
+                (
+                    "output_role",
+                    models.CharField(
+                        choices=[
+                            ("longsummary", "longsummary"),
+                            ("shortsummary", "shortsummary"),
+                            ("req_details", "req_details"),
+                            ("specific_dates", "specific_dates"),
+                            ("legal_notes", "legal_notes"),
+                            ("certifications", "certifications"),
+                            ("expertise", "expertise"),
+                            ("vendors", "vendors"),
+                            ("suggested_questions", "suggested_questions"),
+                            ("peoplesummary", "peoplesummary"),
+                            ("proposalquestions", "proposalquestions"),
+                            ("tocextract", "tocextract"),
+                        ],
+                        max_length=64,
+                    ),
+                ),
+                ("result", models.TextField()),
+                ("prompt_tokens", models.IntegerField(default=0)),
+                ("completion_tokens", models.IntegerField(default=0)),
+                ("model_service", models.TextField()),
+                ("model_name", models.TextField()),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='UserLevelVectorIndex',
+            name="UserLevelVectorIndex",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('doc_id', models.UUIDField()),
-                ('doc_url', models.CharField(max_length=2024)),
-                ('doc_chunk', models.TextField()),
-                ('doc_chunk_type', models.CharField(max_length=32)),
-                ('embedding', pgvector.django.VectorField(dimensions=1024)),
-                ('embedding_type', models.CharField(max_length=32)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("doc_id", models.UUIDField()),
+                ("doc_url", models.CharField(max_length=2024)),
+                ("doc_chunk", models.TextField()),
+                ("doc_chunk_type", models.CharField(max_length=32)),
+                ("embedding", pgvector.django.VectorField(dimensions=1024)),
+                ("embedding_type", models.CharField(max_length=32)),
             ],
         ),
     ]

@@ -6,7 +6,11 @@ import sys
 
 def main():
     """Run administrative tasks."""
-    settings_module = 'webserve.production_settings' if 'RUNNING_IN_PRODUCTION' in os.environ else 'webserve.dev_settings'
+    settings_module = (
+        "webserve.production_settings"
+        if "RUNNING_IN_PRODUCTION" in os.environ
+        else "webserve.dev_settings"
+    )
 
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings_module)
     try:

@@ -11,16 +11,16 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
-import dotenv
-dotenv.load_dotenv()
-
 import os
+import dotenv
+
+dotenv.load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-AUTH_USER_MODEL = 'users.User'
+AUTH_USER_MODEL = "users.User"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -31,24 +31,24 @@ ALLOWED_HOSTS = []
 APPEND_SLASH = False
 
 LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': '/tmp/django.log'
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "file": {
+            "level": "DEBUG",
+            "class": "logging.FileHandler",
+            "filename": "/tmp/django.log",
         },
-        'console': {
-            'level': 'DEBUG',
-            'class': 'logging.StreamHandler',
+        "console": {
+            "level": "DEBUG",
+            "class": "logging.StreamHandler",
         },
     },
-    'loggers': {
-        'default': {
-            'handlers': ['file', 'console'],
-            'level': 'DEBUG',
-            'propagate': True,
+    "loggers": {
+        "default": {
+            "handlers": ["file", "console"],
+            "level": "DEBUG",
+            "propagate": True,
         }
     },
 }
@@ -64,14 +64,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django_rq",
-    'corsheaders',
-    'extensionapis',
+    "corsheaders",
+    "extensionapis",
     "users",
     "privateuploads",
     "mltrack",
     "quizzes",
     "sharing",
-    "stripehandler"
+    "stripehandler",
 ]
 
 MIDDLEWARE = [
@@ -82,7 +82,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    'corsheaders.middleware.CorsMiddleware',
+    "corsheaders.middleware.CorsMiddleware",
 ]
 
 ROOT_URLCONF = "webserve.urls"
@@ -153,28 +153,28 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
 AZURE = {
-    'KM_RAW_BLOB': {
-        'CONTAINER': os.environ['KMRawBlobContainer'],
-        "CONNECTION": os.environ['DocumentBlobConnectionString']
+    "KM_RAW_BLOB": {
+        "CONTAINER": os.environ["KMRawBlobContainer"],
+        "CONNECTION": os.environ["DocumentBlobConnectionString"],
     },
-    'KM_EXTRACTEDTEXT': {
-        'CONTAINER': os.environ['KMExtractedTextContainer'],
-        "CONNECTION": os.environ['DocumentBlobConnectionString']
+    "KM_EXTRACTEDTEXT": {
+        "CONTAINER": os.environ["KMExtractedTextContainer"],
+        "CONNECTION": os.environ["DocumentBlobConnectionString"],
     },
-    'FA_RAWDOCS': {
-        'CONTAINER': os.environ['FARawDocsContainer'],
-        "CONNECTION": os.environ['DocumentBlobConnectionString']
+    "FA_RAWDOCS": {
+        "CONTAINER": os.environ["FARawDocsContainer"],
+        "CONNECTION": os.environ["DocumentBlobConnectionString"],
     },
-    'FA_PROCESSEDDOCS': {
-        'CONTAINER': os.environ['FAProcessedDocsContainer'],
-        "CONNECTION": os.environ['DocumentBlobConnectionString']
-    }
+    "FA_PROCESSEDDOCS": {
+        "CONTAINER": os.environ["FAProcessedDocsContainer"],
+        "CONNECTION": os.environ["DocumentBlobConnectionString"],
+    },
 }
 
 
 AZURE_KEYVAULT_URL = os.environ["AZURE_KEYVAULT_URL"]
 
-DEFAULT_WEB_EMBEDDING_MODEL = 'sentence-transformers/all-MiniLM-L6-v2'
+DEFAULT_WEB_EMBEDDING_MODEL = "sentence-transformers/all-MiniLM-L6-v2"
 
 DATA_UPLOAD_MAX_MEMORY_SIZE = 10 * 1024 * 1024  # 10 MB
 

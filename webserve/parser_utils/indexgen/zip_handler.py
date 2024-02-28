@@ -12,8 +12,7 @@ from .read_rss import get_all_entries, get_local_entries
 
 
 class FileCopyDriver(object):
-
-    def __init__(self, uploader : AzureSECRawDocsBlobHandler, doc_queue) -> None:
+    def __init__(self, uploader: AzureSECRawDocsBlobHandler, doc_queue) -> None:
         self._doc_uploader = uploader
         self._raw_doc_queue = doc_queue
 
@@ -27,7 +26,7 @@ class FileCopyDriver(object):
         pass
 
     def run_local(self, path, after=None):
-        skip = (after is not None)
+        skip = after is not None
 
         with Gate(1) as g:
             for row in get_local_entries(path):
@@ -37,10 +36,9 @@ class FileCopyDriver(object):
                     self._handle_row(row, g)
 
     def _handle_row(self, row, gate):
-        
         if self._doc_uploader.exists(row):
             return
-        
+
         gate.gate()
 
         url = row.zip_link

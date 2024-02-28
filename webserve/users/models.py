@@ -1,5 +1,8 @@
-from unittest.util import _MAX_LENGTH
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
+from django.contrib.auth.models import (
+    AbstractBaseUser,
+    BaseUserManager,
+    PermissionsMixin,
+)
 from django.db import models
 
 from datetime import datetime
@@ -25,7 +28,9 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(email, password, **extra_fields)
 
     def create_subscription(self, user):
-        return UserSubscriptions.objects.create(user=user, subscription=UserSubscriptions.SubscriptionTypes.Free)
+        return UserSubscriptions.objects.create(
+            user=user, subscription=UserSubscriptions.SubscriptionTypes.Free
+        )
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -39,7 +44,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     objects = CustomUserManager()
 
-    USERNAME_FIELD = 'email'
+    USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
     def __str__(self):
@@ -50,13 +55,12 @@ class UserKeys(ModelBaseMixin):
     """Encryption key manager."""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    
+
     # Name of an encyrption key in Azure Key Vault.
     name = models.CharField(max_length=128)
-    
+
 
 class AuthToken(models.Model):
-
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     key = models.CharField(max_length=128)
@@ -65,7 +69,6 @@ class AuthToken(models.Model):
 
 
 class UserSubscriptions(ModelBaseMixin):
-
     class SubscriptionTypes(models.TextChoices):
         Free = "free", "free"
         MonthlyQuiz = "monthly_quiz", "monthly_quiz"
@@ -75,13 +78,15 @@ class UserSubscriptions(ModelBaseMixin):
 
     subscription = models.CharField(max_length=32, choices=SubscriptionTypes)
 
-    quiz_allowance = models.IntegerField(default=5)  # number of quizzes allowed per month. # 5 is free.
+    quiz_allowance = models.IntegerField(
+        default=5
+    )  # number of quizzes allowed per month. # 5 is free.
 
 
 class LooseUserSettings(ModelBaseMixin):
     """Intended as a basic key/value store. We make no assumptions on uniqueness of keys.
-    
-    E.G. Canonical use case is to save exclusion domains. You can do this by saving 
+
+    E.G. Canonical use case is to save exclusion domains. You can do this by saving
     key = 'domain.exclude'
     value = 'www.google.com'
 
@@ -97,11 +102,15 @@ def get_active_subscription(user) -> UserSubscriptions:
     """Get the best active subscription"""
     subs = UserSubscriptions.objects.filter(user=user, active=True)
     if len(subs) == 0:
-        return UserSubscriptions.objects.create(user=user, subscription=UserSubscriptions.SubscriptionTypes.Free)
+        return UserSubscriptions.objects.create(
+            user=user, subscription=UserSubscriptions.SubscriptionTypes.Free
+        )
 
-    for ranked_type in ['annual_quiz', 'monthly_quiz', 'free']:
+    for ranked_type in ["annual_quiz", "monthly_quiz", "free"]:
         for s in subs:
             if s.subscription == ranked_type:
                 return s
-    
-    raise ValueError(f"Couldn't find known subscription type. User has sub {subs[0].subscription}")
+
+    raise ValueError(
+        f"Couldn't find known subscription type. User has sub {subs[0].subscription}"
+    )
