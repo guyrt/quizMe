@@ -16,30 +16,29 @@ Here are examples of lines you should not include:
 
 
 class OutputMergeUtility:
-
     def __init__(self, gate=None) -> None:
-        self._oai = OpenAIClient(gate=gate, model='35turbo')
+        self._oai = OpenAIClient(gate=gate, model="35turbo")
 
-    def run(self, inputs : List[str]) -> Dict:
+    def run(self, inputs: List[str]) -> Dict:
         """
         Given list of previous outputs, merge to a single output with same format.
 
-        Run merge logic. 
+        Run merge logic.
         """
         base = self.get_base_with_few_shot()
         user_input = "\n".join(inputs)
 
         raw_response = self._oai.call(
             [
-                {'role': 'system', 'content': base},
-                {'role': 'user', 'content': user_input}
+                {"role": "system", "content": base},
+                {"role": "user", "content": user_input},
             ]
         )
 
         return {
-            'response': raw_response['response'],
-            'prompt_tokens': raw_response['tokens'].prompt_tokens,
-            'completion_tokens': raw_response['tokens'].completion_tokens
+            "response": raw_response["response"],
+            "prompt_tokens": raw_response["tokens"].prompt_tokens,
+            "completion_tokens": raw_response["tokens"].completion_tokens,
         }
 
     def get_base_with_few_shot(self):

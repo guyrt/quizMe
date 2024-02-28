@@ -25,10 +25,10 @@ Mark exactly one answer as correct for each question.
 """
 
 quiz_gen = Prompt(
-    name='SimpleQuizGen',
+    name="SimpleQuizGen",
     content=[
-        PromptCell(role='system', content=system),
-        PromptCell(role='user', content='{doc_content}')
+        PromptCell(role="system", content=system),
+        PromptCell(role="user", content="{doc_content}"),
     ],
-    version=1
+    version=1,
 )

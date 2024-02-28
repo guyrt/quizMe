@@ -4,15 +4,14 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     dependencies = [
-        ('mltrack', '0002_initial'),
+        ("mltrack", "0002_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='userlevelvectorindex',
-            name='chunk_index',
+            model_name="userlevelvectorindex",
+            name="chunk_index",
             field=models.IntegerField(default=0),
             preserve_default=False,
         ),

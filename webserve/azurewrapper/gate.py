@@ -2,7 +2,6 @@ import time
 
 
 class Gate(object):
-
     def __init__(self, secs) -> None:
         self._sleep = secs
         self._last_sleep_end = None
@@ -27,7 +26,8 @@ class Gate(object):
 
 if __name__ == "__main__":
     from datetime import datetime
+
     with Gate(1) as g:
-        while(True):
+        while True:
             g.gate()
             print(datetime.now())

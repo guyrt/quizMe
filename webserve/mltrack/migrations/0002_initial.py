@@ -6,34 +6,40 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('mltrack', '0001_initial'),
-        ('privateuploads', '0001_initial'),
+        ("mltrack", "0001_initial"),
+        ("privateuploads", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='consumerprompttrack',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="consumerprompttrack",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='extractedfact',
-            name='doc_context',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.documentcluster'),
+            model_name="extractedfact",
+            name="doc_context",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="privateuploads.documentcluster",
+            ),
         ),
         migrations.AddField(
-            model_name='promptresponse',
-            name='document_inputs',
-            field=models.ManyToManyField(to='privateuploads.documentextract'),
+            model_name="promptresponse",
+            name="document_inputs",
+            field=models.ManyToManyField(to="privateuploads.documentextract"),
         ),
         migrations.AddField(
-            model_name='userlevelvectorindex',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="userlevelvectorindex",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
     ]
