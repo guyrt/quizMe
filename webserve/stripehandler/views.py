@@ -7,7 +7,13 @@ import stripe
 
 from django.conf import settings
 
-from .handlers import customer_created, customer_deleted
+from .handlers import (
+    customer_created,
+    customer_deleted,
+    subscription_created,
+    subscription_deleted,
+    subscription_updated,
+)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -37,21 +43,23 @@ def stripe_hook(request):
         customer_email = body.get("customer_email", "")
         customer_deleted(event_id, customer_id)
     elif event_type == "customer.subscription.created":
-        # todo
-        customer_email = body["customer_email"]
-        body["data"]["object"]["id"]
+        customer_id = body["data"]["object"]["customer"]
+        subscription = body["data"]["object"]["id"]
+        subscription_created(event_id, customer_id, subscription)
     elif event_type == "customer.subscription.updated":
         # todo - figure out what the issue is. perhaps it's a cancel. you get a sub object.
         customer_id = body["data"]["object"]["customer"]
-        body["data"]["object"]["id"]
+        subscription = body["data"]["object"]["id"]
+        subscription_updated(
+            event_id, customer_id, subscription, body["data"]["object"]
+        )
     elif event_type == "customer.subscription.delete":
-        # todo
-        customer_id = body["data"]["object"]["id"]
-        customer_email = body.get("customer_email", "")
+        subscription = body["data"]["object"]["id"]
+        subscription_deleted(event_id, subscription)
     elif event_type == "invoice.paid":
         # todo
         customer_email = body["customer_email"]
-        body["data"]["object"]["subscription"]
+        subscription = body["data"]["object"]["subscription"]
     else:
         logger.info("Unhandled stripe event: %s %s", event_type, event_id)
 
