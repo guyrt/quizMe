@@ -71,7 +71,7 @@ const QuizQuestionComponent: React.FC<{
         onAnswerClick(i)
 
         // Reset the animation state after a short delay to allow re-animation
-        setTimeout(() => setAnimatingAnswer(null), 500); // 500ms matches your CSS animation duration
+        setTimeout(() => setAnimatingAnswer(null), 100); // 500ms matches your CSS animation duration
     }
 
     return (

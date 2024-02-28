@@ -1,3 +1,4 @@
+from unittest.util import _MAX_LENGTH
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
@@ -75,6 +76,21 @@ class UserSubscriptions(ModelBaseMixin):
     subscription = models.CharField(max_length=32, choices=SubscriptionTypes)
 
     quiz_allowance = models.IntegerField(default=5)  # number of quizzes allowed per month. # 5 is free.
+
+
+class LooseUserSettings(ModelBaseMixin):
+    """Intended as a basic key/value store. We make no assumptions on uniqueness of keys.
+    
+    E.G. Canonical use case is to save exclusion domains. You can do this by saving 
+    key = 'domain.exclude'
+    value = 'www.google.com'
+
+    Specific keys are up to implementor.
+    """
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    key = models.CharField(max_length=64)
+    value = models.CharField(max_length=256)
 
 
 def get_active_subscription(user) -> UserSubscriptions:

@@ -39,13 +39,13 @@
         cursor: pointer; // Change cursor to indicate clickable
 
         &.selected-correct {
-            border: 1px solid #{$vividGreen};
+            border: 2px solid #{$vividGreen};
             color: #333333;
             background-color: #{$greenColor}; // Soft green for correct answer            
         }
 
         &.selected-incorrect {
-            border: 1px solid #{$vividRed};
+            border: 2px solid #{$vividRed};
             color: white;
             background-color: #{$redColor}; // Light red for incorrect answer
         }
@@ -53,16 +53,15 @@
       
 
     .rotate-in-y {
-        animation: rotateInY 0.5s forwards; /* Adjust duration as needed */
+        animation: rotateInY 0.35s forwards; /* Adjust duration as needed */
     }
 
     .rotate-in-y-slow {
-        animation: rotateInY 0.75s forwards; /* Adjust duration as needed */
+        animation: rotateInY 0.85s forwards; /* Adjust duration as needed */
     }
-    
 
     .rotate-out-y {
-        animation: rotateOutY 0.25s forwards; /* Adjust duration as needed */
+        animation: rotateOutY 0.1s forwards; /* Adjust duration as needed */
     }
 
     .quizAnswer {
