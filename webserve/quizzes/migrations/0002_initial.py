@@ -6,29 +6,35 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('extensionapis', '0002_initial'),
-        ('quizzes', '0001_initial'),
+        ("extensionapis", "0002_initial"),
+        ("quizzes", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='simplequiz',
-            name='owner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="simplequiz",
+            name="owner",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='simplequiz',
-            name='url',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='extensionapis.singleurl'),
+            model_name="simplequiz",
+            name="url",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="extensionapis.singleurl",
+            ),
         ),
         migrations.AddField(
-            model_name='simplequizresults',
-            name='quiz',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='quizzes.simplequiz'),
+            model_name="simplequizresults",
+            name="quiz",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to="quizzes.simplequiz"
+            ),
         ),
     ]

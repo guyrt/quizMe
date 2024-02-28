@@ -1,4 +1,3 @@
-
 from azurewrapper.prompt_types import Prompt, PromptCell
 
 
@@ -46,12 +45,10 @@ It's important to use a common format for sections other than Appendices. You sh
 
 
 table_of_contents_extract_prompt = Prompt(
-    name='TOCExtract',
+    name="TOCExtract",
     content=[
-        PromptCell(role='system', content=toc_system_prompt),
-        PromptCell(role='user', content="{doc_content}")
+        PromptCell(role="system", content=toc_system_prompt),
+        PromptCell(role="user", content="{doc_content}"),
     ],
-    version=1
+    version=1,
 )
-
-

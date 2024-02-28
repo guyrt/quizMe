@@ -4,30 +4,35 @@ from azurewrapper.openai_client import OpenAIClient
 
 
 class LargeDocSplitter:
-
-    def __init__(self, token_counter : OpenAIClient) -> None:
+    def __init__(self, token_counter: OpenAIClient) -> None:
         self._token_counter = token_counter
 
-    def split(self, content : str, max_tokens : float, min_size : float=0.9, overlap : float=1/10) -> List[str]:
-        """Split string on newline. 
-        
+    def split(
+        self,
+        content: str,
+        max_tokens: float,
+        min_size: float = 0.9,
+        overlap: float = 1 / 10,
+    ) -> List[str]:
+        """Split string on newline.
+
         For each section, count tokens.
-        Run through sections and add to window. """
+        Run through sections and add to window."""
         final_chunks = []
         state = _State()
         window = _RunningWindow(max_tokens)
 
-        content = content.split('\n')
+        content = content.split("\n")
         content_sizes = [self._token_counter.num_tokens_from_string(c) for c in content]
         for line, size in zip(content, content_sizes):
-            if line == '###table###':
+            if line == "###table###":
                 state.enter_table()
-                window.add('table omitted', 0)
-            elif line == '###endtable###':
+                window.add("table omitted", 0)
+            elif line == "###endtable###":
                 state.leave_table()
             else:
                 if state.state == state.TABLE:
-                    pass # in table so ignore
+                    pass  # in table so ignore
                     # maybe a "table omitted"
                 else:
                     window.add(line, size)
@@ -35,7 +40,7 @@ class LargeDocSplitter:
                     if window.sum > max_tokens * min_size:
                         chunk = window.roll(overlap)
                         final_chunks.append(chunk)
-        
+
         last_chunk = window.drain()
         if last_chunk:
             final_chunks.append(last_chunk)
@@ -44,7 +49,6 @@ class LargeDocSplitter:
 
 
 class _RunningWindow:
-
     def __init__(self, max_tokens) -> None:
         self._window = []
         self._token_window = []
@@ -57,12 +61,12 @@ class _RunningWindow:
         self._token_window.append(num_tokens)
 
     def roll(self, ratio):
-        content_chunks = '\n'.join(self._window)
+        content_chunks = "\n".join(self._window)
         self.cut(ratio)
         return content_chunks
-    
+
     def drain(self):
-        return '\n'.join(self._window)
+        return "\n".join(self._window)
 
     def cut(self, ratio):
         """Keep maximum section to retain 'ratio' of the total tokens."""
@@ -84,9 +88,8 @@ class _RunningWindow:
 
 
 class _State:
-
-    TABLE = 'table'
-    NORMAL = 'normal'
+    TABLE = "table"
+    NORMAL = "normal"
 
     state = NORMAL
 

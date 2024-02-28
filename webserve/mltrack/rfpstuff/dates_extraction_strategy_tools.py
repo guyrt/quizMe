@@ -4,9 +4,9 @@ import re
 from typing import Dict, List
 
 
-def merge_tables_of_dates(tables : List[bs4.BeautifulSoup]):
+def merge_tables_of_dates(tables: List[bs4.BeautifulSoup]):
     """Produce a List of dates and explanations. Merge common dates.
-    
+
     Assume input is a set of tables with exactly two rows each:
 
     <tr>
@@ -17,12 +17,12 @@ def merge_tables_of_dates(tables : List[bs4.BeautifulSoup]):
 
     all_rows = []
     for table in tables:
-        all_rows.extend(table.find('tbody').find_all('tr'))
-    
-    all_dates : Dict[str, List] = {}
+        all_rows.extend(table.find("tbody").find_all("tr"))
+
+    all_dates: Dict[str, List] = {}
 
     for row in all_rows:
-        contents = [r for r in row.text.split('\n') if r]
+        contents = [r for r in row.text.split("\n") if r]
         date_part = contents[0]
         meaning = contents[1]
         clean_date = format_date(date_part)
@@ -33,22 +33,24 @@ def merge_tables_of_dates(tables : List[bs4.BeautifulSoup]):
         all_dates[clean_date].append(meaning)
 
     # TODO - merge comments if they are near overlaps.
-    all_dates_final = {k: '\n'.join(v) for k, v in all_dates.items()}
+    all_dates_final = {k: "\n".join(v) for k, v in all_dates.items()}
     return all_dates_final
 
 
 # Define regex patterns for the three cases
-pattern1 = re.compile(r'^\d{4}-\d{2}-\d{2}$')  # yyyy-MM-dd
-pattern2 = re.compile(r'^\d{4}-\d{2}-00$')     # yyyy-MM-00
-pattern3 = re.compile(r'^\d{4}-\d{2}$')        # yyyy-MM
-def format_date(date_str : str) -> str | None:
+pattern1 = re.compile(r"^\d{4}-\d{2}-\d{2}$")  # yyyy-MM-dd
+pattern2 = re.compile(r"^\d{4}-\d{2}-00$")  # yyyy-MM-00
+pattern3 = re.compile(r"^\d{4}-\d{2}$")  # yyyy-MM
+
+
+def format_date(date_str: str) -> str | None:
     """Accept three formats:
 
     yyyy-MM-dd
     yyyy-MM-00
     yyyy-MM
 
-    otherwise return none. 
+    otherwise return none.
     """
     # Check and return based on the matching pattern
     if pattern2.match(date_str):
@@ -57,7 +59,6 @@ def format_date(date_str : str) -> str | None:
         return date_str
     else:
         return None
-
 
 
 """
