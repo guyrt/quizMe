@@ -76,7 +76,7 @@ class UserSubscriptions(ModelBaseMixin):
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    subscription = models.CharField(max_length=32, choices=SubscriptionTypes)
+    subscription = models.CharField(max_length=32, choices = SubscriptionTypes)
 
     quiz_allowance = models.IntegerField(
         default=5
