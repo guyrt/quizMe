@@ -4,6 +4,8 @@ from django.contrib.auth import authenticate
 from ninja import Form, Router
 from ninja.errors import AuthenticationError, HttpError
 
+from users.default_settings import populate_default_settings
+
 from .models import AuthToken, LooseUserSettings, User
 
 from .apiauth import ApiKey, BurnOnRead, create_new_token
@@ -62,7 +64,13 @@ def delete_token(request):
     return {}
 
 
-@router.get("/settings/", response=List[LooseUserSettingSchema])
+@router.post("/settings/resettodefault", response=List[LooseUserSettingSchema])
+def reset_settings(request):
+    populate_default_settings(request.auth)
+    return LooseUserSettings.objects.filter(user=request.auth)
+
+
+@router.get("/settings^", response=List[LooseUserSettingSchema])
 def get_keys(request):
     return LooseUserSettings.objects.filter(user=request.auth)
 
@@ -73,7 +81,7 @@ def get_settings_by_key(request, key: str):
     return LooseUserSettings.objects.filter(user=user, key=key)
 
 
-@router.post("/settings", response=LooseUserSettingSchema)
+@router.post("/settings^", response=LooseUserSettingSchema)
 def post_setting(request, payload: LooseUserSettingSchema):
     return LooseUserSettings.objects.create(
         user=request.auth, key=payload.key, value=payload.value
