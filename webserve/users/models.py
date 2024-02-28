@@ -7,6 +7,7 @@ from django.db import models
 
 from datetime import datetime
 import uuid
+from users.default_settings import populate_default_settings
 
 from webserve.mixins import ModelBaseMixin
 
@@ -20,6 +21,7 @@ class CustomUserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         self.create_subscription(user)
+        populate_default_settings(user)
         return user
 
     def create_superuser(self, email, password=None, **extra_fields):
@@ -92,6 +94,9 @@ class LooseUserSettings(ModelBaseMixin):
 
     Specific keys are up to implementor.
     """
+
+    class KnownKeys:
+        DomainExclude = "domain.exclude"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     key = models.CharField(max_length=64)
