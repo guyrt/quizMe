@@ -1,7 +1,7 @@
 {
     "name": "Wezo",
-    "description": "Don't just read.",
-    "version": "1.0.0",
+    "description": "Don't just read! Track progress, discover, and make connections with Wezo.",
+    "version": "0.0.0.1",
     "manifest_version": 3,
     "permissions": [
         "activeTab",
