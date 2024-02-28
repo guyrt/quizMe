@@ -10,8 +10,8 @@
       <env name="STRIPE_PUBLIC_KEY" value="test" />
       <env name="STRIPE_SECRET_KEY" value="test_secret" />
     </envs>
-    <option name="SDK_HOME" value="/usr/local/bin/python" />
-    <option name="SDK_NAME" value="Remote Python 3.11.8 Docker Compose (web) (3)" />
+    <option name="SDK_HOME" value="/usr/local/bin/python3" />
+    <option name="SDK_NAME" value="Remote Python 3.11.8 Docker Compose (web)" />
     <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/test" />
     <option name="IS_MODULE_SDK" value="false" />
     <option name="ADD_CONTENT_ROOTS" value="true" />
