@@ -20,7 +20,8 @@ class SharedState {
         'ms.portal.azure.com',
         'sapsf.com',
         'idweb.microsoft.com',
-        'login.microsoftonline.com' // logins
+        'login.microsoftonline.com', // logins
+        'https://digital.fidelity.com'
     ];
 
     public async getApiToken() : Promise<string | undefined> {
