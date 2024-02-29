@@ -25,5 +25,5 @@ jobs:
           prettier_options: #--write **/*.{js,md}
           working-directory: browser_extension
           eslint-args: "--ignore-path=.eslintignore" # --quiet'
-          extensions: "js,jsx,ts,tsx"
+          file-pattern: "**/*.{js,jsx,ts,tsx}"
 #          annotations: true
