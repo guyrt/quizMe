@@ -1,7 +1,10 @@
 import logging
+import os
 from dataclasses import asdict
 from json import dumps
 from typing import Optional, List
+from dataclasses import dataclass
+from enum import StrEnum
 
 from django.db import transaction
 
@@ -18,12 +21,42 @@ from .quiz_prompts import quiz_gen
 logger = logging.getLogger("default")
 
 
+class ModelName(StrEnum):
+    GPT4 = "gpt4"
+    GPT_35_TURBO = "gpt-3.5-turbo"
+
+
+@dataclass
+class OpenAIClientSettings:
+    model: ModelName
+    temp: float
+    max_doc_tokens: int
+
+
+@dataclass
+class QuizOpenAIClientSettings(OpenAIClientSettings):
+    model: ModelName = "gpt4"
+    temp: float = 0.7
+    max_doc_tokens: int = 1000
+
+
 class QuizGenerator:
     def __init__(self) -> None:
         self._return_tokens = 1000
-        self._oai = OpenAIClient(
-            model="gpt4", temp=0.7, max_doc_tokens=self._return_tokens
-        )
+        self._oai = self._chose_client()
+
+    def _chose_client(self) -> OpenAIClient:
+        """
+        Sam isn't paying for gpt4. he needs a way to override the model choice.
+        """
+        quiz_model_name = os.getenv("QUIZ_MODEL_NAME_OVERRIDE")
+        if not quiz_model_name:
+            logger.info(f"Using default quiz_model_name: {quiz_model_name}")
+            return OpenAIClient(QuizOpenAIClientSettings().__dict__)
+        else:
+            logger.info(f"Overriding quiz_model_name to: {quiz_model_name}")
+            client_settings = QuizOpenAIClientSettings(model=quiz_model_name)
+            return OpenAIClient(client_settings.__dict__)
 
     def create_quiz(self, raw_doc: RawDocCapture, quiz_id: int) -> Optional[SimpleQuiz]:
         logger.info("Creating a quiz init for %s", raw_doc.pk)
