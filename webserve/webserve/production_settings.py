@@ -8,10 +8,14 @@ from .shared_settings import *  # noqa: F403
 DEBUG = False
 
 ALLOWED_HOSTS = (
-    [".azurecontainerapps.io"] if "RUNNING_IN_PRODUCTION" in os.environ else []
+    [".azurecontainerapps.io", "wezo.ai"]
+    if "RUNNING_IN_PRODUCTION" in os.environ
+    else []
 )
 CSRF_TRUSTED_ORIGINS = (
-    ["https://*.azurecontainerapps.io"] if "RUNNING_IN_PRODUCTION" in os.environ else []
+    ["https://*.azurecontainerapps.io", "https://*.wezo.ai"]
+    if "RUNNING_IN_PRODUCTION" in os.environ
+    else []
 )
 DEBUG = False
 DEBUG_PROPAGATE_EXCEPTIONS = True
