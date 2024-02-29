@@ -6,38 +6,51 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
-        ('privateuploads', '0001_initial'),
+        ("privateuploads", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='documentcluster',
-            name='owner',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL),
+            model_name="documentcluster",
+            name="owner",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+            ),
         ),
         migrations.AddField(
-            model_name='documentfile',
-            name='document',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.documentcluster'),
+            model_name="documentfile",
+            name="document",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="privateuploads.documentcluster",
+            ),
         ),
         migrations.AddField(
-            model_name='documentextract',
-            name='docfile',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.documentfile'),
+            model_name="documentextract",
+            name="docfile",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="privateuploads.documentfile",
+            ),
         ),
         migrations.AddField(
-            model_name='rawupload',
-            name='document',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.documentcluster'),
+            model_name="rawupload",
+            name="document",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="privateuploads.documentcluster",
+            ),
         ),
         migrations.AddField(
-            model_name='documentfile',
-            name='source',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='privateuploads.rawupload'),
+            model_name="documentfile",
+            name="source",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                to="privateuploads.rawupload",
+            ),
         ),
     ]

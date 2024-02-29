@@ -17,7 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/test" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/webserve" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="Poetry (financeExplorer) (3)" jdkType="Python SDK" />
+    <orderEntry type="jdk" jdkName="Remote Python 3.11.8 Docker Compose (web) (3)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="PyDocumentationSettings">

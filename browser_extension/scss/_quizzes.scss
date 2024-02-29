@@ -34,20 +34,34 @@
     .quizAnswerAnswered {
         background-color: #efefef;
         color: #0000007d;
-        border: none;
+        border: 1px solid #000000;
         padding: 10px;
         cursor: pointer; // Change cursor to indicate clickable
 
-        
         &.selected-correct {
-            color: #29b94a;
-            background-color: #e9fff5; // Soft green for correct answer            
+            border: 2px solid #{$vividGreen};
+            color: #333333;
+            background-color: #{$greenColor}; // Soft green for correct answer            
         }
 
         &.selected-incorrect {
-            color: #f14668;
-            background-color: #ffe5ea; // Light red for incorrect answer
+            border: 2px solid #{$vividRed};
+            color: white;
+            background-color: #{$redColor}; // Light red for incorrect answer
         }
+    }
+      
+
+    .rotate-in-y {
+        animation: rotateInY 0.35s forwards; /* Adjust duration as needed */
+    }
+
+    .rotate-in-y-slow {
+        animation: rotateInY 0.85s forwards; /* Adjust duration as needed */
+    }
+
+    .rotate-out-y {
+        animation: rotateOutY 0.1s forwards; /* Adjust duration as needed */
     }
 
     .quizAnswer {
@@ -63,7 +77,7 @@
         }
 
         &.selected {
-            background-color: #{$accentColor}; // Soft green for selected answer
+            background-color: #{$accentColor}; 
             color: #fff;
         }
 

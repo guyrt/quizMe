@@ -25,7 +25,6 @@ export const QuizGraded : React.FC<{
 
     return (
         <div>
-            <div className="quiz-grade-correct">{gradeQuiz()} / {quiz.content.length} correct</div>
             {quiz.content.map((quizQuestion, i) => (
                 <QuizGradedQuestion 
                     idx={i}
@@ -34,6 +33,7 @@ export const QuizGraded : React.FC<{
                     questionState={quizAnswers[i]}
                 />
             ))}
+            <div className="quiz-grade-correct">{gradeQuiz()} / {quiz.content.length} correct</div>
         </div>
     )
 }
@@ -47,7 +47,6 @@ const QuizGradedQuestion : React.FC<{
 
     return (
         <div className="quizQuestion">
-            <span className='quiz-index'>{idx + 1}.</span>
             <div className='quizQuestionContent'>
                 <span>{question.question}</span>
                 {question.answers.map((answer, i) => (
@@ -55,7 +54,8 @@ const QuizGradedQuestion : React.FC<{
                         key={`item_${i}`}
                         className={
                             `quizAnswerAnswered
-                            ${question.answers[i]?.correct ? "selected-correct" : (questionState === i ? "selected-incorrect" : "")}
+                            ${question.answers[i]?.correct ? "selected-correct rotate-in-y-slow" : (questionState === i ? "selected-incorrect" : "")}
+                            rotate-in-y
                             `}
 
                     >

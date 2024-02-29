@@ -5,73 +5,155 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='DocumentCluster',
+            name="DocumentCluster",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('document_role', models.CharField(choices=[('rfp', 'RFP'), ('proposal', 'Proposal'), ('resume', 'Resume'), ('verbatim', 'Verbatim Templates'), ('intelligence', 'Customer Intelligence'), ('unknown', 'None')], max_length=16)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "document_role",
+                    models.CharField(
+                        choices=[
+                            ("rfp", "RFP"),
+                            ("proposal", "Proposal"),
+                            ("resume", "Resume"),
+                            ("verbatim", "Verbatim Templates"),
+                            ("intelligence", "Customer Intelligence"),
+                            ("unknown", "None"),
+                        ],
+                        max_length=16,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='DocumentExtract',
+            name="DocumentExtract",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('structure', models.CharField(choices=[('rawtext', 'rawtext'), ('html', 'html'), ('sectionsv1', 'sectionsv1')], max_length=64)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                ("location_container", models.CharField(max_length=64)),
+                ("location_path", models.CharField(max_length=256)),
+                (
+                    "structure",
+                    models.CharField(
+                        choices=[
+                            ("rawtext", "rawtext"),
+                            ("html", "html"),
+                            ("sectionsv1", "sectionsv1"),
+                        ],
+                        max_length=64,
+                    ),
+                ),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='DocumentFile',
+            name="DocumentFile",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('file_role', models.CharField(choices=[('primary', 'Primary'), ('unknown', 'None')], max_length=16)),
-                ('doc_format', models.CharField(choices=[('pdf', 'pdf'), ('docx', 'docx'), ('zip', 'zip')], max_length=8)),
-                ('doc_name', models.TextField()),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
-                ('processing_status', models.CharField(choices=[('notstarted', 'notstarted'), ('done', 'done'), ('active', 'active'), ('error', 'error')], max_length=16)),
-                ('last_jobid', models.CharField(default='', max_length=128)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "file_role",
+                    models.CharField(
+                        choices=[("primary", "Primary"), ("unknown", "None")],
+                        max_length=16,
+                    ),
+                ),
+                (
+                    "doc_format",
+                    models.CharField(
+                        choices=[("pdf", "pdf"), ("docx", "docx"), ("zip", "zip")],
+                        max_length=8,
+                    ),
+                ),
+                ("doc_name", models.TextField()),
+                ("location_container", models.CharField(max_length=64)),
+                ("location_path", models.CharField(max_length=256)),
+                (
+                    "processing_status",
+                    models.CharField(
+                        choices=[
+                            ("notstarted", "notstarted"),
+                            ("done", "done"),
+                            ("active", "active"),
+                            ("error", "error"),
+                        ],
+                        max_length=16,
+                    ),
+                ),
+                ("last_jobid", models.CharField(default="", max_length=128)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
         migrations.CreateModel(
-            name='RawUpload',
+            name="RawUpload",
             fields=[
-                ('id', models.UUIDField(default=uuid.uuid4, editable=False, primary_key=True, serialize=False)),
-                ('date_added', models.DateTimeField(auto_now_add=True)),
-                ('date_modified', models.DateTimeField(auto_now=True)),
-                ('active', models.BooleanField(default=True)),
-                ('format', models.CharField(choices=[('pdf', 'pdf'), ('docx', 'docx'), ('zip', 'zip')], max_length=8)),
-                ('location_container', models.CharField(max_length=64)),
-                ('location_path', models.CharField(max_length=256)),
+                (
+                    "id",
+                    models.UUIDField(
+                        default=uuid.uuid4,
+                        editable=False,
+                        primary_key=True,
+                        serialize=False,
+                    ),
+                ),
+                ("date_added", models.DateTimeField(auto_now_add=True)),
+                ("date_modified", models.DateTimeField(auto_now=True)),
+                ("active", models.BooleanField(default=True)),
+                (
+                    "format",
+                    models.CharField(
+                        choices=[("pdf", "pdf"), ("docx", "docx"), ("zip", "zip")],
+                        max_length=8,
+                    ),
+                ),
+                ("location_container", models.CharField(max_length=64)),
+                ("location_path", models.CharField(max_length=256)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
         ),
     ]

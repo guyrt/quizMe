@@ -6,19 +6,22 @@
 /// when written (usually by options) and should
 /// be updated via message passing.
 class SharedState {
-  private domainBlockList = [
-    'microsoft-my.sharepoint.com',
-    'outlook.office.com', // safety check from outlook.
-    'microsoft.sharepoint.com',
-    'localhost',
-    'totalrewards.azurefd.net',
-    'statics.teams.cdn.office.net',
-    'microsoft-my.sharepoint-df.com',
-    'ms.portal.azure.com',
-    'sapsf.com',
-    'idweb.microsoft.com',
-    'login.microsoftonline.com', // logins
-  ]
+
+    private domainBlockList = [
+        'microsoft-my.sharepoint.com',
+        'outlook.office.com', // safety check from outlook.
+        'microsoft.sharepoint.com',
+        'localhost',
+        'totalrewards.azurefd.net',
+        'statics.teams.cdn.office.net',
+        'microsoft-my.sharepoint-df.com',
+        'ms.portal.azure.com',
+        'sapsf.com',
+        'idweb.microsoft.com',
+        'login.microsoftonline.com', // logins
+        'https://digital.fidelity.com'
+    ];
+
 
   public async getApiToken(): Promise<string | undefined> {
     const token = (await chrome.storage.local.get('secret.apikey'))[

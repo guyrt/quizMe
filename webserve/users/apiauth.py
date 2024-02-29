@@ -7,7 +7,7 @@ from users.models import AuthToken, User
 
 
 class ApiKey(APIKeyHeader):
-    param_name = 'X-API-Key'
+    param_name = "X-API-Key"
 
     def authenticate(self, request: HttpRequest, key: str | None) -> Any | None:
         try:
@@ -19,7 +19,7 @@ class ApiKey(APIKeyHeader):
 class BurnOnRead(APIKeyHeader):
     """Special api key header that will delete the auth key if it exists. Use on DELETE"""
 
-    param_name = 'X-API-Key'
+    param_name = "X-API-Key"
 
     def authenticate(self, request: HttpRequest, key: str | None) -> Any | None:
         try:
@@ -31,10 +31,6 @@ class BurnOnRead(APIKeyHeader):
             pass
 
 
-def create_new_token(user : User, name : str) -> AuthToken:
+def create_new_token(user: User, name: str) -> AuthToken:
     token_content = f"fa0_{secrets.token_urlsafe(35)}"
-    return AuthToken.objects.create(
-        key=token_content,
-        user=user,
-        name="name"
-    )
+    return AuthToken.objects.create(key=token_content, user=user, name="name")

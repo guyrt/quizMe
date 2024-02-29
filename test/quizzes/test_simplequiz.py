@@ -9,7 +9,7 @@ pytestmark = pytest.mark.django_db
 @pytest.fixture
 def mixed_quiz():
     """
-    Dummy example. Mixer auto-populates any object attributes that
+    dummy example. mixer auto-populates any object attributes that
     we don't manually override with kwargs, then creates the object.
     """
     return mixer.blend(SimpleQuiz, content="lorem ipsum dolor")

@@ -10,9 +10,16 @@ export const QuizInProgress: React.FC<{
     handleAnswerClick : (qIdx: number, aIdx: number) => void
 }> = ({quiz, setQuizState, quizAnswers, handleAnswerClick}) => {
 
+    const [isRemoving, setIsRemoving] = useState<boolean>(false);
+
     function quizSubmit() {
-        setQuizState("scored");
-        uploadQuiz();
+
+        setIsRemoving(true);
+            // Optionally, set a timeout to remove the element from the DOM after animation
+        setTimeout(() => {
+            setQuizState("scored");
+            uploadQuiz();        
+        }, 250); // Match the duration of the animation
     }
 
     const uploadQuiz = () => {
@@ -39,6 +46,7 @@ export const QuizInProgress: React.FC<{
                     idx={i}
                     question={quizQuestion} 
                     selectedAnswer={quizAnswers[i]}
+                    isRemoving={isRemoving}
                     onAnswerClick={(answerIndex) => handleAnswerClick(i, answerIndex)}
                 />
             ))}
@@ -52,8 +60,9 @@ const QuizQuestionComponent: React.FC<{
     idx: number
     question: QuizQuestion;
     selectedAnswer: number;
+    isRemoving: boolean
     onAnswerClick: (index: number) => void;
-}> = ({ idx, question, selectedAnswer, onAnswerClick }) => {
+}> = ({ idx, question, selectedAnswer, isRemoving, onAnswerClick }) => {
 
     const [animatingAnswer, setAnimatingAnswer] = useState<number | null>(null);
 
@@ -62,7 +71,7 @@ const QuizQuestionComponent: React.FC<{
         onAnswerClick(i)
 
         // Reset the animation state after a short delay to allow re-animation
-        setTimeout(() => setAnimatingAnswer(null), 500); // 500ms matches your CSS animation duration
+        setTimeout(() => setAnimatingAnswer(null), 100); // 500ms matches your CSS animation duration
     }
 
     return (
@@ -75,7 +84,7 @@ const QuizQuestionComponent: React.FC<{
                         onClick={() => handleclick(i)} 
                         key={`item_${i}`}
                         data-index={i} 
-                        className={`quizAnswer ${selectedAnswer === i ? "selected" : ""} ${animatingAnswer === i ? 'animate-click' : ''}`}
+                        className={`quizAnswer ${selectedAnswer === i ? "selected" : ""} ${animatingAnswer === i ? 'animate-click' : ''} ${isRemoving ? 'rotate-out-y' : ''}`}
                     >
                         {answer.answer}
                     </p>
