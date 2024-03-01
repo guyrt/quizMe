@@ -8,7 +8,7 @@ from users.default_settings import populate_default_settings
 
 from .models import AuthToken, LooseUserSettings, User
 
-from .apiauth import ApiKey, BurnOnRead, create_new_token
+from .apiauth import ApiKey, create_new_token
 from .schemas import AuthTokenSchema, AuthTokenNonSecretSchema, LooseUserSettingSchema
 
 from typing import List
@@ -59,9 +59,9 @@ def get_all_tokens(request):
     return AuthToken.objects.filter(user=request.auth)
 
 
-@router.delete("/tokens/delete", auth=BurnOnRead())
-def delete_token(request):
-    return {}
+# @router.delete("/tokens/delete", auth=BurnOnRead())
+# def delete_token(request):
+#     return {}
 
 
 @router.post("/settings/resettodefault", response=List[LooseUserSettingSchema])
@@ -95,5 +95,12 @@ def delete_user_setting(request, key: str, value: str = None):
     query = LooseUserSettings.objects.filter(user=request.auth, key=key)
     if value is not None:
         query = query.filter(value=value)
-    query.delete()
-    return {}
+    num_settings_deleted = query.delete()
+    payload = {"num_settings_deleted": num_settings_deleted, "num_objects_deleted": 0}
+
+    # handle specific key types.
+    if key == LooseUserSettings.KnownKeys.DomainExclude:
+        # todo
+        payload["num_settings_deleted"] = 1
+
+    return payload

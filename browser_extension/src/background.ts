@@ -12,6 +12,7 @@ console.log = () => {};
 
 
 import TabTracker from './stateTrackers/backgroundThread/tabTimer';
+import { SharedStateWriters } from "./stateTrackers/sharedStateReaders";
 
 // create this - initializer will set up events.
 const tabTracker = new TabTracker();
@@ -30,6 +31,14 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRemoveInfo) => {
     pageDetailsStore.deletePageDetails(tabId);
 });
+
+/* Message Listeners */
+chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
+    if (message.action === "fa_uploadQuizResult") {
+        uploadQuizResults(message.payload);
+    }
+});
+
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
     if (message.action === "fa_getCurrentPage") {
@@ -54,18 +63,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             });
         })})();
         return true;
-    }
-});
-
-chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
-    if (message.action === "fa_uploadQuizResult") {
-        uploadQuizResults(message.payload);
-    }
-});
-
-
-chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
-    if (message.action === "fa_pageLoaded") {
+    } else if (message.action === "fa_pageLoaded") {
         oldLogger(`Got action ${message.action} with ${message.payload.url}`);
         // Perform action on page load
         const loadedUrl = message.payload.url;
@@ -137,6 +135,15 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             }
         });
         })();
+        return true;
+    } else if (message.action == "fa_addNewDomainBlock") {
+        const domain = message.payload.domain;
+        (new SharedStateWriters()).addDomainBlock(domain).then(
+            numRemovedPages => sendResponse({numRemovedPages: numRemovedPages})
+        ).catch(e => {
+            sendResponse({error: "error blocking domain"});
+        })
+        return true;
     }
 });
 

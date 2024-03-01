@@ -3,7 +3,7 @@
 //  - get from server.
 
 import { QuizHistory } from "../../interfaces";
-import { getQuizHistory } from "../../webInterface";
+import { QuizWebInterface } from "../../webInterface";
 
 class QuizHistoryState {
 
@@ -15,7 +15,8 @@ class QuizHistoryState {
      * Get quiz results. This will get and save results locally.
      */
     public async updateLatestQuizHistory() : Promise<QuizHistory | undefined> {
-        const newResults = await getQuizHistory();
+        const webInterface = new QuizWebInterface();
+        const newResults = await webInterface.getQuizHistory();
         this.quizHistory = newResults;
         console.log("received new quiz history: ", newResults);
         chrome.storage.session.set({["quizHistory"]: newResults}, () => {});

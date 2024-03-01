@@ -27,60 +27,87 @@ export async function sendDomPayloadUpdate(token : string, payload : UploadableD
     return post(token, url, payload); // TODO - this could return undefined.
 }
 
-/// Request a quiz
-export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom> {
-    const url = `${domain}/api/quiz/makequiz`;
-    const apiToken = await sharedStateWriter.getApiToken();
-    if (apiToken == undefined) {
-        return {...payload, quiz_context: {previous_quiz: {status: "error"}}};
-    }
+export class QuizWebInterface {
 
-    const fullPayload = {...payload, force_recreate: forceReload};
-
-    return post(apiToken, url, fullPayload).then((q : any) => {
-        // note: overwrites only quizzes. This is critical to avoid 
-        // clobbering other parts of a dom payload.
-        if (q) {
-            return {...payload, quiz_context: (q as UploadedDom).quiz_context};
-        } else {
-            return {...payload, quiz_context: {previous_quiz: createErrorQuiz()}};
+    public async getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom> {
+        const url = `${domain}/api/quiz/makequiz`;
+        const apiToken = await sharedStateWriter.getApiToken();
+        if (apiToken == undefined) {
+            return {...payload, quiz_context: {previous_quiz: {status: "error"}}};
         }
-    })
-    .catch(error => {
-        console.error('Error calling API: ', error);
-        return {...payload, quiz_context: {previous_quiz: createErrorQuiz()}};
-    });
-}
 
+        const fullPayload = {...payload, force_recreate: forceReload};
 
-export async function getQuizHistory() : Promise<QuizHistory | undefined> {
-    const url = `${domain}/api/quiz/stats`;
-    const apiToken = await sharedStateWriter.getApiToken();
-    if (apiToken == undefined) {
-        return undefined;
+        return post(apiToken, url, fullPayload).then((q : any) => {
+            // note: overwrites only quizzes. This is critical to avoid 
+            // clobbering other parts of a dom payload.
+            if (q) {
+                return {...payload, quiz_context: (q as UploadedDom).quiz_context};
+            } else {
+                return {...payload, quiz_context: {previous_quiz: this.createErrorQuiz()}};
+            }
+        })
+        .catch(error => {
+            console.error('Error calling API: ', error);
+            return {...payload, quiz_context: {previous_quiz: this.createErrorQuiz()}};
+        });
     }
-    
-    return get(apiToken, url).then(x => {
-        if (x != undefined) {
-            return x as QuizHistory;
-        } else {
+
+
+    public async getQuizHistory() : Promise<QuizHistory | undefined> {
+        const url = `${domain}/api/quiz/stats`;
+        const apiToken = await sharedStateWriter.getApiToken();
+        if (apiToken == undefined) {
             return undefined;
         }
-    }).catch(error => {
-        console.error('Error calling QuizHistory: ', error);
-        return undefined;
-    });
+        
+        return get(apiToken, url).then(x => {
+            if (x != undefined) {
+                return x as QuizHistory;
+            } else {
+                return undefined;
+            }
+        }).catch(error => {
+            console.error('Error calling QuizHistory: ', error);
+            return undefined;
+        });
+    }
+
+    private createErrorQuiz() : Quiz {
+        return {
+            status: "error",
+            content: [],
+            id: "error",
+            owner: "error",
+            reasoning: "error"
+        };
+    }
+
 }
 
 
-function createErrorQuiz() : Quiz {
-    return {
-        status: "error",
-        content: [],
-        id: "error",
-        owner: "error",
-        reasoning: "error"
-    };
+export class BlockedDomainsWebInterface {
+    private specificKeyUrl = `${domain}/api/settings/domain.exclude`;
+
+    public async addBlockedDomain(domain : string) : Promise<boolean> {
+        const apiToken = await sharedStateWriter.getApiToken();
+        if (apiToken == undefined) {
+            return false;
+        }
+
+        return post(apiToken, this.specificKeyUrl, {value: domain}).then(x => true).catch(e => false);
+    }
+
+    public async deleteBlockedDomain(domain : string) {
+        const apiToken = await sharedStateWriter.getApiToken();
+        if (apiToken == undefined) {
+            return false;
+        }
+        
+        callDelete(apiToken, this.specificKeyUrl, {settingValue: domain}).then(deletePayload => {
+
+        });
+    }
 }
 
 
@@ -128,4 +155,26 @@ function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<
     })
 
     return p
+}
+
+
+function callDelete<OutT>(token : string, url : string, payload : {[key: string]: string}) : Promise<OutT> {
+    const queryString = new URLSearchParams(payload).toString();
+
+    const headers = {
+        'X-API-KEY': token,
+        'Content-Type': 'application/json'
+    };
+
+    const p = fetch(`${url}?${queryString}`, {
+        method: "DELETE",
+        headers: headers
+    }).then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error(`HTTP error! status: ${response.status}`);
+    })
+
+    return p;
 }

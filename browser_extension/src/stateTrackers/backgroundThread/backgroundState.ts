@@ -3,7 +3,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
-import { getAQuiz, sendDomPayload, sendDomPayloadUpdate } from "../../webInterface";
+import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "../../webInterface";
 import { SharedStateWriters } from "../sharedStateReaders";
 
 import { pageDetailsStore } from "./pageDetailsStore";
@@ -94,6 +94,7 @@ class BackgroundState {
     }
 
     public async getOrCreateAQuiz(key : number, forceReload : boolean) : Promise<Quiz> {
+        const quizwebInterface = new QuizWebInterface();
         if (!forceReload && key in this.quizzes) {
             log(`Outputting cached quiz for key ${key}`);
             return Promise.resolve(this.quizzes[key]);
@@ -117,7 +118,7 @@ class BackgroundState {
                 const upstream = this.uploadPromises[key];
                 return upstream.then(async () => {
                     if (record.uploadedDom) {
-                        const uploadedDom = await getAQuiz(record.uploadedDom, forceReload);
+                        const uploadedDom = await quizwebInterface.getAQuiz(record.uploadedDom, forceReload);
 
                         return this.updatePayloadAndReturnQuiz(record, uploadedDom);
                     }
@@ -128,7 +129,7 @@ class BackgroundState {
             }
         }
     
-        getAQuiz(record.uploadedDom, forceReload).then(newDom => this.updatePayloadAndReturnQuiz(record, newDom));
+        quizwebInterface.getAQuiz(record.uploadedDom, forceReload).then(newDom => this.updatePayloadAndReturnQuiz(record, newDom));
         return this.setQuiz(record, {'status': 'building'});
     }
 

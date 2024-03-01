@@ -99,6 +99,7 @@ export type ChromeMessageType =
     | "fa_onReminderClick"  // this fires when article reminder fires on webpage.
     | "fa_onLoginReminderClick"  // fires when user clicks logged out reminder.
     | "fa_userLoggedOut"
+    | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
 
 export type ChromeMessage = {
     action : ChromeMessageType,

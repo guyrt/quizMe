@@ -1,11 +1,9 @@
 
+export class SharedStateReaders {
 
-class KeyBase {
     protected ApiTokenKey : string = "secret.apikey";
-}
-
-
-export class SharedStateReaders extends KeyBase {
+    protected UserEmailKey : string = "secret.email";
+    protected FilterSendKey : string = "settings.filtersend";
 
     private domainBlockList = [
         'microsoft-my.sharepoint.com',
@@ -38,7 +36,7 @@ export class SharedStateReaders extends KeyBase {
     }
 
     public async getUserEmail() : Promise<string | undefined> {
-        return (await chrome.storage.local.get("secret.email"))["secret.email"];
+        return (await chrome.storage.local.get(this.UserEmailKey))[this.UserEmailKey];
     }
 
     public deleteUserState() {
@@ -50,7 +48,7 @@ export class SharedStateReaders extends KeyBase {
     }
 
     public async getTrackAllPages() : Promise<boolean> {
-        const stored = (await chrome.storage.sync.get("settings.filtersend"))['settings.filtersend'];
+        const stored = (await chrome.storage.sync.get(this.FilterSendKey))[this.FilterSendKey];
         if (stored !== undefined) {
             return stored;
         }
@@ -72,24 +70,27 @@ export class SharedStateWriters extends SharedStateReaders {
     /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
     public setApiToken(newToken : string) {
         chrome.storage.local.set({
-            "secret.apikey": newToken
+            [this.ApiTokenKey]: newToken
         });
     }
 
     public setUserEmail(newEmail : string) {
         chrome.storage.local.set({
-            "secret.email": newEmail
+            [this.UserEmailKey]: newEmail
         })
     }
     
     /// Block a domain, add to local store, and return the number of blocked domains.
     /// Runs on backend only.
-    public async addDomainBlock(domainToBlock : string) {
-        
+    public async addDomainBlock(domainToBlock : string) : Promise<number> {
+        // call server to drop a setting by key/value
+        // get local set and remove element
+        // return value from server as a number
+        return 0;
     }
 
     public setFilterSend(newVal : boolean) {
-        chrome.storage.sync.set({"settings.filtersend": newVal});
+        chrome.storage.sync.set({[this.FilterSendKey]: newVal});
     }
 }
 
