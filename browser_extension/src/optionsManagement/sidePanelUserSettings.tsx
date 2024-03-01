@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { OptionsWebInterface } from "./optionsWebInterface";
-import { sharedState } from "../stateTrackers/sharedState";
+import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import { SidePanelUserSettingsQuizHistory } from "./sidePanelUserSettingsQuizHistory";
+import { BlockedDomains } from "./blockedDomains";
 
 export function SidePanelLoggedInUserSettings() {
     
@@ -14,13 +15,19 @@ export function SidePanelLoggedInUserSettings() {
         fsm.handleUserLoggedOut();
     }
     
+    const sharedStateReader = new SharedStateReaders()
+
+    function setFilterToArticles() {
+        // todo
+    }
+
     return (
         <>
             <SidePanelUserSettingsQuizHistory />
-
             <br/>
-            <Checkbox label="Track all pages" getter={sharedState.getTrackAllPages} setter={sharedState.setFilterSend} />
+            <Checkbox label="Track all pages, not just articles?" getter={sharedStateReader.getTrackAllPages} setter={setFilterToArticles} />
             <br/>
+            <BlockedDomains />
             <button id='logout' onClick={logoutThisDevice}>Log out</button>
         </>
     )

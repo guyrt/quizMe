@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { OptionsWebInterface } from "./optionsWebInterface";
-import { sharedState } from "../stateTrackers/sharedState";
+import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 
 export function LoggedInUserSettings() {
     
@@ -15,6 +15,12 @@ export function LoggedInUserSettings() {
         navigate("/");
     }
 
+    const sharedStateReader = new SharedStateReaders();
+
+    function handleTrackAllPages() {
+
+    }
+
     async function setFilterSend(e : ChangeEvent<HTMLInputElement>) {
         e.target.value;
     }
@@ -23,7 +29,7 @@ export function LoggedInUserSettings() {
         <div>
             User settings.
             <br/>
-            <Checkbox label="Track all pages" getter={sharedState.getTrackAllPages} setter={sharedState.setFilterSend} />
+            <Checkbox label="Track all pages" getter={sharedStateReader.getTrackAllPages} setter={handleTrackAllPages} />
             <br/>
             <button id='logout' onClick={logoutThisDevice}>Log out</button>
         </div>

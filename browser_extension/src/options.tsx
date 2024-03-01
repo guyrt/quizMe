@@ -8,7 +8,7 @@ import {
 } from "react-router-dom";
 
 import SignIn from "./optionsManagement/signin";
-import { sharedState } from "./stateTrackers/sharedState";
+import { SharedStateReaders } from "./stateTrackers/sharedStateReaders";
 import { LoggedInUserSettings } from "./optionsManagement/loggedInUserSettings";
 import { SignUp } from "./optionsManagement/signup";
 
@@ -39,7 +39,8 @@ function RedirectRouter() {
     const navigate = useNavigate();
 
     const resolveRoute = useCallback(async() => {
-        const token = await sharedState.getApiToken();
+        const sharedStateReader = new SharedStateReaders();
+        const token = await sharedStateReader.getApiToken();
         if (token === undefined) {
             // no token - load sign in.
             console.log("Signin page");

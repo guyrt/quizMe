@@ -1,10 +1,14 @@
 import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory } from "./interfaces";
-import { sharedState } from "./stateTrackers/sharedState";
+import { SharedStateWriters } from "./stateTrackers/sharedStateReaders";
 import { domain } from "./globalSettings";
+
+
+const sharedStateWriter = new SharedStateWriters();
+
 
 export async function uploadQuizResults(payload : QuizResponse) : Promise<undefined> {
     const url = `${domain}/api/quiz/uploadresults`;
-    const token = await sharedState.getApiToken() ?? "todo";
+    const token = await sharedStateWriter.getApiToken() ?? "todo";
     return post(token, url, payload);
 }
 
@@ -26,7 +30,7 @@ export async function sendDomPayloadUpdate(token : string, payload : UploadableD
 /// Request a quiz
 export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom> {
     const url = `${domain}/api/quiz/makequiz`;
-    const apiToken = await sharedState.getApiToken();
+    const apiToken = await sharedStateWriter.getApiToken();
     if (apiToken == undefined) {
         return {...payload, quiz_context: {previous_quiz: {status: "error"}}};
     }
@@ -51,7 +55,7 @@ export async function getAQuiz(payload : UploadedDom, forceReload : boolean) : P
 
 export async function getQuizHistory() : Promise<QuizHistory | undefined> {
     const url = `${domain}/api/quiz/stats`;
-    const apiToken = await sharedState.getApiToken();
+    const apiToken = await sharedStateWriter.getApiToken();
     if (apiToken == undefined) {
         return undefined;
     }

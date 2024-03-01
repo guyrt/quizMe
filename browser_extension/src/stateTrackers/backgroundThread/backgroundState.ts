@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { getAQuiz, sendDomPayload, sendDomPayloadUpdate } from "../../webInterface";
-import { sharedState } from "../sharedState";
+import { SharedStateWriters } from "../sharedStateReaders";
 
 import { pageDetailsStore } from "./pageDetailsStore";
 import { quizHistoryState } from "./quizSubscriptionState";
@@ -133,7 +133,7 @@ class BackgroundState {
     }
 
     private async getToken() : Promise<string | undefined> {
-        const t = await sharedState.getApiToken();
+        const t = await new SharedStateWriters().getApiToken();
         return t;
     }
 
@@ -166,11 +166,11 @@ class BackgroundState {
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
-        if ((await sharedState.getDomainBlockList()).some(x => response.url.host.endsWith(x))){
+        if ((await new SharedStateWriters().getDomainBlockList()).some(x => response.url.host.endsWith(x))){
             return false;
         }
     
-        if (await sharedState.getTrackAllPages() == true) {
+        if (await new SharedStateWriters().getTrackAllPages() == true) {
             return true;
         }
 

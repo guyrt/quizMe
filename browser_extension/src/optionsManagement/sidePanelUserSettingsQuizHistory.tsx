@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { QuizHistory } from "../interfaces";
 import { quizHistoryBroker } from "../stateTrackers/sidePanelThread/quizHistoryBroker";
-import { sharedState } from "../stateTrackers/sharedState";
+import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 
 export function SidePanelUserSettingsQuizHistory() {
 
@@ -16,7 +16,7 @@ export function SidePanelUserSettingsQuizHistory() {
 
         quizHistoryBroker.trigger();
         
-        sharedState.getUserEmail().then(x => {
+        new SharedStateReaders().getUserEmail().then(x => {
             setUserEmail(x);
         })
 

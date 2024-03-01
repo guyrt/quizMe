@@ -7,7 +7,7 @@
  */
 
 import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage, MaybeSinglePageDetails, SinglePageDetailsErrorState } from "../../interfaces";
-import { sharedState } from "../sharedState";
+import { SharedStateReaders } from "../sharedStateReaders";
 
 
 export type SidePanelState = "PageNotUploaded" 
@@ -56,7 +56,8 @@ class SidePanelFiniteStateMachine {
     public async updateState(singlePage : SinglePageDetails) {
         if (this.state == "UserLoggedOut") {
             // check for a token
-            if (!await sharedState.hasApiToken()) {
+            const sharedStateReader = new SharedStateReaders();
+            if (!await sharedStateReader.hasApiToken()) {
                 return;
             }
         }
