@@ -1,5 +1,5 @@
 import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory } from "./interfaces";
-import { SharedStateWriters } from "./stateTrackers/sharedStateReaders";
+import { SharedStateWriters } from "./stateTrackers/sharedStateWriters";
 import { domain } from "./globalSettings";
 
 
@@ -87,7 +87,7 @@ export class QuizWebInterface {
 
 
 export class BlockedDomainsWebInterface {
-    private specificKeyUrl = `${domain}/api/settings/domain.exclude`;
+    private specificKeyUrl = `${domain}/api/user/settings/domain.exclude`;
 
     public async addBlockedDomain(domain : string) : Promise<boolean> {
         const apiToken = await sharedStateWriter.getApiToken();
@@ -98,15 +98,24 @@ export class BlockedDomainsWebInterface {
         return post(apiToken, this.specificKeyUrl, {value: domain}).then(x => true).catch(e => false);
     }
 
-    public async deleteBlockedDomain(domain : string) {
+    public async deleteBlockedDomain(domain : string) : Promise<number> {
         const apiToken = await sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
-            return false;
+            return -1;
         }
         
-        callDelete(apiToken, this.specificKeyUrl, {settingValue: domain}).then(deletePayload => {
-
+        return await callDelete(apiToken, this.specificKeyUrl, {settingValue: domain}).then((deletePayload : any) => {
+            return deletePayload.num_objects_deleted;
         });
+    }
+
+    public async getBlockedDomains() : Promise<string[]> {
+        const apiToken = await sharedStateWriter.getApiToken();
+        if (apiToken == undefined) {
+            return [];
+        }
+
+        return get(apiToken, this.specificKeyUrl);
     }
 }
 

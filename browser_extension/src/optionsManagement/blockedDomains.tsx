@@ -2,17 +2,18 @@ import React, { useEffect, useRef, useState } from "react";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleStop, faTrashCan } from "@fortawesome/free-regular-svg-icons";
+import { LooseSetting } from "../interfaces";
 
 
 export function BlockedDomains() {
     
-    const [domains, setDomains] = useState<string[]>([]);
+    const [domains, setDomains] = useState<LooseSetting[]>([]);
 
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        (new SharedStateReaders()).getDomainBlockList().then((domains : string[]) => {
-            setDomains(domains);
+        (new SharedStateReaders()).getDomainBlockList().then((domains : LooseSetting[]) => {
+            setDomains(domains || []);
         })
     }, []);
 
@@ -26,7 +27,7 @@ export function BlockedDomains() {
             return;
         }
 
-        if (domains.findIndex((x) => x === value) > -1) {
+        if (domains.findIndex((x) => x.value === value) > -1) {
             return;
         }
 
@@ -41,7 +42,7 @@ export function BlockedDomains() {
     return (
         <div className="blockedDomains">
             <p>Blocked domains. Every page at these domains will not be stored at all.</p>
-            {domains.map(d => <BlockedDomain domain={d} removeDomain={removeDomainBlock}/>)}
+            {domains.map(d => <BlockedDomain domain={d.value} removeDomain={removeDomainBlock}/>)}
             <div className='addDomainBlockSpan'>
                 <span className="right-pad">Block a domain:</span>
                 <input type="text" ref={inputRef}></input>

@@ -101,6 +101,6 @@ def delete_user_setting(request, key: str, value: str = None):
     # handle specific key types.
     if key == LooseUserSettings.KnownKeys.DomainExclude:
         # todo
-        payload["num_settings_deleted"] = 1
+        payload["num_objects_deleted"] = 1
 
     return payload

@@ -12,7 +12,7 @@ console.log = () => {};
 
 
 import TabTracker from './stateTrackers/backgroundThread/tabTimer';
-import { SharedStateWriters } from "./stateTrackers/sharedStateReaders";
+import { SharedStateWriters } from "./stateTrackers/sharedStateWriters";
 
 // create this - initializer will set up events.
 const tabTracker = new TabTracker();
@@ -142,6 +142,13 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             numRemovedPages => sendResponse({numRemovedPages: numRemovedPages})
         ).catch(e => {
             sendResponse({error: "error blocking domain"});
+        })
+        return true;
+    } else if (message.action == "fa_loadBlockedDomains") {
+        (new SharedStateWriters()).loadDomainBlockList().then(
+            domains => sendResponse({payload: domains})
+        ).catch(e => {
+            sendResponse({error: "error getting blocked domains"});
         })
         return true;
     }

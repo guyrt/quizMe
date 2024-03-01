@@ -1,5 +1,5 @@
 import { domain } from "../globalSettings";
-import { SharedStateWriters } from "../stateTrackers/sharedStateReaders";
+import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 
 export class OptionsWebInterface {
     
@@ -54,7 +54,7 @@ export class OptionsWebInterface {
 
     public async logoutThisDevice() : Promise<boolean> {
         // drop locally.
-        new SharedStateWriters().deleteUserState();
+        new SharedStateReaders().deleteUserState();
 
         // delete the token.
         const url = `${domain}/api/users/tokens/delete`;
@@ -66,7 +66,7 @@ export class OptionsWebInterface {
     private async saveToken(response : Response) : Promise<string> {
                 // save the token to storage.
         const j = await response.json();
-        const writer = new SharedStateWriters();
+        const writer = new SharedStateReaders();
         writer.setApiToken(j['key']);
         writer.setUserEmail(j['user']);
         

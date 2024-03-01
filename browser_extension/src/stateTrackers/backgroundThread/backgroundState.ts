@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "../../webInterface";
-import { SharedStateWriters } from "../sharedStateReaders";
+import { SharedStateWriters } from "../sharedStateWriters";
 
 import { pageDetailsStore } from "./pageDetailsStore";
 import { quizHistoryState } from "./quizSubscriptionState";
@@ -167,7 +167,7 @@ class BackgroundState {
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
-        if ((await new SharedStateWriters().getDomainBlockList()).some(x => response.url.host.endsWith(x))){
+        if ((await new SharedStateWriters().getDomainBlockList()).some(x => response.url.host.endsWith(x.value))){
             return false;
         }
     

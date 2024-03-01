@@ -1,24 +1,10 @@
+import { LooseSetting } from "../interfaces";
 
 export class SharedStateReaders {
 
     protected ApiTokenKey : string = "secret.apikey";
     protected UserEmailKey : string = "secret.email";
-    protected FilterSendKey : string = "settings.filtersend";
-
-    private domainBlockList = [
-        'microsoft-my.sharepoint.com',
-        'outlook.office.com', // safety check from outlook.
-        'microsoft.sharepoint.com',
-        'localhost',
-        'totalrewards.azurefd.net',
-        'statics.teams.cdn.office.net',
-        'microsoft-my.sharepoint-df.com',
-        'ms.portal.azure.com',
-        'sapsf.com',
-        'idweb.microsoft.com',
-        'login.microsoftonline.com', // logins
-        'digital.fidelity.com'
-    ];
+    protected DomainBlockListKey : string = "settings.DomainBlockList";
 
     public async getApiToken() : Promise<string | undefined> {
         const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
@@ -43,28 +29,25 @@ export class SharedStateReaders {
         chrome.runtime.sendMessage({action: "fa_userLoggedOut"})
     }
 
-    public async getDomainBlockList() : Promise<string[]> {
-        return this.domainBlockList;
+    public async getDomainBlockList() : Promise<LooseSetting[]> {
+        return new Promise((resolve, reject) => chrome.runtime.sendMessage({action: "fa_loadBlockedDomains"}, 
+            function(response : {payload: LooseSetting[]} | {error: string}) {
+                if ('payload' in response) {
+                    resolve(response.payload);
+                } else {
+                    reject("error getting domains");
+                }
+            })
+        );
     }
 
     public async getTrackAllPages() : Promise<boolean> {
-        const stored = (await chrome.storage.sync.get(this.FilterSendKey))[this.FilterSendKey];
+        const key = "settings.filtersend";
+        const stored = (await chrome.storage.sync.get(key))[key];
         if (stored !== undefined) {
             return stored;
         }
-        return Promise.resolve(true);
-    }
-
-}
-
-
-export class SharedStateWriters extends SharedStateReaders {
-
-    public constructor() {
-        super();
-        if (!(self instanceof (self as any).ServiceWorkerGlobalScope)) {
-            throw "Writer exception - you can't create this object in this context.";
-        }
+        return true;
     }
 
     /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
@@ -79,19 +62,7 @@ export class SharedStateWriters extends SharedStateReaders {
             [this.UserEmailKey]: newEmail
         })
     }
-    
-    /// Block a domain, add to local store, and return the number of blocked domains.
-    /// Runs on backend only.
-    public async addDomainBlock(domainToBlock : string) : Promise<number> {
-        // call server to drop a setting by key/value
-        // get local set and remove element
-        // return value from server as a number
-        return 0;
-    }
 
-    public setFilterSend(newVal : boolean) {
-        chrome.storage.sync.set({[this.FilterSendKey]: newVal});
-    }
 }
 
 

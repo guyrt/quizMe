@@ -100,6 +100,7 @@ export type ChromeMessageType =
     | "fa_onLoginReminderClick"  // fires when user clicks logged out reminder.
     | "fa_userLoggedOut"
     | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
+    | "fa_loadBlockedDomains" // message from sidepanel to backend to load domains.
 
 export type ChromeMessage = {
     action : ChromeMessageType,
@@ -145,3 +146,9 @@ export type SinglePageDetailsErrorState =  {
 }
 
 export type MaybeSinglePageDetails = SinglePageDetails | SinglePageDetailsErrorState;
+
+
+export type LooseSetting = {
+    key: string,
+    value : string
+}
