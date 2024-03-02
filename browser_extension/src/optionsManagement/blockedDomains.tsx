@@ -2,23 +2,26 @@ import React, { useEffect, useRef, useState } from "react";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleStop, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { LooseSetting } from "../interfaces";
+import { BasicError, LooseSetting } from "../interfaces";
 
 
 export function BlockedDomains() {
     
     const [domains, setDomains] = useState<LooseSetting[]>([]);
 
+    const [errorLoadingDomains, setErrorLoadingDomains] = useState<boolean>(false);
+
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        (new SharedStateReaders()).getDomainBlockList().then((domains : LooseSetting[]) => {
-            setDomains(domains || []);
-        })
+        resetDomains();
     }, []);
 
-    function removeDomainBlock(domain : string) {
-
+    const removeDomainBlock = (domain : string) => {
+        const payload = {action: "fa_deleteDomainBlock", payload: {domain: domain}};
+        chrome.runtime.sendMessage(payload, (response) => {
+            resetDomains();
+        });
     }
     
     const addDomainBlock = async () => {
@@ -32,17 +35,35 @@ export function BlockedDomains() {
         }
 
         const payload = {action: "fa_addNewDomainBlock", payload: {domain: value}};
-        return new Promise((resolve, reject) => chrome.runtime.sendMessage(payload, 
+        chrome.runtime.sendMessage(payload, 
             function(response) {
-                resolve(response.data);
-            })
+                resetDomains();
+            }
         );
+    }
+
+    function resetDomains() {
+        (new SharedStateReaders()).getDomainBlockList(true).then((domains : LooseSetting[] | BasicError) => {
+            if ('error' in domains) {
+                setErrorLoadingDomains(true);
+            } else {
+                setErrorLoadingDomains(false);
+                setDomains(domains || []);
+            }
+        })
     }
 
     return (
         <div className="blockedDomains">
             <p>Blocked domains. Every page at these domains will not be stored at all.</p>
-            {domains.map(d => <BlockedDomain domain={d.value} removeDomain={removeDomainBlock}/>)}
+            {errorLoadingDomains && <p>uh oh... trouble loading domains.</p>}
+            {domains.map((d, i) => 
+                <BlockedDomain 
+                    domain={d.value} 
+                    removeDomain={removeDomainBlock}
+                    key={`blockedDomain_${i}`}
+                    />
+            )}
             <div className='addDomainBlockSpan'>
                 <span className="right-pad">Block a domain:</span>
                 <input type="text" ref={inputRef}></input>
@@ -61,9 +82,15 @@ type BlockedDomainProps = {
 
 const BlockedDomain: React.FC<BlockedDomainProps> = ({ domain, removeDomain }) => {
 
+    const [isRemoving, setIsRemoving] = useState(false);
+
+    function clickHandle() {
+        removeDomain(domain);
+    }
+
     return (
-        <div className="blockedDomainWrapper">
-            <span className="option-trashcan"><FontAwesomeIcon icon={faTrashCan} /></span> <span>{domain}</span><span onClick={() => removeDomain(domain)}></span>
+        <div className="blockedDomainWrapper" onClick={clickHandle}>
+            <span className="option-trashcan"><FontAwesomeIcon icon={faTrashCan} /></span> <span>{domain}</span>
         </div>
     )
 }

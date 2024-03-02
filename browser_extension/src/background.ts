@@ -151,6 +151,13 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             sendResponse({error: "error getting blocked domains"});
         })
         return true;
+    } else if (message.action == "fa_deleteDomainBlock") {
+        (new SharedStateWriters()).dropDomainBlock(message.payload.domain).then(
+            domains => sendResponse({payload: domains})
+        ).catch(e => {
+            sendResponse({error: "error getting blocked domains"});
+        })
+        return true;
     }
 });
 

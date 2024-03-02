@@ -1,4 +1,5 @@
-import { LooseSetting } from "../interfaces";
+import { domain } from "../globalSettings";
+import { BasicError, LooseSetting } from "../interfaces";
 
 export class SharedStateReaders {
 
@@ -29,7 +30,14 @@ export class SharedStateReaders {
         chrome.runtime.sendMessage({action: "fa_userLoggedOut"})
     }
 
-    public async getDomainBlockList() : Promise<LooseSetting[]> {
+    public async getDomainBlockList(forceLoad : boolean = false) : Promise<LooseSetting[] | BasicError> {
+        if (!forceLoad) {
+            const domains = (await chrome.storage.local.get(this.DomainBlockListKey))[this.DomainBlockListKey];
+            if ('domains' in domains) {
+                return domains['domains'];
+            }
+        }
+
         return new Promise((resolve, reject) => chrome.runtime.sendMessage({action: "fa_loadBlockedDomains"}, 
             function(response : {payload: LooseSetting[]} | {error: string}) {
                 if ('payload' in response) {

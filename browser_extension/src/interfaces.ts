@@ -101,6 +101,7 @@ export type ChromeMessageType =
     | "fa_userLoggedOut"
     | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
     | "fa_loadBlockedDomains" // message from sidepanel to backend to load domains.
+    | "fa_deleteDomainBlock"
 
 export type ChromeMessage = {
     action : ChromeMessageType,
@@ -120,7 +121,7 @@ export type QuizHistory = {
 
 export type SinglePageDetailsChangeMessage = {
     action : "fa_activeSinglePageDetailsChange"
-    payload : SinglePageDetails | {'error': string}
+    payload : SinglePageDetails | BasicError
 }
 
 
@@ -152,3 +153,5 @@ export type LooseSetting = {
     key: string,
     value : string
 }
+
+export type BasicError = {'error': string}

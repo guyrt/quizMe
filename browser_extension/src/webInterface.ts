@@ -1,4 +1,4 @@
-import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory } from "./interfaces";
+import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting } from "./interfaces";
 import { SharedStateWriters } from "./stateTrackers/sharedStateWriters";
 import { domain } from "./globalSettings";
 
@@ -104,18 +104,18 @@ export class BlockedDomainsWebInterface {
             return -1;
         }
         
-        return await callDelete(apiToken, this.specificKeyUrl, {settingValue: domain}).then((deletePayload : any) => {
+        return await callDelete(apiToken, this.specificKeyUrl, {value: domain}).then((deletePayload : any) => {
             return deletePayload.num_objects_deleted;
         });
     }
 
-    public async getBlockedDomains() : Promise<string[]> {
+    public async getBlockedDomains() : Promise<LooseSetting[]> {
         const apiToken = await sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return [];
         }
 
-        return get(apiToken, this.specificKeyUrl);
+        return get<LooseSetting[]>(apiToken, this.specificKeyUrl);
     }
 }
 

@@ -83,6 +83,10 @@ def get_settings_by_key(request, key: str):
 
 @router.post("/settings^", response=LooseUserSettingSchema)
 def post_setting(request, payload: LooseUserSettingSchema):
+    if payload.key == LooseUserSettings.KnownKeys.DomainExclude:
+        # todo
+        pass
+
     return LooseUserSettings.objects.create(
         user=request.auth, key=payload.key, value=payload.value
     )
@@ -95,12 +99,11 @@ def delete_user_setting(request, key: str, value: str = None):
     query = LooseUserSettings.objects.filter(user=request.auth, key=key)
     if value is not None:
         query = query.filter(value=value)
-    num_settings_deleted = query.delete()
-    payload = {"num_settings_deleted": num_settings_deleted, "num_objects_deleted": 0}
+        num_settings_deleted = query.delete()
+    else:
+        logger.warn("Tried to delete setting with no value for key %s", key)
+        num_settings_deleted = 0
 
-    # handle specific key types.
-    if key == LooseUserSettings.KnownKeys.DomainExclude:
-        # todo
-        payload["num_objects_deleted"] = 1
+    payload = {"num_settings_deleted": num_settings_deleted}
 
     return payload
