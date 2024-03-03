@@ -7,6 +7,7 @@ import SidePanelStats from "./components/sidePanelStats";
 import SidePanelSignInOptions from "./optionsManagement/sidePanelSignInResolver";
 import { SidePanelLoggedInUserSettings } from "./optionsManagement/sidePanelUserSettings";
 import { LoadingGif } from "./components/shared/loading";
+import { BlockedPage } from "./components/blockedPage";
 
 function MainApp() {
 
@@ -43,7 +44,7 @@ function MainApp() {
             {state == "Reload" && <SidePanelError isError={false} />}
             {state == "EmptyPage" && <p>Don't just stand there... open something!</p> }
             {state == "PageUploadedAndClassified" && <SidePanelStats />}
-            {state == "PageBlocked" && <p>This page is blocked.</p>}
+            {state == "PageBlocked" && <BlockedPage />}
             {state == "UserLoggedOut" && <div>You are logged out. <SidePanelSignInOptions /></div>}
             {state == "ShowUserSettings" && <SidePanelLoggedInUserSettings />}
             {state != "ShowUserSettings" && 

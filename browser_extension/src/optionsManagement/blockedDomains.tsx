@@ -13,6 +13,8 @@ export function BlockedDomains() {
 
     const [errorAddingDomain, setErrorAddingDomain] = useState<boolean>(false);
 
+    const [addButtonClicked, setAddButtonClicked] = useState<boolean>(false);
+
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -27,6 +29,9 @@ export function BlockedDomains() {
     }
     
     const addDomainBlock = async () => {
+        setAddButtonClicked(true);
+        setTimeout(() => setAddButtonClicked(false), 100); // Resets the click state after 200ms
+        
         const value = inputRef.current?.value;
         if (value == undefined || value == "") {
             return;
@@ -83,7 +88,11 @@ export function BlockedDomains() {
                 <span className="right-pad">Block a domain:</span>
                 {errorAddingDomain && <p>uh oh... troubling blocking a domain. Try again in a little while.</p>}
                 <input type="text" ref={inputRef} onKeyDown={inputKeyPress}></input>
-                <span className='addDomainBlockButton' onClick={addDomainBlock}><FontAwesomeIcon icon={faCircleStop} /></span>
+                <span 
+                    className={`addDomainBlockButton option-icon-clickable ${addButtonClicked ? 'option-icon-clicked' : ''}`}
+                    onClick={addDomainBlock}>
+                    <FontAwesomeIcon icon={faCircleStop} />
+                </span>
                 <p>(This will delete any stored pages on that domain)</p>
             </div>
         </div>
@@ -98,15 +107,22 @@ type BlockedDomainProps = {
 
 const BlockedDomain: React.FC<BlockedDomainProps> = ({ domain, removeDomain }) => {
 
-    const [isRemoving, setIsRemoving] = useState(false);
+    const [isClicked, setIsClicked] = useState(false);
 
     function clickHandle() {
-        removeDomain(domain);
+        setIsClicked(true);
+        setTimeout(() => {
+            setIsClicked(false)
+        }, 100);
+        removeDomain(domain);    
     }
 
     return (
         <div className="blockedDomainWrapper" onClick={clickHandle}>
-            <span className="option-trashcan"><FontAwesomeIcon icon={faTrashCan} /></span> <span>{domain}</span>
+            <span className={`option-trashcan option-icon-clickable ${isClicked ? 'option-icon-clicked' : ''}`}>
+                <FontAwesomeIcon icon={faTrashCan} />
+            </span> 
+            <span>{domain}</span>
         </div>
     )
 }
