@@ -139,7 +139,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
     } else if (message.action == "fa_addNewDomainBlock") {
         const domain = message.payload.domain;
         (new SharedStateWriters()).addDomainBlock(domain).then(
-            numRemovedPages => sendResponse({numRemovedPages: numRemovedPages})
+            success => sendResponse({success: success})
         ).catch(e => {
             sendResponse({error: "error blocking domain"});
         })

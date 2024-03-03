@@ -70,18 +70,18 @@ def reset_settings(request):
     return LooseUserSettings.objects.filter(user=request.auth)
 
 
-@router.get("/settings^", response=List[LooseUserSettingSchema])
-def get_keys(request):
-    return LooseUserSettings.objects.filter(user=request.auth)
-
-
 @router.get("/settings/{key}", response=List[LooseUserSettingSchema])
 def get_settings_by_key(request, key: str):
     user = request.auth
     return LooseUserSettings.objects.filter(user=user, key=key)
 
 
-@router.post("/settings^", response=LooseUserSettingSchema)
+@router.get("/settings", response=List[LooseUserSettingSchema])
+def get_keys(request):
+    return LooseUserSettings.objects.filter(user=request.auth)
+
+
+@router.post("/settings", response=LooseUserSettingSchema)
 def post_setting(request, payload: LooseUserSettingSchema):
     if payload.key == LooseUserSettings.KnownKeys.DomainExclude:
         # todo

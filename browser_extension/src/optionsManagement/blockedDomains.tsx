@@ -11,6 +11,8 @@ export function BlockedDomains() {
 
     const [errorLoadingDomains, setErrorLoadingDomains] = useState<boolean>(false);
 
+    const [errorAddingDomain, setErrorAddingDomain] = useState<boolean>(false);
+
     const inputRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
@@ -37,7 +39,12 @@ export function BlockedDomains() {
         const payload = {action: "fa_addNewDomainBlock", payload: {domain: value}};
         chrome.runtime.sendMessage(payload, 
             function(response) {
-                resetDomains();
+                if (response.success) {
+                    resetDomains();
+                    setErrorAddingDomain(false);
+                } else {
+                    setErrorAddingDomain(true);
+                }
             }
         );
     }
@@ -53,6 +60,14 @@ export function BlockedDomains() {
         })
     }
 
+    function inputKeyPress(event : React.KeyboardEvent) {
+        if (event.key === 'Enter') {
+            addDomainBlock();
+            return true;
+        }
+        return false;
+    }
+
     return (
         <div className="blockedDomains">
             <p>Blocked domains. Every page at these domains will not be stored at all.</p>
@@ -66,7 +81,8 @@ export function BlockedDomains() {
             )}
             <div className='addDomainBlockSpan'>
                 <span className="right-pad">Block a domain:</span>
-                <input type="text" ref={inputRef}></input>
+                {errorAddingDomain && <p>uh oh... troubling blocking a domain. Try again in a little while.</p>}
+                <input type="text" ref={inputRef} onKeyDown={inputKeyPress}></input>
                 <span className='addDomainBlockButton' onClick={addDomainBlock}><FontAwesomeIcon icon={faCircleStop} /></span>
                 <p>(This will delete any stored pages on that domain)</p>
             </div>

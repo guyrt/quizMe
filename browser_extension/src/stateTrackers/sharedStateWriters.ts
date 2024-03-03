@@ -14,11 +14,12 @@ export class SharedStateWriters extends SharedStateReaders {
     
     /// Block a domain, add to local store, and return the number of blocked domains.
     /// Runs on backend only.
-    public async addDomainBlock(domainToBlock : string) : Promise<number> {
+    public async addDomainBlock(domainToBlock : string) : Promise<boolean> {
         // call server to drop a setting by key/value
+        const webSetResponse = new BlockedDomainsWebInterface().addBlockedDomain(domainToBlock);
         // get local set and remove element
         // return value from server as a number
-        return 0;
+        return webSetResponse;
     }
 
     public async dropDomainBlock(domainToUnblock : string) : Promise<number> {

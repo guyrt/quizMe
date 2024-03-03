@@ -87,7 +87,9 @@ export class QuizWebInterface {
 
 
 export class BlockedDomainsWebInterface {
-    private specificKeyUrl = `${domain}/api/user/settings/domain.exclude`;
+    private settingsUrl = `${domain}/api/user/settings`;
+    private settingsKey = 'domain.exclude';
+    private specificKeyUrl = `${this.settingsUrl}/${this.settingsKey}`;
 
     public async addBlockedDomain(domain : string) : Promise<boolean> {
         const apiToken = await sharedStateWriter.getApiToken();
@@ -95,7 +97,7 @@ export class BlockedDomainsWebInterface {
             return false;
         }
 
-        return post(apiToken, this.specificKeyUrl, {value: domain}).then(x => true).catch(e => false);
+        return post(apiToken, this.settingsUrl, {key: this.settingsKey, value: domain}).then(x => true).catch(e => false);
     }
 
     public async deleteBlockedDomain(domain : string) : Promise<number> {
