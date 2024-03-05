@@ -106,7 +106,7 @@ function showHint(isArticle : boolean) {
 }
 
 const yellow = "#FFCC00";
-const blue = "#4741de";
+const blue = "#140d4f";
 
 function styleToLogin(circle : HTMLDivElement) {
     circle.style.color = blue;
