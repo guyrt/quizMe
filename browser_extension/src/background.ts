@@ -72,15 +72,16 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             if (loadedUrl == "unknown") {
                 chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
                     handleTabs(tabs, true);
+                    sendResponse();
                 });
             } else {
                 chrome.tabs.query({currentWindow: true, url: loadedUrl}, function(tabs) {
                     handleTabs(tabs, true);
+                    sendResponse();
                 });
             }
-
-            
         })();
+        return true;
     } else if (message.action === "fa_pageReloaded") {
         console.log(`Got action ${message.action}`);
         const tId = message.payload.tabId;
@@ -176,17 +177,17 @@ function handleTabs(tabs : chrome.tabs.Tab[], firstUpload : boolean) {
     chrome.tabs.sendMessage(
         tId,
         {action: "fa_accessDOM", payload: {tabId: tId}},
-        (x) => handleFAAccessDOMMessage(tId, x, firstUpload)
+        async (x) => await handleFAAccessDOMMessage(tId, x, firstUpload)
     );
 }
 
 
-function handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
+async function handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
     console.log(`Background received dom. TabId: ${tabId}, isFirst: ${firstUpload} response:`, response);
     if (firstUpload) {
-        backgroundState.uploadPage(tabId, response);
+        await backgroundState.uploadPage(tabId, response);
     } else {
-        backgroundState.uploadNewVersionSamePage(tabId, response);
+        await backgroundState.uploadNewVersionSamePage(tabId, response);
     }
 }
 

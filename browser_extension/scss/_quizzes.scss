@@ -40,13 +40,13 @@
 
         &.selected-correct {
             border: 2px solid #{$vividGreen};
-            color: #333333;
+            color: #{$vivideGreenText};
             background-color: #{$greenColor}; // Soft green for correct answer            
         }
 
         &.selected-incorrect {
             border: 2px solid #{$vividRed};
-            color: white;
+            color: #{$backgroundColor};
             background-color: #{$redColor}; // Light red for incorrect answer
         }
     }
@@ -67,7 +67,7 @@
     .quizAnswer {
         border: 1px solid #{$accentColor}; // Border for each answer
         padding: 10px;
-        color: #4741de;
+        color: #{$accentColor};
         margin-bottom: 5px; // Space between each answer
         cursor: pointer; // Change cursor to indicate clickable
         transition: background-color 0.3s; // Smooth transition for background color

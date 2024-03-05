@@ -57,6 +57,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         }
 
         sendResponse(data);
+        return true;
     } else if (request.action === "fa_noAPIToken") {
         showHint(false);
     }

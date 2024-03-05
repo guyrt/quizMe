@@ -1,4 +1,4 @@
-import { LooseSetting } from "../interfaces";
+import { BasicError, LooseSetting } from "../interfaces";
 import { BlockedDomainsWebInterface } from "../webInterface";
 import { SharedStateReaders } from "./sharedStateReaders";
 
@@ -42,5 +42,16 @@ export class SharedStateWriters extends SharedStateReaders {
         }
 
         return [];
+    }
+
+    public async getDomainBlockList(forceLoad : boolean = false) : Promise<LooseSetting[] | BasicError> {
+        if (!forceLoad) {
+            const domains = (await chrome.storage.local.get(this.DomainBlockListKey))[this.DomainBlockListKey];
+            if ('domains' in domains) {
+                return domains['domains'];
+            }
+        }
+
+        return this.loadDomainBlockList();
     }
 }
