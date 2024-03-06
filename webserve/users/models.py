@@ -7,7 +7,7 @@ from django.db import models
 
 from datetime import datetime
 import uuid
-from users.default_settings import populate_default_settings
+from users.settings_logic import populate_default_settings
 
 from webserve.mixins import ModelBaseMixin
 
