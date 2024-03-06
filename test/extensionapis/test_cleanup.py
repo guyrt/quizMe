@@ -5,10 +5,9 @@ from extensionapis.jobs import handle_new_domain_remove
 from _pytest.monkeypatch import MonkeyPatch
 
 
-from .fixtures import existing_url, existing_user  # These are used...
+from .fixtures import existing_url, existing_user  # noqa
 
 pytestmark = pytest.mark.django_db
-
 
 
 @pytest.fixture()
@@ -19,7 +18,7 @@ def set_djangorq(monkeypatch: MonkeyPatch):
     yield mock_enqueue
 
 
-def test_drop_url(existing_url : SingleUrl, set_djangorq):
+def test_drop_url(existing_url: SingleUrl, set_djangorq):  # noqa
     handle_new_domain_remove("existing.com")
     assert 2 == set_djangorq.call_count
     assert 0 == SingleUrl.objects.filter(pk=existing_url.pk).count()
