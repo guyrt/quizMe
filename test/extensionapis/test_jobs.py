@@ -38,3 +38,10 @@ def test_drop_url_nodelete(single_url_factory: SingleUrl, set_djangorq):  # noqa
     handle_new_domain_remove("a.com")
     assert 0 == set_djangorq.call_count
     assert 1 == SingleUrl.objects.filter(pk=existing_url.pk).count()
+
+
+def test_drop_url_nodelete_suburl(single_url_factory: SingleUrl, set_djangorq):  # noqa
+    existing_url = single_url_factory("a.com")
+    handle_new_domain_remove("b.a.com")
+    assert 0 == set_djangorq.call_count
+    assert 1 == SingleUrl.objects.filter(pk=existing_url.pk).count()
