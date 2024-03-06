@@ -1,16 +1,6 @@
 import pytest
 from extensionapis.models import RawDocCapture, SingleUrl
-from users.models import User
 from mixer.backend.django import mixer
-
-
-@pytest.fixture
-def existing_user(scope="module"):
-    """
-    Dummy example. Mixer auto-populates any object attributes that
-    we don't manually override with kwargs, then creates the object.
-    """
-    yield mixer.blend(User, email="exists@user.com")
 
 
 @pytest.fixture
