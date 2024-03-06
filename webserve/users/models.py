@@ -74,7 +74,6 @@ class UserSubscriptions(ModelBaseMixin):
     class SubscriptionTypes(models.TextChoices):
         Free = "free", "free"
         MonthlyQuiz = "monthly_quiz", "monthly_quiz"
-        AnnualQuiz = "annual_quiz", "annual_quiz"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
 

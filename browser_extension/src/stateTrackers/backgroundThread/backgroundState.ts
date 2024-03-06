@@ -168,7 +168,7 @@ class BackgroundState {
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
         const domainBlockList = await new SharedStateWriters().getDomainBlockList();
-        if (!('error' in domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))){
+        if (domainBlockList != undefined && !('error' in domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))){
             return false;
         }
     
