@@ -18,7 +18,8 @@ docker exec -it ${CONTAINER_ID} bash
 once the container starts in interactive mode: 
 ```shell
 # pytest should be run fro the pytest directory
-cd ../test && pytest
+# include -s flag if you are debugging.
+cd ../test && pytest -s
 ```
 ### Whats happening: 
 - pytest auto-discovers files and directories with "test" in the name to create a set of things to be tested. 

@@ -1,3 +1,5 @@
+
+
 def populate_default_settings(user):
     from users.models import LooseUserSettings
 
