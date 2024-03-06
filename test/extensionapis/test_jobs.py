@@ -5,7 +5,8 @@ from extensionapis.jobs import handle_new_domain_remove
 from _pytest.monkeypatch import MonkeyPatch
 
 
-from .fixtures import existing_url, existing_user  # noqa
+from .fixtures import single_url_factory  # noqa
+from ..users.fixtures import existing_user  # noqa
 
 pytestmark = pytest.mark.django_db
 
@@ -18,7 +19,22 @@ def set_djangorq(monkeypatch: MonkeyPatch):
     yield mock_enqueue
 
 
-def test_drop_url(existing_url: SingleUrl, set_djangorq):  # noqa
-    handle_new_domain_remove("existing.com")
+def test_drop_url_by_suburl(single_url_factory: SingleUrl, set_djangorq):  # noqa
+    existing_url = single_url_factory("b.a.com")
+    handle_new_domain_remove("a.com")
     assert 2 == set_djangorq.call_count
     assert 0 == SingleUrl.objects.filter(pk=existing_url.pk).count()
+
+
+def test_drop_url_exact(single_url_factory: SingleUrl, set_djangorq):  # noqa
+    existing_url = single_url_factory("aa.com")
+    handle_new_domain_remove("aa.com")
+    assert 2 == set_djangorq.call_count
+    assert 0 == SingleUrl.objects.filter(pk=existing_url.pk).count()
+
+
+def test_drop_url_nodelete(single_url_factory: SingleUrl, set_djangorq):  # noqa
+    existing_url = single_url_factory("aa.com")
+    handle_new_domain_remove("a.com")
+    assert 0 == set_djangorq.call_count
+    assert 1 == SingleUrl.objects.filter(pk=existing_url.pk).count()
