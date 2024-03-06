@@ -2,6 +2,8 @@ import pytest
 from users.models import User
 from mixer.backend.django import mixer
 
+pytestmark = pytest.mark.django_db
+
 
 @pytest.fixture
 def existing_user():
