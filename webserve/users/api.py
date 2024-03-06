@@ -1,14 +1,16 @@
 import logging
 from django.contrib.auth import authenticate
+from django_rq import enqueue
 
 from ninja import Form, Router
 from ninja.errors import AuthenticationError, HttpError
+from extensionapis.jobs import handle_new_domain_remove
 
-from users.default_settings import populate_default_settings
+from users.settings_logic import populate_default_settings
 
 from .models import AuthToken, LooseUserSettings, User
 
-from .apiauth import ApiKey, create_new_token
+from .apiauth import ApiKey, BurnOnRead, create_new_token
 from .schemas import AuthTokenSchema, AuthTokenNonSecretSchema, LooseUserSettingSchema
 
 from typing import List
@@ -59,9 +61,9 @@ def get_all_tokens(request):
     return AuthToken.objects.filter(user=request.auth)
 
 
-# @router.delete("/tokens/delete", auth=BurnOnRead())
-# def delete_token(request):
-#     return {}
+@router.delete("/tokens/delete", auth=BurnOnRead())
+def delete_token(request):
+    return {}
 
 
 @router.post("/settings/resettodefault", response=List[LooseUserSettingSchema])
@@ -84,8 +86,7 @@ def get_keys(request):
 @router.post("/settings", response=LooseUserSettingSchema)
 def post_setting(request, payload: LooseUserSettingSchema):
     if payload.key == LooseUserSettings.KnownKeys.DomainExclude:
-        # todo
-        pass
+        enqueue(handle_new_domain_remove, payload.value)
 
     return LooseUserSettings.objects.create(
         user=request.auth, key=payload.key, value=payload.value
