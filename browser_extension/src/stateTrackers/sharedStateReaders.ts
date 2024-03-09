@@ -7,16 +7,6 @@ export class SharedStateReaders {
     protected UserEmailKey : string = "secret.email";
     protected DomainBlockListKey : string = "settings.DomainBlockList";
 
-    public async getApiToken() : Promise<string | undefined> {
-        const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
-
-        if (token == undefined) {
-            // if a token doesn't exist, nuke local state.
-            this.deleteUserState();
-        }
-        return token;
-    }
-
     public async hasApiToken() {
         const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
         return token != undefined;

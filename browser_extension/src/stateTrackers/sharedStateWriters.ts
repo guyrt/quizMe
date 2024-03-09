@@ -2,7 +2,7 @@ import { BasicError, LooseSetting } from "../interfaces";
 import { BlockedDomainsWebInterface } from "../webInterface";
 import { SharedStateReaders } from "./sharedStateReaders";
 
-
+/** Note: poor name. This actually is the background processor version with elevated capabilitites. */
 export class SharedStateWriters extends SharedStateReaders {
 
     constructor() {
@@ -53,5 +53,16 @@ export class SharedStateWriters extends SharedStateReaders {
         }
 
         return this.loadDomainBlockList();
+    }
+
+    
+    public async getApiToken() : Promise<string | undefined> {
+        const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
+
+        if (token == undefined) {
+            // if a token doesn't exist, nuke local state.
+            this.deleteUserState();
+        }
+        return token;
     }
 }
