@@ -2,6 +2,7 @@
 import React, {useState} from "react";
 import { FilledQuiz, QuizQuestion, QuizResponse } from "../../interfaces";
 import { QuizStatus } from "./quizInterfaces";
+import { quizHistoryBroker } from "../../stateTrackers/sidePanelThread/quizHistoryBroker";
 
 export const QuizInProgress: React.FC<{
     quiz: FilledQuiz,
@@ -35,7 +36,7 @@ export const QuizInProgress: React.FC<{
             quiz_id: quiz.id,
             selection : denseArray
         }
-        chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload})
+        quizHistoryBroker.uploadQuizResults(payload);
     }
 
     return (

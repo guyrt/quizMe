@@ -2,7 +2,6 @@ import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundThread/backgroundState";
 import { pageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
 import { quizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
-import { uploadQuizResults } from "./webInterface";
 
 var fa_lastActiveTab = 0;
 
@@ -35,7 +34,9 @@ chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRe
 /* Message Listeners */
 chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
     if (message.action === "fa_uploadQuizResult") {
-        uploadQuizResults(message.payload);
+        const p = quizHistoryState.uploadQuizResult(message.payload);
+        p.then(x => sendResponse(p));
+        return true;
     }
 });
 

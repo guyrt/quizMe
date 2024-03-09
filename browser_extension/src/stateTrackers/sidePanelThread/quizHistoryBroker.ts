@@ -1,4 +1,4 @@
-import { BasicError, QuizHistory } from "../../interfaces";
+import { BasicError, QuizHistory, QuizResponse } from "../../interfaces";
 
 class QuizHistoryBroker {
     private quizHistory : QuizHistory | undefined = undefined;
@@ -30,6 +30,14 @@ class QuizHistoryBroker {
                 this.setQuizHistory(quizHistory);
             }
         });
+    }
+
+    public uploadQuizResults(payload : QuizResponse) {
+        chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload}, (quizHistory: QuizHistory | BasicError) => {
+            if (quizHistory != undefined && !('error' in quizHistory)) {
+                this.setQuizHistory(quizHistory);
+            }
+        })
     }
 
     private setQuizHistory(payload: QuizHistory) {

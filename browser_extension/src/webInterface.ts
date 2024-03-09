@@ -6,13 +6,6 @@ import { domain } from "./globalSettings";
 const sharedStateWriter = new SharedStateWriters();
 
 
-export async function uploadQuizResults(payload : QuizResponse) : Promise<undefined> {
-    const url = `${domain}/api/quiz/uploadresults`;
-    const token = await sharedStateWriter.getApiToken() ?? "todo";
-    return post(token, url, payload);
-}
-
-
 export async function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
     console.log("sendDomPayload");
     const url = `${domain}/api/browser/writehtml`;
@@ -53,7 +46,6 @@ export class QuizWebInterface {
         });
     }
 
-
     public async getQuizHistory() : Promise<QuizHistory | BasicError> {
         const url = `${domain}/api/quiz/stats`;
         const apiToken = await sharedStateWriter.getApiToken();
@@ -72,6 +64,21 @@ export class QuizWebInterface {
             return {error: error};
         });
     }
+
+    public async uploadQuizResults(payload : QuizResponse) : Promise<QuizHistory | BasicError> {
+        const url = `${domain}/api/quiz/uploadresults`;
+        const token = await sharedStateWriter.getApiToken() ?? "todo";
+        return post(token, url, payload).then((payload) => {
+            if (payload != undefined) {
+                return payload as QuizHistory;
+            } else {
+                return {error : 'unexpected response'};
+            }
+        }).catch(e => {
+            return {error: e}
+        });
+    }
+    
 
     private createErrorQuiz() : Quiz {
         return {

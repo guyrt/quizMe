@@ -2,7 +2,7 @@
 //  - save/retrieve loader from session history
 //  - get from server.
 
-import { BasicError, QuizHistory } from "../../interfaces";
+import { BasicError, QuizHistory, QuizResponse } from "../../interfaces";
 import { QuizWebInterface } from "../../webInterface";
 
 class QuizHistoryState {
@@ -17,7 +17,7 @@ class QuizHistoryState {
         const newResults = await webInterface.getQuizHistory();
         console.log("received new quiz history: ", newResults);
         if (!('error' in newResults)) {
-            chrome.storage.session.set({["quizHistory"]: newResults}, () => {});
+            chrome.storage.session.set({["quizHistory"]: newResults});
         }
         return newResults;
     }
@@ -33,6 +33,15 @@ class QuizHistoryState {
         }
         this.updateLatestQuizHistory(); // update in background so we're up to date in case other things loaded. we could gate.
         return storedHistory;
+    }
+
+    public async uploadQuizResult(payload : QuizResponse) : Promise<QuizHistory | BasicError> {
+        const webInterface = new QuizWebInterface();
+        const history = await webInterface.uploadQuizResults(payload);
+        if (!('error' in history)) {
+            chrome.storage.session.set({["quizHistory"]: history});
+        }
+        return history;
     }
 
 }

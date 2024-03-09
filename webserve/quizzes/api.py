@@ -34,12 +34,8 @@ def quiz_stats(request):
     """
     Return all statistics that we know about quizzes.
 
-    # quizzes created
-        # Created this month
-    # total questions
-    # total correct questions (this should be added to the quiz object)
-
-    user has more quizzes.
+    - num quizzes created
+    - all quizzes Created this month
 
     This is used to gate access, so should include billing info.
     """
@@ -62,7 +58,7 @@ def quiz_stats(request):
 
     quiz_contexts = [create_simple_quiz_schema(q, False) for q in recent_quizzes]
 
-    stats = history_aggregate(today, month_start)
+    stats = history_aggregate(user, today, month_start)
     stats.update(
         {
             "total_quizzes": total_quizzes,
@@ -127,4 +123,4 @@ def upload_quiz(request, body: UploadQuizResultsSchema):
 
     SimpleQuizResults.objects.create(quiz=sq, results=dumps(body.selection))
 
-    return {}
+    return quiz_stats(request)
