@@ -1,4 +1,4 @@
-import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting } from "./interfaces";
+import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError } from "./interfaces";
 import { SharedStateWriters } from "./stateTrackers/sharedStateWriters";
 import { domain } from "./globalSettings";
 
@@ -54,22 +54,22 @@ export class QuizWebInterface {
     }
 
 
-    public async getQuizHistory() : Promise<QuizHistory | undefined> {
+    public async getQuizHistory() : Promise<QuizHistory | BasicError> {
         const url = `${domain}/api/quiz/stats`;
         const apiToken = await sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
-            return undefined;
+            return {error: 'unauth'};
         }
         
         return get(apiToken, url).then(x => {
             if (x != undefined) {
                 return x as QuizHistory;
             } else {
-                return undefined;
+                return {error: 'unexpected response'};
             }
         }).catch(error => {
             console.error('Error calling QuizHistory: ', error);
-            return undefined;
+            return {error: error};
         });
     }
 

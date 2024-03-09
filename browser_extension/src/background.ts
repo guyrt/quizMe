@@ -107,11 +107,9 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         return true;
     } else if (message.action === "fa_getQuizHistory") {
         // Update the quiz history and return it
-        (async () => {
-            const state = await quizHistoryState.getLatestQuizHistory();
-            console.log("Background returning quiz history", state);
-            sendResponse(state);
-        })();
+        const state = quizHistoryState.getLatestQuizHistory();
+        state.then(x => sendResponse(x))
+            .catch(x => sendResponse({error: 'quizHistoryError'}));
         return true;
     } else if (message.action === 'fa_onReminderClick') {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
