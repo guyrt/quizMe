@@ -11,7 +11,7 @@ export default function SidePanelStats() {
 
     const [isArticle, setIsArticle] = useState(activeElement?.domClassification?.classification == 'article');
 
-    const [quiz, setQuiz] = useState<Quiz | undefined>(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
+    const [quiz, setQuiz] = useState<Quiz | undefined>(activeElement?.uploadedDom?.quiz_context);
 
     const [header, setHeader] = useState<string>(activeElement?.url.href ?? "Unknown Page")
 
@@ -31,9 +31,13 @@ export default function SidePanelStats() {
 
             setHeader(activeElement?.title ?? "Unknown page");
             setIsArticle(activeElement?.domClassification?.classification == 'article');
-            setQuiz(activeElement?.uploadedDom?.quiz_context?.previous_quiz);
+            setQuiz(activeElement?.uploadedDom?.quiz_context);
             
-            setQuizAnswers(activeElement?.uploadedDom?.quiz_context?.latest_results);
+            const quiz_context = activeElement?.uploadedDom?.quiz_context;
+            if (quiz_context?.status == 'completed' || quiz_context?.status == "notstarted") {
+                setQuizAnswers(quiz_context.quiz_results);
+            }
+
             setHistory(activeElement?.uploadedDom?.visit_history);
         };
 

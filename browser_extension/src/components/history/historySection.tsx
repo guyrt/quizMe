@@ -12,6 +12,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
 
     return (
         <div>
+            <h3>Details</h3>
             {history.recent_page_visits.number_visits > 0 && history.recent_page_visits.latest_visit != undefined
                 ? <div>
                     <p>You've visited this page {history.recent_page_visits.number_visits} time{history.recent_page_visits.number_visits > 1 ? 's' : ''} before.</p>

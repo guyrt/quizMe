@@ -2,7 +2,7 @@ from ninja import ModelSchema, Schema
 
 from .models import RawDocCapture, SingleUrl
 
-from quizzes.schemas import QuizContextSchema
+from quizzes.schemas import SimpleQuizSchema
 
 from typing import Literal, List, Optional
 
@@ -87,11 +87,8 @@ class VisitHistorySchema(Schema):
 class WriteDomReturnSchema(Schema):
     raw_doc: str
     url_obj: str
-    quiz_context: QuizContextSchema = None
+    quiz_context: SimpleQuizSchema = None
 
 
-class WriteDomReturnSchemaWithHistory(Schema):
-    raw_doc: str
-    url_obj: str
-    quiz_context: QuizContextSchema = None
+class WriteDomReturnSchemaWithHistory(WriteDomReturnSchema):
     visit_history: VisitHistorySchema

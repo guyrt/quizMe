@@ -148,7 +148,7 @@ class BackgroundState {
             pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: uploadedDom}, true);
         }
 
-        return uploadedDom?.quiz_context?.previous_quiz || {status: "building"};
+        return uploadedDom?.quiz_context || {status: "building"};
     }
 
     // This is used to set an empty quiz.
@@ -158,7 +158,7 @@ class BackgroundState {
                 ...record, 
                 uploadedDom: {
                     ...record.uploadedDom,
-                    quiz_context: {previous_quiz: newQuiz}
+                    quiz_context: newQuiz
                 }
             }, true);
         }

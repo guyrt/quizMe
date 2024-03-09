@@ -1,9 +1,11 @@
-from json import dumps, loads
+from json import dumps
 import logging
 import time
-from datetime import date
 
 from django.shortcuts import get_object_or_404
+
+from django.utils import timezone
+from quizzes.history_compute import history_aggregate
 from users.apiauth import ApiKey
 from users.models import get_active_subscription
 
@@ -49,31 +51,27 @@ def quiz_stats(request):
         status__in=[SimpleQuiz.QuizStatus.Completed, SimpleQuiz.QuizStatus.Building],
     )
     total_quizzes = quiz_q.count()
-    month_start = date.today().replace(day=1)
+    today = timezone.now().date()
+    month_start = today.replace(day=1)
+
     recent_quizzes = quiz_q.filter(date_added__gte=month_start).prefetch_related(
         "simplequizresults_set"
     )
 
     quiz_allowance = get_active_subscription(user).quiz_allowance
 
-    quiz_contexts = []
-    for q in recent_quizzes:
-        payload = {
-            "previous_quiz": create_simple_quiz_schema(q, False),
-            "latest_results": [],
-        }
-        try:
-            scr = q.simplequizresults_set.latest("date_added")
-            payload["latest_results"] = loads(scr.results)
-        except SimpleQuizResults.DoesNotExist:
-            pass
-        quiz_contexts.append(payload)
+    quiz_contexts = [create_simple_quiz_schema(q, False) for q in recent_quizzes]
 
-    return {
-        "total_quizzes": total_quizzes,
-        "recent_quizzes": quiz_contexts,
-        "quiz_allowance": quiz_allowance,
-    }
+    stats = history_aggregate(today, month_start)
+    stats.update(
+        {
+            "total_quizzes": total_quizzes,
+            "recent_quizzes": quiz_contexts,
+            "quiz_allowance": quiz_allowance,
+        }
+    )
+
+    return stats
 
 
 @router.post("makequiz", response=WriteDomReturnSchema)
@@ -118,10 +116,7 @@ def _make_quiz_return_object(
         {
             "raw_doc": body.raw_doc,
             "url_obj": body.url_obj,
-            "quiz_context": {
-                "previous_quiz": create_simple_quiz_schema(quiz, was_created),
-                "latest_results": [],
-            },
+            "quiz_context": create_simple_quiz_schema(quiz, was_created),
         }
     )
 

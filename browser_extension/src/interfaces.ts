@@ -27,12 +27,6 @@ export interface UploadableDomShape extends DomShape {
 }
 
 
-type QuizContext = {
-    previous_quiz : Quiz
-    latest_results? : number[]
-}
-
-
 export type VisitHistory = {
     recent_page_visits: {
         number_visits: number,
@@ -54,7 +48,7 @@ export type VisitHistory = {
 export type UploadedDom = {
     raw_doc : string,
     url_obj : string,
-    quiz_context? : QuizContext
+    quiz_context? : Quiz
     visit_history : VisitHistory
 }
 
@@ -63,7 +57,8 @@ export type FilledQuiz = {
     content : QuizQuestion[],
     id : string,
     reasoning : string,
-    status : "notstarted" | "building" | "completed" | "error"
+    status : "notstarted" | "building" | "completed" | "error",
+    quiz_results : number[] | undefined
 }
 
 export type Quiz = FilledQuiz | {
@@ -115,7 +110,9 @@ export type QuizResponseMessage = {
 export type QuizHistory = {
     total_quizzes : number
     quiz_allowance : number
-    recent_quizzes : QuizContext[]
+    recent_quizzes : Quiz[],
+    num_days_month : number,
+    streak : number
 }
 
 export type SinglePageDetailsChangeMessage = {

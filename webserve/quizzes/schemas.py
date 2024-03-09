@@ -2,7 +2,7 @@ import json
 from ninja import Schema
 from typing import List
 
-from .models import SimpleQuiz
+from .models import SimpleQuiz, SimpleQuizResults
 
 
 class MakeQuizIdSchemas(Schema):
@@ -28,6 +28,7 @@ class SimpleQuizSchema(Schema):
     id: str
     reasoning: str
     status: str
+    quiz_results: List[int] | None = None
 
 
 class UploadQuizResultsSchema(Schema):
@@ -35,15 +36,12 @@ class UploadQuizResultsSchema(Schema):
     selection: List[int]
 
 
-class QuizContextSchema(Schema):
-    previous_quiz: SimpleQuizSchema
-    latest_results: List[int]
-
-
 class QuizStatsReturnSchema(Schema):
     total_quizzes: int
     quiz_allowance: int
-    recent_quizzes: List[QuizContextSchema]
+    recent_quizzes: List[SimpleQuizSchema]
+    num_days_month: int
+    streak: int
 
 
 def create_simple_quiz_schema(obj: SimpleQuiz, was_created: bool) -> SimpleQuizSchema:
@@ -52,6 +50,11 @@ def create_simple_quiz_schema(obj: SimpleQuiz, was_created: bool) -> SimpleQuizS
     except json.JSONDecodeError:
         content = []
 
+    try:
+        quiz_results = json.loads(obj.simplequizresults_set.latest().results)
+    except SimpleQuizResults.DoesNotExist:
+        quiz_results = None
+
     return SimpleQuizSchema(
         was_created=was_created,
         owner=str(obj.owner.pk),
@@ -59,4 +62,5 @@ def create_simple_quiz_schema(obj: SimpleQuiz, was_created: bool) -> SimpleQuizS
         reasoning=obj.reasoning,
         id=str(obj.pk),
         status=obj.status,
+        quiz_results=quiz_results,
     )

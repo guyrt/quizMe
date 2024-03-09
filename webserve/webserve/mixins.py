@@ -17,3 +17,4 @@ class ModelBaseMixin(models.Model):
 
     class Meta:
         abstract = True
+        get_latest_by = "date_modified"

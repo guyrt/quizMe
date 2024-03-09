@@ -39,8 +39,8 @@ function RedirectRouter() {
     const navigate = useNavigate();
 
     const resolveRoute = useCallback(async() => {
-        const sharedStateReader = new SharedStateWriters();
-        const token = await sharedStateReader.getApiToken();
+        const sharedStateWriter = new SharedStateWriters();
+        const token = await sharedStateWriter.getApiToken();
         if (token === undefined) {
             // no token - load sign in.
             console.log("Signin page");

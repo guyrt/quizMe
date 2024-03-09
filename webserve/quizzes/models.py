@@ -45,6 +45,7 @@ class SimpleQuizResults(ModelBaseMixin):
 def get_simple_quiz(
     url_pk: str, user: User, create_if_not_exists, force_create=False
 ) -> SimpleQuiz | None:
+    """Enforce that a single quiz can exist for every url."""
     if not force_create:
         try:
             existing_quiz = SimpleQuiz.objects.get(url__pk=url_pk, owner=user, active=1)

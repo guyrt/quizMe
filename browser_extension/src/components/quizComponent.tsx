@@ -6,6 +6,7 @@ import { QuizInProgress } from "./quizzes/quizQuestion";
 import { QuizGraded } from "./quizzes/quizGradedQuestion";
 import { quizHistoryBroker } from "../stateTrackers/sidePanelThread/quizHistoryBroker";
 import { LoadingGif } from "./shared/loading";
+import QuizHistoryComponent from "./quizzes/quizHistory";
 
 // Component Props type
 type QuizViewProps = {
@@ -23,7 +24,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     const [quizAnswers, setQuizAnswers] = useState<{[key: number]: number}>({});
 
     useEffect(() => {
-        if (incomingQuizAnswers !== undefined && incomingQuizAnswers.length > 0) {
+        if (incomingQuizAnswers != undefined && incomingQuizAnswers.length > 0) {
             const answersObject = incomingQuizAnswers.reduce((obj : {[key: number]: number}, current, index) => {
                 obj[index] = current;
                 return obj;
@@ -87,6 +88,8 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                 : 
                 <>
                     {/* header info */}
+                    {quizHistory != undefined && <QuizHistoryComponent quizHistory={quizHistory} />}
+
                     {quizzesRemaining > 0 &&
                         <div className="buttonWrap">
                             <button className="standard" onClick={() => makeQuizClick(quiz != undefined)}>

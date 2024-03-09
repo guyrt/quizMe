@@ -33,7 +33,7 @@ export class QuizWebInterface {
         const url = `${domain}/api/quiz/makequiz`;
         const apiToken = await sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
-            return {...payload, quiz_context: {previous_quiz: {status: "error"}}};
+            return {...payload, quiz_context: {status: "error"}};
         }
 
         const fullPayload = {...payload, force_recreate: forceReload};
@@ -44,12 +44,12 @@ export class QuizWebInterface {
             if (q) {
                 return {...payload, quiz_context: (q as UploadedDom).quiz_context};
             } else {
-                return {...payload, quiz_context: {previous_quiz: this.createErrorQuiz()}};
+                return {...payload, quiz_context: this.createErrorQuiz()};
             }
         })
         .catch(error => {
             console.error('Error calling API: ', error);
-            return {...payload, quiz_context: {previous_quiz: this.createErrorQuiz()}};
+            return {...payload, quiz_context: this.createErrorQuiz()};
         });
     }
 
