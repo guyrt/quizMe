@@ -57,14 +57,14 @@ export class OptionsWebInterface {
         new SharedStateReaders().deleteUserState();
 
         // delete the token.
-        const url = `${domain}/api/users/tokens/delete`;
+        const url = `${domain}/api/user/tokens/delete`;
         return fetch(url, {
             method: "DELETE"
         }).then(() => true);
     }
 
     private async saveToken(response : Response) : Promise<string> {
-                // save the token to storage.
+        // save the token to storage.
         const j = await response.json();
         const writer = new SharedStateReaders();
         writer.setApiToken(j['key']);
