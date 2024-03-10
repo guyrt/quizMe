@@ -131,6 +131,13 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             sendResponse(x);
         })
         return true;
+    } else if (message.action == "fa_createNewUser") {
+        (new BackgroundSharedStateWriter).signupUser(message.payload).then(x => {
+            sendResponse(x);
+        }).catch(x => {
+            sendResponse(x);
+        })
+        return true;
     } else if (message.action == "fa_onLoginReminderClick") {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
