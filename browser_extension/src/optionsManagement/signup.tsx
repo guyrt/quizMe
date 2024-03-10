@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import { OptionsWebInterface } from "./optionsWebInterface";
 import { useNavigate } from "react-router-dom";
 
 type SignUpProps = {
