@@ -44,6 +44,10 @@ class QuizHistoryState {
         return history;
     }
 
+    public async deleteAllQuizState() {
+        chrome.storage.local.remove('quizHistory', function() {});
+    }
+
 }
 
 export const quizHistoryState = new QuizHistoryState();

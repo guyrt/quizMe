@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { OptionsWebInterface } from "./optionsWebInterface";
 import { useNavigate } from "react-router-dom";
 
@@ -11,12 +11,21 @@ type SignInProps = {
 
 const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) => {
 
-    const [username, setUserName] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+
 
     async function signIn() {
         
+        const username = usernameRef.current?.value;
+        const password = passwordRef.current?.value;
+
+        if (username == undefined || password == undefined) {
+            setError("Something has gone very wrong. Try again later.")
+            return;
+        }
+
         const status = await new OptionsWebInterface().loginAndSaveToken(username, password);
         if (status == "ok") {
             if (doNav) {
@@ -32,13 +41,13 @@ const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) 
         }
     }
 
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUserName(event.target.value);
-    };
-
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    };
+    const onPasswordEnterCheck = (event : React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            signIn();
+            return true;
+        }
+        return false;
+    }
 
     return (
         <>
@@ -54,16 +63,17 @@ const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) 
                 <input 
                     type="text" 
                     id="username" 
-                    onChange={handleUsernameChange} 
+                    ref={usernameRef}
                 />
                 <br/>
 
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" >Password</label>
                 <br/>
                 <input 
                     type="password" 
                     id="password" 
-                    onChange={handlePasswordChange} 
+                    ref={passwordRef}
+                    onKeyDown={onPasswordEnterCheck}
                 />
 
                 <button id="save" onClick={signIn}>Sign in!</button>

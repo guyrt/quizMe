@@ -20,6 +20,14 @@ export function SidePanelLoggedInUserSettings() {
         // todo
     }
 
+    useEffect(() => {
+        sharedStateReader.hasApiToken().then(x => {
+            if (!x) {
+                fsm.handleUserLoggedOut();
+            }
+        })
+    }, []);
+
     return (
         <>
             <SidePanelUserSettingsQuizHistory />

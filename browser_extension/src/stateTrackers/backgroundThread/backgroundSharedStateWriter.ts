@@ -2,6 +2,7 @@ import { BasicError, LooseSetting } from "../../interfaces";
 import { pageDetailsStore } from "./pageDetailsStore";
 import { BlockedDomainsWebInterface, TokenManagementWebInterface } from "./webInterface";
 import { SharedStateReaders } from "../sharedStateReaders";
+import { quizHistoryState } from "./quizSubscriptionState";
 
 /** Note: poor name. This actually is the background processor version with elevated capabilitites. */
 export class BackgroundSharedStateWriter extends SharedStateReaders {
@@ -74,5 +75,7 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
     private deleteUserState() {
         // nuke storage
         pageDetailsStore.deleteAllPageDetails();
+        quizHistoryState.deleteAllQuizState();
+        chrome.storage.local.remove(this.ApiTokenKey);
     }
 }

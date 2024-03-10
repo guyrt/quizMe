@@ -1,5 +1,5 @@
 import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
-import {backgroundState} from "./stateTrackers/backgroundThread/backgroundState";
+import {backgroundState} from "./stateTrackers/backgroundThread/pageDetailsHandler";
 import { pageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
 import { quizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
 

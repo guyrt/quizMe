@@ -1,7 +1,7 @@
 /// State object for the background
 import { v4 as uuidv4 } from 'uuid';
 
-import { DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
+import { BasicError, DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "./webInterface";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
@@ -59,10 +59,14 @@ class PageDetailsHandler {
                 quizHistoryState.updateLatestQuizHistory();
             }
         })
-        .catch((e) => {
+        .catch((e : BasicError) => {
             console.log("Upload had issue ", e);
-
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'}, true);
+            if ('error' in e) {
+                pageDetailsStore.setPageDetails(record.key, {error: 'auth'});
+            } else {
+                // error of known type.
+                pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'}, true);
+            }
         });
     }
 

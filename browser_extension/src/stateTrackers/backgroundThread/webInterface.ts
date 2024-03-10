@@ -124,7 +124,12 @@ export class BlockedDomainsWebInterface {
             return [];
         }
 
-        return get<LooseSetting[]>(apiToken, this.specificKeyUrl);
+        return get<LooseSetting[]>(apiToken, this.specificKeyUrl).then(x => {
+            if ('error' in x) {
+                return [];
+            }
+            return x;
+        });
     }
 }
 
@@ -151,7 +156,7 @@ export class TokenManagementWebInterface {
 
 
 // Todo - eventually may need a payload... or combine with post...
-function get<OutT>(token : string, url : string) : Promise<OutT>{
+function get<OutT>(token : string, url : string) : Promise<OutT | BasicError>{
     const headers = {
         'X-API-KEY': token,
         'Content-Type': 'application/json'
@@ -165,7 +170,10 @@ function get<OutT>(token : string, url : string) : Promise<OutT>{
         if (response.ok) {
             return response.json();
         }
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (response.status == 401) {
+            return Promise.reject({error: 'unauthorized'})
+        }
+        return Promise.reject({error: 'unknown'});
     })
 
     return p
@@ -190,14 +198,17 @@ function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<
         if (response.ok) {
             return response.json();
         }
-        throw new Error(`HTTP error! status: ${response.status}`);
+        if (response.status == 401) {
+            return Promise.reject({error: 'unauthorized'});
+        }
+        return Promise.reject({error: 'unknown'});
     })
 
     return p
 }
 
 
-function callDelete<OutT>(token : string, url : string, payload : {[key: string]: string}) : Promise<OutT> {
+function callDelete<OutT>(token : string, url : string, payload : {[key: string]: string}) : Promise<OutT | BasicError> {
     const queryString = new URLSearchParams(payload).toString();
 
     const headers = {

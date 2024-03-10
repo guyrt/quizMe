@@ -92,7 +92,6 @@ export type ChromeMessageType =
     | "fa_getQuizHistory"  // sent from SidePanel to Background and expects most recent cached history.
     | "fa_onReminderClick"  // this fires when article reminder fires on webpage.
     | "fa_onLoginReminderClick"  // fires when user clicks logged out reminder.
-    | "fa_userLoggedOut"
     | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
     | "fa_loadBlockedDomains" // message from sidepanel to backend to load domains.
     | "fa_deleteDomainBlock"
