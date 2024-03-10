@@ -11,7 +11,7 @@ console.log = () => {};
 
 
 import TabTracker from './stateTrackers/backgroundThread/tabTimer';
-import { SharedStateWriters } from "./stateTrackers/sharedStateWriters";
+import { BackgroundSharedStateWriter } from "./stateTrackers/backgroundThread/backgroundSharedStateWriter";
 
 // create this - initializer will set up events.
 const tabTracker = new TabTracker();
@@ -122,8 +122,8 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
             }
         });
         })();
-    } else if (message.action == "fa_userLoggedOut") {
-        pageDetailsStore.deleteAllPageDetails();
+    } else if (message.action == "fa_logUserOut") {
+        (new BackgroundSharedStateWriter).logUserOut();
     } else if (message.action == "fa_onLoginReminderClick") {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
@@ -138,21 +138,21 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         return true;
     } else if (message.action == "fa_addNewDomainBlock") {
         const domain = message.payload.domain;
-        (new SharedStateWriters()).addDomainBlock(domain).then(
+        (new BackgroundSharedStateWriter()).addDomainBlock(domain).then(
             success => sendResponse({success: success})
         ).catch(e => {
             sendResponse({error: "error blocking domain"});
         })
         return true;
     } else if (message.action == "fa_loadBlockedDomains") {
-        (new SharedStateWriters()).loadDomainBlockList().then(
+        (new BackgroundSharedStateWriter()).loadDomainBlockList().then(
             domains => sendResponse({payload: domains})
         ).catch(e => {
             sendResponse({error: "error getting blocked domains"});
         })
         return true;
     } else if (message.action == "fa_deleteDomainBlock") {
-        (new SharedStateWriters()).dropDomainBlock(message.payload.domain).then(
+        (new BackgroundSharedStateWriter()).dropDomainBlock(message.payload.domain).then(
             domains => sendResponse({payload: domains})
         ).catch(e => {
             sendResponse({error: "error getting blocked domains"});

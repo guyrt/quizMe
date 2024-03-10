@@ -3,8 +3,8 @@ import { v4 as uuidv4 } from 'uuid';
 
 import { DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
 import { log } from "../../utils/logger";
-import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "../../webInterface";
-import { SharedStateWriters } from "../sharedStateWriters";
+import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "./webInterface";
+import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 
 import { pageDetailsStore } from "./pageDetailsStore";
 import { quizHistoryState } from "./quizSubscriptionState";
@@ -134,7 +134,7 @@ class BackgroundState {
     }
 
     private async getToken() : Promise<string | undefined> {
-        const t = await new SharedStateWriters().getApiToken();
+        const t = await new BackgroundSharedStateWriter().getApiToken();
         return t;
     }
 
@@ -167,12 +167,12 @@ class BackgroundState {
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
-        const domainBlockList = await new SharedStateWriters().getDomainBlockList();
+        const domainBlockList = await new BackgroundSharedStateWriter().getDomainBlockList();
         if (domainBlockList != undefined && !('error' in domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))){
             return false;
         }
     
-        if (await new SharedStateWriters().getTrackAllPages() == true) {
+        if (await new BackgroundSharedStateWriter().getTrackAllPages() == true) {
             return true;
         }
 

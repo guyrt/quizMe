@@ -3,7 +3,7 @@
 //  - get from server.
 
 import { BasicError, QuizHistory, QuizResponse } from "../../interfaces";
-import { QuizWebInterface } from "../../webInterface";
+import { QuizWebInterface } from "./webInterface";
 
 class QuizHistoryState {
 

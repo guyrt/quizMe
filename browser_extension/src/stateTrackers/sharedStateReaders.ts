@@ -1,4 +1,3 @@
-import { domain } from "../globalSettings";
 import { BasicError, LooseSetting } from "../interfaces";
 
 export class SharedStateReaders {
@@ -14,10 +13,6 @@ export class SharedStateReaders {
 
     public async getUserEmail() : Promise<string | undefined> {
         return (await chrome.storage.local.get(this.UserEmailKey))[this.UserEmailKey];
-    }
-
-    public deleteUserState() {
-        chrome.runtime.sendMessage({action: "fa_userLoggedOut"})
     }
 
     public async getDomainBlockList(forceLoad : boolean = false) : Promise<LooseSetting[] | BasicError> {

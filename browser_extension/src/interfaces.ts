@@ -96,6 +96,7 @@ export type ChromeMessageType =
     | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
     | "fa_loadBlockedDomains" // message from sidepanel to backend to load domains.
     | "fa_deleteDomainBlock"
+    | "fa_logUserOut" // message from options surfaces to backend to nuke api token.
 
 export type ChromeMessage = {
     action : ChromeMessageType,

@@ -52,17 +52,6 @@ export class OptionsWebInterface {
         
     }
 
-    public async logoutThisDevice() : Promise<boolean> {
-        // drop locally.
-        new SharedStateReaders().deleteUserState();
-
-        // delete the token.
-        const url = `${domain}/api/user/tokens/delete`;
-        return fetch(url, {
-            method: "DELETE"
-        }).then(() => true);
-    }
-
     private async saveToken(response : Response) : Promise<string> {
         // save the token to storage.
         const j = await response.json();

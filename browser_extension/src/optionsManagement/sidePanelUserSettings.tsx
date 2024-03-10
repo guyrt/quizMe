@@ -1,5 +1,4 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
-import { OptionsWebInterface } from "./optionsWebInterface";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import { SidePanelUserSettingsQuizHistory } from "./sidePanelUserSettingsQuizHistory";
@@ -9,7 +8,7 @@ export function SidePanelLoggedInUserSettings() {
     
     async function logoutThisDevice() {
         // delete your auth token...
-        new OptionsWebInterface().logoutThisDevice();
+        chrome.runtime.sendMessage({action: 'fa_logUserOut'});
 
         // then redirect to loading.
         fsm.handleUserLoggedOut();

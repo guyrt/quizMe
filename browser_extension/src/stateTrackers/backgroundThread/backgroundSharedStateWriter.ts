@@ -1,9 +1,10 @@
-import { BasicError, LooseSetting } from "../interfaces";
-import { BlockedDomainsWebInterface } from "../webInterface";
-import { SharedStateReaders } from "./sharedStateReaders";
+import { BasicError, LooseSetting } from "../../interfaces";
+import { pageDetailsStore } from "./pageDetailsStore";
+import { BlockedDomainsWebInterface, TokenManagementWebInterface } from "./webInterface";
+import { SharedStateReaders } from "../sharedStateReaders";
 
 /** Note: poor name. This actually is the background processor version with elevated capabilitites. */
-export class SharedStateWriters extends SharedStateReaders {
+export class BackgroundSharedStateWriter extends SharedStateReaders {
 
     constructor() {
         super();
@@ -55,6 +56,10 @@ export class SharedStateWriters extends SharedStateReaders {
         return this.loadDomainBlockList();
     }
 
+    public async logUserOut() {
+        (new TokenManagementWebInterface()).logUserOut();
+        this.deleteUserState();
+    }
     
     public async getApiToken() : Promise<string | undefined> {
         const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
@@ -64,5 +69,10 @@ export class SharedStateWriters extends SharedStateReaders {
             this.deleteUserState();
         }
         return token;
+    }
+
+    private deleteUserState() {
+        // nuke storage
+        pageDetailsStore.deleteAllPageDetails();
     }
 }

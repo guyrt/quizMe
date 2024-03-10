@@ -1,6 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { OptionsWebInterface } from "./optionsWebInterface";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 
 export function LoggedInUserSettings() {
@@ -9,7 +8,7 @@ export function LoggedInUserSettings() {
 
     async function logoutThisDevice() {
         // delete your auth token...
-        new OptionsWebInterface().logoutThisDevice();
+        chrome.runtime.sendMessage({action: 'fa_logUserOut'});
 
         // then redirect to loading.
         navigate("/");
@@ -19,10 +18,6 @@ export function LoggedInUserSettings() {
 
     function handleTrackAllPages() {
 
-    }
-
-    async function setFilterSend(e : ChangeEvent<HTMLInputElement>) {
-        e.target.value;
     }
     
     return (

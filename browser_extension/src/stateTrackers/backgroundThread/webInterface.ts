@@ -1,9 +1,9 @@
-import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError } from "./interfaces";
-import { SharedStateWriters } from "./stateTrackers/sharedStateWriters";
-import { domain } from "./globalSettings";
+import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError } from "../../interfaces";
+import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
+import { domain } from "../../globalSettings";
 
 
-const sharedStateWriter = new SharedStateWriters();
+const sharedStateWriter = new BackgroundSharedStateWriter();
 
 
 export async function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
@@ -125,6 +125,27 @@ export class BlockedDomainsWebInterface {
         }
 
         return get<LooseSetting[]>(apiToken, this.specificKeyUrl);
+    }
+}
+
+
+export class TokenManagementWebInterface {
+    public async logUserOut() {
+        // delete the token.
+        const url = `${domain}/api/user/tokens/delete`;
+        const token = await sharedStateWriter.getApiToken();
+        if (token == undefined) {
+            return false;
+        }
+
+        const headers = {
+            'X-API-KEY': token
+        }
+
+        return fetch(url, {
+            method: "DELETE",
+            headers: headers
+        }).then(() => true);
     }
 }
 
