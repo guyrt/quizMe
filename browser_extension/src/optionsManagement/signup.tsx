@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { OptionsWebInterface } from "./optionsWebInterface";
 import { useNavigate } from "react-router-dom";
 
@@ -9,43 +9,50 @@ type SignUpProps = {
 
 export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
 
-    const [username, setUserName] = useState<string>("");
-    const [password, setPassword] = useState<string>("");
-    const [password2, setPassword2] = useState<string>("");
     const [error, setError] = useState<string | null>(null);
+
+    const usernameRef = useRef<HTMLInputElement>(null);
+    const passwordRef = useRef<HTMLInputElement>(null);
+    const password2Ref = useRef<HTMLInputElement>(null);
 
     async function signUp() {
         
+        const username = usernameRef.current?.value;
+        const password = passwordRef.current?.value;
+        const password2 = password2Ref.current?.value;
+
+        if (username == undefined || password == undefined || password2 == undefined) {
+            return;
+        }
+
         if (password != password2) {
             setError("Make sure your passwords match.");
             return;
         }
 
-        const status = await new OptionsWebInterface().signUpAndSaveToken(username, password);
-        if (status == "ok") {
-            if (doNav) {    
-                const navigate = useNavigate();
-                navigate("/user"); // off to user settings.
+        chrome.runtime.sendMessage({action: 'fa_createNewUser', payload: {username: usernameRef, password: passwordRef}}, (response) => {
+            if ('error' in response) {
+                setError("Something's gone horribly wrong? Try again later.");
             } else {
-                handleSignedUp();
-            }
-        } else {
-            // show an error
-            setError("Something's gone horribly wrong? Try again later."); // Set error message for other errors
-        }
+                if (doNav) {
+                    const navigate = useNavigate();
+    
+                    navigate("/user");
+                } else {
+                    handleSignedUp();
+                }
+            }    
+        });
+
     }
 
-    const handleUsernameChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setUserName(event.target.value);
-    };
-
-    const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword(event.target.value);
-    };
-
-    const handlePasswordChange2 = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setPassword2(event.target.value);
-    };
+    const onPasswordEnterCheck = (event : React.KeyboardEvent) => {
+        if (event.key === 'Enter') {
+            signUp();
+            return true;
+        }
+        return false;
+    }
 
     return (
         <>
@@ -55,7 +62,7 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
                 <input 
                     type="text" 
                     id="username" 
-                    onChange={handleUsernameChange} 
+                    ref={usernameRef}
                 />
                 <br/>
 
@@ -63,7 +70,7 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
                 <input 
                     type="password" 
                     id="password" 
-                    onChange={handlePasswordChange} 
+                    ref={passwordRef}
                 />
                 <br/>
 
@@ -71,7 +78,8 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
                 <input 
                     type="password" 
                     id="password2"
-                    onChange={handlePasswordChange2} 
+                    ref={password2Ref}
+                    onKeyDown={onPasswordEnterCheck}
                 />
                 <br/>
                 <button id="save" onClick={signUp}>Sign in!</button>

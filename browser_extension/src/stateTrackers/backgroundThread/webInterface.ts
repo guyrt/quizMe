@@ -152,6 +152,43 @@ export class TokenManagementWebInterface {
             headers: headers
         }).then(() => true);
     }
+
+    public async loginAndSaveToken(username : string, password : string) : Promise<string | BasicError> {
+        const url = `${domain}/api/user/tokens/create`;
+
+        const formData = new FormData();
+        formData.append('username', username);
+        formData.append('password', password);
+
+        return this.postForm(url, formData);
+    }
+
+    public async signUpAndSaveToken(username : string, password : string) : Promise<string | BasicError> {
+        const url = `${domain}/api/user/create`;
+
+        const formData = new FormData();
+        formData.append('email', username);
+        formData.append('password', password);
+
+        return this.postForm(url, formData);        
+    }
+
+    private postForm(url : string, formData : FormData) : Promise<string | BasicError> {
+        return fetch(url, {
+            method: "POST",
+            body: formData
+        }).then(response => {
+            if (response.ok) {
+                return response.json();
+            }
+            if (response.status == 401) {
+                Promise.reject({error: 'unauthorized'});
+            } 
+            Promise.reject({error: "unknown"});
+        }).catch(e => {
+            Promise.reject({error: e});
+        })
+    }
 }
 
 

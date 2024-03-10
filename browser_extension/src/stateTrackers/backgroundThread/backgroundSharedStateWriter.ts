@@ -72,6 +72,11 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         return token;
     }
 
+    public async logUserIn(payload: {username: string, password: string}) : Promise<string | BasicError> {
+        const result = (new TokenManagementWebInterface()).loginAndSaveToken(payload.username, payload.password);
+        return result;
+    }
+
     private deleteUserState() {
         // nuke storage
         pageDetailsStore.deleteAllPageDetails();

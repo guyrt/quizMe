@@ -124,6 +124,13 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         })();
     } else if (message.action == "fa_logUserOut") {
         (new BackgroundSharedStateWriter).logUserOut();
+    } else if (message.action == "fa_signUserIn") {
+        (new BackgroundSharedStateWriter).logUserIn(message.payload).then(x => {
+            sendResponse(x);
+        }).catch(x => {
+            sendResponse(x);
+        })
+        return true;
     } else if (message.action == "fa_onLoginReminderClick") {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 

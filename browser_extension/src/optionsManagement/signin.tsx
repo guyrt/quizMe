@@ -26,19 +26,20 @@ const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) 
             return;
         }
 
-        const status = await new OptionsWebInterface().loginAndSaveToken(username, password);
-        if (status == "ok") {
-            if (doNav) {
-                const navigate = useNavigate();
-
-                navigate("/user");
+        chrome.runtime.sendMessage({action: 'fa_signUserIn', payload: {username: username, password: password}}, (response) => {
+            if ('error' in response) {
+                setError("That ain't it. Try again maybe? Type slower?"); // Set error message for other errors
             } else {
-                handleSignedIn();
+                if (doNav) {
+                    const navigate = useNavigate();
+    
+                    navigate("/user");
+                } else {
+                    handleSignedIn();
+                }
             }
-        } else {
-            // show an error
-            setError("Nah dawg, that ain't it. Try again maybe? Type slower?"); // Set error message for other errors
-        }
+        });
+
     }
 
     const onPasswordEnterCheck = (event : React.KeyboardEvent) => {
