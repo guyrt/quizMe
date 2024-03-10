@@ -10,7 +10,8 @@ import { pageDetailsStore } from "./pageDetailsStore";
 import { quizHistoryState } from "./quizSubscriptionState";
 
 
-class BackgroundState {
+// todo: move quiz stuff.
+class PageDetailsHandler {
     
     private quizzes : {[key: number]: Quiz} = {}
 
@@ -228,4 +229,4 @@ class BackgroundState {
 
 }
 
-export const backgroundState = new BackgroundState();
+export const backgroundState = new PageDetailsHandler();
