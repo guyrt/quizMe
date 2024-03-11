@@ -21,6 +21,8 @@ const createChromeStorageLocalMock = () => ({
 global.chrome = {
     storage: {
         local: createChromeStorageLocalMock(),
+        session: createChromeStorageLocalMock(),
+        shared: createChromeStorageLocalMock()
     },
     // Mock other chrome APIs if needed
 } as any;
