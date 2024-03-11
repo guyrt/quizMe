@@ -1,7 +1,7 @@
 import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundThread/pageDetailsHandler";
 import { pageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
-import { quizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
+import { QuizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
 
 var fa_lastActiveTab = 0;
 
@@ -34,7 +34,7 @@ chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRe
 /* Message Listeners */
 chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
     if (message.action === "fa_uploadQuizResult") {
-        const p = quizHistoryState.uploadQuizResult(message.payload);
+        const p = (new QuizHistoryState()).uploadQuizResult(message.payload);
         p.then(x => sendResponse(p));
         return true;
     }
@@ -108,7 +108,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         return true;
     } else if (message.action === "fa_getQuizHistory") {
         // Update the quiz history and return it
-        const state = quizHistoryState.getLatestQuizHistory();
+        const state = (new QuizHistoryState()).getLatestQuizHistory();
         state.then(x => sendResponse(x))
             .catch(x => sendResponse({error: 'quizHistoryError'}));
         return true;

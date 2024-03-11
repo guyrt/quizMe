@@ -5,7 +5,7 @@
 import { BasicError, QuizHistory, QuizResponse } from "../../interfaces";
 import { QuizWebInterface } from "./webInterface";
 
-class QuizHistoryState {
+export class QuizHistoryState {
 
     /**
      * Get quiz results. This will get and save results locally.
@@ -47,5 +47,3 @@ class QuizHistoryState {
     }
 
 }
-
-export const quizHistoryState = new QuizHistoryState();

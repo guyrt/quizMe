@@ -7,7 +7,7 @@ import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "./webInt
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 
 import { pageDetailsStore } from "./pageDetailsStore";
-import { quizHistoryState } from "./quizSubscriptionState";
+import { QuizHistoryState } from "./quizSubscriptionState";
 
 
 // todo: move quiz stuff.
@@ -56,7 +56,7 @@ class PageDetailsHandler {
             // if the page is an article then we need up to date quiz info.
             if (record.domClassification.classification == "article") {
                 console.log("Bumping quiz info");
-                quizHistoryState.updateLatestQuizHistory();
+                (new QuizHistoryState()).updateLatestQuizHistory();
             }
         })
         .catch((e : BasicError) => {

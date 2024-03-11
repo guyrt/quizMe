@@ -1,8 +1,50 @@
 import { QuizHistory } from "../../../interfaces";
-import { quizHistoryState } from "../quizSubscriptionState";
+import { QuizHistoryState } from "../quizSubscriptionState";
+import { QuizWebInterface } from "../webInterface";
+jest.mock('../webInterface');
+
+
+const mockQuizHistory : QuizHistory = {
+    total_quizzes : 10,
+    quiz_allowance : 14,
+    recent_quizzes : [],
+    num_days_month : 2,
+    streak : 2
+};
+
+
+describe('QuizHistoryState.updateLatestQuizHistory', () => {
+
+    it('should save quiz history when no error', async () => {
+        QuizWebInterface.prototype.getQuizHistory = jest.fn().mockResolvedValue(mockQuizHistory);
+        const quizHistoryState = new QuizHistoryState();
+        const result = await quizHistoryState.updateLatestQuizHistory();
+
+        // check that we did call the session set.
+        expect(chrome.storage.session.set).toHaveBeenCalled();
+        expect(result).toEqual(mockQuizHistory);
+    });
+
+    it('should not save quiz history when there is an error', async () => {
+        const mockError = {error: "unknown"};
+        QuizWebInterface.prototype.getQuizHistory = jest.fn().mockResolvedValue(mockError);
+        
+        const quizHistoryState = new QuizHistoryState();
+        const result = await quizHistoryState.updateLatestQuizHistory();
+    
+        expect(result).toEqual(mockError);
+        expect(chrome.storage.session.set).not.toHaveBeenCalled();
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+});
+
 
 describe('QuizHistoryState.deletePageDetails', () =>{
     it('deleted page details from store', done => {
+        const quizHistoryState = new QuizHistoryState();
         quizHistoryState.deleteAllQuizState();
 
         expect(chrome.storage.local.remove).toHaveBeenCalledWith('quizHistory');
@@ -10,10 +52,12 @@ describe('QuizHistoryState.deletePageDetails', () =>{
     });
 });
 
-const mockUpdateLatestQuizHistory = jest.fn();
-quizHistoryState.updateLatestQuizHistory = mockUpdateLatestQuizHistory;
-
 describe('QuizHistoryState.getLatestQuizHistory', () => {
+
+    const mockUpdateLatestQuizHistory = jest.fn();
+    const quizHistoryState = new QuizHistoryState();
+    quizHistoryState.updateLatestQuizHistory = mockUpdateLatestQuizHistory;
+
     beforeEach(() => {
         // Clear all instances and calls to constructor and all methods:
         mockUpdateLatestQuizHistory.mockClear();
@@ -27,14 +71,6 @@ describe('QuizHistoryState.getLatestQuizHistory', () => {
     });
 
     it('should call updateLatestQuizHistory even when quizHistory is available', async () => {
-        const mockQuizHistory : QuizHistory = {
-            total_quizzes : 10,
-            quiz_allowance : 14,
-            recent_quizzes : [],
-            num_days_month : 2,
-            streak : 2
-        };
-
         (chrome.storage.session.get as jest.Mock).mockImplementation(() => Promise.resolve({ quizHistory: mockQuizHistory }));
         const result = await quizHistoryState.getLatestQuizHistory();
         expect(result).toEqual(mockQuizHistory);
