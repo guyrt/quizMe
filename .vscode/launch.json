@@ -1,10 +1,30 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
-            "type": "msedge",
-            "name": "ws://127.0.0.1:9229/172d75f0-874c-41f7-808f-b550dcc2f999",
+            "type": "node",
             "request": "launch",
-            "url": "ws://127.0.0.1:9229/172d75f0-874c-41f7-808f-b550dcc2f999"
+            "name": "Jest All",
+            "program": "${workspaceFolder}/browser_extension/node_modules/jest/bin/jest",
+            "args": [
+                "--runInBand"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Jest Current File",
+            "program": "${workspaceFolder}/browser_extension/node_modules/jest/bin/jest",
+            "args": [
+                "${fileBasenameNoExtension}",
+                "--config",
+                "${workspaceFolder}/browser_extension/jest.config.js",
+                "--runInBand"
+            ],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen"
         }
     ]
 }

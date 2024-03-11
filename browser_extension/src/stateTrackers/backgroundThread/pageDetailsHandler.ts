@@ -139,8 +139,7 @@ class PageDetailsHandler {
     }
 
     private async getToken() : Promise<string | undefined> {
-        const t = await new BackgroundSharedStateWriter().getApiToken();
-        return t;
+        return await new BackgroundSharedStateWriter().getApiToken();
     }
 
     private buildUploadableDom(domSummary : DomShape, guid : string, captureIndex : number) : UploadableDomShape {
