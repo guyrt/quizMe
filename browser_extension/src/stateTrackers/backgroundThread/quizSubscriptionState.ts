@@ -7,8 +7,6 @@ import { QuizWebInterface } from "./webInterface";
 
 class QuizHistoryState {
 
-    private lastReadTime : EpochTimeStamp = 0;
-
     /**
      * Get quiz results. This will get and save results locally.
      */
@@ -45,7 +43,7 @@ class QuizHistoryState {
     }
 
     public async deleteAllQuizState() {
-        chrome.storage.local.remove('quizHistory', function() {});
+        chrome.storage.local.remove('quizHistory');
     }
 
 }
