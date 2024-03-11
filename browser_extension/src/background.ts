@@ -35,7 +35,7 @@ chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRe
 chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
     if (message.action === "fa_uploadQuizResult") {
         const p = (new QuizHistoryState()).uploadQuizResult(message.payload);
-        p.then(x => sendResponse(p));
+        p.then(x => sendResponse(x));
         return true;
     }
 });
