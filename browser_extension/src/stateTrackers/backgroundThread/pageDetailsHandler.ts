@@ -15,7 +15,7 @@ class PageDetailsHandler {
     
     private quizzes : {[key: number]: Quiz} = {}
 
-    private uploadPromises : {[key: number]: Promise<UploadedDom>} = {}
+    private uploadPromises : {[key: number]: Promise<UploadedDom | BasicError>} = {}
 
     public async uploadPage(tabId : number, domSummary : DomShape) {
         console.log("Upload started on ", tabId);
@@ -51,6 +51,11 @@ class PageDetailsHandler {
 
         this.uploadPromises[record.key].then((x) => {
             console.log(`Upload complete for tab ${tabId} url ${domSummary.url.href}`);
+            if ('error' in x) {
+                Promise.reject(x);
+                return;
+            }
+
             pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
             
             // if the page is an article then we need up to date quiz info.

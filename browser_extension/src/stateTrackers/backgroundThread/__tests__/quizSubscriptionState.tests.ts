@@ -12,6 +12,10 @@ const mockQuizHistory : QuizHistory = {
     streak : 2
 };
 
+const mockError = {
+    error: "testunknown"
+};
+
 
 describe('QuizHistoryState.updateLatestQuizHistory', () => {
 
@@ -26,7 +30,7 @@ describe('QuizHistoryState.updateLatestQuizHistory', () => {
     });
 
     it('should not save quiz history when there is an error', async () => {
-        const mockError = {error: "unknown"};
+        
         QuizWebInterface.prototype.getQuizHistory = jest.fn().mockResolvedValue(mockError);
         
         const quizHistoryState = new QuizHistoryState();
@@ -75,5 +79,29 @@ describe('QuizHistoryState.getLatestQuizHistory', () => {
         const result = await quizHistoryState.getLatestQuizHistory();
         expect(result).toEqual(mockQuizHistory);
         expect(mockUpdateLatestQuizHistory).toHaveBeenCalled();
+    });
+});
+
+
+describe('QuizHistoryState.uploadQuizResult', () => {
+
+    it('should update history when history is returned ', async () => {
+        QuizWebInterface.prototype.uploadQuizResults = jest.fn().mockResolvedValue(Promise.resolve(mockQuizHistory));
+        const quizHistoryState = new QuizHistoryState();
+
+        await quizHistoryState.uploadQuizResult({quiz_id: 'id', selection: [0]});
+        expect(chrome.storage.session.set).toHaveBeenCalled();
+    });
+
+    it('should not update history when error is returned', async () => {
+        QuizWebInterface.prototype.uploadQuizResults = jest.fn().mockResolvedValue(Promise.resolve(mockError));
+        const quizHistoryState = new QuizHistoryState();
+
+        await quizHistoryState.uploadQuizResult({quiz_id: 'id', selection: [0]});
+        expect(chrome.storage.session.set).not.toHaveBeenCalled();
+    });
+
+    afterEach(() => {
+        jest.clearAllMocks();
     });
 });

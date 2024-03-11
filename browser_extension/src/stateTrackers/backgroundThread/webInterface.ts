@@ -3,14 +3,14 @@ import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 import { domain } from "../../globalSettings";
 
 
-export async function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
+export async function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom | BasicError> {
     console.log("sendDomPayload");
     const url = `${domain}/api/browser/writehtml`;
 
     return post(token, url, payload); // TODO - this could return undefined.
 }
 
-export async function sendDomPayloadUpdate(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
+export async function sendDomPayloadUpdate(token : string, payload : UploadableDomShape) : Promise<UploadedDom | BasicError> {
     console.log("sendDomPayload");
     const url = `${domain}/api/browser/rewritehtml`;
 
@@ -222,7 +222,7 @@ function get<OutT>(token : string, url : string) : Promise<OutT | BasicError>{
 }
 
 
-function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<OutT> {
+function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<OutT | BasicError> {
     console.log(`Posting to ${url}`);
 
     const headers = {
