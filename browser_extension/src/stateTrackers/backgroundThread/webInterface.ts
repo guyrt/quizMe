@@ -1,4 +1,4 @@
-import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError } from "../../interfaces";
+import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError, UserTokenResponse } from "../../interfaces";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 import { domain } from "../../globalSettings";
 
@@ -135,6 +135,7 @@ export class BlockedDomainsWebInterface {
 
 
 export class TokenManagementWebInterface {
+
     public async logUserOut() {
         // delete the token.
         const url = `${domain}/api/user/tokens/delete`;
@@ -153,7 +154,7 @@ export class TokenManagementWebInterface {
         }).then(() => true);
     }
 
-    public async loginAndSaveToken(username : string, password : string) : Promise<string | BasicError> {
+    public async loginAndSaveToken(username : string, password : string) : Promise<UserTokenResponse | BasicError> {
         const url = `${domain}/api/user/tokens/create`;
 
         const formData = new FormData();
@@ -163,7 +164,7 @@ export class TokenManagementWebInterface {
         return this.postForm(url, formData);
     }
 
-    public async signUpAndSaveToken(username : string, password : string) : Promise<string | BasicError> {
+    public async signUpAndSaveToken(username : string, password : string) : Promise<UserTokenResponse | BasicError> {
         const url = `${domain}/api/user/create`;
 
         const formData = new FormData();
@@ -173,7 +174,7 @@ export class TokenManagementWebInterface {
         return this.postForm(url, formData);        
     }
 
-    private postForm(url : string, formData : FormData) : Promise<string | BasicError> {
+    private postForm(url : string, formData : FormData) : Promise<UserTokenResponse | BasicError> {
         return fetch(url, {
             method: "POST",
             body: formData

@@ -1,4 +1,4 @@
-import { BasicError, LooseSetting } from "../../interfaces";
+import { BasicError, LooseSetting, UserTokenResponse } from "../../interfaces";
 import { pageDetailsStore } from "./pageDetailsStore";
 import { BlockedDomainsWebInterface, TokenManagementWebInterface } from "./webInterface";
 import { SharedStateReaders } from "../sharedStateReaders";
@@ -61,6 +61,20 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         (new TokenManagementWebInterface()).logUserOut();
         this.deleteUserState();
     }
+
+    /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
+    public setApiToken(newToken : string) {
+        chrome.storage.local.set({
+            [this.ApiTokenKey]: newToken
+        });
+    }
+
+    public setUserEmail(newEmail : string) {
+        chrome.storage.local.set({
+            [this.UserEmailKey]: newEmail
+        })
+    }
+    
     
     public async getApiToken() : Promise<string | undefined> {
         const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
@@ -72,14 +86,29 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         return token;
     }
 
-    public async logUserIn(payload: {username: string, password: string}) : Promise<string | BasicError> {
+    public async logUserIn(payload: {username: string, password: string}) : Promise<UserTokenResponse | BasicError> {
         const result = (new TokenManagementWebInterface()).loginAndSaveToken(payload.username, payload.password);
-        return result;
+        return this.handleUserSignup(result);
     }
 
-    public async signupUser(payload: {username: string, password: string}) : Promise<string | BasicError> {
+    public async signupUser(payload: {username: string, password: string}) : Promise<UserTokenResponse | BasicError> {
         const result = (new TokenManagementWebInterface()).signUpAndSaveToken(payload.username, payload.password);
-        return result;
+        return this.handleUserSignup(result);
+    }
+
+    private handleUserSignup(result : Promise<UserTokenResponse | BasicError>) : Promise<UserTokenResponse | BasicError> {
+        return result.then(x => {
+            if ('error' in x) {
+                Promise.reject(x)
+            } else {
+                this.setApiToken(x.key);
+                this.setUserEmail(x.user);
+
+                // scrub key but the rest of the payload can be sent back.
+                x.key = 'hidden';
+                Promise.resolve(x);
+            }
+        }).catch(x => x);    
     }
 
     private deleteUserState() {

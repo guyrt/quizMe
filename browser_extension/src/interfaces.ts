@@ -155,3 +155,8 @@ export type LooseSetting = {
 // intended use is to replace indeterminate failure as undefined.
 export type BasicError = {'error': string}
 
+
+export type UserTokenResponse = {
+    user: string,  // user's email address
+    key : string   // auth token.
+}

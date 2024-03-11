@@ -43,19 +43,6 @@ export class SharedStateReaders {
         return true;
     }
 
-    /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
-    public setApiToken(newToken : string) {
-        chrome.storage.local.set({
-            [this.ApiTokenKey]: newToken
-        });
-    }
-
-    public setUserEmail(newEmail : string) {
-        chrome.storage.local.set({
-            [this.UserEmailKey]: newEmail
-        })
-    }
-
 }
 
 
