@@ -1,4 +1,4 @@
-import { MaybeSinglePageDetails, SinglePageDetails } from "../../interfaces";
+import { MaybeSinglePageDetails } from "../../interfaces";
 
 
 type PageDetailsMap = {
