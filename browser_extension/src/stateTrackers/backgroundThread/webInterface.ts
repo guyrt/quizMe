@@ -3,17 +3,14 @@ import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 import { domain } from "../../globalSettings";
 
 
-const sharedStateWriter = new BackgroundSharedStateWriter();
-
-
-export async function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
+export async function sendDomPayload(token : string, payload : UploadableDomShape) : Promise<UploadedDom | BasicError> {
     console.log("sendDomPayload");
     const url = `${domain}/api/browser/writehtml`;
 
     return post(token, url, payload); // TODO - this could return undefined.
 }
 
-export async function sendDomPayloadUpdate(token : string, payload : UploadableDomShape) : Promise<UploadedDom> {
+export async function sendDomPayloadUpdate(token : string, payload : UploadableDomShape) : Promise<UploadedDom | BasicError> {
     console.log("sendDomPayload");
     const url = `${domain}/api/browser/rewritehtml`;
 
@@ -22,9 +19,11 @@ export async function sendDomPayloadUpdate(token : string, payload : UploadableD
 
 export class QuizWebInterface {
 
+    private sharedStateWriter : BackgroundSharedStateWriter = new BackgroundSharedStateWriter();
+
     public async getAQuiz(payload : UploadedDom, forceReload : boolean) : Promise<UploadedDom> {
         const url = `${domain}/api/quiz/makequiz`;
-        const apiToken = await sharedStateWriter.getApiToken();
+        const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return {...payload, quiz_context: {status: "error"}};
         }
@@ -48,7 +47,7 @@ export class QuizWebInterface {
 
     public async getQuizHistory() : Promise<QuizHistory | BasicError> {
         const url = `${domain}/api/quiz/stats`;
-        const apiToken = await sharedStateWriter.getApiToken();
+        const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return {error: 'unauth'};
         }
@@ -67,7 +66,7 @@ export class QuizWebInterface {
 
     public async uploadQuizResults(payload : QuizResponse) : Promise<QuizHistory | BasicError> {
         const url = `${domain}/api/quiz/uploadresults`;
-        const token = await sharedStateWriter.getApiToken() ?? "todo";
+        const token = await this.sharedStateWriter.getApiToken() ?? "todo";
         return post(token, url, payload).then((payload) => {
             if (payload != undefined) {
                 return payload as QuizHistory;
@@ -98,8 +97,10 @@ export class BlockedDomainsWebInterface {
     private settingsKey = 'domain.exclude';
     private specificKeyUrl = `${this.settingsUrl}/${this.settingsKey}`;
 
+    private sharedStateWriter : BackgroundSharedStateWriter = new BackgroundSharedStateWriter();
+
     public async addBlockedDomain(domain : string) : Promise<boolean> {
-        const apiToken = await sharedStateWriter.getApiToken();
+        const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return false;
         }
@@ -108,7 +109,7 @@ export class BlockedDomainsWebInterface {
     }
 
     public async deleteBlockedDomain(domain : string) : Promise<number> {
-        const apiToken = await sharedStateWriter.getApiToken();
+        const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return -1;
         }
@@ -119,7 +120,7 @@ export class BlockedDomainsWebInterface {
     }
 
     public async getBlockedDomains() : Promise<LooseSetting[]> {
-        const apiToken = await sharedStateWriter.getApiToken();
+        const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return [];
         }
@@ -136,10 +137,12 @@ export class BlockedDomainsWebInterface {
 
 export class TokenManagementWebInterface {
 
+    private sharedStateWriter : BackgroundSharedStateWriter = new BackgroundSharedStateWriter();
+
     public async logUserOut() {
         // delete the token.
         const url = `${domain}/api/user/tokens/delete`;
-        const token = await sharedStateWriter.getApiToken();
+        const token = await this.sharedStateWriter.getApiToken();
         if (token == undefined) {
             return false;
         }
@@ -219,7 +222,7 @@ function get<OutT>(token : string, url : string) : Promise<OutT | BasicError>{
 }
 
 
-function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<OutT> {
+function post<InT, OutT>(token : string, url : string, payload : InT) : Promise<OutT | BasicError> {
     console.log(`Posting to ${url}`);
 
     const headers = {
