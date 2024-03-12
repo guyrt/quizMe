@@ -42,3 +42,43 @@ describe('BackgroundSharedStateWriter.logUserIn', () => {
         jest.clearAllMocks();
     });
 });
+
+describe('BackgroundSharedStateWriter.signUpUser', () => {
+
+    it('should save auth when successful sign up', async () => {
+        const tokenResponse = {
+            user: 'test@user.com',
+            key: 'testkey'
+        };
+
+        TokenManagementWebInterface.prototype.signUpUser = jest.fn().mockResolvedValue(tokenResponse)
+
+        const backgroundSharedStateWriter = new BackgroundSharedStateWriter();
+        const authInfo = await backgroundSharedStateWriter.signupUser({username: 'un', password: 'safe'});
+        expect(authInfo).toHaveProperty('user');
+        expect((authInfo as UserTokenResponse).user).toBe('test@user.com')
+
+        expect(authInfo).toHaveProperty('key');
+        expect((authInfo as UserTokenResponse).key).toBe('hidden');
+
+        expect(chrome.storage.local.set).toHaveBeenCalledTimes(2);
+    });
+
+    it('should save auth when successful login', async () => {
+        const tokenResponse = {
+            error: 'unauthorized'
+        };
+
+        TokenManagementWebInterface.prototype.signUpUser = jest.fn().mockResolvedValue(tokenResponse)
+
+        const backgroundSharedStateWriter = new BackgroundSharedStateWriter();
+        const authInfo = await backgroundSharedStateWriter.signupUser({username: 'un', password: 'safe'});
+        expect(authInfo).toHaveProperty('error');
+
+        expect(chrome.storage.local.set).not.toHaveBeenCalled();
+    });
+    
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
+});
