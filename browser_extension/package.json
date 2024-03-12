@@ -10,7 +10,7 @@
     "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js --runInBand"
   },
   "author": "Tommy Guy",
-  "license": "",
+  "license": "UNLICENSED",
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",
     "@types/chrome": "^0.0.254",

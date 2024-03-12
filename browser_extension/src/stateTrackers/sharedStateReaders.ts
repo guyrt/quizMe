@@ -2,22 +2,22 @@ import { BasicError, LooseSetting } from "../interfaces";
 
 export class SharedStateReaders {
 
-    protected ApiTokenKey : string = "secret.apikey";
-    protected UserEmailKey : string = "secret.email";
-    protected DomainBlockListKey : string = "settings.DomainBlockList";
+    protected static ApiTokenKey : string = "secret.apikey";
+    protected static UserEmailKey : string = "secret.email";
+    protected static DomainBlockListKey : string = "settings.DomainBlockList";
 
     public async hasApiToken() {
-        const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
+        const token = (await chrome.storage.local.get(SharedStateReaders.ApiTokenKey))[SharedStateReaders.ApiTokenKey];
         return token != undefined;
     }
 
     public async getUserEmail() : Promise<string | undefined> {
-        return (await chrome.storage.local.get(this.UserEmailKey))[this.UserEmailKey];
+        return (await chrome.storage.local.get(SharedStateReaders.UserEmailKey))[SharedStateReaders.UserEmailKey];
     }
 
     public async getDomainBlockList(forceLoad : boolean = false) : Promise<LooseSetting[] | BasicError> {
         if (!forceLoad) {
-            const domains = (await chrome.storage.local.get(this.DomainBlockListKey))[this.DomainBlockListKey];
+            const domains = (await chrome.storage.local.get(SharedStateReaders.DomainBlockListKey))[SharedStateReaders.DomainBlockListKey];
             if ('domains' in domains) {
                 return domains['domains'];
             }

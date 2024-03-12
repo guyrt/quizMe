@@ -9,9 +9,6 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
 
     constructor() {
         super();
-        if (!(self instanceof (self as any).ServiceWorkerGlobalScope)) {
-            throw "Writer exception - you can't create this object in this context.";
-        }
     }
     
     /// Block a domain, add to local store, and return the number of blocked domains.
@@ -36,11 +33,11 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
     public async loadDomainBlockList() : Promise<LooseSetting[]> {
         try {
             const domains = await new BlockedDomainsWebInterface().getBlockedDomains();
-            chrome.storage.local.set({[this.DomainBlockListKey]: {domains: domains}});
+            chrome.storage.local.set({[SharedStateReaders.DomainBlockListKey]: {domains: domains}});
             return domains;
         } catch {
             // save an error.
-            chrome.storage.local.set({[this.DomainBlockListKey]: {error: "domain fetch"}});
+            chrome.storage.local.set({[SharedStateReaders.DomainBlockListKey]: {error: "domain fetch"}});
         }
 
         return [];
@@ -48,7 +45,7 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
 
     public async getDomainBlockList(forceLoad : boolean = false) : Promise<LooseSetting[] | BasicError> {
         if (!forceLoad) {
-            const domains = (await chrome.storage.local.get(this.DomainBlockListKey))[this.DomainBlockListKey];
+            const domains = (await chrome.storage.local.get(SharedStateReaders.DomainBlockListKey))[SharedStateReaders.DomainBlockListKey];
             if ('domains' in domains) {
                 return domains['domains'];
             }
@@ -65,19 +62,19 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
     /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
     public setApiToken(newToken : string) {
         chrome.storage.local.set({
-            [this.ApiTokenKey]: newToken
+            [SharedStateReaders.ApiTokenKey]: newToken
         });
     }
 
     public setUserEmail(newEmail : string) {
         chrome.storage.local.set({
-            [this.UserEmailKey]: newEmail
+            [SharedStateReaders.UserEmailKey]: newEmail
         })
     }
     
     
     public async getApiToken() : Promise<string | undefined> {
-        const token = (await chrome.storage.local.get(this.ApiTokenKey))[this.ApiTokenKey];
+        const token = (await chrome.storage.local.get(SharedStateReaders.ApiTokenKey))[SharedStateReaders.ApiTokenKey];
 
         if (token == undefined) {
             // if a token doesn't exist, nuke local state.
@@ -87,34 +84,36 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
     }
 
     public async logUserIn(payload: {username: string, password: string}) : Promise<UserTokenResponse | BasicError> {
-        const result = (new TokenManagementWebInterface()).loginAndSaveToken(payload.username, payload.password);
+        const result = (new TokenManagementWebInterface()).loginUser(payload.username, payload.password);
         return this.handleUserSignup(result);
     }
 
     public async signupUser(payload: {username: string, password: string}) : Promise<UserTokenResponse | BasicError> {
-        const result = (new TokenManagementWebInterface()).signUpAndSaveToken(payload.username, payload.password);
+        const result = (new TokenManagementWebInterface()).signUpUser(payload.username, payload.password);
         return this.handleUserSignup(result);
     }
 
     private handleUserSignup(result : Promise<UserTokenResponse | BasicError>) : Promise<UserTokenResponse | BasicError> {
         return result.then(x => {
             if ('error' in x) {
-                Promise.reject(x)
+                return Promise.reject(x)
             } else {
                 this.setApiToken(x.key);
                 this.setUserEmail(x.user);
 
                 // scrub key but the rest of the payload can be sent back.
                 x.key = 'hidden';
-                Promise.resolve(x);
+                return Promise.resolve(x);
             }
-        }).catch(x => x);    
+        }).catch(x => {
+            return x
+        });
     }
 
     private deleteUserState() {
         // nuke storage
         pageDetailsStore.deleteAllPageDetails();
         (new QuizHistoryState()).deleteAllQuizState();
-        chrome.storage.local.remove(this.ApiTokenKey);
+        chrome.storage.local.remove(SharedStateReaders.ApiTokenKey);
     }
 }

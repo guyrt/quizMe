@@ -157,7 +157,7 @@ export class TokenManagementWebInterface {
         }).then(() => true);
     }
 
-    public async loginAndSaveToken(username : string, password : string) : Promise<UserTokenResponse | BasicError> {
+    public async loginUser(username : string, password : string) : Promise<UserTokenResponse | BasicError> {
         const url = `${domain}/api/user/tokens/create`;
 
         const formData = new FormData();
@@ -167,7 +167,7 @@ export class TokenManagementWebInterface {
         return this.postForm(url, formData);
     }
 
-    public async signUpAndSaveToken(username : string, password : string) : Promise<UserTokenResponse | BasicError> {
+    public async signUpUser(username : string, password : string) : Promise<UserTokenResponse | BasicError> {
         const url = `${domain}/api/user/create`;
 
         const formData = new FormData();
