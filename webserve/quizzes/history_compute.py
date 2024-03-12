@@ -33,6 +33,9 @@ def history_aggregate(user, today, month_start):
 def get_streak(today: date, dates: List[date]) -> int:
     # needs testing
     # a streak can start with today or yesterday.
+    if len(dates) == 0:
+        return 0
+
     dates.sort(reverse=True)
     current_streak = 1 if dates[0] >= today - timedelta(days=1) else 0
 

@@ -30,7 +30,7 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
             return;
         }
 
-        chrome.runtime.sendMessage({action: 'fa_createNewUser', payload: {username: usernameRef, password: passwordRef}}, (response) => {
+        chrome.runtime.sendMessage({action: 'fa_createNewUser', payload: {username: username, password: password}}, (response) => {
             if (isBasicError(response)) {
                 setError("Something's gone horribly wrong? Try again later.");
             } else {

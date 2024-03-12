@@ -27,3 +27,8 @@ def test_empty_streak():
         date(2024, 1, 30),
     ]
     assert 0 == get_streak(today, previous_dates)
+
+
+def test_no_dates():
+    today = date(2024, 1, 1)
+    assert 0 == get_streak(today, [])
