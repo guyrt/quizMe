@@ -6,7 +6,7 @@
  * Finite State Machine lives in the SidePanel context.
  */
 
-import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage, MaybeSinglePageDetails, SinglePageDetailsErrorState } from "../../interfaces";
+import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage, MaybeSinglePageDetails, SinglePageDetailsErrorState, isBasicError } from "../../interfaces";
 import { SharedStateReaders } from "../sharedStateReaders";
 
 
@@ -97,7 +97,7 @@ class SidePanelFiniteStateMachine {
             // Check if the response contains an error
             if (_domFacts == undefined) {
                 return;
-            } else if ('error' in _domFacts) {
+            } else if (isBasicError(_domFacts)) {
                 this.handleError(_domFacts);
             } else {
                 // Call updateState with the received data
@@ -134,8 +134,8 @@ export const fsm = new SidePanelFiniteStateMachine();
 // Listen for one Message: active details changed.
 chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, sender) => {
     if (message.action === "fa_activeSinglePageDetailsChange") {
-        if ('error' in message.payload) {
-            fsm.handleError(message.payload as SinglePageDetailsErrorState)
+        if (isBasicError(message.payload)) {
+            fsm.handleError(message.payload as SinglePageDetailsErrorState);
         } else {
             fsm.updateState(message.payload as SinglePageDetails);
         }

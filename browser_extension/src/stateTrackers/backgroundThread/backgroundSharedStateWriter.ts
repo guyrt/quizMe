@@ -1,4 +1,4 @@
-import { BasicError, LooseSetting, UserTokenResponse } from "../../interfaces";
+import { BasicError, LooseSetting, UserTokenResponse, isBasicError } from "../../interfaces";
 import { pageDetailsStore } from "./pageDetailsStore";
 import { BlockedDomainsWebInterface, TokenManagementWebInterface } from "./webInterface";
 import { SharedStateReaders } from "../sharedStateReaders";
@@ -95,7 +95,7 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
 
     private handleUserSignup(result : Promise<UserTokenResponse | BasicError>) : Promise<UserTokenResponse | BasicError> {
         return result.then(x => {
-            if ('error' in x) {
+            if (isBasicError(x)) {
                 return Promise.reject(x)
             } else {
                 this.setApiToken(x.key);

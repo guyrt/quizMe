@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isBasicError } from "../interfaces";
 
 type SignUpProps = {
     doNav : boolean
@@ -30,7 +31,7 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
         }
 
         chrome.runtime.sendMessage({action: 'fa_createNewUser', payload: {username: usernameRef, password: passwordRef}}, (response) => {
-            if ('error' in response) {
+            if (isBasicError(response)) {
                 setError("Something's gone horribly wrong? Try again later.");
             } else {
                 if (doNav) {

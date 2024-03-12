@@ -2,7 +2,7 @@
 //  - save/retrieve loader from session history
 //  - get from server.
 
-import { BasicError, QuizHistory, QuizResponse } from "../../interfaces";
+import { BasicError, QuizHistory, QuizResponse, isBasicError } from "../../interfaces";
 import { QuizWebInterface } from "./webInterface";
 
 export class QuizHistoryState {
@@ -14,7 +14,7 @@ export class QuizHistoryState {
         const webInterface = new QuizWebInterface();
         const newResults = await webInterface.getQuizHistory();
         console.log("received new quiz history: ", newResults);
-        if (!('error' in newResults)) {
+        if (!isBasicError(newResults)) {
             chrome.storage.session.set({["quizHistory"]: newResults});
         }
         return newResults;
@@ -36,7 +36,7 @@ export class QuizHistoryState {
     public async uploadQuizResult(payload : QuizResponse) : Promise<QuizHistory | BasicError> {
         const webInterface = new QuizWebInterface();
         const history = await webInterface.uploadQuizResults(payload);
-        if (!('error' in history)) {
+        if (!isBasicError(history)) {
             chrome.storage.session.set({["quizHistory"]: history});
         }
         return history;

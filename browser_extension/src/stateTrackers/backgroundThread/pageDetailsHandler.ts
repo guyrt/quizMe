@@ -1,7 +1,7 @@
 /// State object for the background
 import { v4 as uuidv4 } from 'uuid';
 
-import { BasicError, DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom } from "../../interfaces";
+import { BasicError, DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom, isBasicError } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "./webInterface";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
@@ -22,7 +22,7 @@ class PageDetailsHandler {
         const record = await this.getOrCreatePageDetails(tabId, domSummary);
         
         // Assume that any errors here are fatal. Some errors like cache miss are cleaned up before this.
-        if ('error' in record) {
+        if (isBasicError(record)) {
             pageDetailsStore.setPageDetails(tabId, record);
             return;
         }
@@ -51,7 +51,7 @@ class PageDetailsHandler {
 
         this.uploadPromises[record.key].then((x) => {
             console.log(`Upload complete for tab ${tabId} url ${domSummary.url.href}`);
-            if ('error' in x) {
+            if (isBasicError(x)) {
                 Promise.reject(x);
                 return;
             }
@@ -66,7 +66,7 @@ class PageDetailsHandler {
         })
         .catch((e : BasicError) => {
             console.log("Upload had issue ", e);
-            if ('error' in e) {
+            if (isBasicError(e)) {
                 pageDetailsStore.setPageDetails(record.key, {error: 'auth'});
             } else {
                 // error of known type.
@@ -112,7 +112,7 @@ class PageDetailsHandler {
 
         const record = await pageDetailsStore.getPageDetails(key);
 
-        if ('error' in record) {
+        if (isBasicError(record)) {
             log(`Key ${key} not in page details. Returning no quiz.`)
             return Promise.resolve({'status': 'error'});
         }
@@ -177,7 +177,7 @@ class PageDetailsHandler {
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
         const domainBlockList = await new BackgroundSharedStateWriter().getDomainBlockList();
-        if (domainBlockList != undefined && !('error' in domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))){
+        if (domainBlockList != undefined && !isBasicError(domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))){
             return false;
         }
     
@@ -194,7 +194,7 @@ class PageDetailsHandler {
 
     private async getPageDetails(key : number) : Promise<SinglePageDetails> {
         let pageDetail = await pageDetailsStore.getPageDetails(key);
-        if ('error' in pageDetail && pageDetail.error == 'cachemiss') {
+        if (isBasicError(pageDetail) && pageDetail.error == 'cachemiss') {
             throw `Key not found: ${key}`;
         }
         return pageDetail as SinglePageDetails;
@@ -202,11 +202,11 @@ class PageDetailsHandler {
 
     private async getOrCreatePageDetails(key : number, response : DomShape) : Promise<MaybeSinglePageDetails> {
         let pageDetail = await pageDetailsStore.getPageDetails(key);
-        if ('error' in pageDetail && pageDetail.error == 'auth') {
+        if (isBasicError(pageDetail) && pageDetail.error == 'auth') {
             return pageDetail;
         }
 
-        const missingKey = 'error' in pageDetail && pageDetail.error == 'cachemiss';
+        const missingKey = isBasicError(pageDetail) && pageDetail.error == 'cachemiss';
         const urlMismatch = missingKey || (pageDetail as SinglePageDetails).url.href != response.url.href;
 
         if (missingKey || urlMismatch) {

@@ -1,4 +1,4 @@
-import { BasicError, QuizHistory, QuizResponse } from "../../interfaces";
+import { BasicError, QuizHistory, QuizResponse, isBasicError } from "../../interfaces";
 
 class QuizHistoryBroker {
     private quizHistory : QuizHistory | undefined = undefined;
@@ -26,7 +26,7 @@ class QuizHistoryBroker {
 
     public trigger() {
         chrome.runtime.sendMessage({ action: "fa_getQuizHistory", payload: {} }, (quizHistory: QuizHistory | BasicError) => {
-            if (quizHistory != undefined && !('error' in quizHistory)) {
+            if (quizHistory != undefined && !isBasicError(quizHistory)) {
                 this.setQuizHistory(quizHistory);
             }
         });
@@ -34,7 +34,7 @@ class QuizHistoryBroker {
 
     public uploadQuizResults(payload : QuizResponse) {
         chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload}, (quizHistory: QuizHistory | BasicError) => {
-            if (quizHistory != undefined && !('error' in quizHistory)) {
+            if (quizHistory != undefined && !isBasicError(quizHistory)) {
                 this.setQuizHistory(quizHistory);
             }
         })

@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { isBasicError } from "../interfaces";
 
 
 type SignInProps = {
@@ -26,7 +27,7 @@ const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) 
         }
 
         chrome.runtime.sendMessage({action: 'fa_signUserIn', payload: {username: username, password: password}}, (response) => {
-            if ('error' in response) {
+            if (isBasicError(response)) {
                 setError("That ain't it. Try again maybe? Type slower?"); // Set error message for other errors
             } else {
                 if (doNav) {

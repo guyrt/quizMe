@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleStop, faTrashCan } from "@fortawesome/free-regular-svg-icons";
-import { BasicError, LooseSetting } from "../interfaces";
+import { BasicError, LooseSetting, isBasicError } from "../interfaces";
 
 
 export function BlockedDomains() {
@@ -56,7 +56,7 @@ export function BlockedDomains() {
 
     function resetDomains() {
         (new SharedStateReaders()).getDomainBlockList(true).then((domains : LooseSetting[] | BasicError) => {
-            if ('error' in domains) {
+            if (isBasicError(domains)) {
                 setErrorLoadingDomains(true);
             } else {
                 setErrorLoadingDomains(false);

@@ -1,4 +1,4 @@
-import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError, UserTokenResponse } from "../../interfaces";
+import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError, UserTokenResponse, isBasicError } from "../../interfaces";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 import { domain } from "../../globalSettings";
 
@@ -126,7 +126,7 @@ export class BlockedDomainsWebInterface {
         }
 
         return get<LooseSetting[]>(apiToken, this.specificKeyUrl).then(x => {
-            if ('error' in x) {
+            if (isBasicError(x)) {
                 return [];
             }
             return x;
