@@ -1,8 +1,9 @@
 import { BasicError, LooseSetting, UserTokenResponse, isBasicError } from "../../interfaces";
-import { pageDetailsStore } from "./pageDetailsStore";
+import { PageDetailsStore } from "./pageDetailsStore";
 import { BlockedDomainsWebInterface, TokenManagementWebInterface } from "./webInterface";
 import { SharedStateReaders } from "../sharedStateReaders";
 import { QuizHistoryState } from "./quizSubscriptionState";
+import { backgroundState } from "./pageDetailsHandler";
 
 /** Note: poor name. This actually is the background processor version with elevated capabilitites. */
 export class BackgroundSharedStateWriter extends SharedStateReaders {
@@ -56,7 +57,7 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
 
     public async logUserOut() {
         (new TokenManagementWebInterface()).logUserOut();
-        this.deleteUserState();
+        await this.deleteUserState();
     }
 
     /** Setting a new api token assumes a user log in. Good time to ping for subscription status. */
@@ -78,8 +79,9 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
 
         if (token == undefined) {
             // if a token doesn't exist, nuke local state.
-            this.deleteUserState();
+            await this.deleteUserState();
         }
+
         return token;
     }
 
@@ -94,12 +96,17 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
     }
 
     private handleUserSignup(result : Promise<UserTokenResponse | BasicError>) : Promise<UserTokenResponse | BasicError> {
-        return result.then(x => {
+        return result.then(async x => {
             if (isBasicError(x)) {
                 return Promise.reject(x)
             } else {
                 this.setApiToken(x.key);
                 this.setUserEmail(x.user);
+
+                // trigger data updates
+                await (new QuizHistoryState()).getLatestQuizHistory();
+                await this.loadDomainBlockList();
+                await backgroundState.handleTabUpload("unknown");
 
                 // scrub key but the rest of the payload can be sent back.
                 x.key = 'hidden';
@@ -110,10 +117,10 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         });
     }
 
-    private deleteUserState() {
+    private async deleteUserState() {
         // nuke storage
-        pageDetailsStore.deleteAllPageDetails();
-        (new QuizHistoryState()).deleteAllQuizState();
-        chrome.storage.local.remove(SharedStateReaders.ApiTokenKey);
+        await PageDetailsStore.getInstance().deleteAllPageDetails();
+        await (new QuizHistoryState()).deleteAllQuizState();
+        await chrome.storage.local.remove(SharedStateReaders.ApiTokenKey);
     }
 }

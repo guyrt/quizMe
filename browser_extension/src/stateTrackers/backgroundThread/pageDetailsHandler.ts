@@ -6,7 +6,7 @@ import { log } from "../../utils/logger";
 import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "./webInterface";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 
-import { pageDetailsStore } from "./pageDetailsStore";
+import { PageDetailsStore } from "./pageDetailsStore";
 import { QuizHistoryState } from "./quizSubscriptionState";
 
 
@@ -17,20 +17,45 @@ class PageDetailsHandler {
 
     private uploadPromises : {[key: number]: Promise<UploadedDom | BasicError>} = {}
 
+    public async handleTabUpload(loadedUrl : string) {
+        if (loadedUrl == "unknown") {
+            chrome.tabs.query({currentWindow: true, active: true}, (tabs) => {
+                this.handleTabs(tabs, true);
+            });
+        } else {
+            chrome.tabs.query({currentWindow: true, url: loadedUrl}, tabs => {
+                this.handleTabs(tabs, true);
+            });
+        }
+    }
+
+    public async handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
+        console.log(`Background received dom. TabId: ${tabId}, isFirst: ${firstUpload} response:`, response);
+        if (firstUpload) {
+            await backgroundState.uploadPage(tabId, response);
+        } else {
+            await backgroundState.uploadNewVersionSamePage(tabId, response);
+        }
+    }
+
     public async uploadPage(tabId : number, domSummary : DomShape) {
         console.log("Upload started on ", tabId);
         const record = await this.getOrCreatePageDetails(tabId, domSummary);
         
         // Assume that any errors here are fatal. Some errors like cache miss are cleaned up before this.
         if (isBasicError(record)) {
-            pageDetailsStore.setPageDetails(tabId, record);
             return;
         }
 
+        if (record.uploadState == 'completed') {
+            // put record back - triggers an update
+            PageDetailsStore.getInstance().setPageDetails(record.key, record, true);
+        }
+        
         // from here, we assume record is a SimplePageRecord.
         if (!await this.shouldOperateOnPage(record)) {
             console.log(`Upload abandoned ${tabId} url ${domSummary.url.href}`);
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'donotprocess'}, true);
+            PageDetailsStore.getInstance().setPageDetails(record.key, {...record, uploadState: 'donotprocess'}, true);
             return;
         }
         
@@ -39,15 +64,16 @@ class PageDetailsHandler {
             return;
         }
 
+
         const token = await this.getToken();
         if (token == undefined) {
-            pageDetailsStore.setPageDetails(record.key, {error: 'auth'});
+            PageDetailsStore.getInstance().setPageDetails(record.key, {error: 'auth'});
             return;
         }
 
         const uploadableDom = this.buildUploadableDom(domSummary, record.guid, record.capture_index);
         this.uploadPromises[record.key] = sendDomPayload(token, uploadableDom);
-        pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'inprogress'}, true);
+        PageDetailsStore.getInstance().setPageDetails(record.key, {...record, uploadState: 'inprogress'}, true);
 
         this.uploadPromises[record.key].then((x) => {
             console.log(`Upload complete for tab ${tabId} url ${domSummary.url.href}`);
@@ -56,7 +82,7 @@ class PageDetailsHandler {
                 return;
             }
 
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
+            PageDetailsStore.getInstance().setPageDetails(record.key, {...record, uploadState: 'completed', uploadedDom: x}, true);
             
             // if the page is an article then we need up to date quiz info.
             if (record.domClassification.classification == "article") {
@@ -67,10 +93,10 @@ class PageDetailsHandler {
         .catch((e : BasicError) => {
             console.log("Upload had issue ", e);
             if (isBasicError(e)) {
-                pageDetailsStore.setPageDetails(record.key, {error: 'auth'});
+                PageDetailsStore.getInstance().setPageDetails(record.key, {error: 'auth'});
             } else {
                 // error of known type.
-                pageDetailsStore.setPageDetails(record.key, {...record, uploadState: 'error'}, true);
+                PageDetailsStore.getInstance().setPageDetails(record.key, {...record, uploadState: 'error'}, true);
             }
         });
     }
@@ -110,7 +136,7 @@ class PageDetailsHandler {
             return Promise.resolve(this.quizzes[key]);
         }
 
-        const record = await pageDetailsStore.getPageDetails(key);
+        const record = await PageDetailsStore.getInstance().getPageDetails(key);
 
         if (isBasicError(record)) {
             log(`Key ${key} not in page details. Returning no quiz.`)
@@ -154,7 +180,7 @@ class PageDetailsHandler {
     private updatePayloadAndReturnQuiz(record : SinglePageDetails | undefined, uploadedDom : UploadedDom | undefined) : (Quiz) {
         if (record != undefined && uploadedDom != undefined) {
             // update the dom to include the quiz.
-            pageDetailsStore.setPageDetails(record.key, {...record, uploadedDom: uploadedDom}, true);
+            PageDetailsStore.getInstance().setPageDetails(record.key, {...record, uploadedDom: uploadedDom}, true);
         }
 
         return uploadedDom?.quiz_context || {status: "building"};
@@ -163,7 +189,7 @@ class PageDetailsHandler {
     // This is used to set an empty quiz.
     private setQuiz(record : SinglePageDetails | undefined, newQuiz : Quiz) : Quiz {
         if (record?.uploadedDom != undefined) {
-            pageDetailsStore.setPageDetails(record.key, {
+            PageDetailsStore.getInstance().setPageDetails(record.key, {
                 ...record, 
                 uploadedDom: {
                     ...record.uploadedDom,
@@ -193,7 +219,7 @@ class PageDetailsHandler {
     }
 
     private async getPageDetails(key : number) : Promise<SinglePageDetails> {
-        let pageDetail = await pageDetailsStore.getPageDetails(key);
+        let pageDetail = await PageDetailsStore.getInstance().getPageDetails(key);
         if (isBasicError(pageDetail) && pageDetail.error == 'cachemiss') {
             throw `Key not found: ${key}`;
         }
@@ -201,7 +227,7 @@ class PageDetailsHandler {
     }
 
     private async getOrCreatePageDetails(key : number, response : DomShape) : Promise<MaybeSinglePageDetails> {
-        let pageDetail = await pageDetailsStore.getPageDetails(key);
+        let pageDetail = await PageDetailsStore.getInstance().getPageDetails(key);
         if (isBasicError(pageDetail) && pageDetail.error == 'auth') {
             return pageDetail;
         }
@@ -221,7 +247,7 @@ class PageDetailsHandler {
                 uploadedDom: undefined,
                 title: response.title
             };
-            pageDetailsStore.setPageDetails(key, pageDetail);
+            PageDetailsStore.getInstance().setPageDetails(key, pageDetail);
 
             if (key in this.quizzes) {
                 delete this.quizzes[key];
@@ -235,6 +261,30 @@ class PageDetailsHandler {
         return recordTime - 17071529563; // subtract out from start of project.
     }
 
+
+    private async handleTabs(tabs : chrome.tabs.Tab[], firstUpload : boolean) {
+        if (tabs[0] === undefined) {
+            return;
+        }
+        const tId = argMax<any, any>(tabs, 'lastAccessed').id;
+        chrome.tabs.sendMessage(
+            tId,
+            {action: "fa_accessDOM", payload: {tabId: tId}},
+            async (x) => await this.handleFAAccessDOMMessage(tId, x, firstUpload)
+        );
+    }
+    
+
+
 }
 
 export const backgroundState = new PageDetailsHandler();
+
+
+
+function argMax<T extends Record<K, number>, K extends keyof any>(listOfObjects: T[], key: K): T {
+    const argMaxObject = listOfObjects.reduce((maxObj, currentObj) => {
+      return currentObj[key] > maxObj[key] ? currentObj : maxObj;
+    }, listOfObjects[0]);
+    return argMaxObject;
+  }

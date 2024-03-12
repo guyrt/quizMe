@@ -186,11 +186,11 @@ export class TokenManagementWebInterface {
                 return response.json();
             }
             if (response.status == 401) {
-                Promise.reject({error: 'unauthorized'});
+                return Promise.reject({error: 'unauthorized'});
             } 
-            Promise.reject({error: "unknown"});
+            return Promise.reject({error: "unknown"});
         }).catch(e => {
-            Promise.reject({error: e});
+            return Promise.reject({error: e});
         })
     }
 }

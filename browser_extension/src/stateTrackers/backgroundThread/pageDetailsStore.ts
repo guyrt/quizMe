@@ -10,12 +10,26 @@ const storageEngine = chrome.storage.local;
 
 
 /// Storage that wraps a local cache and chrome storage of SinglePageDetails.
-class PageDetailsStore {
+export class PageDetailsStore {
+
+    private static instance: PageDetailsStore;
+
     private pageDetails : PageDetailsMap = {}
+
+    private constructor() {
+        // Initialization code here
+    }
+
+    public static getInstance(): PageDetailsStore {
+        if (!PageDetailsStore.instance) {
+            PageDetailsStore.instance = new PageDetailsStore();
+        }
+        return PageDetailsStore.instance;
+    }
 
     public async getPageDetails(tabId : number) : Promise<MaybeSinglePageDetails> {
         if (tabId in this.pageDetails) {
-            return Promise.resolve(this.pageDetails[tabId]);
+            return this.pageDetails[tabId];
         }
 
         // try to return from storage
@@ -52,12 +66,9 @@ class PageDetailsStore {
 
     public async deleteAllPageDetails() {
         const kPrefix = this.keyPrefix;
-        chrome.storage.local.get(null, function(items) {
+        storageEngine.get(null, function(items) {
             const keysToDelete = Object.keys(items).filter(key => key.startsWith(kPrefix));
-
-            if (keysToDelete.length > 0) {
-                chrome.storage.local.remove(keysToDelete, function() {});
-            }
+            storageEngine.remove(keysToDelete);
         });
         this.pageDetails = {};
     }
@@ -69,6 +80,3 @@ class PageDetailsStore {
     private keyPrefix = "singlepagedetails"
 
 }
-
-
-export const pageDetailsStore = new PageDetailsStore();

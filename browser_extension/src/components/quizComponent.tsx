@@ -76,9 +76,6 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
         fsm.setShowOptions();
     }
 
-    console.log("Loading quiz: ", quiz);
-    console.log("Answers: ", incomingQuizAnswers);
-
     return (
         <div>
             {/* Handles generation header */}

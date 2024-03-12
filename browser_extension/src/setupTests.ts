@@ -24,5 +24,7 @@ global.chrome = {
         session: createChromeStorageLocalMock(),
         shared: createChromeStorageLocalMock()
     },
-    // Mock other chrome APIs if needed
+    runtime: {
+      sendMessage: jest.fn(),
+    },
 } as any;

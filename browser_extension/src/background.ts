@@ -1,12 +1,11 @@
 import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundThread/pageDetailsHandler";
-import { pageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
+import { PageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
 import { QuizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
 
 var fa_lastActiveTab = 0;
 
 
-const oldLogger = console.log;
 console.log = () => {};
 
 
@@ -19,7 +18,7 @@ const tabTracker = new TabTracker();
 chrome.tabs.onActivated.addListener((activeInfo) => {
     // get the active tag if it exists.
     console.log(`Change tab to ${activeInfo.tabId}`);
-    pageDetailsStore.getPageDetails(activeInfo.tabId).then(x => {
+    PageDetailsStore.getInstance().getPageDetails(activeInfo.tabId).then(x => {
         chrome.runtime.sendMessage({
             action: "fa_activeSinglePageDetailsChange",
             payload: x
@@ -28,7 +27,7 @@ chrome.tabs.onActivated.addListener((activeInfo) => {
 });
 
 chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRemoveInfo) => {
-    pageDetailsStore.deletePageDetails(tabId);
+    PageDetailsStore.getInstance().deletePageDetails(tabId);
 });
 
 /* Message Listeners */
@@ -41,7 +40,7 @@ chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sen
 });
 
 
-chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendResponse) => {
+export const omnibusHandler = (message : ChromeMessage, sender : any, sendResponse : any) => {
     if (message.action === "fa_getCurrentPage") {
         // check if the active tab is an article.
         (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
@@ -57,7 +56,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
                 sendResponse({error: "nopage"});
                 return true;
             }
-            pageDetailsStore.getPageDetails(activeTabId).then(d => {
+            PageDetailsStore.getInstance().getPageDetails(activeTabId).then(d => {
                 sendResponse(d);
             }).catch(e => {
                 sendResponse({error: "nopage"});
@@ -65,23 +64,9 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         })})();
         return true;
     } else if (message.action === "fa_pageLoaded") {
-        oldLogger(`Got action ${message.action} with ${message.payload.url}`);
         // Perform action on page load
         const loadedUrl = message.payload.url;
-        (async () => {
-            // handle case where we're reloading from error on current active.
-            if (loadedUrl == "unknown") {
-                chrome.tabs.query({currentWindow: true, active: true}, function(tabs) {
-                    handleTabs(tabs, true);
-                    sendResponse();
-                });
-            } else {
-                chrome.tabs.query({currentWindow: true, url: loadedUrl}, function(tabs) {
-                    handleTabs(tabs, true);
-                    sendResponse();
-                });
-            }
-        })();
+        backgroundState.handleTabUpload(loadedUrl).then(() => sendResponse());
         return true;
     } else if (message.action === "fa_pageReloaded") {
         console.log(`Got action ${message.action}`);
@@ -89,7 +74,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         chrome.tabs.sendMessage(
             tId,
             {action: "fa_accessDOM", payload: {tabId: tId}},
-            (x) => handleFAAccessDOMMessage(tId, x, message.action === "fa_pageLoaded")
+            (x) => backgroundState.handleFAAccessDOMMessage(tId, x, false)
         );
     } else if (message.action === "fa_makequiz") {
         (async () => {
@@ -124,7 +109,7 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         })();
     } else if (message.action == "fa_logUserOut") {
         (new BackgroundSharedStateWriter).logUserOut();
-    } else if (message.action == "fa_signUserIn") {
+} else if (message.action == "fa_signUserIn") {
         (new BackgroundSharedStateWriter).logUserIn(message.payload).then(x => {
             sendResponse(x);
         }).catch(x => {
@@ -173,7 +158,9 @@ chrome.runtime.onMessage.addListener((message : ChromeMessage, sender, sendRespo
         })
         return true;
     }
-});
+}
+
+chrome.runtime.onMessage.addListener(omnibusHandler);
 
 
 // @ts-ignore
@@ -181,28 +168,6 @@ chrome.sidePanel
   .setPanelBehavior({ openPanelOnActionClick: true })
   .catch((error : any) => console.error(error));
 
-
-function handleTabs(tabs : chrome.tabs.Tab[], firstUpload : boolean) {
-    if (tabs[0] === undefined) {
-        return;
-    }
-    const tId = argMax<any, any>(tabs, 'lastAccessed').id;
-    chrome.tabs.sendMessage(
-        tId,
-        {action: "fa_accessDOM", payload: {tabId: tId}},
-        async (x) => await handleFAAccessDOMMessage(tId, x, firstUpload)
-    );
-}
-
-
-async function handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
-    console.log(`Background received dom. TabId: ${tabId}, isFirst: ${firstUpload} response:`, response);
-    if (firstUpload) {
-        await backgroundState.uploadPage(tabId, response);
-    } else {
-        await backgroundState.uploadNewVersionSamePage(tabId, response);
-    }
-}
 
 function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{
     let activeTabId = 0;
@@ -223,9 +188,3 @@ function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{
     
 }
 
-function argMax<T extends Record<K, number>, K extends keyof any>(listOfObjects: T[], key: K): T {
-    const argMaxObject = listOfObjects.reduce((maxObj, currentObj) => {
-      return currentObj[key] > maxObj[key] ? currentObj : maxObj;
-    }, listOfObjects[0]);
-    return argMaxObject;
-  }
