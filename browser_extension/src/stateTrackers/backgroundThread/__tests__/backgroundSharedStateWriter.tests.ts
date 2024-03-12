@@ -23,4 +23,22 @@ describe('BackgroundSharedStateWriter.logUserIn', () => {
 
         expect(chrome.storage.local.set).toHaveBeenCalledTimes(2);
     });
+
+    it('should save auth when successful login', async () => {
+        const tokenResponse = {
+            error: 'unauthorized'
+        };
+
+        TokenManagementWebInterface.prototype.loginUser = jest.fn().mockResolvedValue(tokenResponse)
+
+        const backgroundSharedStateWriter = new BackgroundSharedStateWriter();
+        const authInfo = await backgroundSharedStateWriter.logUserIn({username: 'un', password: 'safe'});
+        expect(authInfo).toHaveProperty('error');
+
+        expect(chrome.storage.local.set).not.toHaveBeenCalled();
+    });
+    
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 });
