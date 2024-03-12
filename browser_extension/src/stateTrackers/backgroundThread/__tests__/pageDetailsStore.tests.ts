@@ -7,4 +7,8 @@ describe('PageDetailsStore.deletePageDetails', () =>{
         expect(chrome.storage.local.remove).toHaveBeenCalledWith('singlepagedetails.123');
         done();
     });
+
+    afterEach(() => {
+        jest.clearAllMocks();
+    });
 })

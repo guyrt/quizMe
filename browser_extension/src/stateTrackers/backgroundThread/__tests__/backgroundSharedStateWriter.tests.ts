@@ -110,7 +110,7 @@ describe('BackgroundSharedStateWriter.signUpUser', () => {
 
         expect(chrome.storage.local.set).not.toHaveBeenCalled();
     });
-    
+
     afterEach(() => {
         jest.clearAllMocks();
     });

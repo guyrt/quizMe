@@ -6,13 +6,11 @@ type PageDetailsMap = {
 }
 
 
-const storageEngine = chrome.storage.local;
-
-
 /// Storage that wraps a local cache and chrome storage of SinglePageDetails.
 export class PageDetailsStore {
 
     private static instance: PageDetailsStore;
+    private storageEngine = chrome.storage.local;
 
     private pageDetails : PageDetailsMap = {}
 
@@ -34,7 +32,7 @@ export class PageDetailsStore {
 
         // try to return from storage
         const storageKey = this.makeKey(tabId);
-        const storeResults = await storageEngine.get(storageKey);
+        const storeResults = await this.storageEngine.get(storageKey);
         const v = storeResults[storageKey];
         if (v != undefined) {
             this.pageDetails[tabId] = v;
@@ -51,7 +49,7 @@ export class PageDetailsStore {
      */
     public setPageDetails(tabId : number, page : MaybeSinglePageDetails, broadcast : boolean = true) {
         const storageKey = this.makeKey(tabId);
-        storageEngine.set({[storageKey]: page}, () => {});
+        this.storageEngine.set({[storageKey]: page}, () => {});
         this.pageDetails[tabId] = page;
         if (broadcast) {
             console.log(`Sending message activeSinglePageDetailsChange with`, page);
@@ -61,14 +59,14 @@ export class PageDetailsStore {
 
     public async deletePageDetails(tabId : number) {
         delete this.pageDetails[tabId];
-        await storageEngine.remove(this.makeKey(tabId));
+        await this.storageEngine.remove(this.makeKey(tabId));
     }
 
     public async deleteAllPageDetails() {
         const kPrefix = this.keyPrefix;
-        storageEngine.get(null, function(items) {
+        this.storageEngine.get(null, (items) => {
             const keysToDelete = Object.keys(items).filter(key => key.startsWith(kPrefix));
-            storageEngine.remove(keysToDelete);
+            this.storageEngine.remove(keysToDelete);
         });
         this.pageDetails = {};
     }
