@@ -32,9 +32,9 @@ class PageDetailsHandler {
     public async handleFAAccessDOMMessage(tabId : number, response : DomShape, firstUpload : boolean) {
         console.log(`Background received dom. TabId: ${tabId}, isFirst: ${firstUpload} response:`, response);
         if (firstUpload) {
-            await backgroundState.uploadPage(tabId, response);
+            await this.uploadPage(tabId, response);
         } else {
-            await backgroundState.uploadNewVersionSamePage(tabId, response);
+            await this.uploadNewVersionSamePage(tabId, response);
         }
     }
 
@@ -63,7 +63,6 @@ class PageDetailsHandler {
             console.log("upload abandoned for state", record.uploadState);
             return;
         }
-
 
         const token = await this.getToken();
         if (token == undefined) {
@@ -133,7 +132,7 @@ class PageDetailsHandler {
         const quizwebInterface = new QuizWebInterface();
         if (!forceReload && key in this.quizzes) {
             log(`Outputting cached quiz for key ${key}`);
-            return Promise.resolve(this.quizzes[key]);
+            return this.quizzes[key];
         }
 
         const record = await PageDetailsStore.getInstance().getPageDetails(key);

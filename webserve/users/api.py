@@ -39,11 +39,10 @@ def create_user(request, email: str = Form(...), password: str = Form(...)):
         user = User.objects.get(email=email)
     except User.DoesNotExist:
         # create the user - verified none exists.
-        user = User.objects.create(email=email, password=password)
+        user = User.objects.create_user(email=email, password=password)
         logger.info("Creating account for %s", email)
     else:
-        user2 = authenticate(request, username=email, password=password)
-        if user2 == user and not user.is_active:
+        if user.check_password(password):
             # Then re-enable them!
             user.is_active = True
             user.save()
