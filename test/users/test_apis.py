@@ -31,6 +31,8 @@ def test_create_user_success(api_client, populate_default_settings):
     assert User.objects.filter(email=email).exists()
 
     populate_default_settings.assert_called_once()
+    new_user = User.objects.get()
+    assert new_user.check_password("password")
 
 
 def test_reactivate_user_success(api_client, populate_default_settings):

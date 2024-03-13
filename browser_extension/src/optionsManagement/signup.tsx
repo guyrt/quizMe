@@ -4,12 +4,14 @@ import { isBasicError } from "../interfaces";
 
 type SignUpProps = {
     doNav : boolean
+    handleSwitchToSignIn: () => void
     handleSignedUp: () => void
 }
 
-export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
+export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSwitchToSignIn, handleSignedUp }) => {
 
     const [error, setError] = useState<string | null>(null);
+    const [showSignIn, setShowSignIn] = useState<boolean>(false);
 
     const usernameRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
@@ -32,7 +34,13 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
 
         chrome.runtime.sendMessage({action: 'fa_createNewUser', payload: {username: username, password: password}}, (response) => {
             if (isBasicError(response)) {
-                setError("Something's gone horribly wrong? Try again later.");
+                if (response.error == 'usernameexists') {
+                    setError("That email exists in Wezo already! Try logging in.");
+                    setShowSignIn(true);
+                } else {
+                    setError("Something's gone horribly wrong? Try again later.");
+                }
+
             } else {
                 if (doNav) {
                     const navigate = useNavigate();
@@ -85,6 +93,7 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSignedUp }) => {
                 <button id="save" onClick={signUp}>Sign in!</button>
                 <br/>
                 {error && <div className="error">{error}</div>}
+                {showSignIn && <p><a href='#' onClick={() => handleSwitchToSignIn()}>Click here to sign in.</a></p>}
             </div>
         </>
     );

@@ -24,7 +24,7 @@ const optionsRouter = createMemoryRouter([
     },
     {
         path: '/signup',
-        element: <SignUp doNav={true} handleSignedUp={() => {}}/>
+        element: <SignUp doNav={true} handleSignedUp={() => {}} handleSwitchToSignIn={() => {}}/>
     },
     {
         path: '/user',

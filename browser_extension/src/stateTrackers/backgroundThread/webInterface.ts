@@ -187,7 +187,10 @@ export class TokenManagementWebInterface {
             }
             if (response.status == 401) {
                 return Promise.reject({error: 'unauthorized'});
-            } 
+            }
+            if (response.status == 409) {
+                return Promise.reject({error: 'usernameexists'});
+            }
             return Promise.reject({error: "unknown"});
         }).catch(e => {
             return Promise.reject({error: e});

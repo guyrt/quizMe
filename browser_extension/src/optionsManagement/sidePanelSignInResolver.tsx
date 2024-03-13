@@ -14,16 +14,16 @@ export default function() {
     }
 
     function handleSignUp() {
-        console.log("handlesignup");
         setShowLogIn(false);
     }
+
 
     return (
         <>
             {showLogIn ? <SignIn 
                 doNav={false} 
                 handleSignUp={() => handleSignUp()} 
-                handleSignedIn={handleLoggedIn} /> : <SignUp doNav={false} handleSignedUp={handleLoggedIn}/>}
+                handleSignedIn={handleLoggedIn} /> : <SignUp doNav={false} handleSwitchToSignIn={() => {setShowLogIn(true)}} handleSignedUp={handleLoggedIn}/>}
         </>
     );
 }
