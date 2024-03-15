@@ -9,15 +9,34 @@
      <title>Wezo - You know more than you think</title>
     <style>
         body {
+            height: 100%;
+            margin: 0;
+        }
+
+        html, body {
             font-family: "Lexend";
             color: #333;
             background-color: #fffef3;
-            margin: 0;
             padding: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         h1, h2, h3, .cta-button {
             color: #140d4f;
+        }
+
+        h1 {
+            font-size: 75px;
+        }
+
+        p.tagline {
+            font-size: 20px;
+        }
+
+        .content-wrap {
+            flex: 1;
         }
 
         .hero {
@@ -62,53 +81,17 @@
             padding: 10px;
             margin-top: 20px;
         }
+
     </style>
 </head>
 <body>
-    <header class="hero">
-        <h1>Wezo</h1>
-        <p>You know more than you think</p>
-        <a href="#" class="cta-button">Install my Chrome app</a>
-    </header>
-
-    <section class="features">
-        <div class="feature">
-            <h2>Feature One</h2>
-            <p>Description of feature one.</p>
-        </div>
-        <div class="feature">
-            <h2>Feature Two</h2>
-            <p>Description of feature two.</p>
-        </div>
-        <div class="feature">
-            <h2>Feature Three</h2>
-            <p>Description of feature three.</p>
-        </div>
-    </section>
-
-    <section class="how-it-works">
-        <h2>How It Works</h2>
-        <div class="step">
-            <h3>Step 1</h3>
-            <p>Description of step one.</p>
-        </div>
-        <div class="step">
-            <h3>Step 2</h3>
-            <p>Description of step two.</p>
-        </div>
-        <div class="step">
-            <h3>Step 3</h3>
-            <p>Description of step three.</p>
-        </div>
-    </section>
-
-    <section class="testimonials">
-        <h2>Testimonials</h2>
-        <blockquote>
-            "This is a testimonial from a happy user."
-            <cite>- User Name</cite>
-        </blockquote>
-    </section>
+    <div class="content-wrap">
+        <header class="hero">
+            <h1>Wezo</h1>
+            <p class="tagline">You know more than you think</p>
+            <a href="#" class="cta-button">Get Wezo for Chrome and Edge.</a>
+        </header>
+    </div>
 
     <footer>
         <p>Contact | Privacy Policy | Terms of Service</p>
