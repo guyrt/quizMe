@@ -2,11 +2,12 @@ from django.contrib import messages  # Import messages framework
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login
 from django.views.generic.edit import FormView
+from django.views.generic.base import View
 from .forms import CustomLoginForm
 
 
 class LandingPageView(FormView):
-    template_name = "users/landing_page.html"
+    template_name = "landing_page.html"
     form_class = CustomLoginForm
 
     def form_valid(self, form):
@@ -27,3 +28,8 @@ class LandingPageView(FormView):
         context = super().get_context_data(**kwargs)
         context["title"] = "Welcome to the Landing Page"
         return context
+
+
+class PrivacyPage(View):
+    def get(self, request, *args, **kwargs):
+        return render(request, "privacy.html")

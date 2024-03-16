@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        {% block title %}
+            base title
+        {% endblock %}
+    </title>
+    {% include  '_style.html' %}
+</head>
+<body>
+    <div class="content-wrap">
+        {% block content %}content {%endblock %}
+    </div>
+        
+    <footer>
+        <p>Contact | <a href="{% url 'privacy' %}">Privacy Policy</a></p>
+    </footer>
+
+</body>
+</html>
+
