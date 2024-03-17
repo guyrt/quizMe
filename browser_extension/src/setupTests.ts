@@ -28,3 +28,6 @@ global.chrome = {
       sendMessage: jest.fn(),
     },
 } as any;
+
+
+require('jest-fetch-mock').enableMocks()
