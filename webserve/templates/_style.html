@@ -17,6 +17,21 @@
         flex-direction: column;
     }
 
+
+    div.container {
+        width: 50%;
+        max-width: 1240px;
+        margin-left: 25%;
+    }
+
+    /* Add this media query for mobile devices */
+    @media (max-width: 768px) {
+        div.container {
+            width: 90%; /* Increase the width for smaller screens */
+            margin-left: 5%; /* Reduce the left margin on mobile */
+        }
+    }
+
     a {
         color: inherit; /* blue colors for links too */
         text-decoration: inherit; /* no underline */
@@ -79,12 +94,6 @@
         text-align: center;
         padding: 10px;
         margin-top: 20px;
-    }
-
-    div.container {
-        width: 50%;
-        max-width: 1240px;
-        margin-left: 25%;
     }
 
 </style>
