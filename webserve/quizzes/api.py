@@ -47,8 +47,8 @@ def quiz_stats(request):
         status__in=[SimpleQuiz.QuizStatus.Completed, SimpleQuiz.QuizStatus.Building],
     )
     total_quizzes = quiz_q.count()
-    today = timezone.now().date()
-    month_start = today.replace(day=1)
+    today = timezone.now()
+    month_start = today.replace(day=1, hour=0, minute=0, second=0)
 
     recent_quizzes = quiz_q.filter(date_added__gte=month_start).prefetch_related(
         "simplequizresults_set"
@@ -58,7 +58,7 @@ def quiz_stats(request):
 
     quiz_contexts = [create_simple_quiz_schema(q, False) for q in recent_quizzes]
 
-    stats = history_aggregate(user, today, month_start)
+    stats = history_aggregate(user, today)
     stats.update(
         {
             "total_quizzes": total_quizzes,

@@ -193,7 +193,7 @@ export class TokenManagementWebInterface {
             }
             return Promise.reject({error: "unknown"});
         }).catch(e => {
-            return Promise.reject({error: e});
+            return Promise.reject(e);
         })
     }
 }

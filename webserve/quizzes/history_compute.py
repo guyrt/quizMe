@@ -1,36 +1,38 @@
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 from quizzes.models import SimpleQuiz
-
 from typing import Iterable, Set
 
+from users.models import User
 
-def history_aggregate(user, today, month_start):
+
+def history_aggregate(user: User, today: datetime):
     unique_days = list(
         SimpleQuiz.objects.filter(
-            owner=user, date_modified__date__gte=(today - timedelta(32))
+            owner=user, date_modified__gte=(today - timedelta(32))
         )  # Filter quizzes modified in the current month
         .filter(
             simplequizresults__isnull=False
         )  # Ensure at least one result exists for the quiz
-        .values_list("date_modified")  # Group by the truncated day
+        .values_list("date_modified", flat=True)  # Group by the truncated day
     )
 
-    simple_unique_days: Set[date] = set(u[0].date() for u in unique_days)
+    simple_unique_days: Set[date] = set([s.date() for s in unique_days])
 
-    month_start = today.replace(day=1)
+    month_start = today.replace(day=1).date()
 
     return {
         "num_days_month": len([s for s in simple_unique_days if s >= month_start]),
-        "streak": get_streak(today, unique_days),
+        "streak": get_streak(today, simple_unique_days),
     }
 
 
-def get_streak(today: date, dates: Iterable[date]) -> int:
+def get_streak(today: datetime, dates: Iterable[datetime]) -> int:
     # needs testing
     # a streak can start with today or yesterday.
     if len(dates) == 0:
         return 0
+    today = today.date()
     dates = list(dates)
     dates.sort(reverse=True)
     current_streak = 1 if dates[0] >= today - timedelta(days=1) else 0
