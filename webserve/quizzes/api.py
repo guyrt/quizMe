@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 
 from django.utils import timezone
 from quizzes.history_compute import history_aggregate
+from stripehandler.business_logic import get_redirect
 from users.apiauth import ApiKey
 from users.models import get_active_subscription
 
@@ -64,6 +65,7 @@ def quiz_stats(request):
             "total_quizzes": total_quizzes,
             "recent_quizzes": quiz_contexts,
             "quiz_allowance": quiz_allowance,
+            "stripe_redirect": get_redirect(user),
         }
     )
 

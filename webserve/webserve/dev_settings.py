@@ -45,3 +45,6 @@ RQ_QUEUES = {
         "DEFAULT_TIMEOUT": 3600,
     },
 }
+
+
+STRIPE_URL = "https://buy.stripe.com/test_eVag2H7Yt6NUdK8fYY?prefilled_email={email}"

@@ -42,6 +42,7 @@ class QuizStatsReturnSchema(Schema):
     recent_quizzes: List[SimpleQuizSchema]
     num_days_month: int
     streak: int
+    stripe_redirect: str
 
 
 def create_simple_quiz_schema(obj: SimpleQuiz, was_created: bool) -> SimpleQuizSchema:

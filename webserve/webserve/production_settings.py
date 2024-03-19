@@ -63,3 +63,6 @@ sentry_sdk.init(
     # We recommend adjusting this value in production,
     profiles_sample_rate=1.0,
 )
+
+
+STRIPE_URL = "https://buy.stripe.com/test_eVag2H7Yt6NUdK8fYY?prefilled_email={email}"

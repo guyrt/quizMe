@@ -114,7 +114,8 @@ export type QuizHistory = {
     quiz_allowance : number
     recent_quizzes : Quiz[],
     num_days_month : number,
-    streak : number
+    streak : number,
+    stripe_redirect : string  // URL to redirect
 }
 
 export type SinglePageDetailsChangeMessage = {
@@ -154,7 +155,7 @@ export type LooseSetting = {
 
 export type UserTokenResponse = {
     user: string,  // user's email address
-    key : string   // auth token.
+    key : string,   // auth token.
 }
 
 
