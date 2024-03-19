@@ -9,7 +9,8 @@ const mockQuizHistory : QuizHistory = {
     quiz_allowance : 14,
     recent_quizzes : [],
     num_days_month : 2,
-    streak : 2
+    streak : 2,
+    stripe_redirect: "redirecturl"
 };
 
 const mockError = {
