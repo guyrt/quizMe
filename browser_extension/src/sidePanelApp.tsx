@@ -1,13 +1,13 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import { createRoot } from 'react-dom/client';
 
+import { BlockedPage } from "./components/blockedPage";
+import { LoadingGif } from "./components/shared/loading";
 import SidePanelError from "./components/sidePanelError";
-import { SidePanelState, fsm } from "./stateTrackers/sidePanelThread/sidePanelStateMachine";
 import SidePanelStats from "./components/sidePanelStats";
 import SidePanelSignInOptions from "./optionsManagement/sidePanelSignInResolver";
 import { SidePanelLoggedInUserSettings } from "./optionsManagement/sidePanelUserSettings";
-import { LoadingGif } from "./components/shared/loading";
-import { BlockedPage } from "./components/blockedPage";
+import { SidePanelState, fsm } from "./stateTrackers/sidePanelThread/sidePanelStateMachine";
 
 function MainApp() {
 

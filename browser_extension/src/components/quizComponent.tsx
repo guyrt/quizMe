@@ -68,8 +68,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     };
 
     function makeQuizClick(forceReload : boolean = false) {
-        chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {
-        });
+        chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {});
     }
 
     function getMoreQuizzes() {

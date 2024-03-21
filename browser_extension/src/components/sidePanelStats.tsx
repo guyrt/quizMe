@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from "react";
+import React, { useEffect, useState } from "react";
 import { Quiz, VisitHistory } from "../interfaces";
 import { SidePanelState, fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
-import QuizView from "./quizComponent";
 import HistorySection from "./history/historySection";
+import QuizView from "./quizComponent";
+import Breadcrumbs from "./history/breadcrumbs";
 
 
 export default function SidePanelStats() {
@@ -42,7 +43,8 @@ export default function SidePanelStats() {
         };
 
         fsm.subscribe(stateHandler);
-        // wrap async and fire a trigger check.!
+
+        // wrap async and fire a trigger check.
         const f = async () => {await fsm.triggerCheck()};
         f();
 
@@ -54,9 +56,15 @@ export default function SidePanelStats() {
     return (
         <div>
             <h3>{header}</h3>
-            
-            {isArticle == true && <QuizView quiz={quiz} finiteState={finiteState} incomingQuizAnswers={quizAnswers}/>}
-            {history != undefined && <HistorySection history={history}/>}
+
+            {
+                isArticle === true 
+                    ? <>
+                        <QuizView quiz={quiz} finiteState={finiteState} incomingQuizAnswers={quizAnswers} />
+                        {activeElement?.guid !== undefined && <Breadcrumbs activePage={activeElement.guid}/>}
+                      </>
+                    : history !== undefined && <HistorySection history={history} />
+            }
         </div>
     )
 }

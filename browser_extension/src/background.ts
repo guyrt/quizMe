@@ -11,6 +11,7 @@ console.log = () => {};
 
 import TabTracker from './stateTrackers/backgroundThread/tabTimer';
 import { BackgroundSharedStateWriter } from "./stateTrackers/backgroundThread/backgroundSharedStateWriter";
+import { BreadcrumbsStateHandler } from "./stateTrackers/backgroundThread/breadcrumbs";
 
 // create this - initializer will set up events.
 const tabTracker = new TabTracker();
@@ -96,6 +97,13 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         const state = (new QuizHistoryState()).getLatestQuizHistory();
         state.then(x => sendResponse(x))
             .catch(x => sendResponse({error: 'quizHistoryError'}));
+        return true;
+    } else if (message.action === "fa_getbreadcrumbs") {
+        // retrieve breadcrumbs for a page.
+        const pageId = message.payload.pageId
+        const state = (new BreadcrumbsStateHandler()).getBreadcrumbs(pageId);
+        state.then(x => sendResponse(x))
+            .catch(x => sendResponse(x))
         return true;
     } else if (message.action === 'fa_onReminderClick') {
         (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {

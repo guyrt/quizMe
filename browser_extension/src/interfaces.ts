@@ -98,6 +98,7 @@ export type ChromeMessageType =
     | "fa_logUserOut" // message from options surfaces to backend to nuke api token.
     | "fa_signUserIn" // message from options surfaces to backend to try to sign a user in.
     | "fa_createNewUser" // message from options surfaces to backend to try to create a new user.
+    | "fa_getbreadcrumbs" // message from sidepanel to backend to retrieve breadcrumbs
 
 export type ChromeMessage = {
     action : ChromeMessageType,
