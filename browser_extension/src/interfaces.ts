@@ -142,8 +142,8 @@ export type SinglePageDetails = {
 
 export type SinglePageDetailsErrorState =  {
     error: 'auth' |   // issue with auth - generally fatal.
-            'nopage' |  // no page shown yet.
-            'cachemiss'  // cache miss. generally sign to reprocess if seen in front end.
+           'nopage' |  // no page shown yet.
+           'cachemiss'  // cache miss. generally sign to reprocess if seen in front end.
 }
 
 export type MaybeSinglePageDetails = SinglePageDetails | SinglePageDetailsErrorState;
@@ -162,8 +162,10 @@ export type UserTokenResponse = {
 export type Breadcrumb = {
     doc_id: string,
     doc_url : string,
-    score : number
-};
+    score : number,
+    title : string | undefined,
+    last_modified : string | undefined
+}
 
 export type BreadcrumbResponse = Breadcrumb[];
 
