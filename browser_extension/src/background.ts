@@ -101,7 +101,7 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
     } else if (message.action === "fa_getbreadcrumbs") {
         // retrieve breadcrumbs for a page.
         const pageId = message.payload.pageId
-        const state = (new BreadcrumbsStateHandler()).getBreadcrumbs(pageId);
+        const state = BreadcrumbsStateHandler.getInstance().getBreadcrumbs(pageId);
         state.then(x => sendResponse(x))
             .catch(x => sendResponse(x))
         return true;

@@ -1,4 +1,4 @@
-import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError, UserTokenResponse, isBasicError } from "../../interfaces";
+import { UploadedDom, UploadableDomShape, QuizResponse, Quiz, QuizHistory, LooseSetting, BasicError, UserTokenResponse, isBasicError, BreadcrumbResponse } from "../../interfaces";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 import { domain } from "../../globalSettings";
 
@@ -200,9 +200,45 @@ export class TokenManagementWebInterface {
 
 
 export class BreadcrumbsWebInterface {
-    public async getBreadcrumbs(pageId : string) { // return crumbs or wait.
-        
+    
+    private sharedStateWriter : BackgroundSharedStateWriter = new BackgroundSharedStateWriter();
+
+    public async getBreadcrumbsPolling(pageId : string) : Promise<BasicError | BreadcrumbResponse> { // return crumbs or wait.
+        const url = `${domain}/api/browser/rawdoccaptures/${pageId}/docsearch`;
+        const token = await this.sharedStateWriter.getApiToken();
+        if (token === undefined) {
+            return {error: "unauthorized"}
+        }
+
+        let pollCount = 3;
+        let pollInterval = 5; // seconds
+
+        while (pollCount > 0) {
+            try {
+                const status = await get<BreadcrumbResponse>(token, url).then(x => x);
+                return status;
+            } catch (e) {
+                // if e is waitnonfatal then poll.
+                if (isBasicError(e) && e.error == 'waitnonfatal') {
+                    // poll noop
+                }
+                else {
+                    return Promise.reject(e);
+                }
+            }
+
+            const sleep = async (ms: number): Promise<void> => {
+                return new Promise((resolve) => setTimeout(resolve, ms));
+            };
+            await sleep(pollInterval * 1000);
+            pollCount--;
+            pollInterval *= 3;
+        }
+
+        return Promise.reject({error: "waitfatal"});
     }
+
+
 }
 
 
@@ -219,6 +255,10 @@ function get<OutT>(token : string, url : string) : Promise<OutT | BasicError>{
         headers: headers
     })
     .then(response => {
+        if (response.status === 202) {
+            return Promise.resolve({error: 'waitnonfatal'});
+        }
+
         if (response.ok) {
             return response.json();
         }

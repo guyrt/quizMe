@@ -1,3 +1,6 @@
+import { BasicError, BreadcrumbResponse, isBasicError } from "../../interfaces";
+import { BreadcrumbsWebInterface } from "./webInterface";
+
 export class BreadcrumbsStateHandler {
     
     private static instance: BreadcrumbsStateHandler;
@@ -16,15 +19,23 @@ export class BreadcrumbsStateHandler {
 
     public async getBreadcrumbs(pageId : string) {
         const storageKey = this.makeKey(pageId);
-        const storeResults = await this.storageEngine.get(storageKey);
+        const storeResults = (await this.storageEngine.get(storageKey))[storageKey];
         const v = storeResults[storageKey];
         if (v != undefined) {
             return v
         }
+
+        return await this.getAndSet(pageId);
     }
 
-    private async getAndSet(pageId : string) {
-        
+    private async getAndSet(pageId : string) : Promise<BreadcrumbResponse | BasicError> {
+        const web = new BreadcrumbsWebInterface();
+        const result = web.getBreadcrumbsPolling(pageId);
+        if (!isBasicError(result)) {
+            const storageKey = this.makeKey(pageId);
+            this.storageEngine.set({[storageKey]: result})
+        }
+        return result;
     }
 
     private makeKey(tabId : string | number) : string {

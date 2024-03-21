@@ -159,6 +159,14 @@ export type UserTokenResponse = {
     key : string,   // auth token.
 }
 
+export type Breadcrumb = {
+    doc_id: string,
+    doc_url : string,
+    score : number
+};
+
+export type BreadcrumbResponse = Breadcrumb[];
+
 
 // intended use is to replace indeterminate failure as undefined.
 export type BasicError = {error: string}
