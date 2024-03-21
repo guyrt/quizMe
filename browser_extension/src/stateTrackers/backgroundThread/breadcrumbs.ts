@@ -20,9 +20,8 @@ export class BreadcrumbsStateHandler {
     public async getBreadcrumbs(pageId : string) {
         const storageKey = this.makeKey(pageId);
         const storeResults = (await this.storageEngine.get(storageKey))[storageKey];
-        const v = storeResults[storageKey];
-        if (v != undefined) {
-            return v
+        if (storeResults != undefined) {
+            return storeResults;
         }
 
         return await this.getAndSet(pageId);
@@ -30,7 +29,7 @@ export class BreadcrumbsStateHandler {
 
     private async getAndSet(pageId : string) : Promise<BreadcrumbResponse | BasicError> {
         const web = new BreadcrumbsWebInterface();
-        const result = web.getBreadcrumbsPolling(pageId);
+        const result = await web.getBreadcrumbsPolling(pageId);
         if (!isBasicError(result)) {
             const storageKey = this.makeKey(pageId);
             this.storageEngine.set({[storageKey]: result})

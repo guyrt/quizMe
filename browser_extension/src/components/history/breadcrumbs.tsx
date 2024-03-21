@@ -20,14 +20,14 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
                 setError(true);
             } else {
                 setError(false);
-
+                setBreadcrumbs(breadcrumbs);
             }
 
         })
     }, [])
 
     return (<>
-        Breadcrumbs
+        <h3>Breadcrumbs</h3>
 
         {loading === true ? 
             <p>loading...</p> : 
