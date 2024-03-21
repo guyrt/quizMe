@@ -199,6 +199,14 @@ export class TokenManagementWebInterface {
 }
 
 
+export class BreadcrumbsWebInterface {
+    public async getBreadcrumbs(pageId : string) { // return crumbs or wait.
+        
+    }
+}
+
+
+
 // Todo - eventually may need a payload... or combine with post...
 function get<OutT>(token : string, url : string) : Promise<OutT | BasicError>{
     const headers = {

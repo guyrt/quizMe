@@ -5,7 +5,7 @@ from django.contrib.auth.models import (
 )
 from django.db import models
 
-from datetime import datetime
+from django.utils import timezone
 import uuid
 from users.settings_logic import populate_default_settings
 
@@ -43,7 +43,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     last_name = models.CharField(max_length=30, blank=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-    date_joined = models.DateTimeField(default=datetime.now)
+    date_joined = models.DateTimeField(default=timezone.now)
 
     objects = CustomUserManager()
 

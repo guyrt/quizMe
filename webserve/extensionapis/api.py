@@ -6,9 +6,10 @@ from urllib.parse import urlparse
 from django.core.exceptions import ValidationError
 from django_rq import enqueue
 
-from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from django.shortcuts import get_object_or_404
 from ninja import Body, Router, pagination
+from ninja.responses import Response
+from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from parser_utils.webutils.freeassociate_parser_driver import process_raw_doc
 from users.apiauth import ApiKey
 from mltrack.search.relevant_chunks import (
@@ -24,6 +25,8 @@ from .schemas import (
     DomSchema,
     RawDocCaptureSchema,
     RawDocCaptureWithContentSchema,
+    SearchDoc,
+    WaitResponse,
     WriteDomReturnSchemaWithHistory,
 )
 
@@ -242,10 +245,13 @@ def search_doc_chunks(request, item_id: uuid.UUID):
     try:
         return find_relevant_chunks(raw_doc_capture.url_model)
     except NoChunksError:
-        return {"status": "wait"}
+        return Response({"status": "wait"}, status=202)
 
 
-@router.get("/rawdoccaptures/{item_id}/docsearch")
+@router.get(
+    "/rawdoccaptures/{item_id}/docsearch",
+    response={200: List[SearchDoc], 202: WaitResponse},
+)
 def search_doc(request, item_id: uuid.UUID):
     raw_doc_capture = get_object_or_404(
         RawDocCapture, id=item_id, active=1, user=request.auth
@@ -255,7 +261,7 @@ def search_doc(request, item_id: uuid.UUID):
         docs = sorted(docs, key=lambda x: x["score"])
         return docs[:5]
     except NoChunksError:
-        return {"status": "wait"}
+        return Response({"status": "wait"}, status=202)
 
 
 def upload_dom(user, data: DomSchema):

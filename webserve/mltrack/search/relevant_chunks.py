@@ -74,7 +74,7 @@ def find_relevant_docs(raw_doc: RawDocCapture):
         )
 
         for m in matches:
-            doc_id = m.doc_id
+            doc_id = str(m.doc_id)
             if doc_id not in doc_matches:
                 doc_matches[doc_id] = 1.0
                 doc_urls[doc_id] = m.doc_url

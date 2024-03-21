@@ -92,3 +92,13 @@ class WriteDomReturnSchema(Schema):
 
 class WriteDomReturnSchemaWithHistory(WriteDomReturnSchema):
     visit_history: VisitHistorySchema
+
+
+class SearchDoc(Schema):
+    doc_id: str
+    doc_url: str
+    score: float
+
+
+class WaitResponse(Schema):
+    status: str
