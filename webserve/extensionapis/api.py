@@ -18,7 +18,11 @@ from mltrack.search.relevant_chunks import (
     find_relevant_docs,
 )
 
-from .context_builder import build_page_domain_history, build_quiz_context
+from .context_builder import (
+    build_page_domain_history,
+    build_quiz_context,
+    enrich_doc_ids,
+)
 from .models import RawDocCapture, SingleUrl, SingleUrlFact
 from .jobs import clean_raw_doc_capture
 from .schemas import (
@@ -259,6 +263,24 @@ def search_doc(request, item_id: uuid.UUID):
     try:
         docs = find_relevant_docs(raw_doc_capture.url_model)
         docs = sorted(docs, key=lambda x: x["score"])
+        docs = docs[:5]
+
+        doc_ids = [d["doc_id"] for d in docs]
+        enrichments = enrich_doc_ids(request.auth, doc_ids)
+
+        enriched_docs = []
+        for doc in docs:
+            if doc["doc_id"] in enrichments:
+                enriched_doc = enrichments[doc["doc_id"]]
+                doc.update(
+                    {
+                        "title": enriched_doc.title,
+                        "last_visited": enriched_doc.last_visited,
+                    }
+                )
+
+            enriched_docs.append(doc)
+
         return docs[:5]
     except NoChunksError:
         return Response({"status": "wait"}, status=202)

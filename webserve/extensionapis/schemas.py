@@ -1,3 +1,4 @@
+from datetime import datetime
 from ninja import ModelSchema, Schema
 
 from .models import RawDocCapture, SingleUrl
@@ -98,6 +99,8 @@ class SearchDoc(Schema):
     doc_id: str
     doc_url: str
     score: float
+    title: str = ""
+    last_visited: datetime = None
 
 
 class WaitResponse(Schema):

@@ -7,6 +7,7 @@ from extensionapis.models import RawDocCapture
 from mltrack.search.relevant_chunks import NoChunksError
 
 from ..users.fixtures import existing_user, TestClientWithDefaultHeaders  # noqa
+from .fixtures import single_url_factory  # noqa
 
 
 pytestmark = pytest.mark.django_db
@@ -22,7 +23,11 @@ def api_client():
 def return_some_matches(monkeypatch: MonkeyPatch):
     mock_docs = MagicMock()
     mock_docs.return_value = [
-        {"doc_id": "docid", "doc_url": "test.com/test", "score": 0.1}
+        {
+            "doc_id": "c1bd1057-d1c6-4457-ae87-261e3a262ce6",
+            "doc_url": "test.com/test",
+            "score": 0.1,
+        }
     ]
 
     monkeypatch.setattr("extensionapis.api.find_relevant_docs", mock_docs)
@@ -40,7 +45,7 @@ def throw_no_matches(monkeypatch: MonkeyPatch):
     yield mock_docs
 
 
-def test_searchdoc_some_docs(single_url_factory, api_client, return_some_matches):
+def test_searchdoc_some_docs(single_url_factory, api_client, return_some_matches):  # noqa
     single_url_factory("test.com")
     rdc = RawDocCapture.objects.get()  # created in the fixture.
 
@@ -48,10 +53,10 @@ def test_searchdoc_some_docs(single_url_factory, api_client, return_some_matches
     assert 200 == response.status_code
 
     response_json = response.json()
-    assert "docid" == response_json[0]["doc_id"]
+    assert "c1bd1057-d1c6-4457-ae87-261e3a262ce6" == response_json[0]["doc_id"]
 
 
-def test_searchdoc_wait(single_url_factory, api_client, throw_no_matches):
+def test_searchdoc_wait(single_url_factory, api_client, throw_no_matches):  # noqa
     single_url_factory("test.com")
     rdc = RawDocCapture.objects.get()  # created in the fixture.
 

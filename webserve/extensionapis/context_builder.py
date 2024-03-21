@@ -1,10 +1,12 @@
 import json
 from dataclasses import dataclass
+from typing import Dict, Iterable
 from django.db.models import OuterRef, Subquery
 
 from extensionapis.models import RawDocCapture, SingleUrl
 from quizzes.models import get_simple_quiz, SimpleQuizResults
 from quizzes.schemas import SimpleQuizSchema, UploadQuizResultsSchema
+from users.models import User
 
 
 @dataclass
@@ -74,3 +76,29 @@ def build_quiz_context(single_url: SingleUrl) -> SingleUrlContext:
         except SimpleQuizResults.DoesNotExist:
             pass
     return ret
+
+
+@dataclass
+class EnrichedDoc:
+    doc_id: str
+    title: str
+    last_visited: str
+
+
+def enrich_doc_ids(user: User, single_url_ids: Iterable[str]) -> Dict[str, EnrichedDoc]:
+    urls = SingleUrl.objects.filter(user=user, id__in=single_url_ids)
+
+    most_recent_capture = RawDocCapture.objects.filter(
+        url_model=OuterRef("pk")
+    ).order_by("-date_added")
+
+    # We use a subquery to get the title of the most recent capture
+    recent_capture_title = most_recent_capture.values("title")[:1]
+
+    # Now, annotate the SingleUrl queryset
+    single_urls_with_title = urls.annotate(recent_title=Subquery(recent_capture_title))
+
+    return {
+        str(k.id): EnrichedDoc(k.id, k.recent_title, k.date_modified)
+        for k in single_urls_with_title
+    }
