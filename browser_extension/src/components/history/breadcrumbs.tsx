@@ -33,8 +33,9 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
             <p>loading...</p> : 
             <>
                 {breadcrumbs.map((entry, i) => <SingleBreadCrumb key={`bc_${i}`} breadcrumb={entry}/>)}
-            </>}
-        {error === true && <p>Breadcrumbs will be back in a jiffy.</p>}
+            </>
+        }
+        {error === true && <p>Breadcrumbs will be ready in a jiffy.</p>}
     </>) ;
 
 }
