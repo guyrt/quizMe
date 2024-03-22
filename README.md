@@ -48,3 +48,6 @@ To build the front end: [front end readme](./browser_extension/README.md)
 Back-end (pytest) [readme](./test/README.md)
 
 
+## Azure Notes
+This is the override for workers: `/bin/bash, -c, python /app/manage.py rqworker; echo hello; sleep 1000000`
+You're running 4gb ram and 2 CPUs for worker.

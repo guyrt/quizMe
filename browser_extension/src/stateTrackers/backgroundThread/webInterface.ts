@@ -210,8 +210,8 @@ export class BreadcrumbsWebInterface {
             return {error: "unauthorized"}
         }
 
-        let pollCount = 3;
-        let pollInterval = 5; // seconds
+        let pollCount = 5;
+        let pollInterval = .5; // seconds
 
         while (pollCount > 0) {
             try {
@@ -221,6 +221,7 @@ export class BreadcrumbsWebInterface {
                 // if e is waitnonfatal then poll.
                 if (isBasicError(e) && e.error == 'waitnonfatal') {
                     // poll noop
+                    console.log(`sleeping for ${pollInterval} seconds`);
                 }
                 else {
                     return Promise.reject(e);
@@ -232,7 +233,7 @@ export class BreadcrumbsWebInterface {
             };
             await sleep(pollInterval * 1000);
             pollCount--;
-            pollInterval *= 3;
+            pollInterval *= 1.5;
         }
 
         return Promise.reject({error: "waitfatal"});
@@ -256,7 +257,7 @@ function get<OutT>(token : string, url : string) : Promise<OutT | BasicError>{
     })
     .then(response => {
         if (response.status === 202) {
-            return Promise.resolve({error: 'waitnonfatal'});
+            return Promise.reject({error: 'waitnonfatal'});
         }
 
         if (response.ok) {

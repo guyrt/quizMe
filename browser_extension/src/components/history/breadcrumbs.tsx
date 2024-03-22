@@ -42,7 +42,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
 
 const SingleBreadCrumb: React.FC<{key: string, breadcrumb: Breadcrumb}> = ({key, breadcrumb}) => {
     return (<div>
-            <a href={breadcrumb.doc_url}>{breadcrumb.title ?? breadcrumb.doc_url}</a>
+            <a href={breadcrumb.doc_url} target="_blank">{breadcrumb.title ?? breadcrumb.doc_url}</a>
         </div>
     );
 }

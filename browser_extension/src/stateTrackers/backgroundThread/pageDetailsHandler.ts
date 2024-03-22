@@ -91,7 +91,7 @@ class PageDetailsHandler {
         })
         .catch((e : BasicError) => {
             console.log("Upload had issue ", e);
-            if (isBasicError(e)) {
+            if (isBasicError(e) && e.error == "auth") {
                 PageDetailsStore.getInstance().setPageDetails(record.key, {error: 'auth'});
             } else {
                 // error of known type.
