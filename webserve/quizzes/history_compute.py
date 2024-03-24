@@ -35,11 +35,14 @@ def get_streak(today: datetime, dates: Iterable[datetime]) -> int:
     today = today.date()
     dates = list(dates)
     dates.sort(reverse=True)
-    current_streak = 1 if dates[0] >= today - timedelta(days=1) else 0
+    dates.insert(0, today)
+    current_streak = 0
 
     for i in range(1, len(dates)):
         # Check if the current date is consecutive with the previous date
-        if dates[i] == dates[i - 1] - timedelta(days=1):
+        if dates[i] >= dates[i - 1] - timedelta(
+            days=1
+        ):  # >= to support equal at start.
             current_streak += 1  # Increment current streak
         else:
             break

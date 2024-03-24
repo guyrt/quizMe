@@ -94,6 +94,13 @@ def test_streak_starts_today():
     assert 3 == get_streak(today, previous_dates)
 
 
+# regression
+def test_consecutive_with_break():
+    today = timezone.datetime(2024, 3, 23)
+    previous_dates = [date(2024, 3, 15), date(2024, 3, 16)]
+    assert 0 == get_streak(today, previous_dates)
+
+
 def test_empty_streak():
     today = timezone.datetime(2024, 2, 1)
     previous_dates = [
