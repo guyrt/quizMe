@@ -6,9 +6,6 @@ import { QuizHistoryState } from "./stateTrackers/backgroundThread/quizSubscript
 var fa_lastActiveTab = 0;
 
 
-console.log = () => {};
-
-
 import TabTracker from './stateTrackers/backgroundThread/tabTimer';
 import { BackgroundSharedStateWriter } from "./stateTrackers/backgroundThread/backgroundSharedStateWriter";
 import { BreadcrumbsStateHandler } from "./stateTrackers/backgroundThread/breadcrumbs";
@@ -18,7 +15,6 @@ const tabTracker = new TabTracker();
 
 chrome.tabs.onActivated.addListener((activeInfo) => {
     // get the active tag if it exists.
-    console.log(`Change tab to ${activeInfo.tabId}`);
     PageDetailsStore.getInstance().getPageDetails(activeInfo.tabId).then(x => {
         chrome.runtime.sendMessage({
             action: "fa_activeSinglePageDetailsChange",
@@ -70,7 +66,6 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         backgroundState.handleTabUpload(loadedUrl).then(() => sendResponse());
         return true;
     } else if (message.action === "fa_pageReloaded") {
-        console.log(`Got action ${message.action}`);
         const tId = message.payload.tabId;
         chrome.tabs.sendMessage(
             tId,
@@ -100,6 +95,7 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         return true;
     } else if (message.action === "fa_getbreadcrumbs") {
         // retrieve breadcrumbs for a page.
+        console.log(`got breadcrumb request for ${message.payload.pageId}`)
         const pageId = message.payload.pageId
         const state = BreadcrumbsStateHandler.getInstance().getBreadcrumbs(pageId);
         state.then(x => sendResponse(x))

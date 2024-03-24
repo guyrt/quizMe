@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Breadcrumb, BreadcrumbResponse, isBasicError } from "../../interfaces";
+import { strFormatDate } from "../../utils/datetime";
 
 export type BreadcrumbsProps = {
     activePage : string
@@ -24,7 +25,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
             }
 
         })
-    }, [])
+    }, [activePage])
 
     return (<>
         <h3>Breadcrumbs</h3>
@@ -32,7 +33,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
         {loading === true ? 
             <p>loading...</p> : 
             <>
-                {breadcrumbs.map((entry, i) => <SingleBreadCrumb key={`bc_${i}`} breadcrumb={entry}/>)}
+                {breadcrumbs.map((entry, i) => <SingleBreadCrumb idx={`bc_${i}`} breadcrumb={entry}/>)}
             </>
         }
         {error === true && <p>Breadcrumbs will be ready in a jiffy.</p>}
@@ -40,9 +41,19 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
 
 }
 
-const SingleBreadCrumb: React.FC<{key: string, breadcrumb: Breadcrumb}> = ({key, breadcrumb}) => {
-    return (<div>
+const SingleBreadCrumb: React.FC<{idx: string, breadcrumb: Breadcrumb}> = ({idx, breadcrumb}) => {
+    
+    function chooseLink() {
+        if (breadcrumb.title == undefined || breadcrumb.title == "") {
+            return breadcrumb.doc_url;
+        } else {
+            return breadcrumb.title;
+        }
+    }
+    
+    return (<div className="history-list-item" key={idx}>
             <a href={breadcrumb.doc_url} target="_blank">{breadcrumb.title ?? breadcrumb.doc_url}</a>
+            {breadcrumb.last_modified != undefined && strFormatDate(breadcrumb.last_modified)}
         </div>
     );
 }
