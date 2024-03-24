@@ -22,7 +22,8 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
             {history.recent_domain_visits.length > 0 && <div>
                 <p>Last {history.recent_domain_visits.length} pages in this domain:</p>
                 {history.recent_domain_visits.map((x, i) => <div key={`domain_${i}`}>
-                    <p>{strFormatDate(x.date_added)}</p> <a href={x.url} target="_blank">{x.recent_title}</a>
+                    <a href={x.url} target="_blank">{x.recent_title}</a>
+                    <p>{strFormatDate(x.date_added)}</p>
                 </div>)}
             </div>}
         </div>
