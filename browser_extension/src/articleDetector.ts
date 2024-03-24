@@ -1,7 +1,10 @@
 import { DomClassification } from "./interfaces";
 
 export function classifyPage(url : Location) : DomClassification {
-    if (document.querySelector('article') !== null) {
+
+    // some pages have many articles - these are typically homepages like stratechery.com or espn.com/mlb
+    const numArticles = document.querySelectorAll('article').length;
+    if (numArticles > 0 && numArticles < 3) {
         return {
             classification : "article",
             reason : "hasArticleTag"
@@ -87,5 +90,5 @@ function isArticleByTextContent(): boolean {
     const linksPerMinute = linkCount / readingTimeMinutes;
     // console.log({ readingTimeMinutes, linkCount, linksPerMinute });
 
-    return readingTimeMinutes > 10 || (readingTimeMinutes >= 3 && linksPerMinute < 0.8);
+    return readingTimeMinutes > 4 || (readingTimeMinutes >= 3 && linksPerMinute < 0.8);
 }
