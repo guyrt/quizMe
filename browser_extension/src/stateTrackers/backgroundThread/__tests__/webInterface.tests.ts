@@ -1,10 +1,14 @@
 import { TokenManagementWebInterface } from "../webInterface";
 import fetch from 'jest-fetch-mock';
 
+
 describe("webInterface.TokenManagementWebInterface.loginUser", () => {
 
+    beforeEach(() => {
+        jest.clearAllMocks();
+    })
+
     it("posts and returns json", async () => {
-        
         const responseValue = {user: 'testuser', key: 'key'};
         fetch.mockResponseOnce(JSON.stringify(responseValue));
 
@@ -60,13 +64,15 @@ describe("webInterface.TokenManagementWebInterface.loginUser", () => {
         }
     })
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    })
 })
 
 
 describe("webInterface.TokenManagementWebInterface.signUpUser", () => {
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    })
+
 
     it("posts and returns json", async () => {
         
@@ -125,7 +131,4 @@ describe("webInterface.TokenManagementWebInterface.signUpUser", () => {
         }
     })
 
-    afterEach(() => {
-        jest.clearAllMocks();
-    })
 })

@@ -203,6 +203,15 @@ export class BreadcrumbsWebInterface {
     
     private sharedStateWriter : BackgroundSharedStateWriter = new BackgroundSharedStateWriter();
 
+    private pollInterval : number = 0.5;
+
+    /** Poll interval is in seconds */
+    public constructor(pollInterval? : number | undefined) {
+        if (pollInterval !== undefined) {
+            this.pollInterval = pollInterval;
+        }
+    }
+
     public async getBreadcrumbsPolling(pageId : string) : Promise<BasicError | BreadcrumbResponse> { // return crumbs or wait.
         const url = `${domain}/api/browser/rawdoccaptures/${pageId}/docsearch`;
         const token = await this.sharedStateWriter.getApiToken();
@@ -211,7 +220,7 @@ export class BreadcrumbsWebInterface {
         }
 
         let pollCount = 5;
-        let pollInterval = .5; // seconds
+        let localPollInterval = this.pollInterval; // seconds
 
         while (pollCount > 0) {
             try {
@@ -221,7 +230,7 @@ export class BreadcrumbsWebInterface {
                 // if e is waitnonfatal then poll.
                 if (isBasicError(e) && e.error == 'waitnonfatal') {
                     // poll noop
-                    console.log(`sleeping for ${pollInterval} seconds`);
+                    console.log(`sleeping for ${localPollInterval} seconds`);
                 }
                 else {
                     return Promise.reject(e);
@@ -231,9 +240,9 @@ export class BreadcrumbsWebInterface {
             const sleep = async (ms: number): Promise<void> => {
                 return new Promise((resolve) => setTimeout(resolve, ms));
             };
-            await sleep(pollInterval * 1000);
+            await sleep(localPollInterval * 1000);
             pollCount--;
-            pollInterval *= 1.5;
+            localPollInterval *= 1.5;
         }
 
         return Promise.reject({error: "waitfatal"});
