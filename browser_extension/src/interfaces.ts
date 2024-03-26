@@ -164,7 +164,7 @@ export type Breadcrumb = {
     doc_url : string,
     score : number,
     title : string | undefined,
-    last_modified : string | undefined
+    last_visited : string | undefined
 }
 
 export type BreadcrumbResponse = Breadcrumb[];

@@ -52,8 +52,8 @@ const SingleBreadCrumb: React.FC<{idx: string, breadcrumb: Breadcrumb}> = ({idx,
     }
     
     return (<div className="history-list-item" key={idx}>
-            <a href={breadcrumb.doc_url} target="_blank">{breadcrumb.title ?? breadcrumb.doc_url}</a>
-            {breadcrumb.last_modified != undefined && strFormatDate(breadcrumb.last_modified)}
+            <a href={breadcrumb.doc_url} target="_blank">{chooseLink()}</a>
+            {breadcrumb.last_visited != undefined && strFormatDate(breadcrumb.last_visited)}
         </div>
     );
 }
