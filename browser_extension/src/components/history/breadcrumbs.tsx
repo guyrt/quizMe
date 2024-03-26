@@ -32,9 +32,12 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
 
         {loading === true ? 
             <p>loading...</p> : 
-            <>
-                {breadcrumbs.map((entry, i) => <SingleBreadCrumb idx={`bc_${i}`} breadcrumb={entry}/>)}
-            </>
+
+            breadcrumbs.length > 0 ? 
+                <>
+                    {breadcrumbs.map((entry, i) => <SingleBreadCrumb idx={`bc_${i}`} breadcrumb={entry}/>)}
+                </>
+                : <div>Woah... nothing here. You're at the edge of your internet!</div>
         }
         {error === true && <p>Breadcrumbs will be ready in a jiffy.</p>}
     </>) ;
