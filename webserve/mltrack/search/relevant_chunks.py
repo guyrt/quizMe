@@ -51,6 +51,9 @@ def find_relevant_chunks(raw_doc: RawDocCapture):
     return chunk_matches
 
 
+_threshold = 0.5
+
+
 def find_relevant_docs(raw_doc: RawDocCapture):
     """Simple strategy... take max score"""
     chunks = list(
@@ -85,4 +88,5 @@ def find_relevant_docs(raw_doc: RawDocCapture):
     return [
         {"doc_id": k, "doc_url": doc_urls[k], "score": v}
         for k, v in doc_matches.items()
+        if v < _threshold
     ]
