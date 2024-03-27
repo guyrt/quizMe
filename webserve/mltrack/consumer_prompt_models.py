@@ -29,6 +29,8 @@ class ConsumerPromptTrack(models.Model):
 
 
 class UserLevelVectorIndex(models.Model):
+    """These store chunk level vectors."""
+
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -44,5 +46,27 @@ class UserLevelVectorIndex(models.Model):
     embedding = VectorField(dimensions=384)
     embedding_type = models.CharField(max_length=64)
     chunk_index = models.IntegerField()
+
+    objects = UserLevelVectorIndexManager()
+
+
+class UserLevelDocVectorIndex(models.Model):
+    """These store page level vectors."""
+
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    date_added = models.DateTimeField(auto_now_add=True)
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    # this should be a SingleUrl.
+    doc_id = models.UUIDField()
+    doc_url = models.CharField(max_length=2024)
+
+    embedding = VectorField(dimensions=384)
+
+    # describe strategy to create doc embedding.
+    vector_strategy = models.CharField(max_length=64)
+
+    embedding_type = models.CharField(max_length=64)
 
     objects = UserLevelVectorIndexManager()

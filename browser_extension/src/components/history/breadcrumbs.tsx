@@ -33,7 +33,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
         {loading === true ? 
             <p>loading...</p> : 
 
-            breadcrumbs.length > 0 ? 
+            error == false && breadcrumbs.length > 0 ? 
                 <>
                     {breadcrumbs.map((entry, i) => <SingleBreadCrumb idx={`bc_${i}`} breadcrumb={entry}/>)}
                 </>
