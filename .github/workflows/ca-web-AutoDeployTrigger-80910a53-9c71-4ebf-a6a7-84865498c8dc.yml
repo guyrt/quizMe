@@ -8,7 +8,7 @@ on:
       [ main ]
     paths:
     - '**'
-    - '.github/workflows/ca-web-AutoDeployTrigger-94793469-c520-4c0c-9626-073db5e7f84e.yml'
+    - '.github/workflows/ca-web-AutoDeployTrigger-80910a53-9c71-4ebf-a6a7-84865498c8dc.yml'
 
   # Allow manual trigger 
   workflow_dispatch:
@@ -30,12 +30,12 @@ jobs:
         uses: azure/container-apps-deploy-action@v2
         with:
           appSourcePath: ${{ github.workspace }} 
-          registryUrl: flexindex.azurecr.io
+          registryUrl: acrwezoimages.azurecr.io
           registryUsername: ${{ secrets.CAWEB_REGISTRY_USERNAME }}
           registryPassword: ${{ secrets.CAWEB_REGISTRY_PASSWORD }}
           containerAppName: ca-web
           resourceGroup: rg-docintel
-          imageToBuild: flexindex.azurecr.io/ca-web:${{ github.sha }}
+          imageToBuild: acrwezoimages.azurecr.io/ca-web:${{ github.sha }}
           
             
 
