@@ -65,6 +65,7 @@ class UserLevelDocVectorIndex(models.Model):
     embedding = VectorField(dimensions=384)
 
     # describe strategy to create doc embedding.
+    # perhaps make a choice later.
     vector_strategy = models.CharField(max_length=64)
 
     embedding_type = models.CharField(max_length=64)
