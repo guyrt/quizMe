@@ -14,6 +14,7 @@ from parser_utils.webutils.freeassociate_parser_driver import process_raw_doc
 from users.apiauth import ApiKey
 from mltrack.search.relevant_chunks import (
     NoChunksError,
+    RelevantDocumentIndexChoice,
     find_relevant_chunks,
     find_relevant_docs,
 )
@@ -256,12 +257,12 @@ def search_doc_chunks(request, item_id: uuid.UUID):
     "/rawdoccaptures/{item_id}/docsearch",
     response={200: List[SearchDoc], 202: WaitResponse},
 )
-def search_doc(request, item_id: uuid.UUID):
+def search_doc(request, item_id: uuid.UUID, method: RelevantDocumentIndexChoice = None):
     raw_doc_capture = get_object_or_404(
         RawDocCapture, id=item_id, active=1, user=request.auth
     )
     try:
-        docs = find_relevant_docs(raw_doc_capture.url_model)
+        docs = find_relevant_docs(raw_doc_capture.url_model, method)
         docs = sorted(docs, key=lambda x: x["score"])
         docs = docs[:5]
 

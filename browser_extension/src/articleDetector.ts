@@ -2,6 +2,14 @@ import { DomClassification } from "./interfaces";
 
 export function classifyPage(url : Location) : DomClassification {
 
+    const maybeSerp = getSerps();
+    if (maybeSerp != undefined) {
+        return {
+            classification: "serp",
+            reason: "serp"
+        }
+    }
+
     // some pages have many articles - these are typically homepages like stratechery.com or espn.com/mlb
     const numArticles = document.querySelectorAll('article').length;
     if (numArticles > 0 && numArticles < 3) {
@@ -49,14 +57,6 @@ export function classifyPage(url : Location) : DomClassification {
             reason : "textContent"
         }
     }
-
-    const maybeSerp = getSerps();
-    if (maybeSerp != undefined) {
-        return {
-            classification: "serp",
-            reason: "serp"
-        }
-    } 
 
     // fallback to no
     return {

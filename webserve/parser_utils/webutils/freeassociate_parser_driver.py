@@ -16,7 +16,6 @@ from .web_embedder import WebDocEmbedder
 import logging
 
 logger = logging.getLogger("default")
-# 224a6abd-0cd4-4491-88fe-0636ab037f2c
 
 
 class WebParserDriver:
@@ -27,11 +26,6 @@ class WebParserDriver:
 
     def process_impression(self, impression: RawDocCapture):
         # you could group these two statements in async.
-        try:
-            raw_dom = parse_contents(impression.get_content_prefer_readable())
-        except ValueError:
-            logger.warning("Failed to find a blob for impression %s", impression.pk)
-
         single_url = impression.url_model
 
         try:
@@ -42,6 +36,12 @@ class WebParserDriver:
                 return
         except SingleUrlFact.DoesNotExist:
             # not an article.
+            return
+
+        try:
+            raw_dom = parse_contents(impression.get_content_prefer_readable())
+        except ValueError:
+            logger.warning("Failed to find a blob for impression %s", impression.pk)
             return
 
         # these can run in parallel
@@ -57,6 +57,8 @@ class WebParserDriver:
         chunks = RecursiveHtmlChunker().parse(raw_dom)
         chunks = [c for c in chunks if len(c) > 0]
         logger.info("Parsed raw doc %s into %s chunks", impression.pk, len(chunks))
+        if len(chunks) == 0:
+            return
 
         embeddings = self._embedder.embed([chunk.content for chunk in chunks])
         vector_models = self._create_chunk_embeddings(
@@ -114,17 +116,18 @@ class WebParserDriver:
         new_vectors: List[UserLevelVectorIndex],
     ):
         with transaction.atomic():
-            UserLevelDocVectorIndex.objects.filter(doc_id=url.pk).delete()
+            UserLevelDocVectorIndex.objects.filter(
+                doc_id=url.pk, vector_strategy=doc_vector.vector_strategy
+            ).delete()
             UserLevelDocVectorIndex.objects.bulk_create([doc_vector])
             UserLevelVectorIndex.objects.filter(doc_id=url.pk).delete()
             UserLevelVectorIndex.objects.bulk_create(new_vectors)
 
 
 @job
-def process_raw_doc(single_url_pk: UUID4):
-    logger.info("Start to process %s", single_url_pk)
+def process_raw_doc(raw_doc_pk: UUID4):
+    logger.info("Start to process %s", raw_doc_pk)
     w = WebParserDriver()
-    surl = SingleUrl.objects.get(id=single_url_pk)
-    r = surl.rawdoccapture_set.order_by("-date_added").first()
+    raw_d = RawDocCapture.objects.get(id=raw_doc_pk)
 
-    w.process_impression(r)
+    w.process_impression(raw_d)
