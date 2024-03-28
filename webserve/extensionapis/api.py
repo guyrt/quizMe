@@ -1,3 +1,4 @@
+from dataclasses import asdict
 import logging
 import uuid
 from datetime import datetime
@@ -263,24 +264,25 @@ def search_doc(request, item_id: uuid.UUID, method: RelevantDocumentIndexChoice 
     )
     try:
         docs = find_relevant_docs(raw_doc_capture.url_model, method)
-        docs = sorted(docs, key=lambda x: x["score"])
+        docs = sorted(docs, key=lambda x: x.score)
         docs = docs[:5]
 
-        doc_ids = [d["doc_id"] for d in docs]
+        doc_ids = [d.doc_id for d in docs]
         enrichments = enrich_doc_ids(request.auth, doc_ids)
 
         enriched_docs = []
         for doc in docs:
-            if doc["doc_id"] in enrichments:
-                enriched_doc = enrichments[doc["doc_id"]]
-                doc.update(
+            if doc.doc_id in enrichments:
+                enriched_doc = enrichments[doc.doc_id]
+                doc_dict = asdict(doc)
+                doc_dict.update(
                     {
                         "title": enriched_doc.title,
                         "last_visited": enriched_doc.last_visited,
                     }
                 )
 
-            enriched_docs.append(doc)
+            enriched_docs.append(doc_dict)
 
         return docs[:5]
     except NoChunksError:

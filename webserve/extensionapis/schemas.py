@@ -99,6 +99,7 @@ class SearchDoc(Schema):
     doc_id: str
     doc_url: str
     score: float
+    chunk: str
     title: str = ""
     last_visited: datetime = None
 

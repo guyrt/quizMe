@@ -3,6 +3,17 @@ from django.db import models
 from extensionapis.models import SingleUrl
 from mltrack.consumer_prompt_models import UserLevelDocVectorIndex, UserLevelVectorIndex
 
+from dataclasses import dataclass
+from typing import List
+
+
+@dataclass
+class DocumentSearchResponse:
+    doc_id: str
+    doc_url: str
+    score: float
+    chunk: str
+
 
 class NoChunksError(Exception):
     pass
@@ -57,7 +68,9 @@ class RelevantDocumentIndexChoice(str, Enum):
     sifOnChunkAverage = "SifFromChunkAverage"
 
 
-def find_relevant_docs(url_obj: SingleUrl, strategy: RelevantDocumentIndexChoice):
+def find_relevant_docs(
+    url_obj: SingleUrl, strategy: RelevantDocumentIndexChoice
+) -> List[DocumentSearchResponse]:
     if strategy is None:
         strategy = RelevantDocumentIndexChoice.maxChunkMatch
 
@@ -69,13 +82,13 @@ def find_relevant_docs(url_obj: SingleUrl, strategy: RelevantDocumentIndexChoice
         raise ValueError(f"Unexpected value {strategy}")
 
 
-def _find_relevant_docs_sif(raw_doc: SingleUrl):
+def _find_relevant_docs_sif(raw_doc: SingleUrl) -> List[DocumentSearchResponse]:
     try:
         docs = UserLevelDocVectorIndex.objects.filter(doc_id=raw_doc.pk).get()
     except UserLevelDocVectorIndex.DoesNotExist:
         raise NoChunksError()
 
-    doc_results = UserLevelVectorIndex.objects.search_by_embedding(
+    doc_results = UserLevelDocVectorIndex.objects.search_by_embedding(
         user_id=raw_doc.user.pk,
         embedding_vector=docs.embedding,
         exclude_doc_id=raw_doc.pk,
@@ -84,7 +97,9 @@ def _find_relevant_docs_sif(raw_doc: SingleUrl):
     )
 
     return [
-        {"doc_id": str(doc.pk), "doc_url": doc.doc_url, "score": doc.dist}
+        DocumentSearchResponse(
+            doc_id=str(doc.doc_id), doc_url=doc.doc_url, score=doc.dist, chunk=""
+        )
         for doc in doc_results
     ]
 
@@ -92,7 +107,7 @@ def _find_relevant_docs_sif(raw_doc: SingleUrl):
 _threshold = 0.5
 
 
-def _find_relevant_docs_max_chunk(url_obj: SingleUrl):
+def _find_relevant_docs_max_chunk(url_obj: SingleUrl) -> List[DocumentSearchResponse]:
     """Simple strategy... take max score"""
     chunks = list(
         UserLevelVectorIndex.objects.filter(doc_id=url_obj.pk).exclude(
@@ -103,8 +118,9 @@ def _find_relevant_docs_max_chunk(url_obj: SingleUrl):
     if len(chunks) == 0:
         raise NoChunksError()
 
-    doc_matches = {}  # doc_id -> highest score
+    doc_matches = {}  # doc_id -> best score
     doc_urls = {}  # doc_id -> url
+    doc_chunks = {}  # doc_id -> argmin(score, chunk)
     for chunk in chunks:
         matches: models.Manager = UserLevelVectorIndex.objects.search_by_embedding(
             user_id=url_obj.user.pk,
@@ -119,12 +135,16 @@ def _find_relevant_docs_max_chunk(url_obj: SingleUrl):
             if doc_id not in doc_matches:
                 doc_matches[doc_id] = 1.0
                 doc_urls[doc_id] = m.doc_url
+                doc_chunks[doc_id] = m.doc_chunk
 
             if doc_matches[doc_id] > m.dist:
                 doc_matches[doc_id] = m.dist
+                doc_chunks[doc_id] = m.doc_chunk
 
     return [
-        {"doc_id": k, "doc_url": doc_urls[k], "score": v}
+        DocumentSearchResponse(
+            doc_id=k, doc_url=doc_urls[k], score=v, chunk=doc_chunks[k]
+        )
         for k, v in doc_matches.items()
         if v < _threshold
     ]
