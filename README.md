@@ -52,5 +52,15 @@ Back-end (pytest) [readme](./test/README.md)
 This is the override for workers: `/bin/bash, -c, python /app/manage.py rqworker; echo hello; sleep 1000000`
 You're running 4gb ram and 2 CPUs for worker.
 
+You want to release with:
+
+registry == registry.hub.docker.com
+username == guyrt
+password == 
+
+then pick your image.
+
+https://github.com/microsoft/azure-container-apps/issues/352
+
 ## Relevance Learnings
 I ran some experiments in [doc_embedding](./webserve/parser_utils/webutils/doc_embedding.py) that produced a document embedding rather than a set of chunk embeddings. Not sure if I've got best also (SIF with mean correct) but relevant sucks for doc embedding compared to the chunk embed. Perhaps it's best to find the *best* chunk than to find a generally on topic doc?
