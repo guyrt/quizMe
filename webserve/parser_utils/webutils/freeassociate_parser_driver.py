@@ -125,9 +125,10 @@ class WebParserDriver:
 
 
 @job
-def process_raw_doc(raw_doc_pk: UUID4):
-    logger.info("Start to process %s", raw_doc_pk)
+def process_raw_doc(single_url_pk: UUID4):
+    logger.info("Start to process %s", single_url_pk)
     w = WebParserDriver()
-    raw_d = RawDocCapture.objects.get(id=raw_doc_pk)
+    surl = SingleUrl.objects.get(id=single_url_pk)
+    r = surl.rawdoccapture_set.order_by("-date_added").first()
 
-    w.process_impression(raw_d)
+    w.process_impression(r)

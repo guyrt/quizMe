@@ -4,7 +4,7 @@ from django_rq import enqueue
 from pydantic import UUID4
 from mltrack.schemas import UserLevelVectorIndexSchema
 from users.apiauth import ApiKey
-from extensionapis.models import RawDocCapture
+from extensionapis.models import SingleUrl
 from mltrack.consumer_prompt_models import UserLevelVectorIndex
 from parser_utils.webutils.freeassociate_parser_driver import process_raw_doc
 
@@ -16,7 +16,7 @@ router = Router(auth=[ApiKey()], tags=["ml"])
 
 @router.post("/reprocess")
 def write_dom(request):
-    urls = RawDocCapture.objects.filter(user=request.auth)
+    urls = SingleUrl.objects.filter(user=request.auth)
     for url in urls:
         enqueue(process_raw_doc, url.pk)
     return {"num_docs": len(urls)}
