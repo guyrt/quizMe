@@ -39,18 +39,20 @@ function MainApp() {
     
     return (
         <>
-            {state == "PageNotUploaded" && <LoadingGif message={"Loading! Hang tight..."} wait={1500}/>}
-            {state == "UploadError" && <SidePanelError isError={true}/>}
-            {state == "Reload" && <SidePanelError isError={false} />}
-            {state == "EmptyPage" && <p>Don't just stand there... open something!</p> }
-            {state == "PageUploadedAndClassified" && <SidePanelStats />}
-            {state == "PageBlocked" && <BlockedPage />}
-            {state == "UserLoggedOut" && <div>You are logged out. <SidePanelSignInOptions /></div>}
-            {state == "ShowUserSettings" && <SidePanelLoggedInUserSettings />}
+            <div className="main-content">
+                {state == "PageNotUploaded" && <LoadingGif message={"Loading! Hang tight..."} wait={1500}/>}
+                {state == "UploadError" && <SidePanelError isError={true}/>}
+                {state == "Reload" && <SidePanelError isError={false} />}
+                {state == "EmptyPage" && <p>Don't just stand there... open something!</p> }
+                {state == "PageUploadedAndClassified" && <SidePanelStats />}
+                {state == "PageBlocked" && <BlockedPage />}
+                {state == "UserLoggedOut" && <div>You are logged out. <SidePanelSignInOptions /></div>}
+                {state == "ShowUserSettings" && <SidePanelLoggedInUserSettings />}
+            </div>
             {state != "ShowUserSettings" && 
-            <footer className="footer">
-                <a href="#" onClick={handleSettingsClick} className="settings-link">Show User Settings</a>
-            </footer>
+                <footer className="footer">
+                    <a href="#" onClick={handleSettingsClick} className="settings-link">Show User Settings</a>
+                </footer>
             }
         </>
     );

@@ -30,15 +30,15 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
     return (<>
         <h3>Breadcrumbs</h3>
 
-        {loading === true ? 
+        {error == false && (loading === true ? 
             <p>loading...</p> : 
 
-            error == false && breadcrumbs.length > 0 ? 
+            breadcrumbs.length > 0 ? 
                 <>
                     {breadcrumbs.map((entry, i) => <SingleBreadCrumb idx={`bc_${i}`} breadcrumb={entry}/>)}
                 </>
                 : <div>Woah... nothing here. You're at the edge of your internet!</div>
-        }
+        )}
         {error === true && <p>Breadcrumbs will be ready in a jiffy.</p>}
     </>) ;
 
@@ -46,6 +46,24 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
 
 const SingleBreadCrumb: React.FC<{idx: string, breadcrumb: Breadcrumb}> = ({idx, breadcrumb}) => {
     
+    function trimChunkStart(text : string) : string {
+        const regex = /^[\s\.,;)\t]+/;
+        return text.replace(regex, '');
+    }
+
+    function cleanChunk() {
+        let c = breadcrumb.chunk;
+        c = trimChunkStart(c);
+        
+        if (c[0] < 'A' || c[0] > 'Z') {
+            c = '... ' + c;
+        }
+        if (c.length > 25){
+            c = c.substring(0, 1500) + "...";
+        }
+        return c;
+    }
+
     function chooseLink() {
         if (breadcrumb.title == undefined || breadcrumb.title == "") {
             return breadcrumb.doc_url;
@@ -57,6 +75,7 @@ const SingleBreadCrumb: React.FC<{idx: string, breadcrumb: Breadcrumb}> = ({idx,
     return (<div className="history-list-item" key={idx}>
             <a href={breadcrumb.doc_url} target="_blank">{chooseLink()}</a>
             {breadcrumb.last_visited != undefined && strFormatDate(breadcrumb.last_visited)}
+            {breadcrumb.chunk != "" && <p className="breadcrumb-link">{cleanChunk()}</p>}
         </div>
     );
 }

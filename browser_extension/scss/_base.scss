@@ -1,17 +1,25 @@
 body {
     background: #{$backgroundColor};
     height: auto;
+    min-height: calc(100vh - 100px);
     font-family: "Lexend";
     //font-weight: bold;
     margin: 0;
     padding: 1rem;
+    flex-direction: column;
+}
+
+div.main-content {
+    min-height: calc(100vh - 90px);
+    flex: 1;
 }
 
 .footer {
-    position: absolute;
-    bottom: 0; // Pins the footer to the bottom
-    padding: 10px; // Adjust padding as needed
+    padding-top: 10px; // Adjust padding as needed
     text-align: center; // Centers the link
+    height: 25px;
+    overflow: hidden;
+    margin-top: auto;
 }
 
 .buttonWrap {

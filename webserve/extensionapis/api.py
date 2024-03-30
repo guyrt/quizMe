@@ -282,7 +282,7 @@ def search_doc(request, item_id: uuid.UUID, method: RelevantDocumentIndexChoice 
                     }
                 )
 
-            enriched_docs.append(doc_dict)
+                enriched_docs.append(doc_dict)
 
         return docs[:5]
     except NoChunksError:
