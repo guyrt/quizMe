@@ -46,7 +46,7 @@ function MainApp() {
                 {state == "EmptyPage" && <p>Don't just stand there... open something!</p> }
                 {state == "PageUploadedAndClassified" && <SidePanelStats />}
                 {state == "PageBlocked" && <BlockedPage />}
-                {state == "UserLoggedOut" && <div>You are logged out. <SidePanelSignInOptions /></div>}
+                {state == "UserLoggedOut" && <SidePanelSignInOptions />}
                 {state == "ShowUserSettings" && <SidePanelLoggedInUserSettings />}
             </div>
             {state != "ShowUserSettings" && 

@@ -42,6 +42,15 @@ const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) 
 
     }
 
+    const innerSignup = () => {
+        if (doNav) {
+            const navigate = useNavigate();
+            navigate('/signup');
+        } else {
+            handleSignUp();
+        }
+    }
+
     const onPasswordEnterCheck = (event : React.KeyboardEvent) => {
         if (event.key === 'Enter') {
             signIn();
@@ -53,31 +62,33 @@ const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) 
     return (
         <>
             <div>
-                Sign in!
+                <h3>Let's get you back on track.</h3>
                 <div>
-                    <p>New here?</p>
-                    <a href='#' onClick={() => handleSignUp()}>Sign up instead (todo fix this in options)</a>
+                    <p>
+                        New here?&nbsp;
+                        <a href='#' onClick={() => innerSignup()}>Sign up instead.</a>
+                    </p>
                 </div>
 
-                <label htmlFor="username">Email Address</label>
-                <br/>
+                <label htmlFor="username" className='standard'>Email Address</label>
                 <input 
+                    className="standard"
                     type="text" 
                     id="username" 
                     ref={usernameRef}
                 />
                 <br/>
 
-                <label htmlFor="password" >Password</label>
-                <br/>
+                <label htmlFor="password" className='standard'>Password</label>
                 <input 
+                    className="standard"
                     type="password" 
                     id="password" 
                     ref={passwordRef}
                     onKeyDown={onPasswordEnterCheck}
                 />
-
-                <button id="save" onClick={signIn}>Sign in!</button>
+                <br />
+                <button className="standard" id="save" onClick={signIn}>Sign in!</button>
 
                 {error && <div className="error">{error}</div>}
             </div>

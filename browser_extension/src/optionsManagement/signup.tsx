@@ -64,33 +64,36 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSwitchToSignIn, han
 
     return (
         <>
-        Welcome!
-        <div>
-                <label htmlFor="username">Email Address</label>
+            <h3>Welcome!</h3>
+            <div>
+                <label htmlFor="username" className='standard'>Email Address</label>
                 <input 
+                    className="standard"
                     type="text" 
                     id="username" 
                     ref={usernameRef}
                 />
                 <br/>
 
-                <label htmlFor="password">Password</label>
+                <label htmlFor="password" className='standard'>Password</label>
                 <input 
+                    className="standard"
                     type="password" 
                     id="password" 
                     ref={passwordRef}
                 />
                 <br/>
 
-                <label htmlFor="password2">Double check</label>
-                <input 
+                <label htmlFor="password2" className='standard'>Re-enter your password.</label>
+                <input
+                    className="standard" 
                     type="password" 
                     id="password2"
                     ref={password2Ref}
                     onKeyDown={onPasswordEnterCheck}
                 />
                 <br/>
-                <button id="save" onClick={signUp}>Sign in!</button>
+                <button className="standard" id="save" onClick={signUp}>Sign in!</button>
                 <br/>
                 {error && <div className="error">{error}</div>}
                 {showSignIn && <p><a href='#' onClick={() => handleSwitchToSignIn()}>Click here to sign in.</a></p>}

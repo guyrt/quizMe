@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 from extensionapis.api import router
 from extensionapis.models import RawDocCapture
-from mltrack.search.relevant_chunks import NoChunksError
+from mltrack.search.relevant_chunks import DocumentSearchResponse, NoChunksError
 
 from ..users.fixtures import existing_user, TestClientWithDefaultHeaders  # noqa
 from .fixtures import single_url_factory  # noqa
@@ -23,11 +23,12 @@ def api_client():
 def return_some_matches(monkeypatch: MonkeyPatch):
     mock_docs = MagicMock()
     mock_docs.return_value = [
-        {
-            "doc_id": "c1bd1057-d1c6-4457-ae87-261e3a262ce6",
-            "doc_url": "test.com/test",
-            "score": 0.1,
-        }
+        DocumentSearchResponse(
+            doc_id="c1bd1057-d1c6-4457-ae87-261e3a262ce6",
+            doc_url="test.com/test",
+            score=0.1,
+            chunk="chunk",
+        )
     ]
 
     monkeypatch.setattr("extensionapis.api.find_relevant_docs", mock_docs)
