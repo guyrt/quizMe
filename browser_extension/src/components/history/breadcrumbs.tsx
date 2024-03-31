@@ -58,14 +58,19 @@ const SingleBreadCrumb: React.FC<{idx: string, breadcrumb: Breadcrumb}> = ({idx,
         if (c[0] < 'A' || c[0] > 'Z') {
             c = '... ' + c;
         }
+
         if (c.length > 25){
-            c = c.substring(0, 1500) + "...";
+            c = c.substring(0, 300) + "...";
         }
         return c;
     }
 
     function chooseLink() {
         if (breadcrumb.title == undefined || breadcrumb.title == "") {
+            if (breadcrumb.doc_url.length > 47) {
+                return breadcrumb.doc_url.substring(0, 47) + '...';
+            }
+
             return breadcrumb.doc_url;
         } else {
             return breadcrumb.title;

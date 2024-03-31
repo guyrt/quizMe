@@ -272,9 +272,9 @@ def search_doc(request, item_id: uuid.UUID, method: RelevantDocumentIndexChoice 
 
         enriched_docs = []
         for doc in docs:
+            doc_dict = asdict(doc)
             if doc.doc_id in enrichments:
                 enriched_doc = enrichments[doc.doc_id]
-                doc_dict = asdict(doc)
                 doc_dict.update(
                     {
                         "title": enriched_doc.title,
@@ -283,8 +283,9 @@ def search_doc(request, item_id: uuid.UUID, method: RelevantDocumentIndexChoice 
                 )
 
                 enriched_docs.append(doc_dict)
-
-        return docs[:5]
+            else:
+                enriched_docs.append(doc_dict)
+        return enriched_docs[:5]
     except NoChunksError:
         return Response({"status": "wait"}, status=202)
 
