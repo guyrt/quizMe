@@ -60,6 +60,12 @@ class SingleUrlHistorySchema(ModelSchema):
         fields = ["id", "date_added", "url", "host"]
 
 
+class SingleUrlGroupedHistorySchema(Schema):
+    title: str
+    head: str
+    urls: List[SingleUrlHistorySchema]
+
+
 class RawDocCaptureHistorySchema(ModelSchema):
     class Meta:
         model = RawDocCapture
@@ -82,7 +88,7 @@ class RecentPageVisits(Schema):
 
 class VisitHistorySchema(Schema):
     recent_page_visits: RecentPageVisits
-    recent_domain_visits: List[SingleUrlHistorySchema]
+    recent_domain_visits: List[SingleUrlGroupedHistorySchema]
 
 
 class WriteDomReturnSchema(Schema):

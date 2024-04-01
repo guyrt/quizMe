@@ -36,11 +36,15 @@ export type VisitHistory = {
         }
     },
     recent_domain_visits: {
-        guid: string,
-        date_added: string,
-        url: string,
-        host: string,
-        recent_title : string
+        title: string,
+        head: string,
+        urls: {
+            guid: string,
+            date_added: string,
+            url: string,
+            host: string,
+            recent_title : string
+        }[]
     }[]
 }
 

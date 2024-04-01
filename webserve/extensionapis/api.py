@@ -32,6 +32,8 @@ from .schemas import (
     RawDocCaptureSchema,
     RawDocCaptureWithContentSchema,
     SearchDoc,
+    SingleUrlHistorySchema,
+    VisitHistorySchema,
     WaitResponse,
     WriteDomReturnSchemaWithHistory,
 )
@@ -236,7 +238,19 @@ def get_raw_doc(request, item_id: uuid.UUID):
     )
 
 
-@router.get("/url/{item_id}/reprocess")
+@router.get("/singleurls/", response=List[SingleUrlHistorySchema])
+@pagination.paginate()
+def get_single_url_list(request):
+    return SingleUrl.objects.filter(user=request.auth, active=1)
+
+
+@router.get("/singleurls/{item_id}", response=VisitHistorySchema)
+def get_single_url_history(request, item_id: uuid.UUID):
+    url = get_object_or_404(SingleUrl, user=request.auth, active=1, id=item_id)
+    return build_page_domain_history(url)
+
+
+@router.get("/url/{item_id}/reprocess", response=dict)
 def reprocess_raw_doc(request, item_id: uuid.UUID):
     single_url = get_object_or_404(SingleUrl, id=item_id, active=1, user=request.auth)
     enqueue(process_raw_doc, single_url.pk)

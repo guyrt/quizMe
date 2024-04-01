@@ -8,6 +8,8 @@ from quizzes.models import get_simple_quiz, SimpleQuizResults
 from quizzes.schemas import SimpleQuizSchema, UploadQuizResultsSchema
 from users.models import User
 
+from .domain_summary.basic_domain_summary import summarize_domain
+
 
 @dataclass
 class SingleUrlContext:
@@ -24,24 +26,7 @@ def build_page_domain_history(single_url: SingleUrl):
     else:
         latest_visit = None
 
-    other_urls = (
-        SingleUrl.objects.filter(user=single_url.user, active=1)
-        .exclude(id=single_url.pk)
-        .filter(host=single_url.host)
-        .order_by("-date_added")[:5]
-    )
-
-    most_recent_capture = RawDocCapture.objects.filter(
-        url_model=OuterRef("pk")
-    ).order_by("-date_added")
-
-    # We use a subquery to get the title of the most recent capture
-    recent_capture_title = most_recent_capture.values("title")[:1]
-
-    # Now, annotate the SingleUrl queryset
-    single_urls_with_title = other_urls.annotate(
-        recent_title=Subquery(recent_capture_title)
-    )
+    single_urls_with_title = summarize_domain(single_url)
 
     return {
         "recent_page_visits": {
