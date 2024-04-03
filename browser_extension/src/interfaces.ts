@@ -27,6 +27,19 @@ export interface UploadableDomShape extends DomShape {
 }
 
 
+export type RecentDomainVisits = {
+    title: string,
+    head: string,
+    urls: {
+        guid: string,
+        date_added: string,
+        url: string,
+        host: string,
+        recent_title : string
+    }[]
+}
+
+
 export type VisitHistory = {
     recent_page_visits: {
         number_visits: number,
@@ -35,17 +48,7 @@ export type VisitHistory = {
             date_added: string // datetime
         }
     },
-    recent_domain_visits: {
-        title: string,
-        head: string,
-        urls: {
-            guid: string,
-            date_added: string,
-            url: string,
-            host: string,
-            recent_title : string
-        }[]
-    }[]
+    recent_domain_visits: RecentDomainVisits[]
 }
 
 

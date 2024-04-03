@@ -1,5 +1,5 @@
 import React from "react";
-import { VisitHistory } from "../../interfaces";
+import { RecentDomainVisits, VisitHistory } from "../../interfaces";
 import { strFormatDate } from "../../utils/datetime";
 
 // Component Props type
@@ -12,7 +12,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
 
     return (
         <div>
-            <h3>Page Details</h3>
+            <h3>Site Details</h3>
             {history.recent_page_visits.number_visits > 0 && history.recent_page_visits.latest_visit != undefined
                 ? <div>
                     <p>You've visited this page {history.recent_page_visits.number_visits} time{history.recent_page_visits.number_visits > 1 ? 's' : ''} before.</p>
@@ -20,17 +20,33 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
                 </div> 
                 : <div>This is your first time here!</div>}
             {history.recent_domain_visits.length > 0 && <div>
-                <p>Last {history.recent_domain_visits.length} pages in this domain:</p>
                 
-                {history.recent_domain_visits[0].urls.map((x, i) => 
-                    <div className='history-list-item' key={`domain_${i}`}>
-                        <a href={x.url} target="_blank">{x.recent_title}</a>
-                        {strFormatDate(x.date_added)}
-                    </div>
-                )}
+                {history.recent_domain_visits.map((x, i) => <SingleHistorySection idx={i} keyprefix={`history_${i}`} history={x} />)}
             </div>}
         </div>
     );
 };
+
+const SingleHistorySection : React.FC<{idx: number, keyprefix: string, history : RecentDomainVisits}> = ({idx, keyprefix, history}) => {
+
+    return (
+        <>
+        {(idx > 0) && <hr />}
+            <div key={keyprefix}>
+                {history.title == '__default__' ? 
+                    <h4>Your history on {history.head}</h4> 
+                    : <h4>{history.title}</h4>
+                }
+
+                {history.urls.slice(0, 8).map((x, i) => 
+                    <div className='history-list-item' key={`${keyprefix}_${i}`}>
+                        <a href={x.url} target="_blank">{x.recent_title}</a>
+                        {strFormatDate(x.date_added)}
+                    </div>
+                )}
+            </div>
+        </>
+    )
+}
 
 export default HistorySection;
