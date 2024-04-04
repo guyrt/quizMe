@@ -17,10 +17,10 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
                 ? <div>
                     <p>You've visited this page {history.recent_page_visits.number_visits} time{history.recent_page_visits.number_visits > 1 ? 's' : ''} before.</p>
                     <p>Last visit {strFormatDate(history.recent_page_visits.latest_visit?.date_added)}</p>
-                </div> 
+                </div>
                 : <div>This is your first time here!</div>}
             {history.recent_domain_visits.length > 0 && <div>
-                
+
                 {history.recent_domain_visits.map((x, i) => <SingleHistorySection idx={i} keyprefix={`history_${i}`} history={x} />)}
             </div>}
         </div>
@@ -33,12 +33,12 @@ const SingleHistorySection : React.FC<{idx: number, keyprefix: string, history :
         <>
         {(idx > 0) && <hr />}
             <div key={keyprefix}>
-                {history.title == '__default__' ? 
-                    <h4>Your history on {history.head}</h4> 
+                {history.title == '__default__' ?
+                    <h4>Your history on {history.head}</h4>
                     : <h4>{history.title}</h4>
                 }
 
-                {history.urls.slice(0, 8).map((x, i) => 
+                {history.urls.slice(0, 8).map((x, i) =>
                     <div className='history-list-item' key={`${keyprefix}_${i}`}>
                         <a href={x.url} target="_blank">{x.recent_title}</a>
                         {strFormatDate(x.date_added)}

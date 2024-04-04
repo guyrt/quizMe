@@ -27,13 +27,13 @@ export default function SidePanelStats() {
             const activeElement = fsm.getActiveDetails();
 
             setFiniteState(state);
-            
+
             console.log("Writing context ", activeElement?.uploadedDom);
 
             setHeader(activeElement?.title ?? "Unknown page");
             setIsArticle(activeElement?.domClassification?.classification == 'article');
             setQuiz(activeElement?.uploadedDom?.quiz_context);
-            
+
             const quiz_context = activeElement?.uploadedDom?.quiz_context;
             if (quiz_context?.status == 'completed' || quiz_context?.status == "notstarted") {
                 setQuizAnswers(quiz_context.quiz_results);

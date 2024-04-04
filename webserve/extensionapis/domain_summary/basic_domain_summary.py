@@ -42,6 +42,10 @@ def _url_grouping_general(host: str, urls_with_titles: Iterable[SingleUrl]):
     ]
 
 
+def group_ms_learn(urls_with_titles: Iterable[SingleUrl]):
+    pass
+
+
 def group_github(urls_with_titles: Iterable[SingleUrl]):
     homepages = []
     group_pages = []  # github.com/guyrt
@@ -103,11 +107,11 @@ def dict_argmin(lst, key):
     return argmin
 
 
-def get_path_root(url):
+def get_path_root(url, depth=2):
     parsed_url = urlparse(url)
     path = parsed_url.path
     path_segments = path.split("/")
     path_segments = [segment for segment in path_segments if segment]
-    path_prefix = "/".join(path_segments[:2])
+    path_prefix = "/".join(path_segments[:depth])
     url_prefix = f"{parsed_url.scheme}://{parsed_url.netloc}/{path_prefix}"
     return path_prefix, url_prefix

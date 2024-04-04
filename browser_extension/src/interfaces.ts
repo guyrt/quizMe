@@ -1,7 +1,7 @@
 export type DomClassification = {
     classification : "article" | "serp" | "unknown",
     reason : "hasArticleTag" | "dashCount" | "textContent" | "id" | "class" | "serp" | "fallthrough",
-    
+
     // these are specific lookups that are likely candidates.
     idLookup? : string,
     classLookup? : string
@@ -87,13 +87,13 @@ export type QuizResponse = {
     selection : number[]
 }
 
-export type ChromeMessageType = 
+export type ChromeMessageType =
     // these three events are a 2-directional update.
-      "fa_pageLoaded" 
+      "fa_pageLoaded"
     | "fa_pageReloaded"  // fired if the page is a reload.
-    | "fa_getCurrentPage" 
+    | "fa_getCurrentPage"
     | "fa_makequiz"
-    | "fa_uploadQuizResult" 
+    | "fa_uploadQuizResult"
     | "fa_noAPIToken"
     // these pair of events are a 2-direction update.
     | "fa_getQuizHistory"  // sent from SidePanel to Background and expects most recent cached history.
