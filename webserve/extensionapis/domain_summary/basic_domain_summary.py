@@ -56,8 +56,10 @@ def group_github(urls_with_titles: Iterable[SingleUrl]):
     # Do basic grouping
     for page in urls_with_titles:
         path_prefix, _ = get_path_root(page.url)
+        # eliminate login
         if path_prefix.startswith("sessions"):
             continue
+
         if path_prefix == "":
             homepages.append(page)
         elif "/" not in path_prefix:
