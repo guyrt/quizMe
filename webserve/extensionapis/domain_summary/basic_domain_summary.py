@@ -47,8 +47,8 @@ def group_ms_learn(urls_with_titles: Iterable[SingleUrl]):
 
 
 def group_github(urls_with_titles: Iterable[SingleUrl]):
-    homepages = []
-    group_pages = []  # github.com/guyrt
+    homepages: List[SingleUrl] = []
+    group_pages: List[SingleUrl] = []  # github.com/guyrt
     projects: Dict[
         str, List[Dict]
     ] = {}  # project root like github.com/guyrt/project  map to List[urls with titles]
@@ -56,6 +56,8 @@ def group_github(urls_with_titles: Iterable[SingleUrl]):
     # Do basic grouping
     for page in urls_with_titles:
         path_prefix, _ = get_path_root(page.url)
+        if path_prefix.startswith("sessions"):
+            continue
         if path_prefix == "":
             homepages.append(page)
         elif "/" not in path_prefix:
@@ -67,6 +69,7 @@ def group_github(urls_with_titles: Iterable[SingleUrl]):
 
     project_clusters = []
     if len(homepages) > 0:
+        # TODO for each homepage, get shortest url including path.
         project_clusters.append(
             {
                 "title": homepages[0].recent_title,
@@ -80,7 +83,7 @@ def group_github(urls_with_titles: Iterable[SingleUrl]):
             {
                 "title": "People and Organizations",
                 "head": "https://github.com",
-                "urls": group_pages,
+                "urls": dedupe_github_group_pages(group_pages),
             }
         )
 
@@ -94,6 +97,17 @@ def group_github(urls_with_titles: Iterable[SingleUrl]):
         )
 
     return project_clusters
+
+
+def dedupe_github_group_pages(group_pages: Iterable[SingleUrl]):
+    ret_list: List[SingleUrl] = []
+    ret_set = set()
+    for page in group_pages:
+        _, short_url = get_path_root(page.url, depth=100)
+        if short_url not in ret_set:
+            ret_list.append(page)
+            ret_set.append(short_url)
+    return ret_list
 
 
 def dict_argmin(lst, key):

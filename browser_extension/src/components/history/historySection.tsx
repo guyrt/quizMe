@@ -29,6 +29,18 @@ const HistorySection: React.FC<HistorySectionProps> = ({ history }) => {
 
 const SingleHistorySection : React.FC<{idx: number, keyprefix: string, history : RecentDomainVisits}> = ({idx, keyprefix, history}) => {
 
+    function formatTitle(urlObj : {recent_title: string, url : string}) {
+        if (urlObj.recent_title == undefined || urlObj.recent_title == "") {
+            if (urlObj.url.length > 47) {
+                return urlObj.recent_title.substring(0, 47) + '...';
+            }
+
+            return urlObj.url;
+        } else {
+            return urlObj.recent_title;
+        }
+    }
+
     return (
         <>
         {(idx > 0) && <hr />}
@@ -40,7 +52,7 @@ const SingleHistorySection : React.FC<{idx: number, keyprefix: string, history :
 
                 {history.urls.slice(0, 8).map((x, i) =>
                     <div className='history-list-item' key={`${keyprefix}_${i}`}>
-                        <a href={x.url} target="_blank">{x.recent_title}</a>
+                        <a href={x.url} target="_blank">{formatTitle(x)}</a>
                         {strFormatDate(x.date_added)}
                     </div>
                 )}
