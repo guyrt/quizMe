@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 
+{% block title %}
+{{schema.name}}
+{% endblock %}
+
 {% block maincontent %}
     <h1>Schema</h1>
-    {{schema}}
+    {{schema_html | safe}}
 {% endblock %}

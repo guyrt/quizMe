@@ -1,15 +1,23 @@
+import markdown
+
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from customermodels.forms import LargeTextForm
 from customermodels.models import UserSchema
-from customermodels.parsers import create_user_table_from_yaml
+from customermodels.parsers import create_user_table_from_yaml, user_schema_to_markdown
 
 
 @login_required
 def show_schema(request, pk):
     schema = get_object_or_404(UserSchema, pk=pk, user=request.user)
-    return render(request, "customermodels/schema_view.html", {"schema": schema})
+    schema_md = user_schema_to_markdown(request.user, pk)
+    schema_html = markdown.markdown(schema_md, extensions=["tables"])
+    return render(
+        request,
+        "customermodels/schema_view.html",
+        {"schema_md": schema_md, "schema": schema, "schema_html": schema_html},
+    )
 
 
 @login_required
