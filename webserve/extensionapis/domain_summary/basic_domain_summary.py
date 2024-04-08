@@ -35,8 +35,7 @@ def group_ms_learn(urls_with_titles: Iterable[SingleUrl]):
     # basic limit on return size
     urls_with_titles = urls_with_titles[:100]
 
-    sortable_urls = [(u.url, u) for u in urls_with_titles]
-    sortable_urls = sorted(sortable_urls)  # sort on first element.
+    # do a recursive clustering.
 
 
 def group_github(urls_with_titles: Iterable[SingleUrl]):

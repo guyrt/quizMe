@@ -8,10 +8,19 @@ from webserve.mixins import ModelBaseMixin
 #
 # Structure tables
 #
+class UserSchema(ModelBaseMixin):
+    """Stores a reference to set of tables"""
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=1024)
+    description = models.CharField(max_length=4096)
+
+
 class UserTable(ModelBaseMixin):
     """Stores a table shape reference"""
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    schema = models.ForeignKey(UserSchema, on_delete=models.CASCADE)
     name = models.CharField(max_length=1024)
     description = models.CharField(max_length=4096)
 

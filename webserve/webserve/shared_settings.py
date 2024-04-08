@@ -72,6 +72,7 @@ INSTALLED_APPS = [
     "quizzes",
     "sharing",
     "stripehandler",
+    "customermodels",
 ]
 
 MIDDLEWARE = [
