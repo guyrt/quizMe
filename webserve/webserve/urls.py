@@ -16,6 +16,7 @@ urlpatterns = [
         "accounts/", include("django.contrib.auth.urls")
     ),  # Include the authentication URLs
     path("docs/", include("privateuploads.urls")),
+    path("web/", include("extensionapis.urls")),
     path("share/<str:guid>/", ShareLandingRedirectView.as_view(), name="share_landing"),
     path("share/feedback", feedback_submit, name="feedback_submit"),
     path("stripe_hook", stripe_hook, name="stripe_hook"),

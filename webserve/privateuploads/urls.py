@@ -10,26 +10,28 @@ urlpatterns = [
         name="doc_cluster_feedback",
     ),
     path(
-        "<int:pk>", views.DocumentClusterDetailView.as_view(), name="doc_cluster_detail"
+        "<uuid:pk>",
+        views.DocumentClusterDetailView.as_view(),
+        name="doc_cluster_detail",
     ),
     path(
-        "<int:pk>/delete",
+        "<uuid:pk>/delete",
         views.DocumentClusterDeleteView.as_view(),
         name="doc_cluster_delete",
     ),
     path(
-        "<int:pk>/reprocess",
+        "<uuid:pk>/reprocess",
         views.DocumentClusterReprocessView.as_view(),
         name="doc_cluster_reprocess",
     ),
     path(
-        "<int:pk>/share",
+        "<uuid:pk>/share",
         views.DocumentClusterCreateShareView.as_view(),
         name="doc_cluster_share",
     ),
-    path("<int:pk>/raw", views.DocumentFileRawView.as_view(), name="doc_file_raw"),
+    path("<uuid:pk>/raw", views.DocumentFileRawView.as_view(), name="doc_file_raw"),
     path(
-        "<int:pk>/original",
+        "<uuid:pk>/original",
         views.DocumentFileOriginalView.as_view(),
         name="doc_file_original",
     ),

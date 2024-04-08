@@ -1,0 +1,21 @@
+# This file contains web views. Associated APIs are defined in ./api.py
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from django.core.paginator import Paginator
+from .models import SingleUrl
+
+
+@login_required
+def singleurl_list(request):
+    singleurls = SingleUrl.objects.filter(user=request.user).order_by("-date_modified")
+    singleurls = singleurls.annotate_with_titles()
+
+    paginator = Paginator(singleurls, 20)  # Set the number of items per page
+    page_number = request.GET.get("page")
+    page_obj = paginator.get_page(page_number)
+
+    return render(
+        request,
+        "extensionapis/singleurl_list.html",
+        {"page_obj": page_obj, "expected_type": "singleurl"},
+    )

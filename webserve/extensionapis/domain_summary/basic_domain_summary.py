@@ -1,8 +1,7 @@
 from typing import Dict, Iterable, List
 from urllib.parse import urlparse
 
-from ..models import RawDocCapture, SingleUrl
-from django.db.models import OuterRef, Subquery
+from ..models import SingleUrl
 
 
 def summarize_domain(single_url: SingleUrl):
@@ -13,17 +12,7 @@ def summarize_domain(single_url: SingleUrl):
         .order_by("-date_added")
     )
 
-    most_recent_capture = RawDocCapture.objects.filter(
-        url_model=OuterRef("pk")
-    ).order_by("-date_added")
-
-    # We use a subquery to get the title of the most recent capture
-    recent_capture_title = most_recent_capture.values("title")[:1]
-
-    # Now, annotate the SingleUrl queryset
-    single_urls_with_title = other_urls.annotate(
-        recent_title=Subquery(recent_capture_title)
-    )
+    single_urls_with_title = other_urls.annotate_with_titles()
 
     return _url_grouping_general(single_url.host, single_urls_with_title)
 
@@ -43,7 +32,11 @@ def _url_grouping_general(host: str, urls_with_titles: Iterable[SingleUrl]):
 
 
 def group_ms_learn(urls_with_titles: Iterable[SingleUrl]):
-    pass
+    # basic limit on return size
+    urls_with_titles = urls_with_titles[:100]
+
+    sortable_urls = [(u.url, u) for u in urls_with_titles]
+    sortable_urls = sorted(sortable_urls)  # sort on first element.
 
 
 def group_github(urls_with_titles: Iterable[SingleUrl]):
@@ -108,7 +101,7 @@ def dedupe_github_group_pages(group_pages: Iterable[SingleUrl]):
         _, short_url = get_path_root(page.url, depth=100)
         if short_url not in ret_set:
             ret_list.append(page)
-            ret_set.append(short_url)
+            ret_set.add(short_url)
     return ret_list
 
 

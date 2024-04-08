@@ -2,6 +2,7 @@ from django.db import models, transaction
 from django.core.exceptions import ValidationError
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 
+from extensionapis.managers import SingleUrlQuerySet
 from users.models import User
 
 from webserve.mixins import ModelBaseMixin
@@ -11,6 +12,8 @@ class SingleUrl(ModelBaseMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     url = models.CharField(max_length=2048)
     host = models.CharField(max_length=512)
+
+    objects = SingleUrlQuerySet.as_manager()
 
     class Meta:
         unique_together = ("user", "url")
