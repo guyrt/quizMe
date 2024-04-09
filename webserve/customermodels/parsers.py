@@ -41,7 +41,7 @@ def user_schema_to_markdown(user: User, user_schema_id: int) -> str:
     # Fetch related UserTable instances
     user_tables = user_schema.usertable_set.all()
     for user_table in user_tables:
-        markdown_str += f"## Table: {user_table.name}\n"
+        markdown_str += f"### Table: {user_table.name}\n"
         markdown_str += f"**Description:** {user_table.description}\n\n"
 
         # Fetch related UserTableColumn instances
