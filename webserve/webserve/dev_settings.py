@@ -4,7 +4,7 @@ from .shared_settings import *  # noqa: F403
 ALLOWED_HOSTS = ["web", "localhost", "0.0.0.0", "127.0.0.1"]
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-h@6nuzpckf*1wa1sb3ufd79ag#cjx#p^sg4%w^@x7pa6h-j6!0"
+SECRET_KEY = os.getenv("AZURE_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True

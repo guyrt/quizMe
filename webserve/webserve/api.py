@@ -6,6 +6,7 @@ from quizzes.api import router as quiz_router
 from users.api import router as user_router
 from mltrack.api import router as mltrack_router
 
+
 if settings.DEBUG:
     api = NinjaAPI()
 else:

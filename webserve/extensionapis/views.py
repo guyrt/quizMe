@@ -1,6 +1,8 @@
 # This file contains web views. Associated APIs are defined in ./api.py
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import Http404
+from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 from .models import SingleUrl
 
@@ -19,3 +21,10 @@ def singleurl_list(request):
         "extensionapis/singleurl_list.html",
         {"page_obj": page_obj, "expected_type": "singleurl"},
     )
+
+
+@login_required
+def single_url_detail(request, guid):
+    single_url = get_object_or_404(SingleUrl, id=guid, user=request.user)
+    
+    return render(request, 'extensionapis/singleurl_detail.html', {'single_url': single_url})
