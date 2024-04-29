@@ -11,8 +11,8 @@ services:
     ports:
       - "8000:8000"
     depends_on:
-      - pgsql
-      - redis
+      - fi_pgsql
+      - fi_redis
 
   worker:
     build: .
@@ -22,9 +22,10 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - redis
+      - fi_redis
+      - fi_pgsql
 
-  pgsql:
+  fi_pgsql:
     image: pgvector/pgvector:pg15
     volumes:
       - ./data/db:/var/lib/postgresql/data
@@ -35,10 +36,10 @@ services:
     ports:
       - "6543:5432"
 
-  redis:
+  fi_redis:
     image: redis
 
-  stripe-cli:
+  fi_stripe-cli:
     image: stripe/stripe-cli:latest
     container_name: stripe-cli
     command: "listen --api-key $${STRIPE_API_KEY} --device-name $${STRIPE_DEVICE_NAME} --forward-to web:8000/stripe_hook"
