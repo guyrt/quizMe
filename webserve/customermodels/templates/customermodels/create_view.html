@@ -35,15 +35,15 @@ tables:
     - name: address
       description: last known address for this person
 
-- name: People Facts
-  description: A list of facts about people.
+- name: People Notes
+  description: A list of notes about people.
   columns: 
     - name: person
       description: A person in the People table.
-    - name: fact 
+    - name: note 
       description: A single statement about this person. May include preferences, job history, problems they talked about. 
 
-- name: Companies
+- name: Company
   description: A list of companies that I know.
   columns: 
     - name: name
@@ -51,8 +51,13 @@ tables:
     - name: address
       description: last known address for this person
     
-    - name: People Facts
-      description: A list of facts about people.
+- name: Company Notes
+  description: A list of notes about people.
+  columns:
+    - name: name
+      description: company name that references the Company table
+    - name: note
+      description: a single statement about this company. 
     </pre>
 </div>
 
