@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block maincontent %}
+    <h1>
+        {% if single_url.recent_title %}
+            {{ single_url.recent_title }}
+        {% else %}
+            {{ single_url.url }}
+        {% endif %}
+    </h1>
+
+    Also put the chunks if there are any.
+    Also put the SingleUrlFacts of this URL. 
+{% endblock %}
