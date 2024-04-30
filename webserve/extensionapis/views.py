@@ -1,5 +1,7 @@
 # This file contains web views. Associated APIs are defined in ./api.py
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_GET
+
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
 
@@ -8,6 +10,7 @@ from .models import SingleUrl, SingleUrlFact
 
 
 @login_required
+@require_GET
 def singleurl_list(request):
     singleurls = SingleUrl.objects.filter(user=request.user).order_by("-date_modified")
     singleurls = singleurls.annotate_with_titles()
@@ -24,6 +27,7 @@ def singleurl_list(request):
 
 
 @login_required
+@require_GET
 def single_url_detail(request, guid):
     single_url = get_object_or_404(SingleUrl, id=guid, user=request.user)
     single_url_facts = SingleUrlFact.objects.filter(base_url=single_url)
@@ -39,11 +43,3 @@ def single_url_detail(request, guid):
             "vectors": ulv
         }
     )
-
-
-@login_required
-def process_content_template(request, guid):
-    # queue it
-
-    # redirect
-    pass

@@ -1,5 +1,4 @@
-from django_rq import job
-from django_rq import enqueue
+from django_rq import enqueue, job
 
 from azurewrapper.freeassociate.rawdoc_handler import RawDocCaptureHander
 from mltrack.consumer_prompt_models import UserLevelDocVectorIndex, UserLevelVectorIndex

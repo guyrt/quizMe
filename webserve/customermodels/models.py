@@ -34,22 +34,24 @@ class UserTableColumn(ModelBaseMixin):
     dtype = models.CharField(max_length=64, blank=True, default="")
 
 
+class ExtractionStatusChoices(models.TextChoices):
+    InProgress = "inprogress", "inprogress"
+    Done = "done", "done"
+    Error = "error", "error"
+
+
 #
 # Data tables
 #
-class RawUserTableEntry(ModelBaseMixin):
-    """Immutable entry extracted from some source document."""
+class RawDocumentExtract(ModelBaseMixin):
 
-    table = models.ForeignKey(UserTable, on_delete=models.CASCADE)
-    content = models.JSONField(default=dict)
-
-    # source info
-    source_table = models.CharField(max_length=128)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    
+    source_table = models.CharField(max_length=64)
     source_pk = models.UUIDField()
 
+    extracted_content = models.JSONField()
 
-class UserTableEntry(ModelBaseMixin):
-    table = models.ForeignKey(UserTable, on_delete=models.CASCADE)
-    content = models.JSONField(default=dict)
+    extraction_status = models.CharField(choices=ExtractionStatusChoices)
 
-    raw_entries = models.ManyToManyField(to=RawUserTableEntry)
+    extraction_model_details = models.JSONField()

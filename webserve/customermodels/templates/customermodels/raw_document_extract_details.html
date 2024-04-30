@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {{extraction.pk}}
+{% endblock %}
+
+{% block maincontent %}
+    handle statuses.
+    {{extracted_content.extraction_status }}
+
+    {{extraction.extracted_content | safe}}
+
+
+{% endblock %}
+
