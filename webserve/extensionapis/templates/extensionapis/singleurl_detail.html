@@ -1,18 +1,17 @@
 {% extends 'base.html' %}
 
 {% block customstyle %}
-<style>
-    .quote {
-        font-size: 0.9rem; /* Smaller font size */
-        font-style: italic; /* Italicize the font */
-        color: #555; /* Dark gray font color */
-        border-left: 3px solid #ccc; /* Vertical line on the left */
-        margin: 20px; /* Adds space around the div */
-        padding: 10px; /* Adds padding inside the div */
-        background-color: #f9f9f9; /* Light background for the quote */
-    }
-</style>
-
+    <style>
+        .quote {
+            font-size: 0.9rem; /* Smaller font size */
+            font-style: italic; /* Italicize the font */
+            color: #555; /* Dark gray font color */
+            border-left: 3px solid #ccc; /* Vertical line on the left */
+            margin: 20px; /* Adds space around the div */
+            padding: 10px; /* Adds padding inside the div */
+            background-color: #f9f9f9; /* Light background for the quote */
+        }
+    </style>
 {% endblock %}
 
 {% block maincontent %}
@@ -23,6 +22,8 @@
             {{ single_url.url }}
         {% endif %}
     </h1>
+
+    <a href="{% url 'process_content_templates' single_url.pk %}">Process templates</a>
 
     {% for url_fact in single_url_facts %}
         {{ url_fact.fact_key }}: {{ url_fact.fact_value }}

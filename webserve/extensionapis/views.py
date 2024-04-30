@@ -39,3 +39,11 @@ def single_url_detail(request, guid):
             "vectors": ulv
         }
     )
+
+
+@login_required
+def process_content_template(request, guid):
+    # queue it
+
+    # redirect
+    pass

@@ -29,7 +29,7 @@ def create_dataschema(request):
             parsed_content = form.cleaned_data["content"]
             schema = create_user_table_from_yaml(request.user, parsed_content)
             # Redirect or handle the content as needed
-            return redirect("schema_details", {"pk": str(schema.pk)})
+            return redirect("schema_details", pk=str(schema.pk))
     else:
         form = LargeTextForm()
 
