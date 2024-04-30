@@ -3,7 +3,7 @@ import markdown
 from django_rq import enqueue
 
 from django.contrib.auth.decorators import login_required
-from django.views.decorators.http import require_POST, require_GET
+from django.views.decorators.http import require_GET
 from django.shortcuts import get_object_or_404, redirect, render
 
 from customermodels.forms import LargeTextForm
