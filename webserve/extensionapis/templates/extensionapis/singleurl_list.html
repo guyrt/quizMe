@@ -5,7 +5,7 @@
     <ul>
         {% for singleurl in page_obj %}
             <li>
-                <a href="{% url 'singleurl_detail' singleurl.id %}" target="_blank">
+                <a href="{% url 'singleurl_detail' singleurl.id %}">
                     {% if singleurl.recent_title %}
                         {{ singleurl.recent_title }}
                     {% else %}

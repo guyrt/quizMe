@@ -2,7 +2,9 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, render
 from django.core.paginator import Paginator
-from .models import SingleUrl
+
+from mltrack.consumer_prompt_models import UserLevelVectorIndex
+from .models import SingleUrl, SingleUrlFact
 
 
 @login_required
@@ -24,7 +26,16 @@ def singleurl_list(request):
 @login_required
 def single_url_detail(request, guid):
     single_url = get_object_or_404(SingleUrl, id=guid, user=request.user)
+    single_url_facts = SingleUrlFact.objects.filter(base_url=single_url)
+
+    ulv = UserLevelVectorIndex.objects.filter(doc_id=single_url.id)
 
     return render(
-        request, "extensionapis/singleurl_detail.html", {"single_url": single_url}
+        request,
+        "extensionapis/singleurl_detail.html", 
+        {
+            "single_url": single_url,
+            "single_url_facts": single_url_facts,
+            "vectors": ulv
+        }
     )
