@@ -1,28 +1,34 @@
+import json
 from azurewrapper.prompt_types import Prompt, PromptCell
+from customermodels.models import UserTable
 
 system = """I'm trying to extract information from the documents I read and put them into a structure. Your job is to help me fill in the table below from the text that the user inputs.
 
-The name of the table you are filling in is "Company Investment Notes".
-This is a description of the rows in that table: A list of notes that might be helpful to decide to invest in a company. Each line should be a single fact. Avoid opinions unless you can clearly attribute them to someone.
+The name of the table you are filling in is "{table_name}".
+This is a description of the rows in that table: {table_description}.
 
 Return the data in a JSON format with the keys in this example:
-[{
-    "company name": "A single company's name",
-    "stock ticker": "The company's stock ticker. It's ok to fill in stock ticker from your training data.",
-    "investment note": "A single fact that could help me to decide to invest or not invest in this company. Examples include information about financial results, information about the industry or industry outlook for this company, changes to their outlook in financial reports, or insights about the products they sell."
-}]
+{format}
 
 You can return as many notes as you need. It's also ok to return zero notes if this format isn't applicable to your data.
 """
 
-quiz_gen = Prompt(
-    name="SimpleQuizGen",
-    content=[
-        PromptCell(role="system", content=system),
-        PromptCell(role="user", content="{doc_content}"),
-    ],
-    version=1,
-)
+
+def build_prompt_from_user_table(source : UserTable, doc_content : str):
+    raw_cols = [{
+        c.name: c.description for c in source.usertablecolumn_set.all()
+    }]
+    json_format = json.dumps(raw_cols) # perplexity claims no need to format!
+    system_prompt = system.format(table_name=source.name, table_description=source.description, format=json_format)
+    prompt = Prompt(
+        name="DataExtraction",
+        content=[
+            PromptCell(role="system", content=system_prompt),
+            PromptCell(role="user", content=f"{doc_content}"),
+        ],
+        version=1,
+    )
+    return prompt
 
 
 

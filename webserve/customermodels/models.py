@@ -50,6 +50,9 @@ class RawDocumentExtract(ModelBaseMixin):
     source_table = models.CharField(max_length=64)
     source_pk = models.UUIDField()
 
+    extraction_target = models.CharField(max_length=64)  # table name of a model that contains extraction target
+    extraction_pk = models.UUIDField()
+
     extracted_content = models.JSONField()
 
     extraction_status = models.CharField(choices=ExtractionStatusChoices)
