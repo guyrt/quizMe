@@ -1,7 +1,7 @@
 /// State object for the background
 import { v4 as uuidv4 } from 'uuid';
 
-import { BasicError, DomShape, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom, isBasicError } from "../../interfaces";
+import { BasicError, DomShape, LooseSetting, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom, isBasicError } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "./webInterface";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
@@ -201,8 +201,7 @@ class PageDetailsHandler {
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
-        const domainBlockList = await new BackgroundSharedStateWriter().getDomainBlockList();
-        if (domainBlockList != undefined && !isBasicError(domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))){
+        if (await this.blockedPage(response)){
             return false;
         }
     
@@ -215,6 +214,12 @@ class PageDetailsHandler {
         }
 
         return true;
+    }
+
+    private async blockedPage(response : SinglePageDetails) : Promise<boolean> {
+        const domainBlockList = await new BackgroundSharedStateWriter().getDomainBlockList();
+
+        return domainBlockList != undefined && !isBasicError(domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))
     }
 
     private async getPageDetails(key : number) : Promise<SinglePageDetails> {

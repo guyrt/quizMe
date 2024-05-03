@@ -40,7 +40,7 @@ export class SharedStateReaders {
         if (stored !== undefined) {
             return stored;
         }
-        return true;
+        return false;  // default to safety.
     }
 
 }

@@ -27,8 +27,8 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         return webDelete;
     }
 
-    public setFilterSend(newVal : boolean) {
-        chrome.storage.sync.set({["settings.filtersend"]: newVal});
+    public setKVPSetting(key : string, val : any) {
+        chrome.storage.sync.set({[key]: val});
     }
 
     public async loadDomainBlockList() : Promise<LooseSetting[]> {

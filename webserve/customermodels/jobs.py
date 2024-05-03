@@ -1,3 +1,5 @@
+from dataclasses import asdict
+from re import I
 from openai.types import CompletionUsage
 from uuid import UUID
 from django_rq import job
@@ -44,20 +46,21 @@ class FillFromSingleUrlToUserTable:
         prompt = self.build_prompt(extraction_target, source)
 
         # Execute and save prompt run.
-        result = self._oai.call(prompt)
+        result = self._oai.call([asdict(c) for c in prompt.content])
         response : str = result['response']
         tokens : CompletionUsage = result['tokens']
+        import ipdb; ipdb.set_trace()
 
         # Save results
 
-    def gate_types(obj : RawDocumentExtract):
+    def gate_types(self, obj : RawDocumentExtract):
         if obj.extraction_target != 'user_table':
             raise ValueError(f"Unexpected extraction_target {obj.extraction_target}")
         if obj.source_table != 'single_url': 
             raise ValueError(f"Unexpected source_table {obj.source_table}")
 
-    def build_prompt(self, extraction_target : UserTable):
-        return build_prompt_from_user_table(extraction_target)
+    def build_prompt(self, extraction_target : UserTable, source : str):
+        return build_prompt_from_user_table(extraction_target, source)
 
     def get_extraction(self, obj : RawDocumentExtract) -> UserTable:
         # may throw DoesNotExist.

@@ -161,6 +161,10 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             sendResponse({error: "error getting blocked domains"});
         })
         return true;
+    } else if (message.action === "fa_setKVPSetting") {
+        const key = message.payload.key;
+        const value = message.payload.value;
+        (new BackgroundSharedStateWriter()).setKVPSetting(key, value);
     }
 }
 

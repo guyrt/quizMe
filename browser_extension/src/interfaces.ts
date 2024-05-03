@@ -102,6 +102,7 @@ export type ChromeMessageType =
     | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
     | "fa_loadBlockedDomains" // message from sidepanel to backend to load domains.
     | "fa_deleteDomainBlock"
+    | "fa_setKVPSetting" // message for sending new settings values.
     | "fa_logUserOut" // message from options surfaces to backend to nuke api token.
     | "fa_signUserIn" // message from options surfaces to backend to try to sign a user in.
     | "fa_createNewUser" // message from options surfaces to backend to try to create a new user.

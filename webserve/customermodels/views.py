@@ -71,4 +71,4 @@ def process_content_template(request, guid):
         # queue it
         enqueue(fill_structured_info, str(extraction.pk))
 
-    return redirect(reverse('show_content_extract', guid=guid))
+    return redirect(reverse('show_content_extract', {'guid': guid}))

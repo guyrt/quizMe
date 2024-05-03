@@ -16,8 +16,8 @@ export function SidePanelLoggedInUserSettings() {
     
     const sharedStateReader = new SharedStateReaders()
 
-    function setFilterToArticles() {
-        // todo
+    function setFilterToArticles(newValue : boolean) {
+        chrome.runtime.sendMessage({action: 'fa_setKVPSetting', payload: {key: 'settings.filtersend', value: newValue}});
     }
 
     useEffect(() => {
