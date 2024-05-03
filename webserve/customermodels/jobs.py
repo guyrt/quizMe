@@ -1,6 +1,5 @@
 from dataclasses import asdict
 import json
-from re import I
 from openai.types import CompletionUsage
 from uuid import UUID
 from django_rq import job
@@ -10,8 +9,6 @@ import logging
 from azurewrapper.openai_client import OpenAIClient
 from customermodels.custom_models_extract_prompts import build_prompt_from_user_table
 from customermodels.models import ExtractionStatusChoices, RawDocumentExtract, UserTable
-from extensionapis.models import SingleUrl
-import imp
 from mltrack.consumer_prompt_models import ConsumerPromptTrack, UserLevelVectorIndex
 
 logger = logging.getLogger("default")
