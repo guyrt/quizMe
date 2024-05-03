@@ -1,4 +1,5 @@
 from dataclasses import asdict
+import json
 from re import I
 from openai.types import CompletionUsage
 from uuid import UUID
@@ -10,7 +11,8 @@ from azurewrapper.openai_client import OpenAIClient
 from customermodels.custom_models_extract_prompts import build_prompt_from_user_table
 from customermodels.models import ExtractionStatusChoices, RawDocumentExtract, UserTable
 from extensionapis.models import SingleUrl
-from mltrack.consumer_prompt_models import UserLevelVectorIndex
+import imp
+from mltrack.consumer_prompt_models import ConsumerPromptTrack, UserLevelVectorIndex
 
 logger = logging.getLogger("default")
 
@@ -47,11 +49,39 @@ class FillFromSingleUrlToUserTable:
 
         # Execute and save prompt run.
         result = self._oai.call([asdict(c) for c in prompt.content])
-        response : str = result['response']
+        response : str = result['response'].strip()
         tokens : CompletionUsage = result['tokens']
-        import ipdb; ipdb.set_trace()
+        
+        tracker = ConsumerPromptTrack.objects.create(
+            user=obj.owner,
+            template_name=prompt.name,
+            template_version=prompt.version,
+            source_type='RawDocumentExtract',
+            source_id=obj.pk,
+            prompt_tokens=tokens.prompt_tokens,
+            completion_tokens=tokens.completion_tokens,
+            model_service=self._oai.api_type,
+            model_name=self._oai.engine
+        )
 
         # Save results
+        self.save_results(obj, response, tracker)
+
+    def save_results(self, obj : RawDocumentExtract, response : str, tracker : ConsumerPromptTrack):
+        if response:
+            try:
+                parsed = json.loads(response)
+            except json.JSONDecodeError:
+                logger.error("Failed to extract for %s due to decode error: %s", obj.pk, response)
+                return
+        else:
+            parsed = []
+
+        obj.extracted_content = parsed
+        obj.extraction_model_details = {'tracker': tracker.pk}
+        obj.extraction_status = ExtractionStatusChoices.Done
+        obj.save()
+        return obj
 
     def gate_types(self, obj : RawDocumentExtract):
         if obj.extraction_target != 'user_table':

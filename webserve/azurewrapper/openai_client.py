@@ -32,7 +32,7 @@ def get_engine(model, api_type):
         if model == "35turbo":
             return "gpt-3.5-turbo-16k"
         elif model == "gpt4":
-            return "gpt-4-turbo-preview"
+            return "gpt-4-turbo"
 
 
 class OpenAIClient:
@@ -55,7 +55,11 @@ class OpenAIClient:
             )
         else:
             # Use env variables:
-            self._internal_client = openai.OpenAI()
+            self._internal_client = openai.OpenAI(
+                api_key=os.getenv("OPENAI_API_KEY"),
+                organization=os.getenv("org-AvVx5YPpO84s5PZDryjGv1a1"),
+                project=os.getenv("proj_hTBD1D2zbNvillF6rW1GPO8d")
+            )
 
         self._temp = temp
         self._encoding = get_encoding(model)
