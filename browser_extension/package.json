@@ -4,10 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "webpack --mode production",
-    "dev": "webpack --mode development --watch",
-    "test": "jest",
-    "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js --runInBand"
+    "build": "QUIZ_ONLY=true webpack --mode production",
+    "dev": "QUIZ_ONLY=true webpack --mode development --watch",
+    "deb:full": "QUIZ_ONLY=false webpack --mode development --watch",
+    "test": "QUIZ_ONLY=false jest",
+    "test:debug": "QUIZ_ONLY=false jest --inspect-brk node_modules/jest/bin/jest.js --runInBand"
   },
   "author": "Tommy Guy",
   "license": "UNLICENSED",

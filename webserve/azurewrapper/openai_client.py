@@ -32,7 +32,7 @@ def get_engine(model, api_type):
         if model == "35turbo":
             return "gpt-3.5-turbo-16k"
         elif model == "gpt4":
-            return "gpt-4-turbo"
+            return "gpt-4o"
 
 
 class OpenAIClient:

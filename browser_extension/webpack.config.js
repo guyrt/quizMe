@@ -1,3 +1,4 @@
+const webpack = require('webpack');
 const CopyPlugin = require('copy-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
@@ -51,6 +52,9 @@ module.exports = {
         new MiniCssExtractPlugin({
             filename: '[name].css',
         }),
+        new webpack.DefinePlugin({
+            'process.env.QUIZ_ONLY': JSON.stringify(process.env.QUIZ_ONLY || 'false')
+        })
     ],
     cache: {
         type: 'filesystem'

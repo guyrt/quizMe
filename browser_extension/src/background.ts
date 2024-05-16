@@ -7,8 +7,10 @@ var fa_lastActiveTab = 0;
 
 
 import TabTracker from './stateTrackers/backgroundThread/tabTimer';
+
 import { BackgroundSharedStateWriter } from "./stateTrackers/backgroundThread/backgroundSharedStateWriter";
 import { BreadcrumbsStateHandler } from "./stateTrackers/backgroundThread/breadcrumbs";
+
 
 // create this - initializer will set up events.
 const tabTracker = new TabTracker();

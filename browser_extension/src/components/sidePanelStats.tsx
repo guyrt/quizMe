@@ -57,12 +57,14 @@ export default function SidePanelStats() {
         <div>
             <h3>{header}</h3>
 
-            {(isArticle === true) && <>
+            {(isArticle === true) && 
+                <>
                     <QuizView quiz={quiz} finiteState={finiteState} incomingQuizAnswers={quizAnswers} />
-                    {activeElement?.guid !== undefined && <Breadcrumbs activePage={activeElement.guid}/>}
+                    {process.env.QUIZ_ONLY === 'false' && activeElement?.guid !== undefined && <Breadcrumbs activePage={activeElement.guid}/>}
                 </>
             }
-            {history !== undefined && <HistorySection history={history} />}
+            
+            {process.env.QUIZ_ONLY === 'false' && history !== undefined && <HistorySection history={history} />}
         </div>
     )
 }
