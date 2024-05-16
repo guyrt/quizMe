@@ -81,14 +81,17 @@ function getSerps() : string | undefined {
     if (host == "duckduckgo.com" && document.location.href.includes("&q=")) {
         return "serp";
     }
-}
 
+    if (host == "perplexity.ai" && document.location.href.includes("search")) {
+        return "serp";
+    }
+}
 
 function isArticleByTextContent(): boolean {
     const readingTimeMinutes = document.body.innerText.trim().split(/\s+/).length / 200;
     const linkCount = document.querySelectorAll("a").length;
     const linksPerMinute = linkCount / readingTimeMinutes;
-    // console.log({ readingTimeMinutes, linkCount, linksPerMinute });
+    console.log("Wezo article textclassifier: ", { readingTimeMinutes, linkCount, linksPerMinute });
 
     return readingTimeMinutes > 4 || (readingTimeMinutes >= 3 && linksPerMinute < 0.8);
 }
