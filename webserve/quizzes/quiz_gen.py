@@ -10,7 +10,7 @@ from azurewrapper.prompt_types import fill_prompt
 from extensionapis.models import RawDocCapture
 from mltrack.consumer_prompt_models import ConsumerPromptTrack
 from parser_utils.utilities import get_rough_article_content, parse_contents
-from rfp_utils.json_utils import find_json
+from parser_utils.json_utils import find_json
 
 from .models import SimpleQuiz
 from .quiz_prompts import quiz_gen

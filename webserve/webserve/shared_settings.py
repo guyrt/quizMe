@@ -67,12 +67,9 @@ INSTALLED_APPS = [
     "corsheaders",
     "extensionapis",
     "users",
-    "privateuploads",
     "mltrack",
     "quizzes",
-    "sharing",
     "stripehandler",
-    "customermodels",
 ]
 
 MIDDLEWARE = [

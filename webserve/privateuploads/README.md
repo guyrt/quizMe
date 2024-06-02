@@ -1,1 +1,0 @@
-This is related to RFP parsing and is mostly legacy. Maybe all legacy.
