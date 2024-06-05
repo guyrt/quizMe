@@ -29,12 +29,9 @@ export function SidePanelLoggedInUserSettings() {
     }, []);
 
     function handleReturnClick() {
-       
-        // Need to find a way of maybe using the update state function. 
-        //An idea to try tmr:  store the previous state prior to setting the state to "showSetting"
+        //idea:  store the previous state prior to setting the state to "showSetting"
         //on click, update state back to that previous one; 
-        //fsm.subscribe();
-        //console.log 
+        fsm.unsetShowOptions();
     }
 
     return (
@@ -45,7 +42,7 @@ export function SidePanelLoggedInUserSettings() {
             <br/>
             <BlockedDomains />
             <div id="buttonsWrapper" className="buttonSettingsWrap">
-                <button id='back' className="buttonSettings" onClick={handleReturnClick}>Return Home</button>
+                <button id='back' className="buttonSettings" onClick={handleReturnClick}>Return</button>
                 <button id='logout' className="buttonSettings" onClick={logoutThisDevice}>Log out</button>
             </div>
         </>

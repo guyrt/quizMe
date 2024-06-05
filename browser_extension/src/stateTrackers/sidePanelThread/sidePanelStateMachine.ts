@@ -27,6 +27,8 @@ class SidePanelFiniteStateMachine {
 
     private state : SidePanelState = "PageNotUploaded"
 
+    private prev_state : SidePanelState = "PageNotUploaded"
+
     private listeners: ((state: SidePanelState) => void)[] = [];
 
     public getState() : SidePanelState {
@@ -116,7 +118,13 @@ class SidePanelFiniteStateMachine {
     }
 
     public setShowOptions() {
+        this.prev_state = this.state;
         this.state = "ShowUserSettings";
+        this.publish();
+    }
+
+    public unsetShowOptions(){
+        this.state = this.prev_state;
         this.publish();
     }
 
