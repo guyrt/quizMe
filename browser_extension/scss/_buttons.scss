@@ -1,0 +1,24 @@
+.buttonSettings{
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border:1px;
+    color: #fff;
+    background: $accentColor;
+   }
+
+.buttonSettings:hover {
+    box-shadow: -2px -2px 5px $accentColorShadow;
+   }
+
+.buttonSettingsWrap {
+    display: flex;
+    justify-content: space-between;
+}
