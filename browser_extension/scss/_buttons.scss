@@ -1,0 +1,43 @@
+.buttonSettings{
+    display: flex;
+    height: 3em;
+    width: 100px;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    border-radius: 3px;
+    letter-spacing: 1px;
+    transition: all 0.2s linear;
+    cursor: pointer;
+    border:1px;
+    color: #fff;
+    background: $accentColor;
+   }
+
+.buttonSettings:hover {
+    box-shadow: -2px -2px 5px $accentColorShadow;
+   }
+
+.buttonSettingsWrap {
+    display: flex;
+    justify-content: space-between;
+}
+.buttonWrap {
+    display: flex;
+    justify-content: center;
+}
+
+button.standard {
+    background-color: #{$accentColor}; // Example blue color
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin: 10px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+
+    &:hover {
+        background-color: darken($accentColor, 10%);; // Darken the button on hover
+    }
+}

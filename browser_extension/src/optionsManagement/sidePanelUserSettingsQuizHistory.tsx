@@ -27,7 +27,7 @@ export function SidePanelUserSettingsQuizHistory() {
         {quizHistory != undefined ? 
             <div>
                 <p>Nice job! You've got {quizHistory?.total_quizzes} points!</p>
-                <p>You currently get {quizHistory?.quiz_allowance} per month.</p>
+                <p>You currently get {quizHistory?.quiz_allowance} quizzes per month.</p>
                 <a href={quizHistory.stripe_redirect} onClick={stripeClicked} target="_blank" rel="noopener noreferrer">Let's get you more!</a>
                 <p>This link will take you to Stripe.</p>
             </div> : 

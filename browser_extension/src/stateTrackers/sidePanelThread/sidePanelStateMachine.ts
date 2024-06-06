@@ -27,11 +27,14 @@ class SidePanelFiniteStateMachine {
 
     private state : SidePanelState = "PageNotUploaded"
 
+    private prevState : SidePanelState = "PageNotUploaded"
+
     private listeners: ((state: SidePanelState) => void)[] = [];
 
     public getState() : SidePanelState {
         return this.state;
     }
+
 
     public getActiveDetails() : SinglePageDetails | undefined {
         return this.activeDetails;
@@ -49,7 +52,7 @@ class SidePanelFiniteStateMachine {
         if (this.state == 'Reload') {
             return;
         }
-        this.state = 'Reload'
+        this.setState('Reload');
         this.publish();
     }
 
@@ -65,13 +68,13 @@ class SidePanelFiniteStateMachine {
         this.activeDetails = singlePage;
 
         if (singlePage.uploadState == "inprogress" || singlePage.uploadState == "notstarted") {
-            this.state = "PageNotUploaded";
+            this.setState("PageNotUploaded");
         } else if (singlePage.uploadState == "error") {
-            this.state = "UploadError";
+            this.setState("UploadError");
         } else if (singlePage.uploadState == "completed") {
-            this.state = "PageUploadedAndClassified";
+            this.setState("PageUploadedAndClassified")
         } else if (singlePage.uploadState == "donotprocess") {
-            this.state = "PageBlocked";
+            this.setState( "PageBlocked");
         } else {
             Error(`Unexpected state ${singlePage.uploadState}`);
         }
@@ -83,7 +86,7 @@ class SidePanelFiniteStateMachine {
         if (singlePage.error == 'auth') {
             this.handleUserLoggedOut();
         } else if (singlePage.error == 'cachemiss' || singlePage.error == 'nopage') {
-            this.state = "EmptyPage";
+            this.setState("EmptyPage");
             this.publish();
         }
     }
@@ -110,13 +113,18 @@ class SidePanelFiniteStateMachine {
 
     public handleUserLoggedOut() {
         if (this.state != "UserLoggedOut") {
-            this.state = "UserLoggedOut";
+            this.setState("UserLoggedOut");
             this.publish();
         }
     }
 
     public setShowOptions() {
-        this.state = "ShowUserSettings";
+        this.setState("ShowUserSettings");
+        this.publish();
+    }
+
+    public unsetShowOptions(){
+        this.setState(this.prevState);
         this.publish();
     }
 
@@ -125,6 +133,13 @@ class SidePanelFiniteStateMachine {
         this.listeners.forEach(listener => {
             listener(this.state)
         });
+    }
+
+    private setState(newState :SidePanelState ) {
+        this.prevState = this.state;
+        this.state = newState;
+        this.publish();
+
     }
 
 }

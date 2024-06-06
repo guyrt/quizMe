@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
-import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
+import { fsm, SidePanelState } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import { SidePanelUserSettingsQuizHistory } from "./sidePanelUserSettingsQuizHistory";
 import { BlockedDomains } from "./blockedDomains";
 
@@ -28,6 +28,12 @@ export function SidePanelLoggedInUserSettings() {
         })
     }, []);
 
+    function handleReturnClick() {
+        //idea:  store the previous state prior to setting the state to "showSetting"
+        //on click, update state back to that previous one; 
+        fsm.unsetShowOptions();
+    }
+
     return (
         <>
             <SidePanelUserSettingsQuizHistory />
@@ -35,7 +41,10 @@ export function SidePanelLoggedInUserSettings() {
             <Checkbox label="Track all pages, not just articles?" getter={sharedStateReader.getTrackAllPages} setter={setFilterToArticles} />
             <br/>
             <BlockedDomains />
-            <button id='logout' onClick={logoutThisDevice}>Log out</button>
+            <div id="buttonsWrapper" className="buttonSettingsWrap">
+                <button id='back' className="buttonSettings" onClick={handleReturnClick}>Return</button>
+                <button id='logout' className="buttonSettings" onClick={logoutThisDevice}>Log out</button>
+            </div>
         </>
     )
 }

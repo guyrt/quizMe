@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
+import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
+
 
 export function LoggedInUserSettings() {
     
@@ -19,6 +21,11 @@ export function LoggedInUserSettings() {
     function handleTrackAllPages() {
 
     }
+
+    function handleReturnClick(){
+        fsm.unsetShowOptions();
+          //it'll probably be the same logic of the sidePanelUserSettings.tsx
+    }
     
     return (
         <div>
@@ -26,7 +33,10 @@ export function LoggedInUserSettings() {
             <br/>
             <Checkbox label="Track all pages" getter={sharedStateReader.getTrackAllPages} setter={handleTrackAllPages} />
             <br/>
-            <button id='logout' onClick={logoutThisDevice}>Log out</button>
+            <div id="buttonsWrapper" className="buttonSettingsWrap">
+                <button id='back' className="buttonSettings" onClick={handleReturnClick}>Return Home</button>
+                <button id='logout' className="buttonSettings" onClick={logoutThisDevice}>Log out</button>
+            </div>
         </div>
     )
 }
