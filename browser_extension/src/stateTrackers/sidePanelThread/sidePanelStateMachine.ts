@@ -145,7 +145,8 @@ chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, 
 });
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender) => {
-    if (message.action === "fa_noAPIToken") {
+    if (message.action === "fa_sidePanelNoAPIToken") {
+        console.log("Got no api token message");
         fsm.handleUserLoggedOut();
     }
     return true;

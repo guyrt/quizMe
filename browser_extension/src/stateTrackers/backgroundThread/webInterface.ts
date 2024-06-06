@@ -49,7 +49,7 @@ export class QuizWebInterface {
         const url = `${domain}/api/quiz/stats`;
         const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
-            return {error: 'unauth'};
+            return {error: 'unauthorized'};
         }
         
         return get(apiToken, url).then(x => {

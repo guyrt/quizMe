@@ -1,4 +1,4 @@
-import { ChromeMessage, DomShape, QuizResponseMessage } from "./interfaces";
+import { ChromeMessage, QuizResponseMessage } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundThread/pageDetailsHandler";
 import { PageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
 import { QuizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
@@ -135,8 +135,12 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             const activeTabId = getActiveTabId(tabs);
 
             if (activeTabId !== undefined) {
-                chrome.sidePanel.open({tabId: activeTabId});
-                chrome.runtime.sendMessage({action: "fa_noAPIToken"});
+                chrome.sidePanel.open({tabId: activeTabId}).then(() => {
+                    chrome.runtime.sendMessage({
+                        action: "fa_sidePanelNoAPIToken",
+                        payload: {}
+                    });    
+                });
             }
         });
         })();

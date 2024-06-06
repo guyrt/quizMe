@@ -65,7 +65,7 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
 
 function showHint(isArticle : boolean) {
-    console.log('show circle');
+    console.log(`show circle ${isArticle}`);
     const circle = document.createElement('div');
     
     // Style the circle
