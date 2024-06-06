@@ -54,7 +54,7 @@ def write_dom(request, data: DomSchema = Body(...)):
     # Assume on server side we need to save (maybe relax later)
 
     container, filename, reader_container, reader_filename = upload_dom(user, data)
-    context = None
+    quiz_context = None
 
     # this is assumed atomic due to uniqueness constraint on user/url
     obj, created = SingleUrl.objects.get_or_create(
@@ -62,7 +62,7 @@ def write_dom(request, data: DomSchema = Body(...)):
     )
     if not created:
         # if this was not created, we need to create an augmentation dict of previous quizzes, ect.
-        context = build_quiz_context(obj)
+        quiz_context = build_quiz_context(obj)
 
     _save_history(data, obj)
 
@@ -92,19 +92,16 @@ def write_dom(request, data: DomSchema = Body(...)):
     except ValidationError:
         pass  # this happens if a different upload beat us to it.
 
-    d = {
+    ret_d = {
         "raw_doc": str(data.guid),
         "url_obj": str(obj.pk),
         "visit_history": page_history_context,
     }
 
-    if context is not None and context.quiz_obj is not None:
-        d["quiz_context"] = {
-            "previous_quiz": context.quiz_obj,
-            "latest_results": context.quiz_last_result,
-        }
+    if quiz_context is not None and quiz_context.quiz_obj is not None:
+        ret_d["quiz_context"] = quiz_context.quiz_obj
 
-    return d
+    return ret_d
 
 
 @router.post("/rewritehtml")

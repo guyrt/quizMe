@@ -94,10 +94,15 @@ export type ChromeMessageType =
     | "fa_getCurrentPage"
     | "fa_makequiz"
     | "fa_uploadQuizResult"
-    | "fa_noAPIToken"
+
+    // unauth
+    | "fa_noAPIToken"  // fired from backend to the browser tab.
+    | "fa_sidePanelNoAPIToken"  // fired from backend to the side panel.
+
     // these pair of events are a 2-direction update.
     | "fa_getQuizHistory"  // sent from SidePanel to Background and expects most recent cached history.
     | "fa_onReminderClick"  // this fires when article reminder fires on webpage.
+    
     | "fa_onLoginReminderClick"  // fires when user clicks logged out reminder.
     | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
     | "fa_loadBlockedDomains" // message from sidepanel to backend to load domains.

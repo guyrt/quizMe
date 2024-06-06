@@ -66,7 +66,7 @@ class PageDetailsHandler {
 
         const token = await this.getToken();
         if (token == undefined) {
-            PageDetailsStore.getInstance().setPageDetails(record.key, {error: 'auth'});
+            this.setPageUnauthorized(record.key);
             return;
         }
 
@@ -91,8 +91,8 @@ class PageDetailsHandler {
         })
         .catch((e : BasicError) => {
             console.log("Upload had issue ", e);
-            if (isBasicError(e) && e.error == "auth") {
-                PageDetailsStore.getInstance().setPageDetails(record.key, {error: 'auth'});
+            if (isBasicError(e) && e.error == "unauthorized") {
+                this.setPageUnauthorized(record.key);
             } else {
                 // error of known type.
                 PageDetailsStore.getInstance().setPageDetails(record.key, {...record, uploadState: 'error'}, true);
@@ -168,6 +168,12 @@ class PageDetailsHandler {
         return this.setQuiz(record, {'status': 'building'});
     }
 
+    private setPageUnauthorized(tabId : number) {
+        PageDetailsStore.getInstance().setPageDetails(tabId, {error: 'auth'});
+        chrome.tabs.sendMessage(tabId, {action: "fa_noAPIToken", payload: {tabId: tabId}});
+    }
+
+    // Get token. If it's blank fire.
     private async getToken() : Promise<string | undefined> {
         return await new BackgroundSharedStateWriter().getApiToken();
     }
@@ -232,14 +238,14 @@ class PageDetailsHandler {
 
     private async getOrCreatePageDetails(key : number, response : DomShape) : Promise<MaybeSinglePageDetails> {
         let pageDetail = await PageDetailsStore.getInstance().getPageDetails(key);
-        if (isBasicError(pageDetail) && pageDetail.error == 'auth') {
-            return pageDetail;
-        }
+        // if (isBasicError(pageDetail) && pageDetail.error != 'auth') {
+        //     return pageDetail;
+        // }
 
-        const missingKey = isBasicError(pageDetail) && pageDetail.error == 'cachemiss';
-        const urlMismatch = missingKey || (pageDetail as SinglePageDetails).url.href != response.url.href;
+        const wasError = isBasicError(pageDetail);
+        const urlMismatch = wasError || (pageDetail as SinglePageDetails).url.href != response.url.href;
 
-        if (missingKey || urlMismatch) {
+        if (urlMismatch) {
             // If this is a new page OR this is a change of site in same tab.
             pageDetail =  {
                 guid: uuidv4(),
@@ -258,7 +264,7 @@ class PageDetailsHandler {
             }
         }
 
-        return Promise.resolve(pageDetail);
+        return pageDetail;
     }
 
     private createCaptureIndex(recordTime : number) {
