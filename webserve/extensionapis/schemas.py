@@ -61,7 +61,7 @@ class SingleUrlHistorySchema(ModelSchema):
 
 
 class SingleUrlGroupedHistorySchema(Schema):
-    title: str
+    title: str | None = None
     head: str
     urls: List[SingleUrlHistorySchema]
 
