@@ -47,4 +47,4 @@ RQ_QUEUES = {
 }
 
 
-STRIPE_URL = "https://buy.stripe.com/test_eVag2H7Yt6NUdK8fYY?prefilled_email={email}"
+STRIPE_URL = "https://buy.stripe.com/test_8wM5lIaUq5UC8rm7ss?prefilled_email={email}"

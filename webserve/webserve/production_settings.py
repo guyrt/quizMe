@@ -65,4 +65,4 @@ sentry_sdk.init(
 )
 
 
-STRIPE_URL = "https://buy.stripe.com/test_eVag2H7Yt6NUdK8fYY?prefilled_email={email}"
+STRIPE_URL = "https://buy.stripe.com/14k8AeadKdgb4KI4gg?prefilled_email={email}"
