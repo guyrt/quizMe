@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Quiz, VisitHistory } from "../interfaces";
+import { FilledQuiz, Quiz, VisitHistory } from "../interfaces";
 import { SidePanelState, fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import HistorySection from "./history/historySection";
 import QuizView from "./quizComponent";
@@ -24,6 +24,7 @@ export default function SidePanelStats() {
 
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
+            console.log("In state handler use effect")
             const activeElement = fsm.getActiveDetails();
 
             setFiniteState(state);
@@ -40,6 +41,11 @@ export default function SidePanelStats() {
             }
 
             setHistory(activeElement?.uploadedDom?.visit_history);
+
+            //add function here to do the check 
+
+            
+            
         };
 
         fsm.subscribe(stateHandler);
@@ -50,7 +56,10 @@ export default function SidePanelStats() {
 
         return () => {
             fsm.unsubscribe(stateHandler);
+            returnSettings();
         };
+
+        
     }, []);
 
     return (
@@ -67,4 +76,35 @@ export default function SidePanelStats() {
             {process.env.QUIZ_ONLY === 'false' && history !== undefined && <HistorySection history={history} />}
         </div>
     )
+
+
+
+
+    function returnSettings (){
+
+        const temp_scored = localStorage.getItem('quizScored');
+        const temp_quiz = localStorage.getItem('lastQuiz');
+        if (temp_scored == null || temp_quiz == null){
+                console.log("In if");
+            }
+    
+        else{
+            const scored : Boolean  = JSON.parse(temp_scored);
+            const lastQuiz : FilledQuiz = JSON.parse(temp_quiz);
+
+            if (scored){
+                setQuiz(lastQuiz);
+                setQuizAnswers(lastQuiz.quiz_results);
+
+                console.log(`In returnSettings lastQuiz ${lastQuiz}`);
+                console.log(`In returnSettings lastQuiz-Results ${lastQuiz.quiz_results}`);
+            }
+            
+                
+        
+    
+            }
+      
+        
+    }
 }
