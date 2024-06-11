@@ -34,7 +34,7 @@ export const QuizInProgress: React.FC<{
 
         localStorage.setItem('lastQuiz', JSON.stringify(quiz));
         localStorage.setItem('quizScored', JSON.stringify(true));
-        localStorage.setItem('lastAnswer',JSON.stringify(sel_num));
+        localStorage.setItem('lastAnswer', JSON.stringify(sel_num));
         // console.log("Storing quiz in memory"); 
 
     }

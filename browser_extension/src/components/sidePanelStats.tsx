@@ -53,10 +53,10 @@ export default function SidePanelStats() {
         // wrap async and fire a trigger check.
         const f = async () => {await fsm.triggerCheck()};
         f();
-
+        returnSettings();
         return () => {
             fsm.unsubscribe(stateHandler);
-            returnSettings();
+            
         };
 
         
@@ -84,21 +84,27 @@ export default function SidePanelStats() {
 
         const temp_scored = localStorage.getItem('quizScored');
         const temp_quiz = localStorage.getItem('lastQuiz');
-        if (temp_scored == null || temp_quiz == null){
+        const temp_answers = localStorage.getItem('lastAnswer');
+
+        if (temp_scored == null || temp_quiz == null || temp_answers == null){
                 console.log("In if");
             }
     
         else{
             const scored : Boolean  = JSON.parse(temp_scored);
             const lastQuiz : FilledQuiz = JSON.parse(temp_quiz);
+            const answerSelected : number[] = JSON.parse(temp_answers);
 
+            // case quiz has been answered
             if (scored){
                 setQuiz(lastQuiz);
-                setQuizAnswers(lastQuiz.quiz_results);
-
-                console.log(`In returnSettings lastQuiz ${lastQuiz}`);
-                console.log(`In returnSettings lastQuiz-Results ${lastQuiz.quiz_results}`);
+                console.log(" In return settings ")
+                setQuizAnswers(answerSelected);
+                console.log(`In returnSettings lastQuiz ${lastQuiz.content}`);
+                console.log(`In returnSettings Answer selected ${answerSelected}`);
+                
             }
+            //fsm trigger is resetting the quiz 
             
                 
         
