@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
-import { fsm, SidePanelState } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
+import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import { SidePanelUserSettingsQuizHistory } from "./sidePanelUserSettingsQuizHistory";
-import { BlockedDomains } from "./blockedDomains";
+import { AllowDomainList, BlockedDomainList } from "./blockedDomains";
 
 export function SidePanelLoggedInUserSettings() {
     
@@ -40,7 +40,8 @@ export function SidePanelLoggedInUserSettings() {
             <br/>
             <Checkbox label="Track all pages, not just articles?" getter={sharedStateReader.getTrackAllPages} setter={setFilterToArticles} />
             <br/>
-            <BlockedDomains />
+            <BlockedDomainList />
+            <AllowDomainList />
             <div id="buttonsWrapper" className="buttonSettingsWrap">
                 <button id='back' className="buttonSettings" onClick={handleReturnClick}>Return</button>
                 <button id='logout' className="buttonSettings" onClick={logoutThisDevice}>Log out</button>

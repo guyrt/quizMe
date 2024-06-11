@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "QUIZ_ONLY=true webpack --mode production",
-    "dev": "QUIZ_ONLY=true webpack --mode development --watch",
+    "dev": "webpack --mode development --watch",
     "deb:full": "QUIZ_ONLY=false webpack --mode development --watch",
     "test": "QUIZ_ONLY=false jest",
     "test:debug": "QUIZ_ONLY=false jest --inspect-brk node_modules/jest/bin/jest.js --runInBand"
