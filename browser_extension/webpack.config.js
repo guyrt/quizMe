@@ -32,7 +32,7 @@ module.exports = {
                 exclude: /node_modules/,
             },
             {
-                test: /\.(sa|sc)ss$/,
+                test: /\.(sa|sc|c)ss$/,
                 use: [
                     MiniCssExtractPlugin.loader,
                     'css-loader',

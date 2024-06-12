@@ -193,3 +193,6 @@ export type BasicError = {error: string}
 export function isBasicError(o : any): o is BasicError {
     return 'error' in o;
 }
+
+
+export type PrivacyLevels = "manual" | "allowList" | "allArticles" | "allPages"
