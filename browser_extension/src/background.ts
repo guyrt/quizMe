@@ -192,11 +192,16 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
     } else if (message.action === "fa_setKVPSetting") {
         const key = message.payload.key;
         const value = message.payload.value;
+        console.log(`Setting ${key}: ${value}`);
         (new BackgroundSharedStateWriter()).setKVPSetting(key, value);
     } else if (message.action === 'fa_getKVPSetting') {
         const key = message.payload.key;
-        const value = (new BackgroundSharedStateWriter()).getKVPSetting(key);
-        sendResponse(value);
+        (new BackgroundSharedStateWriter()).getKVPSetting(key).then(value => {
+            console.log(`Getting ${key}: ${value}`);
+            sendResponse(value);
+   
+        });
+        return true;
     }
 }
 

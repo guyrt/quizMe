@@ -24,7 +24,7 @@ export function SidePanelLoggedInUserSettings() {
     const sharedStateReader = new SharedStateReaders()
 
     function _mapLevelToValue(level : PrivacyLevels) {
-        switch (privacyLevel) {
+        switch (level) {
             case 'allArticles': 
                 return 3;
             case 'allPages': 
@@ -34,7 +34,7 @@ export function SidePanelLoggedInUserSettings() {
             case 'manual': 
                 return 1;
             default:
-                throw Error(`Unexpected privacy ${privacyLevel}`);
+                throw Error(`Unexpected privacy ${level}`);
         }
     }
 
@@ -61,8 +61,8 @@ export function SidePanelLoggedInUserSettings() {
         chrome.runtime.sendMessage({action: 'fa_setKVPSetting', payload: {key: 'settings.privacyLevel', value: privacyLevel}});
     }
 
-    function pickMessage(privacyLevel : PrivacyLevels) : string {
-        switch (privacyLevel) {
+    function pickMessage(level : PrivacyLevels) : string {
+        switch (level) {
             case "allArticles":
                 return "Wezo will remember articles you visit.";
             case "allPages":
@@ -73,16 +73,19 @@ export function SidePanelLoggedInUserSettings() {
                 return "Wezo will not remember anything. You can still use Wezo quizzes.";
 
             default:
-                throw Error(`Unexpected privacy ${privacyLevel}`);
+                throw Error(`Unexpected privacy ${level}`);
         }
     }
 
     useEffect(() => {
         // load privacy and set both values.
-        chrome.runtime.sendMessage({action: 'fa_getKVPSetting', payload: {key: 'settings.privacylevel'}}, (newValue : PrivacyLevels | undefined) => {
+        chrome.runtime.sendMessage({action: 'fa_getKVPSetting', payload: {key: 'settings.privacyLevel'}}, (newValue : PrivacyLevels | undefined) => {
+            console.log(`Got privacy level ${newValue}`);
             if (newValue != undefined) {
                 setPrivacyLevel(newValue);
-                setPrivacyValue(_mapLevelToValue(newValue));
+                const v = _mapLevelToValue(newValue);
+                console.log(`Got privacy level ${v}`);
+                setPrivacyValue(v);
             }
         });
         
