@@ -23,25 +23,42 @@ export function SidePanelLoggedInUserSettings() {
     
     const sharedStateReader = new SharedStateReaders()
 
+    function _mapLevelToValue(level : PrivacyLevels) {
+        switch (privacyLevel) {
+            case 'allArticles': 
+                return 3;
+            case 'allPages': 
+                return 4;
+            case 'allowList': 
+                return 2;
+            case 'manual': 
+                return 1;
+            default:
+                throw Error(`Unexpected privacy ${privacyLevel}`);
+        }
+    }
+
     function handlePrivacyChange(newValue : number | number[]) {
+        let privacyLevel : PrivacyLevels = "manual";
         switch (newValue) {
             case 1:
-                setPrivacyLevel("manual");
+                privacyLevel = "manual";
                 break;
             case 2:
-                setPrivacyLevel("allowList");
+                privacyLevel = "allowList";
                 break;
             case 3:
-                setPrivacyLevel("allArticles");
+                privacyLevel = "allArticles";
                 break;
             case 4:
-                setPrivacyLevel("allPages");
+                privacyLevel = "allPages";
                 break;
             default:
                 throw Error("Illegal value");
         }
+        setPrivacyLevel(privacyLevel);
         setPrivacyValue(newValue);
-        //chrome.runtime.sendMessage({action: 'fa_setKVPSetting', payload: {key: 'settings.filtersend', value: newValue}});
+        chrome.runtime.sendMessage({action: 'fa_setKVPSetting', payload: {key: 'settings.privacyLevel', value: privacyLevel}});
     }
 
     function pickMessage(privacyLevel : PrivacyLevels) : string {
@@ -61,11 +78,20 @@ export function SidePanelLoggedInUserSettings() {
     }
 
     useEffect(() => {
+        // load privacy and set both values.
+        chrome.runtime.sendMessage({action: 'fa_getKVPSetting', payload: {key: 'settings.privacylevel'}}, (newValue : PrivacyLevels | undefined) => {
+            if (newValue != undefined) {
+                setPrivacyLevel(newValue);
+                setPrivacyValue(_mapLevelToValue(newValue));
+            }
+        });
+        
         sharedStateReader.hasApiToken().then(x => {
             if (!x) {
                 fsm.handleUserLoggedOut();
             }
-        })
+        });
+
     }, []);
 
     function handleReturnClick() {
