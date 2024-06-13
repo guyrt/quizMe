@@ -33,6 +33,7 @@ class QuizHistoryBroker {
     }
 
     public uploadQuizResults(payload : QuizResponse) {
+        // console.log(`In uploadQuizResutlts ${payload.quiz_id}`);
         chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload}, (quizHistory: QuizHistory | BasicError) => {
             if (quizHistory != undefined && !isBasicError(quizHistory)) {
                 this.setQuizHistory(quizHistory);
@@ -44,7 +45,14 @@ class QuizHistoryBroker {
         this.quizHistory = payload;
         this.publish();
     }
+    
+   
+    public getQuizHistory(){
+        // console.log(`Current history state ${this.quizHistory}`);
+        return this.quizHistory;
+    }
 
+    //  save most recent quiz right before it's  uploaded, and mark it as scored. Only unmark it when we get a new make quiz. 
     private publish() {
         this.listeners.forEach(listener => {
             if (this.quizHistory != undefined) {

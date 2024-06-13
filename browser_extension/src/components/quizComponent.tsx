@@ -24,8 +24,6 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     const [quizAnswers, setQuizAnswers] = useState<{[key: number]: number}>({});
 
     useEffect(() => {
-        console.log("First UseEffect");
-        console.log(`Incoming answers ${incomingQuizAnswers}`)
         if (incomingQuizAnswers != undefined && incomingQuizAnswers.length > 0) {
             const answersObject = incomingQuizAnswers.reduce((obj : {[key: number]: number}, current, index) => {
                 obj[index] = current;
@@ -33,10 +31,8 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
             }, {});
             console.log("Answers ", answersObject, incomingQuizAnswers);
             setQuizAnswers(answersObject);
-
             setQuizStatus("scored");
         } else {
-            console.log("I will change to quiz status = inprogress")
             setQuizStatus("inprogress");
             setQuizAnswers({});
         }
@@ -48,16 +44,15 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
 
     // on start effect
     useEffect(() => {
-        console.log("Second UseEffect");
+        
 
         const stateHandler = (qh : QuizHistory) => {
-            console.log(`Quizhistory state ${qh}`);
+            // console.log(`Quizhistory state ${qh}`);
             setQuizHistory(qh);
             setQuizzesRemaining(quizHistoryBroker.getQuizzesRemaining());
         };
 
         quizHistoryBroker.subscribe(stateHandler);
-        console.log("Triggering an updated quiz history");
         quizHistoryBroker.trigger();
 
         return () => {
@@ -73,6 +68,12 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     };
 
     function makeQuizClick(forceReload : boolean = false) {
+      
+        // console.log(`I'll remove local data. The current state is  ${fsm.getState()}`);
+        localStorage.removeItem('quizScored');
+        localStorage.removeItem('lastAnswer');
+        localStorage.removeItem('lastQuiz');
+
         chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {});
     }
 
@@ -80,8 +81,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
         fsm.setShowOptions();
     }
    
-    console.log(`In quiz View ${quizStatus}`);
-    console.log(`Current answers: ${quizAnswers}`);
+  
     return (
         <div>
             {/* Handles generation header */}

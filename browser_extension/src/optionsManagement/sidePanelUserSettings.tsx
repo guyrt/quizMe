@@ -3,6 +3,7 @@ import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { fsm, SidePanelState } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import { SidePanelUserSettingsQuizHistory } from "./sidePanelUserSettingsQuizHistory";
 import { BlockedDomains } from "./blockedDomains";
+import { quizHistoryBroker } from "../stateTrackers/sidePanelThread/quizHistoryBroker";
 
 export function SidePanelLoggedInUserSettings() {
     
@@ -31,6 +32,7 @@ export function SidePanelLoggedInUserSettings() {
     function handleReturnClick() {
         //idea:  store the previous state prior to setting the state to "showSetting"
         //on click, update state back to that previous one; 
+      
         fsm.unsetShowOptions();
     }
 
@@ -45,6 +47,7 @@ export function SidePanelLoggedInUserSettings() {
                 <button id='back' className="buttonSettings" onClick={handleReturnClick}>Return</button>
                 <button id='logout' className="buttonSettings" onClick={logoutThisDevice}>Log out</button>
             </div>
+
         </>
     )
 }

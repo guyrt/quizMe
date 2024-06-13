@@ -35,8 +35,6 @@ export const QuizInProgress: React.FC<{
         localStorage.setItem('lastQuiz', JSON.stringify(quiz));
         localStorage.setItem('quizScored', JSON.stringify(true));
         localStorage.setItem('lastAnswer', JSON.stringify(sel_num));
-        // console.log("Storing quiz in memory"); 
-
     }
 
     const uploadQuiz = () => {
@@ -52,17 +50,13 @@ export const QuizInProgress: React.FC<{
             quiz_id: quiz.id,
             selection : denseArray
         }
-        // console.log(`Quiz history state before upload: ${quiz.status}`);
-        console.log(`Selection ${denseArray}`);
+       
         quizHistoryBroker.uploadQuizResults(payload);
 
-        storeQuiz(denseArray);
-        // console.log(`Quiz history state after upload:  ${quiz.id}`);
-
+        storeQuiz(denseArray); //save
 
     }
-    console.log(`Quiz history state before return: ${quiz.status}`);
-    console.log(`Quiz history ${quizHistoryBroker.getQuizHistory()?.recent_quizzes[0]}`);
+ 
     return (
         <div>
             {quiz.content.map((quizQuestion, i) => (
