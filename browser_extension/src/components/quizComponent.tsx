@@ -24,6 +24,8 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     const [quizAnswers, setQuizAnswers] = useState<{[key: number]: number}>({});
 
     useEffect(() => {
+        console.log("First UseEffect");
+        console.log(`Incoming answers ${incomingQuizAnswers}`)
         if (incomingQuizAnswers != undefined && incomingQuizAnswers.length > 0) {
             const answersObject = incomingQuizAnswers.reduce((obj : {[key: number]: number}, current, index) => {
                 obj[index] = current;
@@ -34,6 +36,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
 
             setQuizStatus("scored");
         } else {
+            console.log("I will change to quiz status = inprogress")
             setQuizStatus("inprogress");
             setQuizAnswers({});
         }
@@ -45,8 +48,10 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
 
     // on start effect
     useEffect(() => {
+        console.log("Second UseEffect");
+
         const stateHandler = (qh : QuizHistory) => {
-            console.log("Quizhistory state");
+            console.log(`Quizhistory state ${qh}`);
             setQuizHistory(qh);
             setQuizzesRemaining(quizHistoryBroker.getQuizzesRemaining());
         };
@@ -74,7 +79,9 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     function getMoreQuizzes() {
         fsm.setShowOptions();
     }
-
+   
+    console.log(`In quiz View ${quizStatus}`);
+    console.log(`Current answers: ${quizAnswers}`);
     return (
         <div>
             {/* Handles generation header */}
@@ -109,7 +116,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                     }
                 </>
             }
-            
+            {/* add a function to capture when the quizStatus changes to score */}
             <hr />
         </div>
     );

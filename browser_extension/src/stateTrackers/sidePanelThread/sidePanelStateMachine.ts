@@ -124,8 +124,23 @@ class SidePanelFiniteStateMachine {
     }
 
     public unsetShowOptions(){
+
+        // if (localStorage.getItem('scored')){
+        //     // need to clean local variables & 
+        // }
         this.setState(this.prevState);
         this.publish();
+
+        // if (localStorage.getItem('quizScored')){
+        //     // need to clean local variables & 
+        //     localStorage.removeItem('quizScored')
+        //     localStorage.removeItem('lastAnswer')
+        //     localStorage.removeItem('lastQuiz')
+        // }
+    }
+
+    public checkReturn(){
+        return this.state === "PageUploadedAndClassified" && this.prevState === "ShowUserSettings" && localStorage.getItem("scoredQuiz")
     }
 
     private publish() {

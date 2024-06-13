@@ -26,7 +26,7 @@ export default function SidePanelStats() {
         const stateHandler = (state : SidePanelState) => {
             console.log("In state handler use effect")
             const activeElement = fsm.getActiveDetails();
-
+            console.log(`about to update FSM with state ${state}`)
             setFiniteState(state);
 
             console.log("Writing context ", activeElement?.uploadedDom);
@@ -36,10 +36,26 @@ export default function SidePanelStats() {
             setQuiz(activeElement?.uploadedDom?.quiz_context);
 
             const quiz_context = activeElement?.uploadedDom?.quiz_context;
-            if (quiz_context?.status == 'completed' || quiz_context?.status == "notstarted") {
-                setQuizAnswers(quiz_context.quiz_results);
-            }
+            console.log(`Quiz context status: ${quiz_context?.status}`);
+           
 
+            if (quiz_context?.status == 'completed' || quiz_context?.status == "notstarted") {
+                console.log(`I will update the answer because quiz is complete to: ${quiz_context.quiz_results} `);
+                if  (localStorage.getItem('quizScored') == null){
+                    console.log(`Inner if. The current state is  ${fsm.getState()}`);
+                    setQuizAnswers(quiz_context.quiz_results);
+                }
+                else{
+
+                    if(fsm.checkReturn()){
+                    console.log(`I'll remove local data. The current state is  ${fsm.getState()}`);
+                    localStorage.removeItem('quizScored');
+                    }
+                    console.log("Outter else");
+                }
+                    
+            }
+            //if complete make changes
             setHistory(activeElement?.uploadedDom?.visit_history);
 
             //add function here to do the check 
@@ -53,9 +69,13 @@ export default function SidePanelStats() {
         // wrap async and fire a trigger check.
         const f = async () => {await fsm.triggerCheck()};
         f();
+        console.log("About to call retSettings");
         returnSettings();
+   
         return () => {
             fsm.unsubscribe(stateHandler);
+            console.log("In user effect return in sidePanelStats");
+            // returnSettings();
             
         };
 
@@ -88,6 +108,7 @@ export default function SidePanelStats() {
 
         if (temp_scored == null || temp_quiz == null || temp_answers == null){
                 console.log("In if");
+                return;
             }
     
         else{
@@ -97,14 +118,27 @@ export default function SidePanelStats() {
 
             // case quiz has been answered
             if (scored){
-                setQuiz(lastQuiz);
                 console.log(" In return settings ")
+                setQuiz(lastQuiz);
                 setQuizAnswers(answerSelected);
+
                 console.log(`In returnSettings lastQuiz ${lastQuiz.content}`);
                 console.log(`In returnSettings Answer selected ${answerSelected}`);
+
+                if (localStorage.getItem('quizScored')){
+                    // need to clean local variables & 
+                    // localStorage.removeItem('quizScored')
+                    localStorage.removeItem('lastAnswer')
+                    localStorage.removeItem('lastQuiz')
+                }
                 
             }
-            //fsm trigger is resetting the quiz 
+
+            else{
+                console.log("In else")
+            }
+            //fsm trigger is resetting the quiz ? 
+
             
                 
         
