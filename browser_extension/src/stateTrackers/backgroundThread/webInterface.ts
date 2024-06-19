@@ -92,14 +92,16 @@ export class QuizWebInterface {
 }
 
 
-export class BlockedDomainsWebInterface {
+class DomainsWebInferace {
     private settingsUrl = `${domain}/api/user/settings`;
-    private settingsKey = 'domain.exclude';
+    
     private specificKeyUrl = `${this.settingsUrl}/${this.settingsKey}`;
 
     private sharedStateWriter : BackgroundSharedStateWriter = new BackgroundSharedStateWriter();
 
-    public async addBlockedDomain(domain : string) : Promise<boolean> {
+    constructor(private settingsKey: string) {}
+
+    public async addDomain(domain : string) : Promise<boolean> {
         const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return false;
@@ -108,7 +110,7 @@ export class BlockedDomainsWebInterface {
         return post(apiToken, this.settingsUrl, {key: this.settingsKey, value: domain}).then(x => true).catch(e => false);
     }
 
-    public async deleteBlockedDomain(domain : string) : Promise<number> {
+    public async deleteDomain(domain : string) : Promise<number> {
         const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return -1;
@@ -119,7 +121,7 @@ export class BlockedDomainsWebInterface {
         });
     }
 
-    public async getBlockedDomains() : Promise<LooseSetting[]> {
+    public async getDomains() : Promise<LooseSetting[]> {
         const apiToken = await this.sharedStateWriter.getApiToken();
         if (apiToken == undefined) {
             return [];
@@ -134,6 +136,17 @@ export class BlockedDomainsWebInterface {
     }
 }
 
+export class AllowedDomainsWebInterface extends DomainsWebInferace {
+    constructor() {
+        super('domain.allow')
+    }
+}
+
+export class BlockedDomainsWebInterface extends DomainsWebInferace {
+    constructor() {
+        super('domain.exclude')
+    }
+}
 
 export class TokenManagementWebInterface {
 

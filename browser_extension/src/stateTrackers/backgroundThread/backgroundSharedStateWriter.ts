@@ -1,6 +1,6 @@
 import { BasicError, LooseSetting, UserTokenResponse, isBasicError } from "../../interfaces";
 import { PageDetailsStore } from "./pageDetailsStore";
-import { BlockedDomainsWebInterface, TokenManagementWebInterface } from "./webInterface";
+import { AllowedDomainsWebInterface, BlockedDomainsWebInterface, TokenManagementWebInterface } from "./webInterface";
 import { SharedStateReaders } from "../sharedStateReaders";
 import { QuizHistoryState } from "./quizSubscriptionState";
 import { backgroundState } from "./pageDetailsHandler";
@@ -16,14 +16,23 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
     /// Runs on backend only.
     public async addDomainBlock(domainToBlock : string) : Promise<boolean> {
         // call server to drop a setting by key/value
-        const webSetResponse = new BlockedDomainsWebInterface().addBlockedDomain(domainToBlock);
+        const webSetResponse = new BlockedDomainsWebInterface().addDomain(domainToBlock);
         // get local set and remove element
         // return value from server as a number
         return webSetResponse;
     }
 
-    public async dropDomainBlock(domainToUnblock : string) : Promise<number> {
-        const webDelete = new BlockedDomainsWebInterface().deleteBlockedDomain(domainToUnblock);
+    public async addAllowDomain(domain : string) : Promise<boolean> {
+        return new AllowedDomainsWebInterface().addDomain(domain);
+    }
+
+    public async dropDomainBlock(domain : string) : Promise<number> {
+        const webDelete = new BlockedDomainsWebInterface().deleteDomain(domain);
+        return webDelete;
+    }
+
+    public async dropDomainAllow(domain : string) : Promise<number> {
+        const webDelete = new AllowedDomainsWebInterface().deleteDomain(domain);
         return webDelete;
     }
 
@@ -31,14 +40,32 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         chrome.storage.sync.set({[key]: val});
     }
 
+    public async getKVPSetting(key : string) {
+        const v = await chrome.storage.sync.get(key);
+        return v[key];
+    }
+
     public async loadDomainBlockList() : Promise<LooseSetting[]> {
         try {
-            const domains = await new BlockedDomainsWebInterface().getBlockedDomains();
+            const domains = await new BlockedDomainsWebInterface().getDomains();
             chrome.storage.local.set({[SharedStateReaders.DomainBlockListKey]: {domains: domains}});
             return domains;
         } catch {
             // save an error.
             chrome.storage.local.set({[SharedStateReaders.DomainBlockListKey]: {error: "domain fetch"}});
+        }
+
+        return [];
+    }
+
+    public async loadDomainAllowList() : Promise<LooseSetting[]> {
+        try {
+            const domains = await new AllowedDomainsWebInterface().getDomains();
+            chrome.storage.local.set({[SharedStateReaders.DomainAllowListKey]: {domains: domains}});
+            return domains;
+        } catch {
+            // save an error.
+            chrome.storage.local.set({[SharedStateReaders.DomainAllowListKey]: {error: "domain fetch"}});
         }
 
         return [];

@@ -153,8 +153,23 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             sendResponse({error: "error blocking domain"});
         })
         return true;
+    } else if (message.action == "fa_addNewDomainAllow") {
+        const domain = message.payload.domain;
+        (new BackgroundSharedStateWriter()).addAllowDomain(domain).then(
+            success => sendResponse({success: success})
+        ).catch(e => {
+            sendResponse({error: "error allowing domain"});
+        })
+        return true;
     } else if (message.action == "fa_loadBlockedDomains") {
         (new BackgroundSharedStateWriter()).loadDomainBlockList().then(
+            domains => sendResponse({payload: domains})
+        ).catch(e => {
+            sendResponse({error: "error getting blocked domains"});
+        })
+        return true;
+    } else if (message.action == "fa_loadAllowedDomains") {
+        (new BackgroundSharedStateWriter()).loadDomainAllowList().then(
             domains => sendResponse({payload: domains})
         ).catch(e => {
             sendResponse({error: "error getting blocked domains"});
@@ -167,10 +182,26 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             sendResponse({error: "error getting blocked domains"});
         })
         return true;
+    } else if (message.action == "fa_deleteDomainAllow") {
+        (new BackgroundSharedStateWriter()).dropDomainAllow(message.payload.domain).then(
+            domains => sendResponse({payload: domains})
+        ).catch(e => {
+            sendResponse({error: "error getting allowed domains"});
+        })
+        return true;
     } else if (message.action === "fa_setKVPSetting") {
         const key = message.payload.key;
         const value = message.payload.value;
+        console.log(`Setting ${key}: ${value}`);
         (new BackgroundSharedStateWriter()).setKVPSetting(key, value);
+    } else if (message.action === 'fa_getKVPSetting') {
+        const key = message.payload.key;
+        (new BackgroundSharedStateWriter()).getKVPSetting(key).then(value => {
+            console.log(`Getting ${key}: ${value}`);
+            sendResponse(value);
+   
+        });
+        return true;
     }
 }
 
