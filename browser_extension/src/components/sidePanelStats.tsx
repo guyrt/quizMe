@@ -34,24 +34,17 @@ export default function SidePanelStats() {
             setQuiz(activeElement?.uploadedDom?.quiz_context);
 
             const quiz_context = activeElement?.uploadedDom?.quiz_context;
-            // console.log(`Quiz context status: ${quiz_context?.status}`);
-           
 
             if (quiz_context?.status == 'completed' || quiz_context?.status == "notstarted") {
                 
                 //new quiz --> update answers
                 if  (localStorage.getItem('quizScored') == null){
-                    // console.log(`Inner if. The current state is  ${fsm.getState()}`);
                     setQuizAnswers(quiz_context.quiz_results);
                 }
                     
             }
             //if complete make changes
             setHistory(activeElement?.uploadedDom?.visit_history);
-
-            //add function here to do the check 
-
-            
             
         };
 
@@ -87,19 +80,14 @@ export default function SidePanelStats() {
     )
 
 
-
-
     function returnSettings (){
 
         const temp_scored = localStorage.getItem('quizScored');
         const temp_quiz = localStorage.getItem('lastQuiz');
         const temp_answers = localStorage.getItem('lastAnswer');
 
-        if (temp_scored == null || temp_quiz == null || temp_answers == null){
-                return;
-            }
-    
-        else{
+        if (temp_scored != null && temp_quiz != null && temp_answers != null){ 
+             
             const scored : Boolean  = JSON.parse(temp_scored);
             const lastQuiz : FilledQuiz = JSON.parse(temp_quiz);
             const answerSelected : number[] = JSON.parse(temp_answers);
@@ -109,7 +97,6 @@ export default function SidePanelStats() {
                 setQuiz(lastQuiz);
                 setQuizAnswers(answerSelected);   
             }
-            //fsm trigger is resetting the quiz ?       
-            }
+        }
     }
 }

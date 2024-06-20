@@ -277,17 +277,15 @@ class PageDetailsHandler {
             return;
         }
         
-
         //check whether user is logged in
         const token = await this.getToken();
         const tId = argMax<any, any>(tabs, 'lastAccessed').id;
 
         if (token == undefined) {
-            console.log("Im not authorized :/ ");
             this.setPageUnauthorized(tId);
             return;
         }
-
+        
         // if yes, grant access 
         chrome.tabs.sendMessage(
             tId,

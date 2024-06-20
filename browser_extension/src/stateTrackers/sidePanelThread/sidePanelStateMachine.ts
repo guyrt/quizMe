@@ -132,7 +132,6 @@ class SidePanelFiniteStateMachine {
 
 
     private publish() {
-        // console.log(`Reacting to state ${this.state}`);
         this.listeners.forEach(listener => {
             listener(this.state)
         });
