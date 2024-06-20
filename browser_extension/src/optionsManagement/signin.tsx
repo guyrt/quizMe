@@ -4,12 +4,11 @@ import { isBasicError } from "../interfaces";
 
 
 type SignInProps = {
-    doNav : boolean
     handleSignUp: () => void
     handleSignedIn: () => void
 }
 
-const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) => {
+const SignIn: React.FC<SignInProps> = ({ handleSignUp, handleSignedIn }) => {
 
     const [error, setError] = useState<string | null>(null);
     const usernameRef = useRef<HTMLInputElement>(null);
@@ -30,25 +29,14 @@ const SignIn: React.FC<SignInProps> = ({ doNav, handleSignUp, handleSignedIn }) 
             if (isBasicError(response)) {
                 setError("That ain't it. Try again maybe? Type slower?"); // Set error message for other errors
             } else {
-                if (doNav) {
-                    const navigate = useNavigate();
-    
-                    navigate("/user");
-                } else {
-                    handleSignedIn();
-                }
+                handleSignedIn();
             }
         });
 
     }
 
     const innerSignup = () => {
-        if (doNav) {
-            const navigate = useNavigate();
-            navigate('/signup');
-        } else {
-            handleSignUp();
-        }
+        handleSignUp();
     }
 
     const onPasswordEnterCheck = (event : React.KeyboardEvent) => {

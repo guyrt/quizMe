@@ -105,9 +105,13 @@ export type ChromeMessageType =
     
     | "fa_onLoginReminderClick"  // fires when user clicks logged out reminder.
     | "fa_addNewDomainBlock"  // message from sidepanel adding a new domain to block.
-    | "fa_loadBlockedDomains" // message from sidepanel to backend to load domains.
+    | "fa_addNewDomainAllow" // message from sidepanel to add a new domain to allow.
+    | "fa_loadBlockedDomains" // message from sidepanel to backend to load blocked domains.
+    | "fa_loadAllowedDomains" // message from sidepanel to backend to load allowed domains.
     | "fa_deleteDomainBlock"
+    | "fa_deleteDomainAllow"  // message from sidepanel to remove an allowed domain.
     | "fa_setKVPSetting" // message for sending new settings values.
+    | "fa_getKVPSetting" // message to retrieve a setting value.
     | "fa_logUserOut" // message from options surfaces to backend to nuke api token.
     | "fa_signUserIn" // message from options surfaces to backend to try to sign a user in.
     | "fa_createNewUser" // message from options surfaces to backend to try to create a new user.
@@ -190,3 +194,6 @@ export type BasicError = {error: string}
 export function isBasicError(o : any): o is BasicError {
     return 'error' in o;
 }
+
+
+export type PrivacyLevels = "manual" | "allowList" | "allArticles" | "allPages"

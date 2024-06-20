@@ -21,9 +21,8 @@ export default function() {
     return (
         <>
             {showLogIn ? <SignIn 
-                doNav={false} 
                 handleSignUp={() => handleSignUp()} 
-                handleSignedIn={handleLoggedIn} /> : <SignUp doNav={false} handleSwitchToSignIn={() => {setShowLogIn(true)}} handleSignedUp={handleLoggedIn}/>}
+                handleSignedIn={handleLoggedIn} /> : <SignUp handleSwitchToSignIn={() => {setShowLogIn(true)}} handleSignedUp={handleLoggedIn}/>}
         </>
     );
 }
