@@ -10,8 +10,7 @@ const entryPoints = {
         path.resolve(__dirname, 'scss', 'main.scss')
     ],
     background: path.resolve(__dirname, 'src', 'background.ts'),
-    runOnceActions: path.resolve(__dirname, 'src', 'runOnceActions.ts'),
-    options: path.resolve(__dirname, 'src', 'options.tsx')
+    runOnceActions: path.resolve(__dirname, 'src', 'runOnceActions.ts')
 };
 
 module.exports = {

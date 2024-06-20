@@ -38,15 +38,6 @@ export class SharedStateReaders {
         );
     }
 
-    public async getTrackAllPages() : Promise<boolean> {
-        const key = "settings.filtersend";
-        const stored = (await chrome.storage.sync.get(key))[key];
-        if (stored !== undefined) {
-            return stored;
-        }
-        return false;  // default to safety.
-    }
-
 }
 
 

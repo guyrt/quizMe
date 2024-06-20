@@ -71,15 +71,17 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         return [];
     }
 
-    public async getDomainBlockList(forceLoad : boolean = false) : Promise<LooseSetting[] | BasicError> {
+    /* Get list with optional force load */
+    public async getDomainList(forceLoad : boolean = false, loadBlock : boolean) : Promise<LooseSetting[] | BasicError> {
         if (!forceLoad) {
-            const domains = (await chrome.storage.local.get(SharedStateReaders.DomainBlockListKey))[SharedStateReaders.DomainBlockListKey];
+            const key = loadBlock ? SharedStateReaders.DomainBlockListKey : SharedStateReaders.DomainAllowListKey
+            const domains = (await chrome.storage.local.get(key))[key];
             if ('domains' in domains) {
                 return domains['domains'];
             }
         }
 
-        return this.loadDomainBlockList();
+        return loadBlock ? this.loadDomainBlockList() : this.loadDomainAllowList();
     }
 
     public async logUserOut() {

@@ -3,12 +3,11 @@ import { useNavigate } from "react-router-dom";
 import { isBasicError } from "../interfaces";
 
 type SignUpProps = {
-    doNav : boolean
     handleSwitchToSignIn: () => void
     handleSignedUp: () => void
 }
 
-export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSwitchToSignIn, handleSignedUp }) => {
+export const SignUp: React.FC<SignUpProps> = ({ handleSwitchToSignIn, handleSignedUp }) => {
 
     const [error, setError] = useState<string | null>(null);
     const [showSignIn, setShowSignIn] = useState<boolean>(false);
@@ -42,13 +41,7 @@ export const SignUp: React.FC<SignUpProps> = ({ doNav, handleSwitchToSignIn, han
                 }
 
             } else {
-                if (doNav) {
-                    const navigate = useNavigate();
-    
-                    navigate("/user");
-                } else {
-                    handleSignedUp();
-                }
+                handleSignedUp();
             }    
         });
 
