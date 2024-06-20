@@ -124,12 +124,14 @@ class SidePanelFiniteStateMachine {
     }
 
     public unsetShowOptions(){
+
         this.setState(this.prevState);
         this.publish();
+
     }
 
+
     private publish() {
-        console.log(`Reacting to state ${this.state}`);
         this.listeners.forEach(listener => {
             listener(this.state)
         });

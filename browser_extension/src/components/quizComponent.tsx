@@ -31,7 +31,6 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
             }, {});
             console.log("Answers ", answersObject, incomingQuizAnswers);
             setQuizAnswers(answersObject);
-
             setQuizStatus("scored");
         } else {
             setQuizStatus("inprogress");
@@ -45,14 +44,15 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
 
     // on start effect
     useEffect(() => {
+        
+
         const stateHandler = (qh : QuizHistory) => {
-            console.log("Quizhistory state");
+            // console.log(`Quizhistory state ${qh}`);
             setQuizHistory(qh);
             setQuizzesRemaining(quizHistoryBroker.getQuizzesRemaining());
         };
 
         quizHistoryBroker.subscribe(stateHandler);
-        console.log("Triggering an updated quiz history");
         quizHistoryBroker.trigger();
 
         return () => {
@@ -68,13 +68,20 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
     };
 
     function makeQuizClick(forceReload : boolean = false) {
+      
+        // console.log(`I'll remove local data. The current state is  ${fsm.getState()}`);
+        localStorage.removeItem('quizScored');
+        localStorage.removeItem('lastAnswer');
+        localStorage.removeItem('lastQuiz');
+
         chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {});
     }
 
     function getMoreQuizzes() {
         fsm.setShowOptions();
     }
-
+   
+  
     return (
         <div>
             {/* Handles generation header */}
@@ -109,7 +116,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
                     }
                 </>
             }
-            
+            {/* add a function to capture when the quizStatus changes to score */}
             <hr />
         </div>
     );

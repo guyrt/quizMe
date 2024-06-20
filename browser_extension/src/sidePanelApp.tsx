@@ -16,7 +16,6 @@ function MainApp() {
     // on mount Effects.
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
-            console.log(`Got state ${state}`);
             setState(state);
         };
 

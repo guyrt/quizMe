@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Quiz, VisitHistory } from "../interfaces";
+import { FilledQuiz, Quiz, VisitHistory } from "../interfaces";
 import { SidePanelState, fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import HistorySection from "./history/historySection";
 import QuizView from "./quizComponent";
@@ -25,7 +25,6 @@ export default function SidePanelStats() {
     useEffect(() => {
         const stateHandler = (state : SidePanelState) => {
             const activeElement = fsm.getActiveDetails();
-
             setFiniteState(state);
 
             console.log("Writing context ", activeElement?.uploadedDom);
@@ -35,11 +34,18 @@ export default function SidePanelStats() {
             setQuiz(activeElement?.uploadedDom?.quiz_context);
 
             const quiz_context = activeElement?.uploadedDom?.quiz_context;
-            if (quiz_context?.status == 'completed' || quiz_context?.status == "notstarted") {
-                setQuizAnswers(quiz_context.quiz_results);
-            }
 
+            if (quiz_context?.status == 'completed' || quiz_context?.status == "notstarted") {
+                
+                //new quiz --> update answers
+                if  (localStorage.getItem('quizScored') == null){
+                    setQuizAnswers(quiz_context.quiz_results);
+                }
+                    
+            }
+            //if complete make changes
             setHistory(activeElement?.uploadedDom?.visit_history);
+            
         };
 
         fsm.subscribe(stateHandler);
@@ -48,9 +54,14 @@ export default function SidePanelStats() {
         const f = async () => {await fsm.triggerCheck()};
         f();
 
+        returnSettings();
+   
         return () => {
             fsm.unsubscribe(stateHandler);
+            
         };
+
+        
     }, []);
 
     return (
@@ -67,4 +78,25 @@ export default function SidePanelStats() {
             {process.env.QUIZ_ONLY === 'false' && history !== undefined && <HistorySection history={history} />}
         </div>
     )
+
+
+    function returnSettings (){
+
+        const temp_scored = localStorage.getItem('quizScored');
+        const temp_quiz = localStorage.getItem('lastQuiz');
+        const temp_answers = localStorage.getItem('lastAnswer');
+
+        if (temp_scored != null && temp_quiz != null && temp_answers != null){ 
+             
+            const scored : Boolean  = JSON.parse(temp_scored);
+            const lastQuiz : FilledQuiz = JSON.parse(temp_quiz);
+            const answerSelected : number[] = JSON.parse(temp_answers);
+
+            // case quiz has already been answered
+            if (scored){
+                setQuiz(lastQuiz);
+                setQuizAnswers(answerSelected);   
+            }
+        }
+    }
 }

@@ -2,11 +2,13 @@ import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine";
 import { SidePanelUserSettingsQuizHistory } from "./sidePanelUserSettingsQuizHistory";
+
 import { AllowDomainList, BlockedDomainList } from "./blockedDomains";
 
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { PrivacyLevels } from "../interfaces";
+
 
 export function SidePanelLoggedInUserSettings() {
     
@@ -100,6 +102,7 @@ export function SidePanelLoggedInUserSettings() {
     function handleReturnClick() {
         //idea:  store the previous state prior to setting the state to "showSetting"
         //on click, update state back to that previous one; 
+      
         fsm.unsetShowOptions();
     }
 
@@ -129,6 +132,7 @@ export function SidePanelLoggedInUserSettings() {
                 <button id='back' className="buttonSettings" onClick={handleReturnClick}>Return</button>
                 <button id='logout' className="buttonSettings" onClick={logoutThisDevice}>Log out</button>
             </div>
+
         </>
     )
 }

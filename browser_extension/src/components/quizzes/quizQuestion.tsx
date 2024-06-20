@@ -18,9 +18,23 @@ export const QuizInProgress: React.FC<{
         setIsRemoving(true);
             // Optionally, set a timeout to remove the element from the DOM after animation
         setTimeout(() => {
+            // console.log(`Quiz history statUS in QuizSubmit upload: ${}}`);
             setQuizState("scored");
-            uploadQuiz();        
+            uploadQuiz(); 
+
+           
         }, 250); // Match the duration of the animation
+    }
+
+    //save scored quiz for return 
+    const storeQuiz = (sel_num:number[]) =>{
+        if (quiz == undefined) {
+            return;
+        }
+
+        localStorage.setItem('lastQuiz', JSON.stringify(quiz));
+        localStorage.setItem('quizScored', JSON.stringify(true));
+        localStorage.setItem('lastAnswer', JSON.stringify(sel_num));
     }
 
     const uploadQuiz = () => {
@@ -36,9 +50,13 @@ export const QuizInProgress: React.FC<{
             quiz_id: quiz.id,
             selection : denseArray
         }
+       
         quizHistoryBroker.uploadQuizResults(payload);
-    }
 
+        storeQuiz(denseArray); //save
+
+    }
+ 
     return (
         <div>
             {quiz.content.map((quizQuestion, i) => (
