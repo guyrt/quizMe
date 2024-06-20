@@ -23,7 +23,6 @@
             ]
         }
     ],
-    "options_page": "options.html",
     "action": {
         "default_icon": {
             "16": "/images/logo-16x16.png",

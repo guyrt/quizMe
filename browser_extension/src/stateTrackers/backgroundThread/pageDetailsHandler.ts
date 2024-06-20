@@ -1,7 +1,7 @@
 /// State object for the background
 import { v4 as uuidv4 } from 'uuid';
 
-import { BasicError, DomShape, LooseSetting, MaybeSinglePageDetails, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom, isBasicError } from "../../interfaces";
+import { BasicError, DomShape, LooseSetting, MaybeSinglePageDetails, PrivacyLevels, Quiz, SinglePageDetails, UploadableDomShape, UploadedDom, isBasicError } from "../../interfaces";
 import { log } from "../../utils/logger";
 import { QuizWebInterface, sendDomPayload, sendDomPayloadUpdate } from "./webInterface";
 import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
@@ -207,23 +207,38 @@ class PageDetailsHandler {
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
-        if (await this.blockedPage(response)){
+        const privacySetting : PrivacyLevels = await new BackgroundSharedStateWriter().getKVPSetting('settings.privacyLevel');
+
+        if (privacySetting == 'manual') {
             return false;
         }
+
     
-        if (await new BackgroundSharedStateWriter().getTrackAllPages() == true) {
-            return true;
+
+        if (privacySetting == "allArticles" || privacySetting == "allPages") {
+            if (await this.blockedPage(response)){
+                return false;
+            } else {
+                return true
+            }
         }
 
-        if (response.domClassification.classification != "article") {
-            return false;
+        // assume it's allow list based.
+        if (await this.allowedPage(response)) {
+            return response.domClassification.classification == "article";
         }
-
-        return true;
+        return false;
     }
 
     private async blockedPage(response : SinglePageDetails) : Promise<boolean> {
-        const domainBlockList = await new BackgroundSharedStateWriter().getDomainBlockList();
+        const domainBlockList = await new BackgroundSharedStateWriter().getDomainList(false, true);
+
+        return domainBlockList != undefined && !isBasicError(domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))
+    }
+
+    private async allowedPage(response : SinglePageDetails) : Promise<boolean> {
+        // todo! you need a getDomainAllowList, or reuse the fxn.
+        const domainBlockList = await new BackgroundSharedStateWriter().getDomainList(false, false);
 
         return domainBlockList != undefined && !isBasicError(domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))
     }
