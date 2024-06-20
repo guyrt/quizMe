@@ -87,7 +87,7 @@ function softClassifier(url: Location): DomClassification{
 
     const classes = ['blog-content' /*huggingface*/, "single-post" /* substack */, 'blog_categories', 'byline'];
     for (let i = 0; i < classes.length; i++) {
-        if (document.getElementById(classes[i])) {
+        if (document.getElementsByClassName(classes[i])) {
             return {
                 classification : "article",
                 reason : "class",
@@ -96,6 +96,24 @@ function softClassifier(url: Location): DomClassification{
         }
     };
 
+    // meta tag
+    const metaTags = document.getElementsByTagName('meta');
+
+    // Convert the HTMLCollection to an Array and find the desired meta tag
+    const metaTag = Array.from(metaTags).find(tag => tag.getAttribute('property') === 'og:type' && tag.getAttribute('content') === 'article');
+    if(metaTag){
+        return{
+            classification:"article",
+            reason:"metaTag",   
+        }
+    }
+    
+    if(isArticleByProp()){
+        return {
+            classification:"article",
+            reason:"propertyAttribute"
+        }
+    }
     return {
         classification : "unknown",
         reason : "fallthrough"
@@ -122,3 +140,20 @@ function randomForestInference(url:Location):Boolean{
     console.log("In RF inference");
     return false;
 }
+
+function isArticleByProp():Boolean{
+    const authorProp = document.querySelector('[itemprop="author"]');
+    if (authorProp) {
+        return true; 
+    }
+
+    const dateProp = document.querySelector('[itemprop="datePublished"]');
+    if(dateProp){
+        return true;
+    }
+
+    return false;
+}
+
+
+
