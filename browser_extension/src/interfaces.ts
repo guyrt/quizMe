@@ -1,6 +1,6 @@
 export type DomClassification = {
     classification : "article" | "serp" | "unknown",
-    reason : "hasArticleTag" | "dashCount" | "textContent" | "id" | "class" | "serp" | "fallthrough",
+    reason : "hasArticleTag" | "dashCount" | "textContent" | "id" | "class" | "serp" | "fallthrough" | "randomForest",
 
     // these are specific lookups that are likely candidates.
     idLookup? : string,

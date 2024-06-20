@@ -2,67 +2,10 @@ import { DomClassification } from "./interfaces";
 
 export function classifyPage(url : Location) : DomClassification {
 
-    const maybeSerp = getSerps();
-    if (maybeSerp != undefined) {
-        return {
-            classification: "serp",
-            reason: "serp"
-        }
-    }
+    const classSample = softClassifier(url); 
+    console.log("SoftClassifier output: ", classSample);
+    return classSample.classification === "unknown" ? hardClassifier(url) : classSample;
 
-    // some pages have many articles - these are typically homepages like stratechery.com or espn.com/mlb
-    const numArticles = document.querySelectorAll('article').length;
-    if (numArticles > 0 && numArticles < 3) {
-        return {
-            classification : "article",
-            reason : "hasArticleTag"
-        };
-    }
-
-    const ids = ['postBody', 'blog-post'];
-    for (let i = 0; i < ids.length; i++) {
-        if (document.getElementById(ids[i])) {
-            return {
-                classification : "article",
-                reason : "id",
-                idLookup : ids[i]
-            }
-        }
-    };
-    
-
-    const classes = ['blog-content' /*huggingface*/, "single-post" /* substack */,];
-    for (let i = 0; i < classes.length; i++) {
-        if (document.getElementById(classes[i])) {
-            return {
-                classification : "article",
-                reason : "class",
-                idLookup : classes[i]
-            }
-        }
-    };
-
-    // many times articles have title with dashes.
-    const dashCount = url.pathname.match(/\-/g)?.length || 0;
-    if (dashCount >= 2) {
-        return {
-            classification : "article",
-            reason : "dashCount"
-        };
-    }
-
-    if (isArticleByTextContent()) {
-        return {
-            classification : "article",
-            reason : "textContent"
-        }
-    }
-
-    // fallback to no
-    return {
-        classification : "unknown",
-        reason : "fallthrough"
-    }
 }
 
 
@@ -94,4 +37,88 @@ function isArticleByTextContent(): boolean {
     console.log("Wezo article textclassifier: ", { readingTimeMinutes, linkCount, linksPerMinute });
 
     return readingTimeMinutes > 4 || (readingTimeMinutes >= 3 && linksPerMinute < 0.8);
+}
+
+function softClassifier(url: Location): DomClassification{
+
+    const maybeSerp = getSerps();
+    if (maybeSerp != undefined) {
+        return {
+            classification: "serp",
+            reason: "serp"
+        }
+    }
+
+    const dashCount = url.pathname.match(/\-/g)?.length || 0;
+    if (dashCount >= 2) {
+        return {
+            classification : "article",
+            reason : "dashCount"
+        };
+    }
+
+
+    if (isArticleByTextContent()) {
+        return {
+            classification : "article",
+            reason : "textContent"
+        }
+    }
+
+    const numArticles = document.querySelectorAll('article').length;
+    if (numArticles > 0 && numArticles < 3) {
+        return {
+            classification : "article",
+            reason : "hasArticleTag"
+        };
+    }
+
+    const ids = ['postBody', 'blog-post', 'postContentContainer', 'publicationContent'];
+    for (let i = 0; i < ids.length; i++) {
+        if (document.getElementById(ids[i])) {
+            return {
+                classification : "article",
+                reason : "id",
+                idLookup : ids[i]
+            }
+        }
+    };
+    
+
+    const classes = ['blog-content' /*huggingface*/, "single-post" /* substack */, 'blog_categories', 'byline'];
+    for (let i = 0; i < classes.length; i++) {
+        if (document.getElementById(classes[i])) {
+            return {
+                classification : "article",
+                reason : "class",
+                idLookup : classes[i]
+            }
+        }
+    };
+
+    return {
+        classification : "unknown",
+        reason : "fallthrough"
+    };
+    
+}
+
+function hardClassifier(url:Location):DomClassification{
+
+    const decision  = randomForestInference(url);
+    if (decision){
+        return {classification : "article",
+                reason: "randomForest"
+        }
+    }
+    // page remains unknown
+    return {
+        classification : "unknown",
+        reason : "fallthrough"
+    }
+}
+
+function randomForestInference(url:Location):Boolean{
+    console.log("In RF inference");
+    return false;
 }
