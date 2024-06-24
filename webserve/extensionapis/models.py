@@ -15,6 +15,9 @@ class SingleUrl(ModelBaseMixin):
 
     objects = SingleUrlQuerySet.as_manager()
 
+    def __str__(self):
+        return self.url + " - " + self.host
+
     class Meta:
         unique_together = ("user", "url")
 

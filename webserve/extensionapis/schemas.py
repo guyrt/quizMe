@@ -19,6 +19,10 @@ class DomClassificationSchema(Schema):
         "id",
         "class",
         "fallthrough",
+        "randomForest",
+        "metaTag" ,
+        "propertyAttribute",
+        "urlContent"
     ]
 
     idLookup: str = None
