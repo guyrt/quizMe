@@ -15,6 +15,12 @@ class SingleUrl(ModelBaseMixin):
 
     objects = SingleUrlQuerySet.as_manager()
 
+    def get_corresponding_raw_docs(self):
+        return RawDocCapture.objects.filter(url_model=self)
+    
+    def get_dom_classification(self):
+        return SingleUrlFact.objects.filter(base_url=self)
+
     def __str__(self):
         return self.url + " - " + self.host
 

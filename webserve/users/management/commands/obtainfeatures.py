@@ -20,24 +20,40 @@ class Command(BaseCommand):
             parser.add_argument("data_path", nargs="1", type=str, help="Path to save feature data")
             
 
-    def handle(self, *args, **options):
+    def handle(self,  *args, **options):
+
+        filename="./test.jsonl"
 
         #first get user page from Single 
         # SingleUrl.objects.
         # f
-        self.stdout.write("About to get to a")
+        
         # self.stdout.write(self.style.SUCCESS(f"Successfully created user: {username}"))
         # a = SingleUrl.objects.all()
-        a = SingleUrl.objects.all()[:5]
-    
-        self.stdout.write(self.style.SUCCESS('5 entries in the database:'))
-        for item in a:
-                self.stdout.write(f'Item {item.url}, {item.host}') #here I get the url; I just need to get the content and trigger 
+        usr_host = SingleUrl.objects.all()
+        for item in usr_host:
+                self.stdout.write(f'Current Entry {item.url}, {item.host}')
+                related_docs = item.get_corresponding_raw_docs()
+                doc_class = item.get_dom_classification()
+                for i in doc_class:
+                     self.stdout.write(f'element {i.fact_value}')
+                self.stdout.write(f'Classification: {doc_class}')
+                for doc in related_docs:
+                     raw_dom = parse_contents(doc.get_content_prefer_readable())
+                     features = self.transform_jsonl(self.process_features(raw_dom, doc.url))
+                     self.stdout.write(f'Related RawDoc Features: {features}')
+                     
+                    #  self.stdout.write(f'Related RawDoc Features: {features} ; url: {doc.url}') #here I get the url; I just need to get the content and trigger 
                                                                    #function
-       
+                
+        '''
         b = RawDocCapture.objects.all()[:5]
         self.stdout.write(self.style.SUCCESS('Content:'))
-        with open("./test_jsonl", 'w') as file:
+
+        # if options["data_path"]:
+        #      filename = options["data_path"]
+ 
+        with open(filename, 'w') as file:
             for raw_doc in b:
                     raw_dom = parse_contents(raw_doc.get_content_prefer_readable())
                     # article_content = get_rough_article_content(raw_doc, raw_dom)
@@ -46,7 +62,7 @@ class Command(BaseCommand):
                     
                     file.write(json.dumps(self.transform_jsonl(features)) + '\n')
             self.stdout.write(f'Done Processing data')
-            
+        '''
         # self.process_features()
 
     def process_features(self, document:str, url:str) -> [int]:
