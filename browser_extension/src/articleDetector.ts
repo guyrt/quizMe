@@ -57,6 +57,14 @@ function softClassifier(url: Location): DomClassification{
         };
     }
 
+    const yearRegex = /\/blog\/\d{4}\//; // Regular expression to match /blog/YEAR/ pattern
+    if(yearRegex.test(url.pathname) || url.pathname.includes('/news/') || url.pathname.includes('/article/')){
+        return {
+            classification : "article",
+            reason : "urlContent"
+        }
+    }
+
 
     if (isArticleByTextContent()) {
         return {
@@ -85,7 +93,7 @@ function softClassifier(url: Location): DomClassification{
     };
     
 
-    const classes = ['blog-content' /*huggingface*/, "single-post" /* substack */, 'blog_categories', 'byline'];
+    const classes = ["single-post" /* substack */, 'blog_categories', 'byline','blog-content' /*huggingface*/];
     for (let i = 0; i < classes.length; i++) {
         if (document.getElementsByClassName(classes[i])) {
             return {
@@ -154,6 +162,4 @@ function isArticleByProp():Boolean{
 
     return false;
 }
-
-
 

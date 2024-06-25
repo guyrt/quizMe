@@ -16,54 +16,38 @@ class Command(BaseCommand):
     help = "Obtain and store pageFeatures"
 
 
-    def args (self, parser):
-            parser.add_argument("data_path", nargs="1", type=str, help="Path to save feature data")
+    def add_arguments(self, parser):
+            parser.add_argument('data_path', type=str, help="Path to save feature data")
             
 
     def handle(self,  *args, **options):
 
-        filename="./test.jsonl"
+        filename="./test_2.jsonl"
 
-        #first get user page from Single 
-        # SingleUrl.objects.
-        # f
-        
-        # self.stdout.write(self.style.SUCCESS(f"Successfully created user: {username}"))
-        # a = SingleUrl.objects.all()
-        usr_host = SingleUrl.objects.all()
-        for item in usr_host:
-                self.stdout.write(f'Current Entry {item.url}, {item.host}')
-                related_docs = item.get_corresponding_raw_docs()
-                doc_class = item.get_dom_classification()
-                for i in doc_class:
-                     self.stdout.write(f'element {i.fact_value}')
-                self.stdout.write(f'Classification: {doc_class}')
-                for doc in related_docs:
-                     raw_dom = parse_contents(doc.get_content_prefer_readable())
-                     features = self.transform_jsonl(self.process_features(raw_dom, doc.url))
-                     self.stdout.write(f'Related RawDoc Features: {features}')
-                     
-                    #  self.stdout.write(f'Related RawDoc Features: {features} ; url: {doc.url}') #here I get the url; I just need to get the content and trigger 
-                                                                   #function
-                
-        '''
-        b = RawDocCapture.objects.all()[:5]
-        self.stdout.write(self.style.SUCCESS('Content:'))
+        if options['data_path']:
+             filename = options['data_path']
 
-        # if options["data_path"]:
-        #      filename = options["data_path"]
- 
         with open(filename, 'w') as file:
-            for raw_doc in b:
-                    raw_dom = parse_contents(raw_doc.get_content_prefer_readable())
-                    # article_content = get_rough_article_content(raw_doc, raw_dom)
-                    # self.stdout.write(f'{raw_dom}')
-                    features = self.process_features(raw_dom, raw_doc.url)
+            usr_host = SingleUrl.objects.all()
+            for item in usr_host:
+                    related_docs = item.get_corresponding_raw_docs()
+                    doc_class = item.get_dom_classification()
+                    dom_class = ""
+
+                    for i in doc_class:
+                        dom_class = i.fact_value
+                        break
                     
-                    file.write(json.dumps(self.transform_jsonl(features)) + '\n')
-            self.stdout.write(f'Done Processing data')
-        '''
-        # self.process_features()
+                    for doc in related_docs:
+                        text =doc.get_content_prefer_readable()
+                        raw_dom = parse_contents(text)
+                        features = self.transform_jsonl(self.process_features(raw_dom, doc.url), dom_class)
+                        # self.stdout.write(f'Capture index: {doc.capture_index} Related RawDoc Features: {features} Text {text}')
+                        file.write(json.dumps(features) + '\n')
+
+        self.stdout.write(f'Done Processing data')
+                        #  self.stdout.write(f'Related RawDoc Features: {features} ; url: {doc.url}') #here I get the url; I just need to get the content and trigger 
+                                                                   #function
 
     def process_features(self, document:str, url:str) -> [int]:
 
@@ -101,11 +85,17 @@ class Command(BaseCommand):
     def count_section_tags(self, soup: BeautifulSoup) -> int:
         return len(soup.find_all('section'))
 
-    def transform_jsonl(self, feature_list: [int]) -> dict: 
+    def transform_jsonl(self, feature_list: [int], label:str) -> dict: 
+        
+        classification = 0
+        if label == 'article':
+             classification = 1
+
         return {"num_dashes":feature_list [0],  
                 "num_slashes":feature_list[1],
                 "num_p_tags":feature_list[2],
                 "num_article_tags":feature_list[3],
                 "num_iframe_tags":feature_list[4],
                 "num_embed_tags":feature_list[5],
-                "num_blockquote_tags":feature_list[6]}
+                "num_blockquote_tags":feature_list[6], 
+                "label":classification}
