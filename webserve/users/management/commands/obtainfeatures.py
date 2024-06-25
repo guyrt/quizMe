@@ -1,17 +1,24 @@
 from django.core.management.base import BaseCommand, CommandError
-
+from parser_utils.utilities import get_rough_article_content, parse_contents
 from django.contrib.auth import get_user_model
 from extensionapis.models import RawDocCapture, SingleUrl
 from quizzes.models import get_simple_quiz, SimpleQuizResults
 from quizzes.schemas import SimpleQuizSchema, UploadQuizResultsSchema
 from users.models import User
 import re 
+from bs4 import BeautifulSoup
+import json
 
 # User = get_user_model()
 
 
 class Command(BaseCommand):
     help = "Obtain and store pageFeatures"
+
+
+    def args (self, parser):
+            parser.add_argument("data_path", nargs="1", type=str, help="Path to save feature data")
+            
 
     def handle(self, *args, **options):
 
@@ -21,13 +28,25 @@ class Command(BaseCommand):
         self.stdout.write("About to get to a")
         # self.stdout.write(self.style.SUCCESS(f"Successfully created user: {username}"))
         # a = SingleUrl.objects.all()
-        a = RawDocCapture.objects.all()[:5]
+        a = SingleUrl.objects.all()[:5]
     
         self.stdout.write(self.style.SUCCESS('5 entries in the database:'))
         for item in a:
-                self.stdout.write(f'Item {item.url}, {item.host}')
+                self.stdout.write(f'Item {item.url}, {item.host}') #here I get the url; I just need to get the content and trigger 
+                                                                   #function
        
-        self.stdout.write(  self.style.SUCCESS('Successfully closed poll "%s"' % a))
+        b = RawDocCapture.objects.all()[:5]
+        self.stdout.write(self.style.SUCCESS('Content:'))
+        with open("./test_jsonl", 'w') as file:
+            for raw_doc in b:
+                    raw_dom = parse_contents(raw_doc.get_content_prefer_readable())
+                    # article_content = get_rough_article_content(raw_doc, raw_dom)
+                    # self.stdout.write(f'{raw_dom}')
+                    features = self.process_features(raw_dom, raw_doc.url)
+                    
+                    file.write(json.dumps(self.transform_jsonl(features)) + '\n')
+            self.stdout.write(f'Done Processing data')
+            
         # self.process_features()
 
     def process_features(self, document:str, url:str) -> [int]:
@@ -42,28 +61,35 @@ class Command(BaseCommand):
 
         return [dashes, slashes, p_tags, article_tags, iframe_tags, embed_tags, blockquote_tags]
         
-
     def count_dashes_in_url(self, url: str) -> int:
         return url.count('-')
 
-    def count_article_tags(self,html_content: str) -> int:
-        return len(re.findall(r'<article\b[^>]*>(.*?)</article>', html_content, re.DOTALL))
+    def count_article_tags(self, soup: BeautifulSoup) -> int:
+        return len(soup.find_all('article'))
 
-    def count_p_tags(self, html_content: str) -> int:
-        return len(re.findall(r'<p\b[^>]*>(.*?)</p>', html_content, re.DOTALL))
+    def count_p_tags(self, soup: BeautifulSoup) -> int:
+        return len(soup.find_all('p'))
 
-    def count_iframe_tags(self, html_content: str) -> int:
-        return len(re.findall(r'<iframe\b[^>]*>(.*?)</iframe>', html_content, re.DOTALL))
+    def count_iframe_tags(self, soup: BeautifulSoup) -> int:
+        return len(soup.find_all('iframe'))
 
-    def count_embed_tags(self, html_content: str) -> int:
-        """Counts the number of <embed> tags in the HTML content."""
-        return len(re.findall(r'<embed\b[^>]*>(.*?)</embed>', html_content, re.DOTALL))
+    def count_embed_tags(self, soup: BeautifulSoup) -> int:
+        return len(soup.find_all('embed'))
 
-    def count_blockquote_tags(self, html_content: str) -> int:
-        return len(re.findall(r'<blockquote\b[^>]*>(.*?)</blockquote>', html_content, re.DOTALL))
+    def count_blockquote_tags(self, soup: BeautifulSoup) -> int:
+        return len(soup.find_all('blockquote'))
 
     def count_slashes_in_url(self, url: str) -> int:
         return url.count('/')
 
-    def count_section_tags(self, html_content: str) -> int:
-        return len(re.findall(r'<section\b[^>]*>(.*?)</section>', html_content, re.DOTALL))
+    def count_section_tags(self, soup: BeautifulSoup) -> int:
+        return len(soup.find_all('section'))
+
+    def transform_jsonl(self, feature_list: [int]) -> dict: 
+        return {"num_dashes":feature_list [0],  
+                "num_slashes":feature_list[1],
+                "num_p_tags":feature_list[2],
+                "num_article_tags":feature_list[3],
+                "num_iframe_tags":feature_list[4],
+                "num_embed_tags":feature_list[5],
+                "num_blockquote_tags":feature_list[6]}
