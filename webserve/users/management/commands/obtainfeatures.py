@@ -13,7 +13,7 @@ import json
 
 
 class Command(BaseCommand):
-    help = "Obtain and store pageFeatures"
+    help = "Collect features of pages accessed/stored. Usage: python manage.py obtainfeatures <PATH TO SAVE FEATURES>"
 
 
     def add_arguments(self, parser):
@@ -21,11 +21,7 @@ class Command(BaseCommand):
             
 
     def handle(self,  *args, **options):
-
-        filename="./test_2.jsonl"
-
-        if options['data_path']:
-             filename = options['data_path']
+        filename = options['data_path']
 
         with open(filename, 'w') as file:
             usr_host = SingleUrl.objects.all()
@@ -42,15 +38,13 @@ class Command(BaseCommand):
                         text =doc.get_content_prefer_readable()
                         raw_dom = parse_contents(text)
                         features = self.transform_jsonl(self.process_features(raw_dom, doc.url), dom_class)
-                        # self.stdout.write(f'Capture index: {doc.capture_index} Related RawDoc Features: {features} Text {text}')
                         file.write(json.dumps(features) + '\n')
+                        break #get only latest capture
 
         self.stdout.write(f'Done Processing data')
-                        #  self.stdout.write(f'Related RawDoc Features: {features} ; url: {doc.url}') #here I get the url; I just need to get the content and trigger 
-                                                                   #function
+                    
 
     def process_features(self, document:str, url:str) -> [int]:
-
         dashes = self.count_dashes_in_url(url)
         slashes = self.count_slashes_in_url(url)
         p_tags = self.count_p_tags(document)

@@ -16,7 +16,7 @@ class SingleUrl(ModelBaseMixin):
     objects = SingleUrlQuerySet.as_manager()
 
     def get_corresponding_raw_docs(self):
-        return RawDocCapture.objects.filter(url_model=self)
+        return RawDocCapture.objects.filter(url_model=self).order_by("-capture_index")
     
     def get_dom_classification(self):
         return SingleUrlFact.objects.filter(base_url=self)
