@@ -1,15 +1,8 @@
-from django.core.management.base import BaseCommand, CommandError
-from parser_utils.utilities import get_rough_article_content, parse_contents
-from django.contrib.auth import get_user_model
-from extensionapis.models import RawDocCapture, SingleUrl
-from quizzes.models import get_simple_quiz, SimpleQuizResults
-from quizzes.schemas import SimpleQuizSchema, UploadQuizResultsSchema
-from users.models import User
-import re 
+from django.core.management.base import BaseCommand
+from parser_utils.utilities import  parse_contents
+from extensionapis.models import  SingleUrl
 from bs4 import BeautifulSoup
 import json
-
-# User = get_user_model()
 
 
 class Command(BaseCommand):
@@ -41,7 +34,7 @@ class Command(BaseCommand):
                         file.write(json.dumps(features) + '\n')
                         break #get only latest capture
 
-        self.stdout.write(f'Done Processing data')
+        self.stdout.write('Done Processing data')
                     
 
     def process_features(self, document:str, url:str) -> [int]:
