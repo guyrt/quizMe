@@ -32,7 +32,7 @@ class Command(BaseCommand):
 
                     for i in doc_class:
                         dom_class = i.fact_value
-                        break
+                        break #Dom class is the first value
                     
                     for doc in related_docs:
                         text =doc.get_content_prefer_readable()
