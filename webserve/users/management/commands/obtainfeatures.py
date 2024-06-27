@@ -97,9 +97,8 @@ class Command(BaseCommand):
         classification = 0
         if label == "article":
             classification = 1
-
-        if url is not None:
-            return {
+       
+        features_jsonl = {
                 "num_dashes": feature_list[0],
                 "num_slashes": feature_list[1],
                 "num_p_tags": feature_list[2],
@@ -108,16 +107,9 @@ class Command(BaseCommand):
                 "num_embed_tags": feature_list[5],
                 "num_blockquote_tags": feature_list[6],
                 "label": classification,
-                "url":url
             }
         
-        return {
-            "num_dashes": feature_list[0],
-            "num_slashes": feature_list[1],
-            "num_p_tags": feature_list[2],
-            "num_article_tags": feature_list[3],
-            "num_iframe_tags": feature_list[4],
-            "num_embed_tags": feature_list[5],
-            "num_blockquote_tags": feature_list[6],
-            "label": classification,
-        }
+        if url is not None:
+            features_jsonl["url"]=url
+        
+        return features_jsonl
