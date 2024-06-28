@@ -1,4 +1,14 @@
-import { ChromeMessage, QuizResponseMessage, UnknownDomain } from "./interfaces";
+import { 
+    ChromeMessage,
+    UnknownDomain,
+    isGetBreadcrumbsMessage,
+    isGetCurrentPageMessage,
+    isPageLoadedMessage,
+    isPageReloadedMessage, 
+    isQuizResponseMessage, 
+    isSetKVPSetting, 
+    isSignUserInMessage
+} from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundThread/pageDetailsHandler";
 import { PageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
 import { QuizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
@@ -29,18 +39,8 @@ chrome.tabs.onRemoved.addListener((tabId: number, removeInfo : chrome.tabs.TabRe
     PageDetailsStore.getInstance().deletePageDetails(tabId);
 });
 
-/* Message Listeners */
-chrome.runtime.onMessage.addListener((message : QuizResponseMessage, sender, sendResponse) => {
-    if (message.action === "fa_uploadQuizResult") {
-        const p = (new QuizHistoryState()).uploadQuizResult(message.payload);
-        p.then(x => sendResponse(x));
-        return true;
-    }
-});
-
-
 export const omnibusHandler = (message : ChromeMessage, sender : any, sendResponse : any) => {
-    if (message.action === "fa_getCurrentPage") {
+    if (isGetCurrentPageMessage(message)) {
         // check if the active tab is an article.
         (async () => {chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             
@@ -62,12 +62,12 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             });
         })})();
         return true;
-    } else if (message.action === "fa_pageLoaded") {
+    } else if (isPageLoadedMessage(message)) {
         // Perform action on page load
         const loadedUrl = message.payload.url;
         backgroundState.handleTabUpload(loadedUrl).then(() => sendResponse());
         return true;
-    } else if (message.action === "fa_pageReloaded") {
+    } else if (isPageReloadedMessage(message)) {
         const tId = message.payload.tabId;
         chrome.tabs.sendMessage(
             tId,
@@ -95,7 +95,7 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         state.then(x => sendResponse(x))
             .catch(x => sendResponse({error: 'quizHistoryError'}));
         return true;
-    } else if (message.action === "fa_getbreadcrumbs") {
+    } else if (isGetBreadcrumbsMessage(message)) {
         // retrieve breadcrumbs for a page.
         console.log(`got breadcrumb request for ${message.payload.pageId}`)
         const pageId = message.payload.pageId
@@ -115,12 +115,8 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         })();
     } else if (message.action == "fa_logUserOut") {
         (new BackgroundSharedStateWriter).logUserOut();
-} else if (message.action == "fa_signUserIn") {
-        (new BackgroundSharedStateWriter).logUserIn(message.payload).then(x => {
-            sendResponse(x);
-        }).catch(x => {
-            sendResponse(x);
-        })
+    } else if (isSignUserInMessage(message)) {
+        (new BackgroundSharedStateWriter()).logUserIn(message.payload).then(sendResponse).catch(sendResponse);
         return true;
     } else if (message.action == "fa_createNewUser") {
         (new BackgroundSharedStateWriter).signupUser(message.payload).then(x => {
@@ -158,7 +154,6 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
 
         if (domain == UnknownDomain) {
             (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
-
                 if (tabs.length > 0) {
                     const tab = tabs[0];
                     const url = tab.url;
@@ -223,11 +218,14 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             sendResponse({error: "error getting allowed domains"});
         })
         return true;
-    } else if (message.action === "fa_setKVPSetting") {
+    } else if (isSetKVPSetting(message)) {
         const key = message.payload.key;
         const value = message.payload.value;
-        console.log(`Setting ${key}: ${value}`);
         (new BackgroundSharedStateWriter()).setKVPSetting(key, value);
+    } else if (isQuizResponseMessage(message)) {
+        const p = (new QuizHistoryState()).uploadQuizResult(message.payload);
+        p.then(x => sendResponse(x));
+        return true;
     }
 }
 

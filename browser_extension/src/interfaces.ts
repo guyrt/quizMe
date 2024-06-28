@@ -121,10 +121,61 @@ export type ChromeMessage = {
     payload : any
 }
 
+export type SignUserInMessage = {
+    action: "fa_signUserIn"
+    payload: {
+        username: string,
+        password: string
+    }
+}
+export const isSignUserInMessage = (o: ChromeMessage): o is SignUserInMessage => o.action === "fa_signUserIn"
+
+export type SetKVPSetting = {
+    action: "fa_setKVPSetting"
+    payload: {
+        key: string
+        value: any
+    }
+}
+export const isSetKVPSetting = (o: ChromeMessage): o is SetKVPSetting => o.action === "fa_setKVPSetting";
+
 export type QuizResponseMessage = {
     action : "fa_uploadQuizResult"
     payload : QuizResponse
 }
+export const isQuizResponseMessage = (o: ChromeMessage): o is QuizResponseMessage => o.action == "fa_uploadQuizResult";
+
+export type GetCurrentPageMessage = {
+    action : "fa_getCurrentPage"
+    payload : undefined
+}
+export const isGetCurrentPageMessage = (o : ChromeMessage): o is GetCurrentPageMessage => o.action === "fa_getCurrentPage";
+
+export type PageLoadedMessage = {
+    action: "fa_pageLoaded"
+    payload: {
+        url: string
+    }
+}
+export const isPageLoadedMessage = (o : ChromeMessage): o is PageLoadedMessage => o.action === "fa_pageLoaded";
+
+export type PageReloadedMessage = {
+    action: "fa_pageReloaded"
+    payload: {
+        tabId: number
+    }
+}
+export const isPageReloadedMessage = (o : ChromeMessage): o is PageReloadedMessage => o.action === "fa_pageReloaded";
+
+export type GetBreadcrumbsMessage = {
+    action: "fa_getbreadcrumbs"
+    payload: {
+        pageId: string
+    }
+}
+export const isGetBreadcrumbsMessage = (o : ChromeMessage): o is GetBreadcrumbsMessage => o.action === "fa_getbreadcrumbs";
+
+
 
 export type QuizHistory = {
     total_quizzes : number
