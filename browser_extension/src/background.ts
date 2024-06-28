@@ -1,6 +1,7 @@
 import { 
     ChromeMessage,
     UnknownDomain,
+    isDeleteDomainAllowMessage,
     isGetBreadcrumbsMessage,
     isGetCurrentPageMessage,
     isPageLoadedMessage,
@@ -20,6 +21,7 @@ import TabTracker from './stateTrackers/backgroundThread/tabTimer';
 
 import { BackgroundSharedStateWriter } from "./stateTrackers/backgroundThread/backgroundSharedStateWriter";
 import { BreadcrumbsStateHandler } from "./stateTrackers/backgroundThread/breadcrumbs";
+import { handleQuizResponseMessage, setKVPSetting } from "./messagePassing/backgroundHandlers";
 
 
 // create this - initializer will set up events.
@@ -211,7 +213,7 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             sendResponse({error: "error getting blocked domains"});
         })
         return true;
-    } else if (message.action == "fa_deleteDomainAllow") {
+    } else if (isDeleteDomainAllowMessage(message)) {
         (new BackgroundSharedStateWriter()).dropDomainAllow(message.payload.domain).then(
             domains => sendResponse({payload: domains})
         ).catch(e => {
@@ -219,18 +221,16 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         })
         return true;
     } else if (isSetKVPSetting(message)) {
-        const key = message.payload.key;
-        const value = message.payload.value;
-        (new BackgroundSharedStateWriter()).setKVPSetting(key, value);
+        setKVPSetting(message);
     } else if (isQuizResponseMessage(message)) {
-        const p = (new QuizHistoryState()).uploadQuizResult(message.payload);
-        p.then(x => sendResponse(x));
+        (async () => {
+            await handleQuizResponseMessage(message, sendResponse)
+        })();
         return true;
     }
 }
 
 chrome.runtime.onMessage.addListener(omnibusHandler);
-
 
 // @ts-ignore
 chrome.sidePanel

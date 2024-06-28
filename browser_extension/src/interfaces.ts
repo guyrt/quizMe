@@ -175,6 +175,13 @@ export type GetBreadcrumbsMessage = {
 }
 export const isGetBreadcrumbsMessage = (o : ChromeMessage): o is GetBreadcrumbsMessage => o.action === "fa_getbreadcrumbs";
 
+export type DeleteDomainAllowMessage = {
+    action: "fa_deleteDomainAllow"
+    payload: {
+        domain : string
+    }
+}
+export const isDeleteDomainAllowMessage = (o : ChromeMessage): o is DeleteDomainAllowMessage => o.action === "fa_deleteDomainAllow";
 
 
 export type QuizHistory = {
