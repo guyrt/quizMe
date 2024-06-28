@@ -60,7 +60,7 @@ export function SidePanelLoggedInUserSettings() {
         }
         setPrivacyLevel(privacyLevel);
         setPrivacyValue(newValue);
-        chrome.runtime.sendMessage({action: 'fa_setKVPSetting', payload: {key: 'settings.privacyLevel', value: privacyLevel}});
+        chrome.runtime.sendMessage({action: 'fa_setKVPSetting', payload: {key: SharedStateReaders.PrivacyLevelKey, value: privacyLevel}});
     }
 
     function pickMessage(level : PrivacyLevels) : string {
@@ -81,7 +81,7 @@ export function SidePanelLoggedInUserSettings() {
 
     useEffect(() => {
         // load privacy and set both values.
-        chrome.runtime.sendMessage({action: 'fa_getKVPSetting', payload: {key: 'settings.privacyLevel'}}, (newValue : PrivacyLevels | undefined) => {
+        new SharedStateReaders().getKVPSetting(SharedStateReaders.PrivacyLevelKey).then(newValue => {
             console.log(`Got privacy level ${newValue}`);
             if (newValue != undefined) {
                 setPrivacyLevel(newValue);

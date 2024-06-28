@@ -6,6 +6,7 @@ export class SharedStateReaders {
     protected static UserEmailKey : string = "secret.email";
     protected static DomainBlockListKey : string = "settings.DomainBlockList";
     protected static DomainAllowListKey : string = "settings.DomainAllowList";
+    public static PrivacyLevelKey : string = "settings.privacyLevel";
 
     public async hasApiToken() {
         const token = (await chrome.storage.local.get(SharedStateReaders.ApiTokenKey))[SharedStateReaders.ApiTokenKey];
@@ -14,6 +15,11 @@ export class SharedStateReaders {
 
     public async getUserEmail() : Promise<string | undefined> {
         return (await chrome.storage.local.get(SharedStateReaders.UserEmailKey))[SharedStateReaders.UserEmailKey];
+    }
+
+    public async getKVPSetting(key : string) {
+        const v = await chrome.storage.sync.get(key);
+        return v[key];
     }
 
     public async getDomainList(forceLoad : boolean = false, getBlock : boolean = true) : Promise<LooseSetting[] | BasicError> {

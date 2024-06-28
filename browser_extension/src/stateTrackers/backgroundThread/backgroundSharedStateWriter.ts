@@ -40,11 +40,6 @@ export class BackgroundSharedStateWriter extends SharedStateReaders {
         chrome.storage.sync.set({[key]: val});
     }
 
-    public async getKVPSetting(key : string) {
-        const v = await chrome.storage.sync.get(key);
-        return v[key];
-    }
-
     public async loadDomainBlockList() : Promise<LooseSetting[]> {
         try {
             const domains = await new BlockedDomainsWebInterface().getDomains();

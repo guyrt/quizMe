@@ -8,6 +8,7 @@ import { BackgroundSharedStateWriter } from "./backgroundSharedStateWriter";
 
 import { PageDetailsStore } from "./pageDetailsStore";
 import { QuizHistoryState } from "./quizSubscriptionState";
+import { SharedStateReaders } from '../sharedStateReaders';
 
 
 // todo: move quiz stuff.
@@ -207,7 +208,7 @@ class PageDetailsHandler {
 
     private async shouldOperateOnPage(response : SinglePageDetails) : Promise<boolean> {
 
-        const privacySetting : PrivacyLevels = await new BackgroundSharedStateWriter().getKVPSetting('settings.privacyLevel');
+        const privacySetting : PrivacyLevels = await new BackgroundSharedStateWriter().getKVPSetting(SharedStateReaders.PrivacyLevelKey);
 
         if (privacySetting == 'manual') {
             return false;

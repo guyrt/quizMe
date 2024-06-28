@@ -1,4 +1,4 @@
-import { ChromeMessage, QuizResponseMessage } from "./interfaces";
+import { ChromeMessage, QuizResponseMessage, UnknownDomain } from "./interfaces";
 import {backgroundState} from "./stateTrackers/backgroundThread/pageDetailsHandler";
 import { PageDetailsStore } from "./stateTrackers/backgroundThread/pageDetailsStore";
 import { QuizHistoryState } from "./stateTrackers/backgroundThread/quizSubscriptionState";
@@ -155,11 +155,45 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         return true;
     } else if (message.action == "fa_addNewDomainAllow") {
         const domain = message.payload.domain;
-        (new BackgroundSharedStateWriter()).addAllowDomain(domain).then(
-            success => sendResponse({success: success})
-        ).catch(e => {
-            sendResponse({error: "error allowing domain"});
-        })
+
+        if (domain == UnknownDomain) {
+            (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+
+                if (tabs.length > 0) {
+                    const tab = tabs[0];
+                    const url = tab.url;
+                    if (url !== undefined) {
+                        try {
+                            const parsedUrl = new URL(url);
+                            const domain = parsedUrl.hostname;
+                            (new BackgroundSharedStateWriter()).addAllowDomain(domain).then(
+                                // purge background. 
+                                success => {
+                                    tab?.id !== undefined && PageDetailsStore.getInstance().deletePageDetails(tab.id);
+
+                                    sendResponse({success: success})
+                                }
+                            ).catch(e => {
+                                sendResponse({error: "error allowing domain"});
+                            })
+                        } catch (error) {
+                            console.error('Invalid URL', error);
+                            sendResponse({error: "error allowing domain"});
+                        }
+                    }
+                } else {
+                    sendResponse({error: "error allowing domain"});
+                }
+    
+            });
+            })();
+        } else {
+            (new BackgroundSharedStateWriter()).addAllowDomain(domain).then(
+                success => sendResponse({success: success})
+            ).catch(e => {
+                sendResponse({error: "error allowing domain"});
+            })
+        }
         return true;
     } else if (message.action == "fa_loadBlockedDomains") {
         (new BackgroundSharedStateWriter()).loadDomainBlockList().then(
@@ -194,14 +228,6 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         const value = message.payload.value;
         console.log(`Setting ${key}: ${value}`);
         (new BackgroundSharedStateWriter()).setKVPSetting(key, value);
-    } else if (message.action === 'fa_getKVPSetting') {
-        const key = message.payload.key;
-        (new BackgroundSharedStateWriter()).getKVPSetting(key).then(value => {
-            console.log(`Getting ${key}: ${value}`);
-            sendResponse(value);
-   
-        });
-        return true;
     }
 }
 
@@ -230,6 +256,5 @@ function getActiveTabId(tabs : chrome.tabs.Tab[]) : number | undefined{
             return activeTabId;
         }
     }
-    
 }
 

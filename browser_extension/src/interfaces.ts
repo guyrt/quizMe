@@ -111,7 +111,6 @@ export type ChromeMessageType =
     | "fa_deleteDomainBlock"
     | "fa_deleteDomainAllow"  // message from sidepanel to remove an allowed domain.
     | "fa_setKVPSetting" // message for sending new settings values.
-    | "fa_getKVPSetting" // message to retrieve a setting value.
     | "fa_logUserOut" // message from options surfaces to backend to nuke api token.
     | "fa_signUserIn" // message from options surfaces to backend to try to sign a user in.
     | "fa_createNewUser" // message from options surfaces to backend to try to create a new user.
@@ -197,3 +196,6 @@ export function isBasicError(o : any): o is BasicError {
 
 
 export type PrivacyLevels = "manual" | "allowList" | "allArticles" | "allPages"
+
+
+export const UnknownDomain = "<unknown>";

@@ -11,8 +11,9 @@ class Command(BaseCommand):
 
     def add_arguments(self, parser):
         parser.add_argument("data_path", type=str, help="Path to save feature data")
-        parser.add_argument("--include_url", action="store_true", help="include doc url in output file")
-
+        parser.add_argument(
+            "--include_url", action="store_true", help="include doc url in output file"
+        )
 
     def handle(self, *args, **options):
         filename = options["data_path"]
@@ -36,7 +37,7 @@ class Command(BaseCommand):
                         break
 
                     raw_dom = parse_contents(text)
-                    
+
                     if options["include_url"]:
                         features = self.transform_jsonl(
                             self.process_features(raw_dom, doc.url), dom_class, doc.url
@@ -93,23 +94,25 @@ class Command(BaseCommand):
     def count_section_tags(self, soup: BeautifulSoup) -> int:
         return len(soup.find_all("section"))
 
-    def transform_jsonl(self, feature_list: [int], label: str, url:str|None) -> dict:
+    def transform_jsonl(
+        self, feature_list: List[int], label: str, url: str | None
+    ) -> dict:
         classification = 0
         if label == "article":
             classification = 1
-       
+
         features_jsonl = {
-                "num_dashes": feature_list[0],
-                "num_slashes": feature_list[1],
-                "num_p_tags": feature_list[2],
-                "num_article_tags": feature_list[3],
-                "num_iframe_tags": feature_list[4],
-                "num_embed_tags": feature_list[5],
-                "num_blockquote_tags": feature_list[6],
-                "label": classification,
-            }
-        
+            "num_dashes": feature_list[0],
+            "num_slashes": feature_list[1],
+            "num_p_tags": feature_list[2],
+            "num_article_tags": feature_list[3],
+            "num_iframe_tags": feature_list[4],
+            "num_embed_tags": feature_list[5],
+            "num_blockquote_tags": feature_list[6],
+            "label": classification,
+        }
+
         if url is not None:
-            features_jsonl["url"]=url
-        
+            features_jsonl["url"] = url
+
         return features_jsonl
