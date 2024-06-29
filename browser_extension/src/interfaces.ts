@@ -184,6 +184,15 @@ export type DeleteDomainAllowMessage = {
 export const isDeleteDomainAllowMessage = (o : ChromeMessage): o is DeleteDomainAllowMessage => o.action === "fa_deleteDomainAllow";
 
 
+export type AddNewDomainAllow = {
+    action: "fa_addNewDomainAllow"
+    payload: {
+        domain: "<unknown>" | string
+    }
+}
+export const isAddNewDomainAllow = (o: ChromeMessage): o is AddNewDomainAllow => o.action === "fa_addNewDomainAllow";
+
+
 export type QuizHistory = {
     total_quizzes : number
     quiz_allowance : number
@@ -221,6 +230,8 @@ export type SinglePageDetailsErrorState =  {
 }
 
 export type MaybeSinglePageDetails = SinglePageDetails | SinglePageDetailsErrorState;
+
+export const isSinglePageDetails = (o : MaybeSinglePageDetails) : o is SinglePageDetails => 'guid' in o;
 
 
 export type LooseSetting = {

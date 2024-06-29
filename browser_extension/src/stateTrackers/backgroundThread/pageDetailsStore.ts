@@ -1,4 +1,4 @@
-import { MaybeSinglePageDetails } from "../../interfaces";
+import { MaybeSinglePageDetails, isSinglePageDetails } from "../../interfaces";
 
 
 type PageDetailsMap = {
@@ -54,6 +54,33 @@ export class PageDetailsStore {
         if (broadcast) {
             console.log(`Sending message activeSinglePageDetailsChange with`, page);
             chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: page});
+        }
+    }
+
+    /**
+     * Delete all pages that match a domain.
+     * @param domain 
+     */
+    public async deletePagesWithDomain(domain : string) {
+        for (const key in this.pageDetails) {
+            if (this.pageDetails.hasOwnProperty(key)) {
+                const value = this.pageDetails[key];
+                if (isSinglePageDetails(value)) {
+                    if (value.url.host.endsWith(domain)) {  // should be ends with to handle subdomain
+                        delete this.pageDetails[key];
+                    }
+                }
+            }
+        }
+
+        const allKeys = await this.storageEngine.get();
+        for (const key in allKeys) {
+            if (key.startsWith(this.keyPrefix)) {
+                const value = allKeys[key];
+                if (isSinglePageDetails(value) && value.url.host.endsWith(domain)) {
+                    await this.storageEngine.remove(key);
+                }
+            }
         }
     }
 

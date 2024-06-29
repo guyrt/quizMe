@@ -1,6 +1,7 @@
 import { 
     ChromeMessage,
     UnknownDomain,
+    isAddNewDomainAllow,
     isDeleteDomainAllowMessage,
     isGetBreadcrumbsMessage,
     isGetCurrentPageMessage,
@@ -21,7 +22,7 @@ import TabTracker from './stateTrackers/backgroundThread/tabTimer';
 
 import { BackgroundSharedStateWriter } from "./stateTrackers/backgroundThread/backgroundSharedStateWriter";
 import { BreadcrumbsStateHandler } from "./stateTrackers/backgroundThread/breadcrumbs";
-import { handleQuizResponseMessage, setKVPSetting } from "./messagePassing/backgroundHandlers";
+import { handleAddNewDomainAllow, handleDeleteDomainAllow, handleQuizResponseMessage, setKVPSetting } from "./messagePassing/backgroundHandlers";
 
 
 // create this - initializer will set up events.
@@ -151,46 +152,8 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
             sendResponse({error: "error blocking domain"});
         })
         return true;
-    } else if (message.action == "fa_addNewDomainAllow") {
-        const domain = message.payload.domain;
-
-        if (domain == UnknownDomain) {
-            (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
-                if (tabs.length > 0) {
-                    const tab = tabs[0];
-                    const url = tab.url;
-                    if (url !== undefined) {
-                        try {
-                            const parsedUrl = new URL(url);
-                            const domain = parsedUrl.hostname;
-                            (new BackgroundSharedStateWriter()).addAllowDomain(domain).then(
-                                // purge background. 
-                                success => {
-                                    tab?.id !== undefined && PageDetailsStore.getInstance().deletePageDetails(tab.id);
-
-                                    sendResponse({success: success})
-                                }
-                            ).catch(e => {
-                                sendResponse({error: "error allowing domain"});
-                            })
-                        } catch (error) {
-                            console.error('Invalid URL', error);
-                            sendResponse({error: "error allowing domain"});
-                        }
-                    }
-                } else {
-                    sendResponse({error: "error allowing domain"});
-                }
-    
-            });
-            })();
-        } else {
-            (new BackgroundSharedStateWriter()).addAllowDomain(domain).then(
-                success => sendResponse({success: success})
-            ).catch(e => {
-                sendResponse({error: "error allowing domain"});
-            })
-        }
+    } else if (isAddNewDomainAllow(message)) {
+        handleAddNewDomainAllow(message, sendResponse);
         return true;
     } else if (message.action == "fa_loadBlockedDomains") {
         (new BackgroundSharedStateWriter()).loadDomainBlockList().then(
@@ -214,12 +177,7 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         })
         return true;
     } else if (isDeleteDomainAllowMessage(message)) {
-        (new BackgroundSharedStateWriter()).dropDomainAllow(message.payload.domain).then(
-            domains => sendResponse({payload: domains})
-        ).catch(e => {
-            sendResponse({error: "error getting allowed domains"});
-        })
-        return true;
+        handleDeleteDomainAllow(message, sendResponse)
     } else if (isSetKVPSetting(message)) {
         setKVPSetting(message);
     } else if (isQuizResponseMessage(message)) {
