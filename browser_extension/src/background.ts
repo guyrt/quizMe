@@ -153,7 +153,11 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
         })
         return true;
     } else if (isAddNewDomainAllow(message)) {
-        handleAddNewDomainAllow(message, sendResponse);
+        (async () => {chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+                const activeTabId = getActiveTabId(tabs);
+                activeTabId !== undefined && handleAddNewDomainAllow(message, activeTabId, sendResponse);
+            });
+        })();
         return true;
     } else if (message.action == "fa_loadBlockedDomains") {
         (new BackgroundSharedStateWriter()).loadDomainBlockList().then(

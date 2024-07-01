@@ -211,34 +211,34 @@ class PageDetailsHandler {
         const privacySetting : PrivacyLevels = await new BackgroundSharedStateWriter().getKVPSetting(SharedStateReaders.PrivacyLevelKey);
 
         if (privacySetting == 'manual') {
+            // manual return no.
             return false;
         }
 
-    
-
         if (privacySetting == "allArticles" || privacySetting == "allPages") {
-            if (await this.blockedPage(response)){
+            // if it's a blocked page then return false. otherwise default to article status.
+            if (await this.blockedDomain(response)){
                 return false;
             } else {
-                return true
+                return privacySetting == "allPages" || response.domClassification.classification == "article";
             }
         }
 
         // assume it's allow list based.
-        if (await this.allowedPage(response)) {
+        if (await this.allowedDomain(response)) {
+            // if the domain is allowed, then check if article.
             return response.domClassification.classification == "article";
         }
         return false;
     }
 
-    private async blockedPage(response : SinglePageDetails) : Promise<boolean> {
+    private async blockedDomain(response : SinglePageDetails) : Promise<boolean> {
         const domainBlockList = await new BackgroundSharedStateWriter().getDomainList(false, true);
 
         return domainBlockList != undefined && !isBasicError(domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))
     }
 
-    private async allowedPage(response : SinglePageDetails) : Promise<boolean> {
-        // todo! you need a getDomainAllowList, or reuse the fxn.
+    private async allowedDomain(response : SinglePageDetails) : Promise<boolean> {
         const domainBlockList = await new BackgroundSharedStateWriter().getDomainList(false, false);
 
         return domainBlockList != undefined && !isBasicError(domainBlockList) && domainBlockList?.some(x => response.url.host.endsWith(x.value))

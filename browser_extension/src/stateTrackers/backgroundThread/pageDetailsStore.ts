@@ -63,12 +63,10 @@ export class PageDetailsStore {
      */
     public async deletePagesWithDomain(domain : string) {
         for (const key in this.pageDetails) {
-            if (this.pageDetails.hasOwnProperty(key)) {
-                const value = this.pageDetails[key];
-                if (isSinglePageDetails(value)) {
-                    if (value.url.host.endsWith(domain)) {  // should be ends with to handle subdomain
-                        delete this.pageDetails[key];
-                    }
+            const value = this.pageDetails[key];
+            if (isSinglePageDetails(value)) {
+                if (value.url.host.endsWith(domain)) {  // should be ends with to handle subdomain
+                    delete this.pageDetails[key];
                 }
             }
         }
