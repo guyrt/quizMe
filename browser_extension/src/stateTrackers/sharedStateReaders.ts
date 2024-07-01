@@ -1,4 +1,5 @@
 import { BasicError, LooseSetting } from "../interfaces";
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
 
 export class SharedStateReaders {
 
@@ -33,7 +34,7 @@ export class SharedStateReaders {
             }
         }
 
-        return new Promise((resolve, reject) => chrome.runtime.sendMessage({action: loadDomainsEvent}, 
+        return new Promise((resolve, reject) => sendRuntimeMessage({action: loadDomainsEvent, payload: {}}, 
             function(response : {payload: LooseSetting[]} | {error: string}) {
                 if ('payload' in response) {
                     resolve(response.payload);

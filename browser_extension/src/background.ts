@@ -1,6 +1,5 @@
 import { 
     ChromeMessage,
-    UnknownDomain,
     isAddNewDomainAllow,
     isDeleteDomainAllowMessage,
     isGetBreadcrumbsMessage,
@@ -23,6 +22,7 @@ import TabTracker from './stateTrackers/backgroundThread/tabTimer';
 import { BackgroundSharedStateWriter } from "./stateTrackers/backgroundThread/backgroundSharedStateWriter";
 import { BreadcrumbsStateHandler } from "./stateTrackers/backgroundThread/breadcrumbs";
 import { handleAddNewDomainAllow, handleDeleteDomainAllow, handleQuizResponseMessage, setKVPSetting } from "./messagePassing/backgroundHandlers";
+import { sendRuntimeMessage } from "./messagePassing/messageProxy";
 
 
 // create this - initializer will set up events.
@@ -31,7 +31,7 @@ const tabTracker = new TabTracker();
 chrome.tabs.onActivated.addListener((activeInfo) => {
     // get the active tag if it exists.
     PageDetailsStore.getInstance().getPageDetails(activeInfo.tabId).then(x => {
-        chrome.runtime.sendMessage({
+        sendRuntimeMessage({
             action: "fa_activeSinglePageDetailsChange",
             payload: x
         });
@@ -135,7 +135,7 @@ export const omnibusHandler = (message : ChromeMessage, sender : any, sendRespon
 
             if (activeTabId !== undefined) {
                 chrome.sidePanel.open({tabId: activeTabId}).then(() => {
-                    chrome.runtime.sendMessage({
+                    sendRuntimeMessage({
                         action: "fa_sidePanelNoAPIToken",
                         payload: {}
                     });    

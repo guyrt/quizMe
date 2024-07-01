@@ -7,6 +7,7 @@ import { QuizGraded } from "./quizzes/quizGradedQuestion";
 import { quizHistoryBroker } from "../stateTrackers/sidePanelThread/quizHistoryBroker";
 import { LoadingGif } from "./shared/loading";
 import QuizHistoryComponent from "./quizzes/quizHistory";
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
 
 // Component Props type
 type QuizViewProps = {
@@ -74,7 +75,7 @@ const QuizView: React.FC<QuizViewProps> = ({ quiz, finiteState, incomingQuizAnsw
         localStorage.removeItem('lastAnswer');
         localStorage.removeItem('lastQuiz');
 
-        chrome.runtime.sendMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {});
+        sendRuntimeMessage({action: "fa_makequiz", payload: {forceReload: forceReload}}, (quiz) => {});
     }
 
     function getMoreQuizzes() {

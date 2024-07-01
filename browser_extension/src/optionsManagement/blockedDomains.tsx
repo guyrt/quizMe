@@ -2,13 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleStop, faTrashCan, faCircleCheck, IconDefinition } from "@fortawesome/free-regular-svg-icons";
-import { BasicError, LooseSetting, isBasicError } from "../interfaces";
+import { BasicError, ChromeMessage, LooseSetting, isBasicError } from "../interfaces";
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
 
 
 type DomainListInnerProps = {
     isAllowList : boolean // true iff this is allow list. false iff this is block list.
-    domainAddedEvent : string
-    domainRemovedEvent : string
+    domainAddedEvent : "fa_addNewDomainAllow" | "fa_addNewDomainBlock"
+    domainRemovedEvent : "fa_deleteDomainBlock" | "fa_deleteDomainAllow"
     headerText: string
     allowListCTA : string
     reminderHint : string
@@ -72,8 +73,8 @@ const DomainListInner: React.FC<DomainListInnerProps> = ({
     }, []);
 
     const removeDomain = (domain : string) => {
-        const payload = {action: domainRemovedEvent, payload: {domain: domain}};
-        chrome.runtime.sendMessage(payload, (response) => {
+        const payload : ChromeMessage = {action: domainRemovedEvent, payload: {domain: domain}};
+        sendRuntimeMessage(payload, (response) => {
             resetDomains();
         });
     }
@@ -92,7 +93,7 @@ const DomainListInner: React.FC<DomainListInnerProps> = ({
         }
 
         const payload = {action: domainAddedEvent, payload: {domain: value}};
-        chrome.runtime.sendMessage(payload, 
+        sendRuntimeMessage(payload, 
             function(response) {
                 if (response.success) {
                     resetDomains();

@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react"
 import { fsm } from "../stateTrackers/sidePanelThread/sidePanelStateMachine"
 import { SharedStateReaders } from "../stateTrackers/sharedStateReaders";
-import { PrivacyLevels, UnknownDomain } from "../interfaces";
+import { ChromeMessage, PrivacyLevels, UnknownDomain } from "../interfaces";
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
 
 export function BlockedPage() {
 
@@ -22,8 +23,8 @@ export function BlockedPage() {
         if (privacyLevel == 'allowList') {
             // todo: force allow this domain. Try to auto refresh too...
             
-            const payload = {action: "fa_addNewDomainAllow", payload: {domain: UnknownDomain}};
-            chrome.runtime.sendMessage(payload, response => {
+            const payload : ChromeMessage = {action: "fa_addNewDomainAllow", payload: {domain: UnknownDomain}};
+            sendRuntimeMessage(payload, response => {
                 console.log(response);
             });
             return;

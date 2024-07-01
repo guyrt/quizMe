@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Breadcrumb, BreadcrumbResponse, isBasicError } from "../../interfaces";
 import { strFormatDate } from "../../utils/datetime";
+import { sendRuntimeMessage } from "../../messagePassing/messageProxy";
 
 export type BreadcrumbsProps = {
     activePage : string
@@ -14,7 +15,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = ({activePage}) => {
     const [breadcrumbs, setBreadcrumbs] = useState<BreadcrumbResponse>([]);
 
     useEffect(() => {
-        chrome.runtime.sendMessage({action: "fa_getbreadcrumbs", payload: {pageId: activePage}}, (breadcrumbs) => {
+        sendRuntimeMessage({action: "fa_getbreadcrumbs", payload: {pageId: activePage}}, (breadcrumbs) => {
             setLoading(false);
 
             if (isBasicError(breadcrumbs)) {

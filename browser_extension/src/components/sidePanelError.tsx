@@ -1,4 +1,5 @@
 import React from "react";
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
 
 
 type ReloadViewProps = {
@@ -10,7 +11,7 @@ const ReloadView: React.FC<ReloadViewProps> = ({ isError }) => {
 
     function retry() {
         // re-fire the event.
-        chrome.runtime.sendMessage({action: 'fa_pageLoaded', payload: {url: 'unknown'}})
+        sendRuntimeMessage({action: 'fa_pageLoaded', payload: {url: 'unknown'}})
     }
     
     return (

@@ -1,3 +1,5 @@
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
+
 /**
  * Track changes to the DOM tree from MutationObserver.
  */
@@ -54,7 +56,7 @@ export default class DomChangeTracker {
         }
         this.clearIds();
         console.log("Change fired");
-        chrome.runtime.sendMessage({action: 'fa_pageReloaded', payload: {tabId: this.tabId}});
+        sendRuntimeMessage({action: 'fa_pageReloaded', payload: {tabId: this.tabId}});
     }
 
     /** doubling in size triggers. */

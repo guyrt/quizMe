@@ -8,6 +8,7 @@ import { AllowDomainList, BlockedDomainList } from "./blockedDomains";
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import { PrivacyLevels } from "../interfaces";
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
 
 
 export function SidePanelLoggedInUserSettings() {
@@ -17,7 +18,7 @@ export function SidePanelLoggedInUserSettings() {
 
     async function logoutThisDevice() {
         // delete your auth token...
-        chrome.runtime.sendMessage({action: 'fa_logUserOut'});
+        sendRuntimeMessage({action: 'fa_logUserOut', payload: {}});
 
         // then redirect to loading.
         fsm.handleUserLoggedOut();
@@ -60,7 +61,7 @@ export function SidePanelLoggedInUserSettings() {
         }
         setPrivacyLevel(privacyLevel);
         setPrivacyValue(newValue);
-        chrome.runtime.sendMessage({action: 'fa_setKVPSetting', payload: {key: SharedStateReaders.PrivacyLevelKey, value: privacyLevel}});
+        sendRuntimeMessage({action: 'fa_setKVPSetting', payload: {key: SharedStateReaders.PrivacyLevelKey, value: privacyLevel}});
     }
 
     function pickMessage(level : PrivacyLevels) : string {

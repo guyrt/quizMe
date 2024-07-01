@@ -2,9 +2,10 @@ import { classifyPage } from "./articleDetector";
 import DomChangeTracker from "./domAccessLayer/domChangeTracker";
 import { getReaderMode, getCleanDom } from "./domAccessLayer/readerModeExtract";
 import { DomShape } from "./interfaces";
+import { sendRuntimeMessage } from "./messagePassing/messageProxy";
 
 function handleUrlChange() {
-    chrome.runtime.sendMessage({action: 'fa_pageLoaded', payload: {url: document.location.href}});
+   sendRuntimeMessage({action: 'fa_pageLoaded', payload: {url: document.location.href}});
 }
 
 handleUrlChange(); // on load
@@ -116,7 +117,7 @@ function styleToLogin(circle : HTMLDivElement) {
     circle.title = "Let's get you logged in.";
 
     circle.onclick = () => {
-        chrome.runtime.sendMessage({action: 'fa_onLoginReminderClick'});
+        sendRuntimeMessage({action: 'fa_onLoginReminderClick', payload: {}});
         circle.remove();
     };
 }
@@ -129,7 +130,7 @@ function styleToHint(circle : HTMLDivElement) {
     circle.title = "Get the point!";
 
     circle.onclick = () => {
-        chrome.runtime.sendMessage({action: 'fa_onReminderClick', payload: {url: document.location.href}});
+        sendRuntimeMessage({action: 'fa_onReminderClick', payload: {url: document.location.href}});
         circle.remove();
     };
 }

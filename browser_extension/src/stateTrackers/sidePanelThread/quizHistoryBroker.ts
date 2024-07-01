@@ -1,4 +1,5 @@
 import { BasicError, QuizHistory, QuizResponse, isBasicError } from "../../interfaces";
+import { sendRuntimeMessage } from "../../messagePassing/messageProxy";
 
 class QuizHistoryBroker {
     private quizHistory : QuizHistory | undefined = undefined;
@@ -25,7 +26,7 @@ class QuizHistoryBroker {
     }
 
     public trigger() {
-        chrome.runtime.sendMessage({ action: "fa_getQuizHistory", payload: {} }, (quizHistory: QuizHistory | BasicError) => {
+        sendRuntimeMessage({ action: "fa_getQuizHistory", payload: {} }, (quizHistory: QuizHistory | BasicError) => {
             if (quizHistory != undefined && !isBasicError(quizHistory)) {
                 this.setQuizHistory(quizHistory);
             }
@@ -34,7 +35,7 @@ class QuizHistoryBroker {
 
     public uploadQuizResults(payload : QuizResponse) {
         // console.log(`In uploadQuizResutlts ${payload.quiz_id}`);
-        chrome.runtime.sendMessage({action: "fa_uploadQuizResult", payload: payload}, (quizHistory: QuizHistory | BasicError) => {
+        sendRuntimeMessage({action: "fa_uploadQuizResult", payload: payload}, (quizHistory: QuizHistory | BasicError) => {
             if (quizHistory != undefined && !isBasicError(quizHistory)) {
                 this.setQuizHistory(quizHistory);
             }

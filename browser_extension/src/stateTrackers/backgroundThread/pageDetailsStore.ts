@@ -1,4 +1,5 @@
 import { MaybeSinglePageDetails, isSinglePageDetails } from "../../interfaces";
+import { sendRuntimeMessage } from "../../messagePassing/messageProxy";
 
 
 type PageDetailsMap = {
@@ -53,7 +54,7 @@ export class PageDetailsStore {
         this.pageDetails[tabId] = page;
         if (broadcast) {
             console.log(`Sending message activeSinglePageDetailsChange with`, page);
-            chrome.runtime.sendMessage({action: "fa_activeSinglePageDetailsChange", payload: page});
+            sendRuntimeMessage({action: "fa_activeSinglePageDetailsChange", payload: page});
         }
     }
 

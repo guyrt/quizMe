@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { isBasicError } from "../interfaces";
+import { sendRuntimeMessage } from "../messagePassing/messageProxy";
 
 type SignUpProps = {
     handleSwitchToSignIn: () => void
@@ -31,7 +32,7 @@ export const SignUp: React.FC<SignUpProps> = ({ handleSwitchToSignIn, handleSign
             return;
         }
 
-        chrome.runtime.sendMessage({action: 'fa_createNewUser', payload: {username: username, password: password}}, (response) => {
+        sendRuntimeMessage({action: 'fa_createNewUser', payload: {username: username, password: password}}, (response) => {
             if (isBasicError(response)) {
                 if (response.error == 'usernameexists') {
                     setError("That email exists in Wezo already! Try logging in.");

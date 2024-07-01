@@ -91,6 +91,7 @@ export type ChromeMessageType =
     // these three events are a 2-directional update.
       "fa_pageLoaded"
     | "fa_pageReloaded"  // fired if the page is a reload.
+    | "fa_activeSinglePageDetailsChange" // fired when a page's contents have changed.
     | "fa_getCurrentPage"
     | "fa_makequiz"
     | "fa_uploadQuizResult"
@@ -192,6 +193,13 @@ export type AddNewDomainAllow = {
 }
 export const isAddNewDomainAllow = (o: ChromeMessage): o is AddNewDomainAllow => o.action === "fa_addNewDomainAllow";
 
+export type SinglePageDetailsChangeMessage = {
+    action : "fa_activeSinglePageDetailsChange"
+    payload : SinglePageDetails | BasicError
+}
+export const isSinglePageDetailsChangeMessage = (o: ChromeMessage): o is SinglePageDetailsChangeMessage => o.action === "fa_activeSinglePageDetailsChange";
+
+
 
 export type QuizHistory = {
     total_quizzes : number
@@ -202,10 +210,7 @@ export type QuizHistory = {
     stripe_redirect : string  // URL to redirect
 }
 
-export type SinglePageDetailsChangeMessage = {
-    action : "fa_activeSinglePageDetailsChange"
-    payload : SinglePageDetails | BasicError
-}
+
 
 
 type UploadState = 'notstarted' | 'inprogress' | 'completed' | 'error' | 'donotprocess';

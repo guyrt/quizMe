@@ -7,6 +7,7 @@
  */
 
 import { SinglePageDetailsChangeMessage, SinglePageDetails, ChromeMessage, MaybeSinglePageDetails, SinglePageDetailsErrorState, isBasicError } from "../../interfaces";
+import { sendRuntimeMessage } from "../../messagePassing/messageProxy";
 import { SharedStateReaders } from "../sharedStateReaders";
 
 
@@ -96,7 +97,7 @@ class SidePanelFiniteStateMachine {
 
         // get the latest state then trigger.
         // step 1: get latest state from BE
-        chrome.runtime.sendMessage({ action: "fa_getCurrentPage", payload: {} }, (_domFacts: MaybeSinglePageDetails) => {
+        sendRuntimeMessage({ action: "fa_getCurrentPage", payload: {} }, (_domFacts: MaybeSinglePageDetails) => {
             // Check if the response contains an error
             if (_domFacts == undefined) {
                 return;
@@ -158,7 +159,6 @@ chrome.runtime.onMessage.addListener((message : SinglePageDetailsChangeMessage, 
         }
         return true;
     }
-    return false;
 });
 
 chrome.runtime.onMessage.addListener((message : ChromeMessage, sender) => {
