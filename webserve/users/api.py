@@ -87,9 +87,10 @@ def post_setting(request, payload: LooseUserSettingSchema):
     if payload.key == LooseUserSettings.KnownKeys.DomainExclude:
         enqueue(handle_new_domain_remove, payload.value)
 
-    return LooseUserSettings.objects.create(
+    obj, _ = LooseUserSettings.objects.get_or_create(
         user=request.auth, key=payload.key, value=payload.value
     )
+    return obj
 
 
 @router.delete("/settings/{key}")
@@ -100,6 +101,8 @@ def delete_user_setting(request, key: str, value: str = None):
     if value is not None:
         query = query.filter(value=value)
         num_settings_deleted = query.delete()
+        if key == LooseUserSettings.KnownKeys.DomainAllow:
+            enqueue(handle_new_domain_remove, value)
     else:
         logger.warn("Tried to delete setting with no value for key %s", key)
         num_settings_deleted = 0

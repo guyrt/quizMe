@@ -4,6 +4,7 @@ from django.contrib.auth.models import (
     PermissionsMixin,
 )
 from django.db import models
+from django.db.models import UniqueConstraint
 
 from django.utils import timezone
 import uuid
@@ -97,10 +98,18 @@ class LooseUserSettings(ModelBaseMixin):
 
     class KnownKeys:
         DomainExclude = "domain.exclude"
+        DomainAllow = "domain.allow"
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     key = models.CharField(max_length=64)
     value = models.CharField(max_length=256)
+
+    class Meta:
+        constraints = [
+            UniqueConstraint(
+                fields=["user", "key", "value"], name="unique_user_key_value"
+            )
+        ]
 
 
 def get_active_subscription(user) -> UserSubscriptions:
