@@ -29,7 +29,7 @@ export class SharedStateReaders {
         
         if (!forceLoad) {
             const domains = (await chrome.storage.local.get(key))[SharedStateReaders.DomainBlockListKey];
-            if ('domains' in domains) {
+            if (domains && 'domains' in domains) {
                 return domains['domains'];
             }
         }
