@@ -52,6 +52,7 @@ class Command(BaseCommand):
                     break  # get only latest capture
 
     def process_features(self, document: str, url: str) -> List[any]:
+
         dashes = self.count_dashes_in_url(url)
         slashes = self.count_slashes_in_url(url)
         p_tags = self.count_p_tags(document)
@@ -59,6 +60,7 @@ class Command(BaseCommand):
         iframe_tags = self.count_iframe_tags(document)
         embed_tags = self.count_embed_tags(document)
         blockquote_tags = self.count_blockquote_tags(document)
+        a_tags = self.count_a_tags(document)
 
         return [
             dashes,
@@ -68,8 +70,12 @@ class Command(BaseCommand):
             iframe_tags,
             embed_tags,
             blockquote_tags,
+            a_tags
         ]
 
+    def count_a_tags(self, soup: BeautifulSoup)-> int:
+        return len(soup.find_all("a"))
+    
     def count_dashes_in_url(self, url: str) -> int:
         return url.count("-")
 
@@ -109,6 +115,7 @@ class Command(BaseCommand):
             "num_iframe_tags": feature_list[4],
             "num_embed_tags": feature_list[5],
             "num_blockquote_tags": feature_list[6],
+            "num_a_tags":feature_list[7],
             "label": classification,
         }
 
