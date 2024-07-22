@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
 from sklearn.ensemble import RandomForestClassifier
+from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score, f1_score, roc_auc_score
 import json
@@ -18,7 +19,7 @@ class Command(BaseCommand):
         X, y, urls, feature_names = self.get_data(path=options["data_path"])
 
         f = open("./logTrain.txt", "a")
-        f.write("** New Run ** \n")
+        f.write(f"\n** New Run on {options['data_path']}** \n")
         f.write(f"Total # samples: {len(y)}\n")
         f.write(f"Articles: {np.array(y).sum(0)}\n")
         f.close()
@@ -44,6 +45,7 @@ class Command(BaseCommand):
 
         f = open("./logTrain.txt", "a")
         f.write(f"Articles in test set:{np.array(y_test).sum(0)}\n")
+        f.write("Random Forest \n")
         f.write(f"Confusion Matrix: {conf_matrix}\n")
         f.write(f"Precision: {precision}\n")
         f.write(f"Recall: {recall}\n")
@@ -54,6 +56,32 @@ class Command(BaseCommand):
         f.write(f"True Negatives: {tn}\n")
         f.write(f"False Negatives: {fn}\n")
         f.close()
+
+        ## SVM
+        svm = SVC(random_state=2)
+        svm.fit(X_train, y_train)
+        y_hat_svm = svm.predict(X_test)
+
+        acc_svm = accuracy_score(y_test, y_hat_svm)
+        precision_svm = precision_score(y_test, y_hat_svm)
+        recall_svm = recall_score(y_test, y_hat_svm)
+        f1_svm = f1_score(y_test, y_hat_svm)
+        roc_auc_svm = roc_auc_score(y_test, y_hat_svm)
+        conf_matrix_svm = confusion_matrix(y_test, y_hat_svm, labels=svm.classes_)
+        tn_svm, fp_svm, fn_svm, tp_svm = confusion_matrix(y_test, y_hat_svm).ravel()
+        f = open("./logTrain.txt", "a")
+        f.write("SVM \n")
+        f.write(f"Precision: {precision_svm}\n")
+        f.write(f"Recall: {recall_svm}\n")
+        f.write(f"F1 Score: {f1_svm}\n")
+        f.write(f"ROC AUC Score: {roc_auc_svm}\n")
+        f.write(f"True Positives: {tp_svm}\n")
+        f.write(f"False Positives: {fp_svm}\n")
+        f.write(f"True Negatives: {tn_svm}\n")
+        f.write(f"False Negatives: {fn_svm}\n")
+        f.close()
+
+
 
         # Find top 20 near misses for false positives
         false_positives = (y_test == 0) & (y_hat == 1)
@@ -91,7 +119,8 @@ class Command(BaseCommand):
 
         # Save the model and print stats
         joblib.dump(rf, options["model_path"])
-        self.stdout.write(f"Acc: {acc}")
+        self.stdout.write(f"RF Acc: {acc}")
+        self.stdout.write(f"SVM Acc: {acc_svm}")
         self.stdout.write(f"Model saved at {options['model_path']}")
 
     def get_data(self, path: str):
@@ -102,7 +131,9 @@ class Command(BaseCommand):
             "num_article_tags",
             "num_iframe_tags",
             "num_embed_tags",
-            "num_blockquote_tags"
+            "num_blockquote_tags",
+            "num_of_word_blog",
+            "num_of_word_article"
         ]
         X = []
         y = []
