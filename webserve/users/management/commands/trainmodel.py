@@ -3,6 +3,11 @@ from sklearn.ensemble import RandomForestClassifier
 from sklearn.svm import SVC
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score, confusion_matrix, ConfusionMatrixDisplay, precision_score, recall_score, f1_score, roc_auc_score
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.compose import ColumnTransformer
+from sklearn.utils import resample
+from urllib.parse import urlparse
 import json
 import joblib
 import numpy as np
@@ -14,7 +19,7 @@ class Command(BaseCommand):
     def add_arguments(self, parser):
         parser.add_argument("data_path", type=str, help="Path to the feature data that will be used to train the classifier")
         parser.add_argument("model_path", type=str, help="Path where the trained model should be saved")
-
+        parser.add_argument("--upsample", action="store_true", help="upsample the article class before training")
     def handle(self, *args, **options):
         X, y, urls, feature_names = self.get_data(path=options["data_path"])
 
@@ -26,20 +31,60 @@ class Command(BaseCommand):
 
         # Split, train, and evaluate the accuracy obtained
         X_train, X_test, y_train, y_test, urls_train, urls_test = train_test_split(X, y, urls, test_size=0.1, random_state=2)
-        rf = RandomForestClassifier(n_estimators=100, random_state=2, class_weight='balanced', criterion='log_loss')
-        rf.fit(X_train, y_train)
-        y_hat = rf.predict(X_test)
-        y_proba = rf.predict_proba(X_test)
+        
+        if options["upsample"]:
+            X_majority = X_train[y_train == 0]
+            X_minority = X_train[y_train == 1]
+            y_majority = y_train[y_train == 0]
+            y_minority = y_train[y_train == 1]
+            
+            # Upsample minority class
+            X_minority_upsampled, y_minority_upsampled = resample(
+                X_minority, y_minority,
+                replace=True,  # sample with replacement
+                n_samples=1000,  
+                random_state=2  # reproducible results
+            )
+
+            print(len(X_minority_upsampled))
+
+            # Combine majority class with upsampled minority class
+            X_train = np.vstack((X_majority, X_minority_upsampled))
+            y_train = np.hstack((y_majority, y_minority_upsampled))
+
+
+
+        features = [int(i) for i in range(X_train.shape[1])]
+        numeric_transformer = Pipeline(steps=[
+                    ('scaler', StandardScaler())
+                ])
+
+        preprocessor = ColumnTransformer(
+            transformers=[
+                ('num', numeric_transformer, features)
+            ]
+        )
+
+        rf_pipeline = Pipeline(steps=[
+        ('preprocessor', preprocessor),
+        ('model', RandomForestClassifier(n_estimators=100, random_state=2, class_weight='balanced', criterion='log_loss'))
+
+        ])
+
+        # rf = RandomForestClassifier(n_estimators=100, random_state=2, class_weight='balanced', criterion='log_loss')
+        rf_pipeline.fit(X_train, y_train)
+        y_hat = rf_pipeline.predict(X_test)
+        y_proba = rf_pipeline.predict_proba(X_test)
    
         acc = accuracy_score(y_test, y_hat)
         precision = precision_score(y_test, y_hat)
         recall = recall_score(y_test, y_hat)
         f1 = f1_score(y_test, y_hat)
         roc_auc = roc_auc_score(y_test, y_hat)
-        conf_matrix = confusion_matrix(y_test, y_hat, labels=rf.classes_)
+        conf_matrix = confusion_matrix(y_test, y_hat, labels=rf_pipeline.classes_)
         tn, fp, fn, tp = confusion_matrix(y_test, y_hat).ravel()
         disp = ConfusionMatrixDisplay(confusion_matrix=conf_matrix,
-                                       display_labels=rf.classes_)
+                                       display_labels=rf_pipeline.classes_)
         disp.plot()
         plt.savefig("conf_matrix.png")
 
@@ -58,16 +103,21 @@ class Command(BaseCommand):
         f.close()
 
         ## SVM
-        svm = SVC(random_state=2)
-        svm.fit(X_train, y_train)
-        y_hat_svm = svm.predict(X_test)
+        svm_pipeline = Pipeline(steps=[
+        ('preprocessor', preprocessor),
+        ('model', SVC(random_state=2))
+
+        ])
+        # svm = SVC(random_state=2)
+        svm_pipeline.fit(X_train, y_train)
+        y_hat_svm = svm_pipeline.predict(X_test)
 
         acc_svm = accuracy_score(y_test, y_hat_svm)
         precision_svm = precision_score(y_test, y_hat_svm)
         recall_svm = recall_score(y_test, y_hat_svm)
         f1_svm = f1_score(y_test, y_hat_svm)
         roc_auc_svm = roc_auc_score(y_test, y_hat_svm)
-        conf_matrix_svm = confusion_matrix(y_test, y_hat_svm, labels=svm.classes_)
+        conf_matrix_svm = confusion_matrix(y_test, y_hat_svm, labels=svm_pipeline.classes_)
         tn_svm, fp_svm, fn_svm, tp_svm = confusion_matrix(y_test, y_hat_svm).ravel()
         f = open("./logTrain.txt", "a")
         f.write("SVM \n")
@@ -118,7 +168,7 @@ class Command(BaseCommand):
                 file.write(json.dumps(record) + "\n")
 
         # Save the model and print stats
-        joblib.dump(rf, options["model_path"])
+        joblib.dump(rf_pipeline, options["model_path"])
         self.stdout.write(f"RF Acc: {acc}")
         self.stdout.write(f"SVM Acc: {acc_svm}")
         self.stdout.write(f"Model saved at {options['model_path']}")
@@ -129,11 +179,12 @@ class Command(BaseCommand):
             "num_slashes",
             "num_p_tags",
             "num_article_tags",
-            "num_iframe_tags",
-            "num_embed_tags",
+            # "num_iframe_tags",
+            # "num_embed_tags",
             "num_blockquote_tags",
             "num_of_word_blog",
-            "num_of_word_article"
+            "num_of_word_article",
+            "length_non_domain"
         ]
         X = []
         y = []

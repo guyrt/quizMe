@@ -18,6 +18,7 @@ class Command(BaseCommand):
         parser.add_argument("--truncate-outliers", type=float, help="Number of standard deviations from the mean to truncate outliers")
         parser.add_argument("--save-truncated", type=str, help="Path where the truncated dataset should be saved in JSONL format")
         parser.add_argument("--count", action="store_true", help="count num of occurences of a specific url")
+        parser.add_argument("--count-remove", action="store_true", help="after count remove")
     def handle(self, *args, **options):
         X, y, urls = self.get_data(path=options["data_path"])
 
@@ -34,11 +35,11 @@ class Command(BaseCommand):
                     counter+=1
             print(f"{url_frag} appeared {counter} times")
    
-            indices_to_remove = [i for i, url in enumerate(urls) if url_frag in url][:1000]
-
-            X = np.delete(X, indices_to_remove, axis=0)
-            y = np.delete(y, indices_to_remove, axis=0)
-            urls = np.delete(urls, indices_to_remove, axis=0)
+            if options["count_remove"]:
+                indices_to_remove = [i for i, url in enumerate(urls) if url_frag in url][:850]
+                X = np.delete(X, indices_to_remove, axis=0)
+                y = np.delete(y, indices_to_remove, axis=0)
+                urls = np.delete(urls, indices_to_remove, axis=0)
 
             url_frag= "https://www.linkedin.com/"
             counter=0
@@ -46,20 +47,20 @@ class Command(BaseCommand):
                 if url_frag in url:
                     counter+=1
             print(f"{url_frag} appeared {counter} times")
-   
-            indices_to_remove = [i for i, url in enumerate(urls) if url_frag in url][:200]
-
-            X = np.delete(X, indices_to_remove, axis=0)
-            y = np.delete(y, indices_to_remove, axis=0)
-            urls = np.delete(urls, indices_to_remove, axis=0)
+            
+            if options["count_remove"]:
+                indices_to_remove = [i for i, url in enumerate(urls) if url_frag in url][:427]
+                X = np.delete(X, indices_to_remove, axis=0)
+                y = np.delete(y, indices_to_remove, axis=0)
+                urls = np.delete(urls, indices_to_remove, axis=0)
 
             # Save the remaining data to a JSONL file
            
-            X = [dict(zip(["num_dashes","num_slashes", "num_p_tags", "num_article_tags", "num_iframe_tags","num_embed_tags","num_blockquote_tags","num_of_word_blog","num_of_word_article"], x)) for x in X.tolist()]
+            X = [dict(zip(["num_dashes","num_slashes", "num_p_tags", "num_article_tags", "num_iframe_tags","num_embed_tags","num_blockquote_tags","num_of_word_blog","num_of_word_article", "length_non_domain"], x)) for x in X.tolist()]
             y = y.tolist()
             urls = urls.tolist()
             output_data = [{'url': url, **x, 'label': y_val} for url, x, y_val in zip(urls, X, y)]
-            output_file_path = 'less_data.jsonl'
+            output_file_path = 'less_links_wo_outliers_data2.jsonl'
 
             with open(output_file_path, 'w') as f:
                 for entry in output_data:
@@ -126,7 +127,8 @@ class Command(BaseCommand):
                     data["num_embed_tags"],
                     data["num_blockquote_tags"],
                     data["num_of_word_blog"],
-                    data["num_of_word_article"]
+                    data["num_of_word_article"],
+                    data["length_non_domain"]
                 ])
                 y.append(data["label"])
                 urls.append(data.get("url", ""))
@@ -158,6 +160,9 @@ class Command(BaseCommand):
                         "num_iframe_tags": int(X[i][4]),
                         "num_embed_tags": int(X[i][5]),
                         "num_blockquote_tags": int(X[i][6]),
+                        "num_of_word_blog": int(X[i][7]),
+                        "num_of_word_article": int(X[i][8]),
+                        "length_non_domain":int(X[i][9]),
                         "label": int(y[i]),
                         "url": urls[i]
                 }
@@ -186,8 +191,8 @@ class Command(BaseCommand):
         classes = np.unique(y)
         
         plt.figure(figsize=(30, 10))
-        for i, feature in enumerate(["num_dashes", "num_slashes", "num_p_tags", "num_article_tags", "num_iframe_tags", "num_embed_tags", "num_blockquote_tags"]): #, "num_of_word_blog", "num_of_word_article"]):
-            plt.subplot(3, 3, i + 1)
+        for i, feature in enumerate(["num_dashes", "num_slashes", "num_p_tags", "num_article_tags", "num_iframe_tags", "num_embed_tags", "num_blockquote_tags", "num_of_word_blog", "num_of_word_article", "length_non_domain"]):
+            plt.subplot(4, 4, i + 1)
             for class_label in classes:
                 if kde_only:
                     sns.kdeplot(X[:, i][y == class_label], label=f'Class {class_label}', common_norm=False, alpha=0.5)
