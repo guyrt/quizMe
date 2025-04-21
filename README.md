@@ -1,3 +1,7 @@
+
+## QuizMe was a little project I worked on to generate quizzes for web pages. It has a backend (django) and chrome extension. I moved on to other things, so there are a few rough edges.
+
+
 I do all python dev in Docker, so only Docker needs to be installed.
 
 To run django and the [webserve](./webserve) portion of the project:
